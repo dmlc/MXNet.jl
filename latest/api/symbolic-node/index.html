@@ -1,0 +1,1522 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="no-js ie6"><![endif]-->
+<!--[if IE 7 ]><html class="no-js ie7"><![endif]-->
+<!--[if IE 8 ]><html class="no-js ie8"><![endif]-->
+<!--[if IE 9 ]><html class="no-js ie9"><![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
+    
+      
+        <title>Symbolic API - MXNet.jl</title>
+      
+      
+      
+      
+    
+    <meta property="og:url" content="None">
+    <meta property="og:title" content="MXNet.jl">
+    <meta property="og:image" content="None/../../">
+    <meta name="apple-mobile-web-app-title" content="MXNet.jl">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    
+    <link rel="shortcut icon" type="image/x-icon" href="../../assets/images/favicon-e565ddfa3b.ico">
+    <link rel="icon" type="image/x-icon" href="../../assets/images/favicon-e565ddfa3b.ico">
+    <style>
+      @font-face {
+      	font-family: 'Icon';
+      	src: url('../../assets/fonts/icon.eot?52m981');
+      	src: url('../../assets/fonts/icon.eot?#iefix52m981')
+               format('embedded-opentype'),
+      		   url('../../assets/fonts/icon.woff?52m981')
+               format('woff'),
+      		   url('../../assets/fonts/icon.ttf?52m981')
+               format('truetype'),
+      		   url('../../assets/fonts/icon.svg?52m981#icon')
+               format('svg');
+      	font-weight: normal;
+      	font-style: normal;
+      }
+    </style>
+    <link rel="stylesheet" href="../../assets/stylesheets/application-a422ff04cc.css">
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/palettes-05ab2406df.css">
+    
+    
+      
+      
+      
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,700|Ubuntu+Mono">
+      <style>
+        body, input {
+          font-family: 'Ubuntu', Helvetica, Arial, sans-serif;
+        }
+        pre, code {
+          font-family: 'Ubuntu Mono', 'Courier New', 'Courier', monospace;
+        }
+      </style>
+    
+    
+      <link rel="stylesheet" href="../../assets/Documenter.css">
+    
+    <script src="../../assets/javascripts/modernizr-4ab42b99fd.js"></script>
+    
+  </head>
+  
+  
+  
+  <body class="palette-primary-indigo palette-accent-blue">
+    
+      
+      
+    
+    <div class="backdrop">
+      <div class="backdrop-paper"></div>
+    </div>
+    <input class="toggle" type="checkbox" id="toggle-drawer">
+    <input class="toggle" type="checkbox" id="toggle-search">
+    <label class="toggle-button overlay" for="toggle-drawer"></label>
+    <header class="header">
+      <nav aria-label="Header">
+  <div class="bar default">
+    <div class="button button-menu" role="button" aria-label="Menu">
+      <label class="toggle-button icon icon-menu" for="toggle-drawer">
+        <span></span>
+      </label>
+    </div>
+    <div class="stretch">
+      <div class="title">
+        
+          <span class="path">
+            
+              
+                API Documentation <i class="icon icon-link"></i>
+              
+            
+          </span>
+        
+        Symbolic API
+      </div>
+    </div>
+    
+    
+    <div class="button button-search" role="button" aria-label="Search">
+      <label class="toggle-button icon icon-search" title="Search" for="toggle-search"></label>
+    </div>
+  </div>
+  <div class="bar search">
+    <div class="button button-close" role="button" aria-label="Close">
+      <label class="toggle-button icon icon-back" for="toggle-search"></label>
+    </div>
+    <div class="stretch">
+      <div class="field">
+        <input class="query" type="text" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck>
+      </div>
+    </div>
+    <div class="button button-reset" role="button" aria-label="Search">
+      <button class="toggle-button icon icon-close" id="reset-search"></button>
+    </div>
+  </div>
+</nav>
+    </header>
+    <main class="main">
+      
+      <div class="drawer">
+        <nav aria-label="Navigation">
+  
+  <a href="https://github.com/dmlc/MXNet.jl" class="project">
+    <div class="banner">
+      
+      <div class="name">
+        <strong>
+          MXNet.jl
+          <span class="version">
+            
+          </span>
+        </strong>
+        
+          <br>
+          dmlc/MXNet.jl
+        
+      </div>
+    </div>
+  </a>
+  <div class="scrollable">
+    <div class="wrapper">
+      
+        <ul class="repo">
+          <li class="repo-download">
+            
+            <a href="https://github.com/dmlc/MXNet.jl/archive/master.zip" target="_blank" title="Download" data-action="download">
+              <i class="icon icon-download"></i> Download
+            </a>
+          </li>
+          <li class="repo-stars">
+            <a href="https://github.com/dmlc/MXNet.jl/stargazers" target="_blank" title="Stargazers" data-action="star">
+              <i class="icon icon-star"></i> Stars
+              <span class="count">&ndash;</span>
+            </a>
+          </li>
+        </ul>
+        <hr>
+      
+      <div class="toc">
+        <ul>
+          
+            
+  <li>
+    <a class="" title="Home" href="../..">
+      Home
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Tutorial</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Digit Recognition on MNIST" href="../../tutorial/mnist/">
+      Digit Recognition on MNIST
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Generating Random Sentence with LSTM RNN" href="../../tutorial/char-lstm/">
+      Generating Random Sentence with LSTM RNN
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <span class="section">User Guide</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Installation Guide" href="../../user-guide/install/">
+      Installation Guide
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Overview" href="../../user-guide/overview/">
+      Overview
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="FAQ" href="../../user-guide/faq/">
+      FAQ
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <span class="section">API Documentation</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Context" href="../context/">
+      Context
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Models" href="../model/">
+      Models
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Initializers" href="../initializer/">
+      Initializers
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Optimizers" href="../optimizer/">
+      Optimizers
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Callbacks in training" href="../callback/">
+      Callbacks in training
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Evaluation Metrics" href="../metric/">
+      Evaluation Metrics
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Data Providers" href="../io/">
+      Data Providers
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="NDArray API" href="../ndarray/">
+      NDArray API
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="current" title="Symbolic API" href="./">
+      Symbolic API
+    </a>
+    
+      
+        
+      
+      
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Neural Networks Factory" href="../nn-factory/">
+      Neural Networks Factory
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Executor" href="../executor/">
+      Executor
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Network Visualization" href="../visualize/">
+      Network Visualization
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+        </ul>
+        
+      </div>
+    </div>
+  </div>
+</nav>
+      </div>
+      <article class="article">
+        <div class="wrapper">
+          
+          <p><a id='Symbolic-API-1'></a></p>
+<h1 id="symbolic-api">Symbolic API</h1>
+<p><a id='MXNet.mx.SymbolicNode' href='#MXNet.mx.SymbolicNode'>#</a>
+<strong><code>MXNet.mx.SymbolicNode</code></strong> &mdash; <em>Type</em>.</p>
+<pre><code>SymbolicNode
+</code></pre>
+
+<p>SymbolicNode is the basic building block of the symbolic graph in MXNet.jl.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L1-5' class='documenter-source'>source</a><br></p>
+<p><a id='Base.abs' href='#Base.abs'>#</a>
+<strong><code>Base.abs</code></strong> &mdash; <em>Function</em>.</p>
+<p>Take absolute value of the src</p>
+<ul>
+<li><code>src::SymbolicNode</code>: Left symbolic input to the function</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: .</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-733' class='documenter-source'>source</a><br></p>
+<p><a id='Base.call-Tuple{MXNet.mx.SymbolicNode,Vararg{MXNet.mx.SymbolicNode,N}}' href='#Base.call-Tuple{MXNet.mx.SymbolicNode,Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
+<strong><code>Base.call</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>call(self :: SymbolicNode, args :: SymbolicNode...)
+call(self :: SymbolicNode; kwargs...)
+</code></pre>
+
+<p>Make a new node by composing $self$ with $args$. Or the arguments can be specified using keyword arguments.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L35-41' class='documenter-source'>source</a><br></p>
+<p><a id='Base.ceil' href='#Base.ceil'>#</a>
+<strong><code>Base.ceil</code></strong> &mdash; <em>Function</em>.</p>
+<p>Take ceil value of the src</p>
+<ul>
+<li><code>src::SymbolicNode</code>: Left symbolic input to the function</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: .</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-733' class='documenter-source'>source</a><br></p>
+<p><a id='Base.copy-Tuple{MXNet.mx.SymbolicNode}' href='#Base.copy-Tuple{MXNet.mx.SymbolicNode}'>#</a>
+<strong><code>Base.copy</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>copy(self :: SymbolicNode)
+</code></pre>
+
+<p>Make a copy of a SymbolicNode. The same as making a deep copy.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L26-30' class='documenter-source'>source</a><br></p>
+<p><a id='Base.cos' href='#Base.cos'>#</a>
+<strong><code>Base.cos</code></strong> &mdash; <em>Function</em>.</p>
+<p>Take cos of the src</p>
+<ul>
+<li><code>src::SymbolicNode</code>: Left symbolic input to the function</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: .</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-733' class='documenter-source'>source</a><br></p>
+<p><a id='Base.deepcopy-Tuple{MXNet.mx.SymbolicNode}' href='#Base.deepcopy-Tuple{MXNet.mx.SymbolicNode}'>#</a>
+<strong><code>Base.deepcopy</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>deepcopy(self :: SymbolicNode)
+</code></pre>
+
+<p>Make a deep copy of a SymbolicNode.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L15-19' class='documenter-source'>source</a><br></p>
+<p><a id='Base.exp' href='#Base.exp'>#</a>
+<strong><code>Base.exp</code></strong> &mdash; <em>Function</em>.</p>
+<p>Take exp of the src</p>
+<ul>
+<li><code>src::SymbolicNode</code>: Left symbolic input to the function</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: .</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-733' class='documenter-source'>source</a><br></p>
+<p><a id='Base.floor' href='#Base.floor'>#</a>
+<strong><code>Base.floor</code></strong> &mdash; <em>Function</em>.</p>
+<p>Take floor value of the src</p>
+<ul>
+<li><code>src::SymbolicNode</code>: Left symbolic input to the function</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: .</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-733' class='documenter-source'>source</a><br></p>
+<p><a id='Base.getindex-Tuple{MXNet.mx.SymbolicNode,Union{AbstractString,Symbol}}' href='#Base.getindex-Tuple{MXNet.mx.SymbolicNode,Union{AbstractString,Symbol}}'>#</a>
+<strong><code>Base.getindex</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>getindex(self :: SymbolicNode, idx :: Union{Int, Base.Symbol, AbstractString})
+</code></pre>
+
+<p>Get a node representing the specified output of this node. The index could be a symbol or string indicating the name of the output, or a 1-based integer indicating the index, as in the list of :func:<code>list_outputs</code>.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L374-380' class='documenter-source'>source</a><br></p>
+<p><a id='Base.log' href='#Base.log'>#</a>
+<strong><code>Base.log</code></strong> &mdash; <em>Function</em>.</p>
+<p>Take log of the src</p>
+<ul>
+<li><code>src::SymbolicNode</code>: Left symbolic input to the function</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: .</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-733' class='documenter-source'>source</a><br></p>
+<p><a id='Base.round' href='#Base.round'>#</a>
+<strong><code>Base.round</code></strong> &mdash; <em>Function</em>.</p>
+<p>Take round value of the src</p>
+<ul>
+<li><code>src::SymbolicNode</code>: Left symbolic input to the function</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: .</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-733' class='documenter-source'>source</a><br></p>
+<p><a id='Base.sign' href='#Base.sign'>#</a>
+<strong><code>Base.sign</code></strong> &mdash; <em>Function</em>.</p>
+<p>Take sign value of the src</p>
+<ul>
+<li><code>src::SymbolicNode</code>: Left symbolic input to the function</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: .</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-733' class='documenter-source'>source</a><br></p>
+<p><a id='Base.sin' href='#Base.sin'>#</a>
+<strong><code>Base.sin</code></strong> &mdash; <em>Function</em>.</p>
+<p>Take sin of the src</p>
+<ul>
+<li><code>src::SymbolicNode</code>: Left symbolic input to the function</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: .</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-733' class='documenter-source'>source</a><br></p>
+<p><a id='Base.sqrt' href='#Base.sqrt'>#</a>
+<strong><code>Base.sqrt</code></strong> &mdash; <em>Function</em>.</p>
+<p>Take sqrt of the src</p>
+<ul>
+<li><code>src::SymbolicNode</code>: Left symbolic input to the function</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: .</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-733' class='documenter-source'>source</a><br></p>
+<p><a id='Base.transpose' href='#Base.transpose'>#</a>
+<strong><code>Base.transpose</code></strong> &mdash; <em>Function</em>.</p>
+<p>Transpose the input matrix and return a new one</p>
+<ul>
+<li><code>src::SymbolicNode</code>: Left symbolic input to the function</li>
+<li><code>axes::Shape(tuple), optional, default=()</code>: Target axis order. By default the axes will be inverted.</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: .</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-735' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.Activation' href='#MXNet.mx.Activation'>#</a>
+<strong><code>MXNet.mx.Activation</code></strong> &mdash; <em>Function</em>.</p>
+<p>Apply activation function to input.Softmax Activation is only available with CUDNN on GPUand will be computed at each location across channel if input is 4D.</p>
+<ul>
+<li><code>data::SymbolicNode</code>: Input data to activation function.</li>
+<li><code>act_type::{'relu', 'sigmoid', 'softrelu', 'tanh'}, required</code>: Activation function to be applied.</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: SymbolicNode.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-735' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.BatchNorm' href='#MXNet.mx.BatchNorm'>#</a>
+<strong><code>MXNet.mx.BatchNorm</code></strong> &mdash; <em>Function</em>.</p>
+<p>Apply batch normalization to input.</p>
+<ul>
+<li><code>data::SymbolicNode</code>: Input data to batch normalization</li>
+<li><code>eps::float, optional, default=0.001</code>: Epsilon to prevent div 0</li>
+<li><code>momentum::float, optional, default=0.9</code>: Momentum for moving average</li>
+<li><code>fix_gamma::boolean, optional, default=True</code>: Fix gamma while training</li>
+<li><code>use_global_stats::boolean, optional, default=False</code>: Whether use global moving statistics instead of local batch-norm. This will force change batch-norm into a scale shift operator.</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: SymbolicNode.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-741' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.BlockGrad' href='#MXNet.mx.BlockGrad'>#</a>
+<strong><code>MXNet.mx.BlockGrad</code></strong> &mdash; <em>Function</em>.</p>
+<p>Get output from a symbol and pass 0 gradient back</p>
+<ul>
+<li><code>data::SymbolicNode</code>: Input data.</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: SymbolicNode.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-733' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.Cast' href='#MXNet.mx.Cast'>#</a>
+<strong><code>MXNet.mx.Cast</code></strong> &mdash; <em>Function</em>.</p>
+<p>Cast array to a different data type.</p>
+<ul>
+<li><code>data::SymbolicNode</code>: Input data to cast function.</li>
+<li><code>dtype::{'float16', 'float32', 'float64', 'int32', 'uint8'}, required</code>: Target data type.</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: SymbolicNode.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-735' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.Concat' href='#MXNet.mx.Concat'>#</a>
+<strong><code>MXNet.mx.Concat</code></strong> &mdash; <em>Function</em>.</p>
+<p>Perform an feature concat on channel dim (defaut is 1) over all</p>
+<p>This function support variable length positional :class:<code>SymbolicNode</code> inputs.</p>
+<ul>
+<li><code>data::SymbolicNode[]</code>: List of tensors to concatenate</li>
+<li><code>num_args::int, required</code>: Number of inputs to be concated.</li>
+<li><code>dim::int, optional, default='1'</code>: the dimension to be concated.</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: SymbolicNode.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-739' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.Convolution' href='#MXNet.mx.Convolution'>#</a>
+<strong><code>MXNet.mx.Convolution</code></strong> &mdash; <em>Function</em>.</p>
+<p>Apply convolution to input then add a bias.</p>
+<ul>
+<li><code>data::SymbolicNode</code>: Input data to the ConvolutionOp.</li>
+<li><code>weight::SymbolicNode</code>: Weight matrix.</li>
+<li><code>bias::SymbolicNode</code>: Bias parameter.</li>
+<li><code>kernel::Shape(tuple), required</code>: convolution kernel size: (y, x) or (d, y, x)</li>
+<li><code>stride::Shape(tuple), optional, default=(1,1)</code>: convolution stride: (y, x) or (d, y, x)</li>
+<li><code>dilate::Shape(tuple), optional, default=(1,1)</code>: convolution dilate: (y, x)</li>
+<li><code>pad::Shape(tuple), optional, default=(0,0)</code>: pad for convolution: (y, x) or (d, y, x)</li>
+<li><code>num_filter::int (non-negative), required</code>: convolution filter(channel) number</li>
+<li><code>num_group::int (non-negative), optional, default=1</code>: Number of groups partition. This option is not supported by CuDNN, you can use SliceChannel to num_group,apply convolution and concat instead to achieve the same need.</li>
+<li><code>workspace::long (non-negative), optional, default=1024</code>: Tmp workspace for convolution (MB).</li>
+<li><code>no_bias::boolean, optional, default=False</code>: Whether to disable bias parameter.</li>
+<li><code>cudnn_tune::{'fastest', 'limited_workspace', 'off'},optional, default='off'</code>: Whether to find convolution algo by running performance test.Leads to higher startup time but may give better speed.auto tune is turned off by default.Set environment varialbe MXNET_CUDNN_AUTOTUNE_DEFAULT=1 to turn on by default.</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: SymbolicNode.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-755' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.Correlation' href='#MXNet.mx.Correlation'>#</a>
+<strong><code>MXNet.mx.Correlation</code></strong> &mdash; <em>Function</em>.</p>
+<p>Apply correlation to inputs</p>
+<ul>
+<li><code>data1::SymbolicNode</code>: Input data1 to the correlation.</li>
+<li><code>data2::SymbolicNode</code>: Input data2 to the correlation.</li>
+<li><code>kernel_size::int (non-negative), optional, default=1</code>: kernel size for Correlation must be an odd number</li>
+<li><code>max_displacement::int (non-negative), optional, default=1</code>: Max displacement of Correlation</li>
+<li><code>stride1::int (non-negative), optional, default=1</code>: stride1 quantize data1 globally</li>
+<li><code>stride2::int (non-negative), optional, default=1</code>: stride2 quantize data2 within the neighborhood centered around data1</li>
+<li><code>pad_size::int (non-negative), optional, default=0</code>: pad for Correlation</li>
+<li><code>is_multiply::boolean, optional, default=True</code>: operation type is either multiplication or subduction</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: SymbolicNode.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-747' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.Crop' href='#MXNet.mx.Crop'>#</a>
+<strong><code>MXNet.mx.Crop</code></strong> &mdash; <em>Function</em>.</p>
+<p>Crop the 2nd and 3rd dim of input data, with the corresponding size of h_w or with width and height of the second input symbol, i.e., with one input, we need h_w to specify the crop height and width, otherwise the second input symbol's size will be used</p>
+<p>This function support variable length positional :class:<code>SymbolicNode</code> inputs.</p>
+<ul>
+<li><code>data::SymbolicNode or SymbolicNode[]</code>: Tensor or List of Tensors, the second input will be used as crop_like shape reference</li>
+<li><code>num_args::int, required</code>: Number of inputs for crop, if equals one, then we will use the h_wfor crop height and width, else if equals two, then we will use the heightand width of the second input symbol, we name crop_like here</li>
+<li><code>offset::Shape(tuple), optional, default=(0,0)</code>: crop offset coordinate: (y, x)</li>
+<li><code>h_w::Shape(tuple), optional, default=(0,0)</code>: crop height and weight: (h, w)</li>
+<li><code>center_crop::boolean, optional, default=False</code>: If set to true, then it will use be the center_crop,or it will crop using the shape of crop_like</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: SymbolicNode.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-743' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.Custom' href='#MXNet.mx.Custom'>#</a>
+<strong><code>MXNet.mx.Custom</code></strong> &mdash; <em>Function</em>.</p>
+<p>Custom operator implemented in frontend.</p>
+<ul>
+<li><code>op_type::string</code>: Type of custom operator. Must be registered first.</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: SymbolicNode.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-733' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.Deconvolution' href='#MXNet.mx.Deconvolution'>#</a>
+<strong><code>MXNet.mx.Deconvolution</code></strong> &mdash; <em>Function</em>.</p>
+<p>Apply deconvolution to input then add a bias.</p>
+<ul>
+<li><code>data::SymbolicNode</code>: Input data to the DeconvolutionOp.</li>
+<li><code>weight::SymbolicNode</code>: Weight matrix.</li>
+<li><code>bias::SymbolicNode</code>: Bias parameter.</li>
+<li><code>kernel::Shape(tuple), required</code>: deconvolution kernel size: (y, x)</li>
+<li><code>stride::Shape(tuple), optional, default=(1,1)</code>: deconvolution stride: (y, x)</li>
+<li><code>pad::Shape(tuple), optional, default=(0,0)</code>: pad for deconvolution: (y, x), a good number is : (kernel-1)/2, if target_shape set, pad will be ignored and will be computed automatically</li>
+<li><code>adj::Shape(tuple), optional, default=(0,0)</code>: adjustment for output shape: (y, x), if target_shape set, adj will be ignored and will be computed automatically</li>
+<li><code>target_shape::Shape(tuple), optional, default=(0,0)</code>: output shape with targe shape : (y, x)</li>
+<li><code>num_filter::int (non-negative), required</code>: deconvolution filter(channel) number</li>
+<li><code>num_group::int (non-negative), optional, default=1</code>: number of groups partition</li>
+<li><code>workspace::long (non-negative), optional, default=512</code>: Tmp workspace for deconvolution (MB)</li>
+<li><code>no_bias::boolean, optional, default=True</code>: Whether to disable bias parameter.</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: SymbolicNode.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-755' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.Dropout' href='#MXNet.mx.Dropout'>#</a>
+<strong><code>MXNet.mx.Dropout</code></strong> &mdash; <em>Function</em>.</p>
+<p>Apply dropout to input</p>
+<ul>
+<li><code>data::SymbolicNode</code>: Input data to dropout.</li>
+<li><code>p::float, optional, default=0.5</code>: Fraction of the input that gets dropped out at training time</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: SymbolicNode.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-735' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.ElementWiseSum' href='#MXNet.mx.ElementWiseSum'>#</a>
+<strong><code>MXNet.mx.ElementWiseSum</code></strong> &mdash; <em>Function</em>.</p>
+<p>Perform an elementwise sum over all the inputs.</p>
+<p>This function support variable length positional :class:<code>SymbolicNode</code> inputs.</p>
+<ul>
+<li><code>num_args::int, required</code>: Number of inputs to be summed.</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: SymbolicNode.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-735' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.Embedding' href='#MXNet.mx.Embedding'>#</a>
+<strong><code>MXNet.mx.Embedding</code></strong> &mdash; <em>Function</em>.</p>
+<p>Get embedding for one-hot input. A n-dimensional input tensor will be trainsformed into a (n+1)-dimensional tensor, where a new dimension is added for the embedding results.</p>
+<ul>
+<li><code>data::SymbolicNode</code>: Input data to the EmbeddingOp.</li>
+<li><code>weight::SymbolicNode</code>: Enbedding weight matrix.</li>
+<li><code>input_dim::int, required</code>: input dim of one-hot encoding</li>
+<li><code>output_dim::int, required</code>: output dim of embedding</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: SymbolicNode.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-739' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.Flatten' href='#MXNet.mx.Flatten'>#</a>
+<strong><code>MXNet.mx.Flatten</code></strong> &mdash; <em>Function</em>.</p>
+<p>Flatten input</p>
+<ul>
+<li><code>data::SymbolicNode</code>: Input data to flatten.</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: SymbolicNode.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-733' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.FullyConnected' href='#MXNet.mx.FullyConnected'>#</a>
+<strong><code>MXNet.mx.FullyConnected</code></strong> &mdash; <em>Function</em>.</p>
+<p>Apply matrix multiplication to input then add a bias.</p>
+<ul>
+<li><code>data::SymbolicNode</code>: Input data to the FullyConnectedOp.</li>
+<li><code>weight::SymbolicNode</code>: Weight matrix.</li>
+<li><code>bias::SymbolicNode</code>: Bias parameter.</li>
+<li><code>num_hidden::int, required</code>: Number of hidden nodes of the output.</li>
+<li><code>no_bias::boolean, optional, default=False</code>: Whether to disable bias parameter.</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: SymbolicNode.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-741' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.Group-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx.Group-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
+<strong><code>MXNet.mx.Group</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>Group(nodes :: SymbolicNode...)
+</code></pre>
+
+<p>Create a :class:<code>SymbolicNode</code> by grouping nodes together.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L220-224' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.IdentityAttachKLSparseReg' href='#MXNet.mx.IdentityAttachKLSparseReg'>#</a>
+<strong><code>MXNet.mx.IdentityAttachKLSparseReg</code></strong> &mdash; <em>Function</em>.</p>
+<p>Apply a sparse regularization to the output a sigmoid activation function.</p>
+<ul>
+<li><code>data::SymbolicNode</code>: Input data.</li>
+<li><code>sparseness_target::float, optional, default=0.1</code>: The sparseness target</li>
+<li><code>penalty::float, optional, default=0.001</code>: The tradeoff parameter for the sparseness penalty</li>
+<li><code>momentum::float, optional, default=0.9</code>: The momentum for running average</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: SymbolicNode.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-739' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.L2Normalization' href='#MXNet.mx.L2Normalization'>#</a>
+<strong><code>MXNet.mx.L2Normalization</code></strong> &mdash; <em>Function</em>.</p>
+<p>Set the l2 norm of each instance to a constant.</p>
+<ul>
+<li><code>data::SymbolicNode</code>: Input data to the L2NormalizationOp.</li>
+<li><code>eps::float, optional, default=1e-10</code>: Epsilon to prevent div 0</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: SymbolicNode.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-735' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.LRN' href='#MXNet.mx.LRN'>#</a>
+<strong><code>MXNet.mx.LRN</code></strong> &mdash; <em>Function</em>.</p>
+<p>Apply convolution to input then add a bias.</p>
+<ul>
+<li><code>data::SymbolicNode</code>: Input data to the ConvolutionOp.</li>
+<li><code>alpha::float, optional, default=0.0001</code>: value of the alpha variance scaling parameter in the normalization formula</li>
+<li><code>beta::float, optional, default=0.75</code>: value of the beta power parameter in the normalization formula</li>
+<li><code>knorm::float, optional, default=2</code>: value of the k parameter in normalization formula</li>
+<li><code>nsize::int (non-negative), required</code>: normalization window width in elements.</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: SymbolicNode.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-741' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.LeakyReLU' href='#MXNet.mx.LeakyReLU'>#</a>
+<strong><code>MXNet.mx.LeakyReLU</code></strong> &mdash; <em>Function</em>.</p>
+<p>Apply activation function to input.</p>
+<ul>
+<li><code>data::SymbolicNode</code>: Input data to activation function.</li>
+<li><code>act_type::{'elu', 'leaky', 'prelu', 'rrelu'},optional, default='leaky'</code>: Activation function to be applied.</li>
+<li><code>slope::float, optional, default=0.25</code>: Init slope for the activation. (For leaky and elu only)</li>
+<li><code>lower_bound::float, optional, default=0.125</code>: Lower bound of random slope. (For rrelu only)</li>
+<li><code>upper_bound::float, optional, default=0.334</code>: Upper bound of random slope. (For rrelu only)</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: SymbolicNode.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-741' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.LinearRegressionOutput' href='#MXNet.mx.LinearRegressionOutput'>#</a>
+<strong><code>MXNet.mx.LinearRegressionOutput</code></strong> &mdash; <em>Function</em>.</p>
+<p>Use linear regression for final output, this is used on final output of a net.</p>
+<ul>
+<li><code>data::SymbolicNode</code>: Input data to function.</li>
+<li><code>label::SymbolicNode</code>: Input label to function.</li>
+<li><code>grad_scale::float, optional, default=1</code>: Scale the gradient by a float factor</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: SymbolicNode.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-737' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.LogisticRegressionOutput' href='#MXNet.mx.LogisticRegressionOutput'>#</a>
+<strong><code>MXNet.mx.LogisticRegressionOutput</code></strong> &mdash; <em>Function</em>.</p>
+<p>Use Logistic regression for final output, this is used on final output of a net. Logistic regression is suitable for binary classification or probability prediction tasks.</p>
+<ul>
+<li><code>data::SymbolicNode</code>: Input data to function.</li>
+<li><code>label::SymbolicNode</code>: Input label to function.</li>
+<li><code>grad_scale::float, optional, default=1</code>: Scale the gradient by a float factor</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: SymbolicNode.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-738' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.MAERegressionOutput' href='#MXNet.mx.MAERegressionOutput'>#</a>
+<strong><code>MXNet.mx.MAERegressionOutput</code></strong> &mdash; <em>Function</em>.</p>
+<p>Use mean absolute error regression for final output, this is used on final output of a net.</p>
+<ul>
+<li><code>data::SymbolicNode</code>: Input data to function.</li>
+<li><code>label::SymbolicNode</code>: Input label to function.</li>
+<li><code>grad_scale::float, optional, default=1</code>: Scale the gradient by a float factor</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: SymbolicNode.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-737' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.MakeLoss' href='#MXNet.mx.MakeLoss'>#</a>
+<strong><code>MXNet.mx.MakeLoss</code></strong> &mdash; <em>Function</em>.</p>
+<p>Get output from a symbol and pass 1 gradient back. This is used as a terminal loss if unary and binary operator are used to composite a loss with no declaration of backward dependency</p>
+<ul>
+<li><code>data::SymbolicNode</code>: Input data.</li>
+<li><code>grad_scale::float, optional, default=1</code>: gradient scale as a supplement to unary and binary operators</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: SymbolicNode.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-735' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.Pooling' href='#MXNet.mx.Pooling'>#</a>
+<strong><code>MXNet.mx.Pooling</code></strong> &mdash; <em>Function</em>.</p>
+<p>Perform spatial pooling on inputs.</p>
+<ul>
+<li><code>data::SymbolicNode</code>: Input data to the pooling operator.</li>
+<li><code>global_pool::boolean, optional, default=False</code>: Ignore kernel size, do global pooling based on current input feature map. This is useful for input with different shape</li>
+<li><code>kernel::Shape(tuple), required</code>: pooling kernel size: (y, x) or (d, y, x)</li>
+<li><code>pool_type::{'avg', 'max', 'sum'}, required</code>: Pooling type to be applied.</li>
+<li><code>stride::Shape(tuple), optional, default=(1,1)</code>: stride: for pooling (y, x) or (d, y, x)</li>
+<li><code>pad::Shape(tuple), optional, default=(0,0)</code>: pad for pooling: (y, x) or (d, y, x)</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: SymbolicNode.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-743' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.RNN' href='#MXNet.mx.RNN'>#</a>
+<strong><code>MXNet.mx.RNN</code></strong> &mdash; <em>Function</em>.</p>
+<p>Apply a recurrent layer to input.</p>
+<ul>
+<li><code>data::SymbolicNode</code>: Input data to RNN</li>
+<li><code>parameters::SymbolicNode</code>: Vector of all RNN trainable parameters</li>
+<li><code>state::SymbolicNode</code>: initial hidden state of the RNN</li>
+<li><code>state_cell::SymbolicNode</code>: initial cell state for LSTM networks (only for LSTM)</li>
+<li><code>state_size::int (non-negative), required</code>: size of the state for each layer</li>
+<li><code>num_layers::int (non-negative), required</code>: number of stacked layers</li>
+<li><code>bidirectional::boolean, optional, default=False</code>: whether to use bidirectional recurrent layers</li>
+<li><code>mode::{'gru', 'lstm', 'rnn_relu', 'rnn_tanh'}, required</code>: the type of RNN to compute</li>
+<li><code>p::float, optional, default=0</code>: Fraction of the input that gets dropped out at training time</li>
+<li><code>state_outputs::boolean, optional, default=False</code>: Whether to have the states as symbol outputs.</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: SymbolicNode.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-751' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.ROIPooling' href='#MXNet.mx.ROIPooling'>#</a>
+<strong><code>MXNet.mx.ROIPooling</code></strong> &mdash; <em>Function</em>.</p>
+<p>Performs region-of-interest pooling on inputs. Resize bounding box coordinates by spatial_scale and crop input feature maps accordingly. The cropped feature maps are pooled by max pooling to a fixed size output indicated by pooled_size. batch_size will change to the number of region bounding boxes after ROIPooling</p>
+<ul>
+<li><code>data::SymbolicNode</code>: Input data to the pooling operator, a 4D Feature maps</li>
+<li><code>rois::SymbolicNode</code>: Bounding box coordinates, a 2D array of [[batch_index, x1, y1, x2, y2]]. (x1, y1) and (x2, y2) are top left and down right corners of designated region of interest. batch_index indicates the index of corresponding image in the input data</li>
+<li><code>pooled_size::Shape(tuple), required</code>: fix pooled size: (h, w)</li>
+<li><code>spatial_scale::float, required</code>: Ratio of input feature map height (or w) to raw image height (or w). Equals the reciprocal of total stride in convolutional layers</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: SymbolicNode.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-739' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.Reshape' href='#MXNet.mx.Reshape'>#</a>
+<strong><code>MXNet.mx.Reshape</code></strong> &mdash; <em>Function</em>.</p>
+<p>Reshape input to target shape</p>
+<ul>
+<li><code>data::SymbolicNode</code>: Input data to reshape.</li>
+<li><code>target_shape::Shape(tuple), optional, default=(0,0)</code>: (Deprecated! Use shape instead.) Target new shape. One and only one dim can be 0, in which case it will be inferred from the rest of dims</li>
+<li><code>keep_highest::boolean, optional, default=False</code>: (Deprecated! Use shape instead.) Whether keep the highest dim unchanged.If set to yes, than the first dim in target_shape is ignored,and always fixed as input</li>
+<li><code>shape::, optional, default=()</code>: Target new shape. If the dim is same, set it to 0. If the dim is set to be -1, it will be inferred from the rest of dims. One and only one dim can be -1</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: SymbolicNode.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-739' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.SVMOutput' href='#MXNet.mx.SVMOutput'>#</a>
+<strong><code>MXNet.mx.SVMOutput</code></strong> &mdash; <em>Function</em>.</p>
+<p>Support Vector Machine based transformation on input, backprop L2-SVM</p>
+<ul>
+<li><code>data::SymbolicNode</code>: Input data to svm.</li>
+<li><code>label::SymbolicNode</code>: Label data.</li>
+<li><code>margin::float, optional, default=1</code>: Scale the DType(param_.margin) for activation size</li>
+<li><code>regularization_coefficient::float, optional, default=1</code>: Scale the coefficient responsible for balacing coefficient size and error tradeoff</li>
+<li><code>use_linear::boolean, optional, default=False</code>: If set true, uses L1-SVM objective function. Default uses L2-SVM objective</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: SymbolicNode.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-741' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.SliceChannel' href='#MXNet.mx.SliceChannel'>#</a>
+<strong><code>MXNet.mx.SliceChannel</code></strong> &mdash; <em>Function</em>.</p>
+<p>Slice input equally along specified axis</p>
+<ul>
+<li><code>num_outputs::int, required</code>: Number of outputs to be sliced.</li>
+<li><code>axis::int, optional, default='1'</code>: Dimension along which to slice.</li>
+<li><code>squeeze_axis::boolean, optional, default=False</code>: If true AND the sliced dimension becomes 1, squeeze that dimension.</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: SymbolicNode[].</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-737' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.Softmax' href='#MXNet.mx.Softmax'>#</a>
+<strong><code>MXNet.mx.Softmax</code></strong> &mdash; <em>Function</em>.</p>
+<p>DEPRECATED: Perform a softmax transformation on input. Please use SoftmaxOutput</p>
+<ul>
+<li><code>data::SymbolicNode</code>: Input data to softmax.</li>
+<li><code>grad_scale::float, optional, default=1</code>: Scale the gradient by a float factor</li>
+<li><code>ignore_label::float, optional, default=-1</code>: the label value will be ignored during backward (only works if use_ignore is set to be true).</li>
+<li><code>multi_output::boolean, optional, default=False</code>: If set to true, for a (n,k,x_1,..,x_n) dimensional input tensor, softmax will generate n<em>x_1</em>...*x_n output, each has k classes</li>
+<li><code>use_ignore::boolean, optional, default=False</code>: If set to true, the ignore_label value will not contribute to the backward gradient</li>
+<li><code>normalization::{'batch', 'null', 'valid'},optional, default='null'</code>: If set to null, op will do nothing on output gradient.If set to batch, op will normalize gradient by divide batch sizeIf set to valid, op will normalize gradient by divide sample not ignored</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: SymbolicNode.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-743' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.SoftmaxActivation' href='#MXNet.mx.SoftmaxActivation'>#</a>
+<strong><code>MXNet.mx.SoftmaxActivation</code></strong> &mdash; <em>Function</em>.</p>
+<p>Apply softmax activation to input. This is intended for internal layers. For output (loss layer) please use SoftmaxOutput. If type=instance, this operator will compute a softmax for each instance in the batch; this is the default mode. If type=channel, this operator will compute a num_channel-class softmax at each position of each instance; this can be used for fully convolutional network, image segmentation, etc.</p>
+<ul>
+<li><code>data::SymbolicNode</code>: Input data to activation function.</li>
+<li><code>mode::{'channel', 'instance'},optional, default='instance'</code>: Softmax Mode. If set to instance, this operator will compute a softmax for each instance in the batch; this is the default mode. If set to channel, this operator will compute a num_channel-class softmax at each position of each instance; this can be used for fully convolutional network, image segmentation, etc.</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: SymbolicNode.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-735' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.SoftmaxOutput' href='#MXNet.mx.SoftmaxOutput'>#</a>
+<strong><code>MXNet.mx.SoftmaxOutput</code></strong> &mdash; <em>Function</em>.</p>
+<p>Perform a softmax transformation on input, backprop with logloss.</p>
+<ul>
+<li><code>data::SymbolicNode</code>: Input data to softmax.</li>
+<li><code>label::SymbolicNode</code>: Label data, can also be probability value with same shape as data</li>
+<li><code>grad_scale::float, optional, default=1</code>: Scale the gradient by a float factor</li>
+<li><code>ignore_label::float, optional, default=-1</code>: the label value will be ignored during backward (only works if use_ignore is set to be true).</li>
+<li><code>multi_output::boolean, optional, default=False</code>: If set to true, for a (n,k,x_1,..,x_n) dimensional input tensor, softmax will generate n<em>x_1</em>...*x_n output, each has k classes</li>
+<li><code>use_ignore::boolean, optional, default=False</code>: If set to true, the ignore_label value will not contribute to the backward gradient</li>
+<li><code>normalization::{'batch', 'null', 'valid'},optional, default='null'</code>: If set to null, op will do nothing on output gradient.If set to batch, op will normalize gradient by divide batch sizeIf set to valid, op will normalize gradient by divide sample not ignored</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: SymbolicNode.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-745' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.SpatialTransformer' href='#MXNet.mx.SpatialTransformer'>#</a>
+<strong><code>MXNet.mx.SpatialTransformer</code></strong> &mdash; <em>Function</em>.</p>
+<p>Apply spatial transformer to input feature map.</p>
+<ul>
+<li><code>data::SymbolicNode</code>: Input data to the SpatialTransformerOp.</li>
+<li><code>loc::SymbolicNode</code>: localisation net, the output dim should be 6 when transform_type is affine, and the name of loc symbol should better starts with 'stn_loc', so that initialization it with iddentify tranform, or you shold initialize the weight and bias by yourself.</li>
+<li><code>target_shape::Shape(tuple), optional, default=(0,0)</code>: output shape(h, w) of spatial transformer: (y, x)</li>
+<li><code>transform_type::{'affine'}, required</code>: transformation type</li>
+<li><code>sampler_type::{'bilinear'}, required</code>: sampling type</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: SymbolicNode.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-741' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.SwapAxis' href='#MXNet.mx.SwapAxis'>#</a>
+<strong><code>MXNet.mx.SwapAxis</code></strong> &mdash; <em>Function</em>.</p>
+<p>Apply swapaxis to input.</p>
+<ul>
+<li><code>data::SymbolicNode</code>: Input data to the SwapAxisOp.</li>
+<li><code>dim1::int (non-negative), optional, default=0</code>: the first axis to be swapped.</li>
+<li><code>dim2::int (non-negative), optional, default=0</code>: the second axis to be swapped.</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: SymbolicNode.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-737' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.UpSampling' href='#MXNet.mx.UpSampling'>#</a>
+<strong><code>MXNet.mx.UpSampling</code></strong> &mdash; <em>Function</em>.</p>
+<p>Perform nearest neighboor/bilinear up sampling to inputs</p>
+<p>This function support variable length positional :class:<code>SymbolicNode</code> inputs.</p>
+<ul>
+<li><code>data::SymbolicNode[]</code>: Array of tensors to upsample</li>
+<li><code>scale::int (non-negative), required</code>: Up sampling scale</li>
+<li><code>num_filter::int (non-negative), optional, default=0</code>: Input filter. Only used by nearest sample_type.</li>
+<li><code>sample_type::{'bilinear', 'nearest'}, required</code>: upsampling method</li>
+<li><code>multi_input_mode::{'concat', 'sum'},optional, default='concat'</code>: How to handle multiple input. concat means concatenate upsampled images along the channel dimension. sum means add all images together, only available for nearest neighbor upsampling.</li>
+<li><code>num_args::int, required</code>: Number of inputs to be upsampled. For nearest neighbor upsampling, this can be 1-N; the size of output will be(scale<em>h_0,scale</em>w_0) and all other inputs will be upsampled to thesame size. For bilinear upsampling this must be 2; 1 input and 1 weight.</li>
+<li><code>workspace::long (non-negative), optional, default=512</code>: Tmp workspace for deconvolution (MB)</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: SymbolicNode.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-747' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.Variable-Tuple{Union{AbstractString,Symbol}}' href='#MXNet.mx.Variable-Tuple{Union{AbstractString,Symbol}}'>#</a>
+<strong><code>MXNet.mx.Variable</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>Variable(name :: Union{Symbol, AbstractString})
+</code></pre>
+
+<p>Create a symbolic variable with the given name. This is typically used as a placeholder. For example, the data node, acting as the starting point of a network architecture.</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li>Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>Variable</code>.</li>
+</ul>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L200-208' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx._CrossDeviceCopy' href='#MXNet.mx._CrossDeviceCopy'>#</a>
+<strong><code>MXNet.mx._CrossDeviceCopy</code></strong> &mdash; <em>Function</em>.</p>
+<p>Special op to copy data cross device</p>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: SymbolicNode.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-732' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx._Div' href='#MXNet.mx._Div'>#</a>
+<strong><code>MXNet.mx._Div</code></strong> &mdash; <em>Function</em>.</p>
+<p>Multiply lhs by rhs</p>
+<ul>
+<li><code>lhs::SymbolicNode</code>: Left symbolic input to the function</li>
+<li><code>rhs::SymbolicNode</code>: Right symbolic input to the function</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: .</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-735' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx._DivScalar' href='#MXNet.mx._DivScalar'>#</a>
+<strong><code>MXNet.mx._DivScalar</code></strong> &mdash; <em>Function</em>.</p>
+<ul>
+<li><code>src::SymbolicNode</code>: Left symbolic input to the function</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: .</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-733' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx._Maximum' href='#MXNet.mx._Maximum'>#</a>
+<strong><code>MXNet.mx._Maximum</code></strong> &mdash; <em>Function</em>.</p>
+<p>Elementwise max of lhs by rhs</p>
+<ul>
+<li><code>lhs::SymbolicNode</code>: Left symbolic input to the function</li>
+<li><code>rhs::SymbolicNode</code>: Right symbolic input to the function</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: .</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-735' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx._MaximumScalar' href='#MXNet.mx._MaximumScalar'>#</a>
+<strong><code>MXNet.mx._MaximumScalar</code></strong> &mdash; <em>Function</em>.</p>
+<ul>
+<li><code>src::SymbolicNode</code>: Left symbolic input to the function</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: .</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-733' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx._Minimum' href='#MXNet.mx._Minimum'>#</a>
+<strong><code>MXNet.mx._Minimum</code></strong> &mdash; <em>Function</em>.</p>
+<p>Elementwise min of lhs by rhs</p>
+<ul>
+<li><code>lhs::SymbolicNode</code>: Left symbolic input to the function</li>
+<li><code>rhs::SymbolicNode</code>: Right symbolic input to the function</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: .</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-735' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx._MinimumScalar' href='#MXNet.mx._MinimumScalar'>#</a>
+<strong><code>MXNet.mx._MinimumScalar</code></strong> &mdash; <em>Function</em>.</p>
+<ul>
+<li><code>src::SymbolicNode</code>: Left symbolic input to the function</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: .</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-733' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx._Minus' href='#MXNet.mx._Minus'>#</a>
+<strong><code>MXNet.mx._Minus</code></strong> &mdash; <em>Function</em>.</p>
+<p>Minus lhs and rhs</p>
+<ul>
+<li><code>lhs::SymbolicNode</code>: Left symbolic input to the function</li>
+<li><code>rhs::SymbolicNode</code>: Right symbolic input to the function</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: .</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-735' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx._MinusScalar' href='#MXNet.mx._MinusScalar'>#</a>
+<strong><code>MXNet.mx._MinusScalar</code></strong> &mdash; <em>Function</em>.</p>
+<ul>
+<li><code>src::SymbolicNode</code>: Left symbolic input to the function</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: .</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-733' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx._Mul' href='#MXNet.mx._Mul'>#</a>
+<strong><code>MXNet.mx._Mul</code></strong> &mdash; <em>Function</em>.</p>
+<p>Multiply lhs and rhs</p>
+<ul>
+<li><code>lhs::SymbolicNode</code>: Left symbolic input to the function</li>
+<li><code>rhs::SymbolicNode</code>: Right symbolic input to the function</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: .</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-735' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx._MulScalar' href='#MXNet.mx._MulScalar'>#</a>
+<strong><code>MXNet.mx._MulScalar</code></strong> &mdash; <em>Function</em>.</p>
+<ul>
+<li><code>src::SymbolicNode</code>: Left symbolic input to the function</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: .</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-733' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx._NDArray' href='#MXNet.mx._NDArray'>#</a>
+<strong><code>MXNet.mx._NDArray</code></strong> &mdash; <em>Function</em>.</p>
+<p>Stub for implementing an operator implemented in native frontend language with ndarray.</p>
+<ul>
+<li><code>info::, required</code>:</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: SymbolicNode.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-733' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx._Native' href='#MXNet.mx._Native'>#</a>
+<strong><code>MXNet.mx._Native</code></strong> &mdash; <em>Function</em>.</p>
+<p>Stub for implementing an operator implemented in native frontend language.</p>
+<ul>
+<li><code>info::, required</code>:</li>
+<li><code>need_top_grad::boolean, optional, default=True</code>: Whether this layer needs out grad for backward. Should be false for loss layers.</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: SymbolicNode.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-735' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx._Plus' href='#MXNet.mx._Plus'>#</a>
+<strong><code>MXNet.mx._Plus</code></strong> &mdash; <em>Function</em>.</p>
+<p>Add lhs and rhs</p>
+<ul>
+<li><code>lhs::SymbolicNode</code>: Left symbolic input to the function</li>
+<li><code>rhs::SymbolicNode</code>: Right symbolic input to the function</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: .</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-735' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx._PlusScalar' href='#MXNet.mx._PlusScalar'>#</a>
+<strong><code>MXNet.mx._PlusScalar</code></strong> &mdash; <em>Function</em>.</p>
+<ul>
+<li><code>src::SymbolicNode</code>: Left symbolic input to the function</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: .</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-733' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx._Power' href='#MXNet.mx._Power'>#</a>
+<strong><code>MXNet.mx._Power</code></strong> &mdash; <em>Function</em>.</p>
+<p>Elementwise power(lhs, rhs)</p>
+<ul>
+<li><code>lhs::SymbolicNode</code>: Left symbolic input to the function</li>
+<li><code>rhs::SymbolicNode</code>: Right symbolic input to the function</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: .</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-735' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx._PowerScalar' href='#MXNet.mx._PowerScalar'>#</a>
+<strong><code>MXNet.mx._PowerScalar</code></strong> &mdash; <em>Function</em>.</p>
+<ul>
+<li><code>src::SymbolicNode</code>: Left symbolic input to the function</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: .</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-733' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx._RDivScalar' href='#MXNet.mx._RDivScalar'>#</a>
+<strong><code>MXNet.mx._RDivScalar</code></strong> &mdash; <em>Function</em>.</p>
+<ul>
+<li><code>src::SymbolicNode</code>: Left symbolic input to the function</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: .</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-733' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx._RMinusScalar' href='#MXNet.mx._RMinusScalar'>#</a>
+<strong><code>MXNet.mx._RMinusScalar</code></strong> &mdash; <em>Function</em>.</p>
+<ul>
+<li><code>src::SymbolicNode</code>: Left symbolic input to the function</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: .</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-733' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx._RPowerScalar' href='#MXNet.mx._RPowerScalar'>#</a>
+<strong><code>MXNet.mx._RPowerScalar</code></strong> &mdash; <em>Function</em>.</p>
+<ul>
+<li><code>src::SymbolicNode</code>: Left symbolic input to the function</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: .</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-733' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.batch_dot' href='#MXNet.mx.batch_dot'>#</a>
+<strong><code>MXNet.mx.batch_dot</code></strong> &mdash; <em>Function</em>.</p>
+<p>Calculate batched dot product of two matrices. (batch, M, K) batch_dot (batch, K, N) –&gt; (batch, M, N)</p>
+<ul>
+<li><code>lhs::SymbolicNode</code>: Left symbolic input to the function</li>
+<li><code>rhs::SymbolicNode</code>: Right symbolic input to the function</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: .</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-735' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.broadcast_axis' href='#MXNet.mx.broadcast_axis'>#</a>
+<strong><code>MXNet.mx.broadcast_axis</code></strong> &mdash; <em>Function</em>.</p>
+<p>Broadcast data in the given axis to the given size. The original size of the broadcasting axis must be 1.</p>
+<ul>
+<li><code>src::SymbolicNode</code>: Left symbolic input to the function</li>
+<li><code>axis::Shape(tuple), optional, default=()</code>: The axes to perform the broadcasting.</li>
+<li><code>size::Shape(tuple), optional, default=()</code>: Target sizes of the broadcasting axes.</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: .</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-737' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.broadcast_div' href='#MXNet.mx.broadcast_div'>#</a>
+<strong><code>MXNet.mx.broadcast_div</code></strong> &mdash; <em>Function</em>.</p>
+<p>lhs divide rhs with broadcast</p>
+<ul>
+<li><code>lhs::SymbolicNode</code>: Left symbolic input to the function</li>
+<li><code>rhs::SymbolicNode</code>: Right symbolic input to the function</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: .</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-735' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.broadcast_minus' href='#MXNet.mx.broadcast_minus'>#</a>
+<strong><code>MXNet.mx.broadcast_minus</code></strong> &mdash; <em>Function</em>.</p>
+<p>lhs minus rhs with broadcast</p>
+<ul>
+<li><code>lhs::SymbolicNode</code>: Left symbolic input to the function</li>
+<li><code>rhs::SymbolicNode</code>: Right symbolic input to the function</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: .</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-735' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.broadcast_mul' href='#MXNet.mx.broadcast_mul'>#</a>
+<strong><code>MXNet.mx.broadcast_mul</code></strong> &mdash; <em>Function</em>.</p>
+<p>lhs multiple rhs with broadcast</p>
+<ul>
+<li><code>lhs::SymbolicNode</code>: Left symbolic input to the function</li>
+<li><code>rhs::SymbolicNode</code>: Right symbolic input to the function</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: .</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-735' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.broadcast_plus' href='#MXNet.mx.broadcast_plus'>#</a>
+<strong><code>MXNet.mx.broadcast_plus</code></strong> &mdash; <em>Function</em>.</p>
+<p>lhs add rhs with broadcast</p>
+<ul>
+<li><code>lhs::SymbolicNode</code>: Left symbolic input to the function</li>
+<li><code>rhs::SymbolicNode</code>: Right symbolic input to the function</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: .</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-735' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.broadcast_power' href='#MXNet.mx.broadcast_power'>#</a>
+<strong><code>MXNet.mx.broadcast_power</code></strong> &mdash; <em>Function</em>.</p>
+<p>lhs power rhs with broadcast</p>
+<ul>
+<li><code>lhs::SymbolicNode</code>: Left symbolic input to the function</li>
+<li><code>rhs::SymbolicNode</code>: Right symbolic input to the function</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: .</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-735' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.broadcast_to' href='#MXNet.mx.broadcast_to'>#</a>
+<strong><code>MXNet.mx.broadcast_to</code></strong> &mdash; <em>Function</em>.</p>
+<p>Broadcast data to the target shape. The original size of the broadcasting axis must be 1.</p>
+<ul>
+<li><code>src::SymbolicNode</code>: Left symbolic input to the function</li>
+<li><code>shape::Shape(tuple), optional, default=()</code>: The shape of the desired array. We can set the dim to zero if it's same as the original. E.g <code>A = broadcast_to(B, shape=(10, 0, 0))</code> has the same meaning as <code>A = broadcast_axis(B, axis=0, size=10)</code>.</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: .</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-735' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.dot' href='#MXNet.mx.dot'>#</a>
+<strong><code>MXNet.mx.dot</code></strong> &mdash; <em>Function</em>.</p>
+<p>Calculate dot product of two matrices or two vectors</p>
+<ul>
+<li><code>lhs::SymbolicNode</code>: Left symbolic input to the function</li>
+<li><code>rhs::SymbolicNode</code>: Right symbolic input to the function</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: .</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-735' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.expand_dims' href='#MXNet.mx.expand_dims'>#</a>
+<strong><code>MXNet.mx.expand_dims</code></strong> &mdash; <em>Function</em>.</p>
+<p>Expand the shape of array by inserting a new axis.</p>
+<ul>
+<li><code>src::SymbolicNode</code>: Left symbolic input to the function</li>
+<li><code>axis::int (non-negative), required</code>: Position (amongst axes) where new axis is to be inserted.</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: .</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-735' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.from_json-Tuple{AbstractString,Type{MXNet.mx.SymbolicNode}}' href='#MXNet.mx.from_json-Tuple{AbstractString,Type{MXNet.mx.SymbolicNode}}'>#</a>
+<strong><code>MXNet.mx.from_json</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>from_json(repr :: AbstractString, ::Type{SymbolicNode})
+</code></pre>
+
+<p>Load a :class:<code>SymbolicNode</code> from a JSON string representation.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L534-538' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.get_attr-Tuple{MXNet.mx.SymbolicNode,Symbol}' href='#MXNet.mx.get_attr-Tuple{MXNet.mx.SymbolicNode,Symbol}'>#</a>
+<strong><code>MXNet.mx.get_attr</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>get_attr(self :: SymbolicNode, key :: Symbol)
+</code></pre>
+
+<p>Get attribute attached to this :class:<code>SymbolicNode</code> belonging to key. :return: The value belonging to key as a :class:<code>Nullable</code>.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L119-124' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.get_internals-Tuple{MXNet.mx.SymbolicNode}' href='#MXNet.mx.get_internals-Tuple{MXNet.mx.SymbolicNode}'>#</a>
+<strong><code>MXNet.mx.get_internals</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>get_internals(self :: SymbolicNode)
+</code></pre>
+
+<p>Get a new grouped :class:<code>SymbolicNode</code> whose output contains all the internal outputs of this :class:<code>SymbolicNode</code>.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L107-112' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.infer_shape-Tuple{MXNet.mx.SymbolicNode}' href='#MXNet.mx.infer_shape-Tuple{MXNet.mx.SymbolicNode}'>#</a>
+<strong><code>MXNet.mx.infer_shape</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>infer_shape(self :: SymbolicNode, args...)
+infer_shape(self :: SymbolicNode; kwargs...)
+</code></pre>
+
+<p>Do shape inference according to the input shapes. The input shapes could be provided as a list of shapes, which should specify the shapes of inputs in the same order as the arguments returned by :func:<code>list_arguments</code>. Alternatively, the shape information could be specified via keyword arguments.</p>
+<p>:return: A 3-tuple containing shapes of all the arguments, shapes of all the outputs and          shapes of all the auxiliary variables. If shape inference failed due to incomplete          or incompatible inputs, the return value will be $(nothing, nothing, nothing)$.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L276-288' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.infer_type-Tuple{MXNet.mx.SymbolicNode}' href='#MXNet.mx.infer_type-Tuple{MXNet.mx.SymbolicNode}'>#</a>
+<strong><code>MXNet.mx.infer_type</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>infer_type(self :: SymbolicNode; kwargs...)
+infer_type(self :: SymbolicNode, args...)
+</code></pre>
+
+<p>Do type inference according to the input types. The input types could be provided as a list of types, which should specify the types of inputs in the same order as the arguments returned by :func:<code>list_arguments</code>. Alternatively, the type information could be specified via keyword arguments.</p>
+<p>:return: A 3-tuple containing types of all the arguments, types of all the outputs and          types of all the auxiliary variables. If type inference failed due to incomplete          or incompatible inputs, the return value will be $(nothing, nothing, nothing)$.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L344-356' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.list_all_attr-Tuple{MXNet.mx.SymbolicNode}' href='#MXNet.mx.list_all_attr-Tuple{MXNet.mx.SymbolicNode}'>#</a>
+<strong><code>MXNet.mx.list_all_attr</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>list_all_attr(self :: SymbolicNode)
+</code></pre>
+
+<p>Get all attributes from the symbol graph. :return: Dictionary of attributes.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L160-165' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.list_arguments-Tuple{MXNet.mx.SymbolicNode}' href='#MXNet.mx.list_arguments-Tuple{MXNet.mx.SymbolicNode}'>#</a>
+<strong><code>MXNet.mx.list_arguments</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>list_arguments(self :: SymbolicNode)
+</code></pre>
+
+<p>List all the arguments of this node. The argument for a node contains both the inputs and parameters. For example, a :class:<code>FullyConnected</code> node will have both data and weights in its arguments. A composed node (e.g. a MLP) will list all the arguments for intermediate nodes.</p>
+<p>:return: A list of symbols indicating the names of the arguments.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L64-73' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.list_attr-Tuple{MXNet.mx.SymbolicNode}' href='#MXNet.mx.list_attr-Tuple{MXNet.mx.SymbolicNode}'>#</a>
+<strong><code>MXNet.mx.list_attr</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>list_attr(self :: SymbolicNode)
+</code></pre>
+
+<p>Get all attributes from a symbol. :return: Dictionary of attributes.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L138-143' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.list_auxiliary_states-Tuple{MXNet.mx.SymbolicNode}' href='#MXNet.mx.list_auxiliary_states-Tuple{MXNet.mx.SymbolicNode}'>#</a>
+<strong><code>MXNet.mx.list_auxiliary_states</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>list_auxiliary_states(self :: SymbolicNode)
+</code></pre>
+
+<p>List all auxiliary states in the symbool.</p>
+<p>Auxiliary states are special states of symbols that do not corresponds to an argument, and do not have gradient. But still be useful for the specific operations. A common example of auxiliary state is the moving_mean and moving_variance in BatchNorm. Most operators do not have Auxiliary states.</p>
+<p>:return: A list of symbols indicating the names of the auxiliary states.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L90-102' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.list_outputs-Tuple{MXNet.mx.SymbolicNode}' href='#MXNet.mx.list_outputs-Tuple{MXNet.mx.SymbolicNode}'>#</a>
+<strong><code>MXNet.mx.list_outputs</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>list_outputs(self :: SymbolicNode)
+</code></pre>
+
+<p>List all the outputs of this node.</p>
+<p>:return: A list of symbols indicating the names of the outputs.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L78-84' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.load-Tuple{AbstractString,Type{MXNet.mx.SymbolicNode}}' href='#MXNet.mx.load-Tuple{AbstractString,Type{MXNet.mx.SymbolicNode}}'>#</a>
+<strong><code>MXNet.mx.load</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>load(filename :: AbstractString, ::Type{SymbolicNode})
+</code></pre>
+
+<p>Load a :class:<code>SymbolicNode</code> from a JSON file.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L545-549' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.normal' href='#MXNet.mx.normal'>#</a>
+<strong><code>MXNet.mx.normal</code></strong> &mdash; <em>Function</em>.</p>
+<p>Sample a normal distribution</p>
+<ul>
+<li><code>loc::float, optional, default=0</code>: Mean of the distribution.</li>
+<li><code>scale::float, optional, default=1</code>: Standard deviation of the distribution.</li>
+<li><code>shape::Shape(tuple), required</code>: The shape of the output</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: .</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-737' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.rsqrt' href='#MXNet.mx.rsqrt'>#</a>
+<strong><code>MXNet.mx.rsqrt</code></strong> &mdash; <em>Function</em>.</p>
+<p>Take rsqrt of the src</p>
+<ul>
+<li><code>src::SymbolicNode</code>: Left symbolic input to the function</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: .</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-733' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.save-Tuple{AbstractString,MXNet.mx.SymbolicNode}' href='#MXNet.mx.save-Tuple{AbstractString,MXNet.mx.SymbolicNode}'>#</a>
+<strong><code>MXNet.mx.save</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>save(filename :: AbstractString, node :: SymbolicNode)
+</code></pre>
+
+<p>Save a :class:<code>SymbolicNode</code> to a JSON file.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L556-560' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.set_attr-Tuple{MXNet.mx.SymbolicNode,Symbol,AbstractString}' href='#MXNet.mx.set_attr-Tuple{MXNet.mx.SymbolicNode,Symbol,AbstractString}'>#</a>
+<strong><code>MXNet.mx.set_attr</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>set_attr(self:: SymbolicNode, key :: Symbol, value :: AbstractString)
+</code></pre>
+
+<p>Set the attribute key to value for this :class:<code>SymbolicNode</code>.</p>
+<p><strong>Warning</strong></p>
+<p>It is encouraged not to call this function directly, unless you know exactly what you are doing. The recommended way of setting attributes is when creating the :class:<code>SymbolicNode</code>. Changing the attributes of a :class:<code>SymbolicNode</code> that is already been used somewhere else might cause unexpected behavior and inconsistency.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L182-192' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.slice_axis' href='#MXNet.mx.slice_axis'>#</a>
+<strong><code>MXNet.mx.slice_axis</code></strong> &mdash; <em>Function</em>.</p>
+<p>Slice the input along certain axis and return a sliced array.</p>
+<ul>
+<li><code>src::SymbolicNode</code>: Left symbolic input to the function</li>
+<li><code>axis::int, required</code>: The axis to be sliced</li>
+<li><code>begin::int, required</code>: The beginning index to be sliced</li>
+<li><code>end::int, required</code>: The end index to be sliced</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: .</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-739' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.smooth_l1' href='#MXNet.mx.smooth_l1'>#</a>
+<strong><code>MXNet.mx.smooth_l1</code></strong> &mdash; <em>Function</em>.</p>
+<p>Calculate Smooth L1 Loss(lhs, scalar)</p>
+<ul>
+<li><code>src::SymbolicNode</code>: Left symbolic input to the function</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: .</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-733' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.softmax_cross_entropy' href='#MXNet.mx.softmax_cross_entropy'>#</a>
+<strong><code>MXNet.mx.softmax_cross_entropy</code></strong> &mdash; <em>Function</em>.</p>
+<p>Calculate cross_entropy(lhs, one_hot(rhs))</p>
+<ul>
+<li><code>lhs::SymbolicNode</code>: Left symbolic input to the function</li>
+<li><code>rhs::SymbolicNode</code>: Right symbolic input to the function</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: .</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-735' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.square' href='#MXNet.mx.square'>#</a>
+<strong><code>MXNet.mx.square</code></strong> &mdash; <em>Function</em>.</p>
+<p>Take square of the src</p>
+<ul>
+<li><code>src::SymbolicNode</code>: Left symbolic input to the function</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: .</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-733' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.sum' href='#MXNet.mx.sum'>#</a>
+<strong><code>MXNet.mx.sum</code></strong> &mdash; <em>Function</em>.</p>
+<p>Take sum of the src in the given axis and returns a NDArray. Follows numpy semantics.</p>
+<ul>
+<li><code>src::SymbolicNode</code>: Left symbolic input to the function</li>
+<li><code>axis::Shape(tuple), optional, default=()</code>: Same as Numpy. The axes to perform the reduction.If left empty, a global reduction will be performed.</li>
+<li><code>keepdims::boolean, optional, default=False</code>: Same as Numpy. If keepdims is set to true, the axis which is reduced is left in the result as dimension with size one.</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: .</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-737' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.sum_axis' href='#MXNet.mx.sum_axis'>#</a>
+<strong><code>MXNet.mx.sum_axis</code></strong> &mdash; <em>Function</em>.</p>
+<p>(Depreciated! Use sum instead!) Take sum of the src in the given axis and returns a NDArray. Follows numpy semantics.</p>
+<ul>
+<li><code>src::SymbolicNode</code>: Left symbolic input to the function</li>
+<li><code>axis::Shape(tuple), optional, default=()</code>: Same as Numpy. The axes to perform the reduction.If left empty, a global reduction will be performed.</li>
+<li><code>keepdims::boolean, optional, default=False</code>: Same as Numpy. If keepdims is set to true, the axis which is reduced is left in the result as dimension with size one.</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: .</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-737' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.to_json-Tuple{MXNet.mx.SymbolicNode}' href='#MXNet.mx.to_json-Tuple{MXNet.mx.SymbolicNode}'>#</a>
+<strong><code>MXNet.mx.to_json</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>to_json(self :: SymbolicNode)
+</code></pre>
+
+<p>Convert a :class:<code>SymbolicNode</code> into a JSON string.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L523-527' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.uniform' href='#MXNet.mx.uniform'>#</a>
+<strong><code>MXNet.mx.uniform</code></strong> &mdash; <em>Function</em>.</p>
+<p>Sample a uniform distribution</p>
+<ul>
+<li><code>low::float, optional, default=0</code>: The lower bound of distribution</li>
+<li><code>high::float, optional, default=1</code>: The upper bound of distribution</li>
+<li><code>shape::Shape(tuple), required</code>: The shape of the output</li>
+</ul>
+<p>:param Symbol name: The name of the :class:<code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional. :param Dict{Symbol, AbstractString} attrs: The attributes associated with this :class:<code>SymbolicNode</code>.</p>
+<p>:return: .</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/symbolic-node.jl#L724-737' class='documenter-source'>source</a><br></p>
+          <aside class="copyright" role="note">
+            
+            Documentation built with
+            <a href="http://www.mkdocs.org" target="_blank">MkDocs</a>
+            using the
+            <a href="http://squidfunk.github.io/mkdocs-material/" target="_blank">
+              Material
+            </a>
+            theme.
+          </aside>
+          
+            <footer class="footer">
+              
+  <nav class="pagination" aria-label="Footer">
+    <div class="previous">
+      
+        <a href="../ndarray/" title="NDArray API">
+          <span class="direction">
+            Previous
+          </span>
+          <div class="page">
+            <div class="button button-previous" role="button" aria-label="Previous">
+              <i class="icon icon-back"></i>
+            </div>
+            <div class="stretch">
+              <div class="title">
+                NDArray API
+              </div>
+            </div>
+          </div>
+        </a>
+      
+    </div>
+    <div class="next">
+      
+        <a href="../nn-factory/" title="Neural Networks Factory">
+          <span class="direction">
+            Next
+          </span>
+          <div class="page">
+            <div class="stretch">
+              <div class="title">
+                Neural Networks Factory
+              </div>
+            </div>
+            <div class="button button-next" role="button" aria-label="Next">
+              <i class="icon icon-forward"></i>
+            </div>
+          </div>
+        </a>
+      
+    </div>
+  </nav>
+
+            </footer>
+          
+        </div>
+      </article>
+      <div class="results" role="status" aria-live="polite">
+        <div class="scrollable">
+          <div class="wrapper">
+            <div class="meta"></div>
+            <div class="list"></div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <script>
+      var base_url = '../..';
+      var repo_id  = 'dmlc/MXNet.jl';
+    </script>
+    <script src="../../assets/javascripts/application-997097ee0c.js"></script>
+    
+      <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.jl?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+      <script src="../../assets/mathjaxhelper.js"></script>
+    
+    
+  </body>
+</html>

@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="no-js ie6"><![endif]-->
+<!--[if IE 7 ]><html class="no-js ie7"><![endif]-->
+<!--[if IE 8 ]><html class="no-js ie8"><![endif]-->
+<!--[if IE 9 ]><html class="no-js ie9"><![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
+    
+      
+        <title>Evaluation Metrics - MXNet.jl</title>
+      
+      
+      
+      
+    
+    <meta property="og:url" content="None">
+    <meta property="og:title" content="MXNet.jl">
+    <meta property="og:image" content="None/../../">
+    <meta name="apple-mobile-web-app-title" content="MXNet.jl">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    
+    <link rel="shortcut icon" type="image/x-icon" href="../../assets/images/favicon-e565ddfa3b.ico">
+    <link rel="icon" type="image/x-icon" href="../../assets/images/favicon-e565ddfa3b.ico">
+    <style>
+      @font-face {
+      	font-family: 'Icon';
+      	src: url('../../assets/fonts/icon.eot?52m981');
+      	src: url('../../assets/fonts/icon.eot?#iefix52m981')
+               format('embedded-opentype'),
+      		   url('../../assets/fonts/icon.woff?52m981')
+               format('woff'),
+      		   url('../../assets/fonts/icon.ttf?52m981')
+               format('truetype'),
+      		   url('../../assets/fonts/icon.svg?52m981#icon')
+               format('svg');
+      	font-weight: normal;
+      	font-style: normal;
+      }
+    </style>
+    <link rel="stylesheet" href="../../assets/stylesheets/application-a422ff04cc.css">
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/palettes-05ab2406df.css">
+    
+    
+      
+      
+      
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,700|Ubuntu+Mono">
+      <style>
+        body, input {
+          font-family: 'Ubuntu', Helvetica, Arial, sans-serif;
+        }
+        pre, code {
+          font-family: 'Ubuntu Mono', 'Courier New', 'Courier', monospace;
+        }
+      </style>
+    
+    
+      <link rel="stylesheet" href="../../assets/Documenter.css">
+    
+    <script src="../../assets/javascripts/modernizr-4ab42b99fd.js"></script>
+    
+  </head>
+  
+  
+  
+  <body class="palette-primary-indigo palette-accent-blue">
+    
+      
+      
+    
+    <div class="backdrop">
+      <div class="backdrop-paper"></div>
+    </div>
+    <input class="toggle" type="checkbox" id="toggle-drawer">
+    <input class="toggle" type="checkbox" id="toggle-search">
+    <label class="toggle-button overlay" for="toggle-drawer"></label>
+    <header class="header">
+      <nav aria-label="Header">
+  <div class="bar default">
+    <div class="button button-menu" role="button" aria-label="Menu">
+      <label class="toggle-button icon icon-menu" for="toggle-drawer">
+        <span></span>
+      </label>
+    </div>
+    <div class="stretch">
+      <div class="title">
+        
+          <span class="path">
+            
+              
+                API Documentation <i class="icon icon-link"></i>
+              
+            
+          </span>
+        
+        Evaluation Metrics
+      </div>
+    </div>
+    
+    
+    <div class="button button-search" role="button" aria-label="Search">
+      <label class="toggle-button icon icon-search" title="Search" for="toggle-search"></label>
+    </div>
+  </div>
+  <div class="bar search">
+    <div class="button button-close" role="button" aria-label="Close">
+      <label class="toggle-button icon icon-back" for="toggle-search"></label>
+    </div>
+    <div class="stretch">
+      <div class="field">
+        <input class="query" type="text" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck>
+      </div>
+    </div>
+    <div class="button button-reset" role="button" aria-label="Search">
+      <button class="toggle-button icon icon-close" id="reset-search"></button>
+    </div>
+  </div>
+</nav>
+    </header>
+    <main class="main">
+      
+      <div class="drawer">
+        <nav aria-label="Navigation">
+  
+  <a href="https://github.com/dmlc/MXNet.jl" class="project">
+    <div class="banner">
+      
+      <div class="name">
+        <strong>
+          MXNet.jl
+          <span class="version">
+            
+          </span>
+        </strong>
+        
+          <br>
+          dmlc/MXNet.jl
+        
+      </div>
+    </div>
+  </a>
+  <div class="scrollable">
+    <div class="wrapper">
+      
+        <ul class="repo">
+          <li class="repo-download">
+            
+            <a href="https://github.com/dmlc/MXNet.jl/archive/master.zip" target="_blank" title="Download" data-action="download">
+              <i class="icon icon-download"></i> Download
+            </a>
+          </li>
+          <li class="repo-stars">
+            <a href="https://github.com/dmlc/MXNet.jl/stargazers" target="_blank" title="Stargazers" data-action="star">
+              <i class="icon icon-star"></i> Stars
+              <span class="count">&ndash;</span>
+            </a>
+          </li>
+        </ul>
+        <hr>
+      
+      <div class="toc">
+        <ul>
+          
+            
+  <li>
+    <a class="" title="Home" href="../..">
+      Home
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Tutorial</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Digit Recognition on MNIST" href="../../tutorial/mnist/">
+      Digit Recognition on MNIST
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Generating Random Sentence with LSTM RNN" href="../../tutorial/char-lstm/">
+      Generating Random Sentence with LSTM RNN
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <span class="section">User Guide</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Installation Guide" href="../../user-guide/install/">
+      Installation Guide
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Overview" href="../../user-guide/overview/">
+      Overview
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="FAQ" href="../../user-guide/faq/">
+      FAQ
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <span class="section">API Documentation</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Context" href="../context/">
+      Context
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Models" href="../model/">
+      Models
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Initializers" href="../initializer/">
+      Initializers
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Optimizers" href="../optimizer/">
+      Optimizers
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Callbacks in training" href="../callback/">
+      Callbacks in training
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="current" title="Evaluation Metrics" href="./">
+      Evaluation Metrics
+    </a>
+    
+      
+        
+      
+      
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Data Providers" href="../io/">
+      Data Providers
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="NDArray API" href="../ndarray/">
+      NDArray API
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Symbolic API" href="../symbolic-node/">
+      Symbolic API
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Neural Networks Factory" href="../nn-factory/">
+      Neural Networks Factory
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Executor" href="../executor/">
+      Executor
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Network Visualization" href="../visualize/">
+      Network Visualization
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+        </ul>
+        
+      </div>
+    </div>
+  </div>
+</nav>
+      </div>
+      <article class="article">
+        <div class="wrapper">
+          
+          <p><a id='Evaluation-Metrics-1'></a></p>
+<h1 id="evaluation-metrics">Evaluation Metrics</h1>
+<p>Evaluation metrics provide a way to evaluate the performance of a learned model. This is typically used during training to monitor performance on the validation set.</p>
+<p><a id='MXNet.mx.ACE' href='#MXNet.mx.ACE'>#</a>
+<strong><code>MXNet.mx.ACE</code></strong> &mdash; <em>Type</em>.</p>
+<pre><code>ACE
+</code></pre>
+
+<p>Averaged cross-entropy for classification. This also know als logloss.</p>
+<p>Calculated the averaged cross entropy for multi-dimentions output.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/metric.jl#L138-144' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.AbstractEvalMetric' href='#MXNet.mx.AbstractEvalMetric'>#</a>
+<strong><code>MXNet.mx.AbstractEvalMetric</code></strong> &mdash; <em>Type</em>.</p>
+<pre><code>AbstractEvalMetric
+</code></pre>
+
+<p>The base class for all evaluation metrics. The sub-types should implement the following interfaces.</p>
+<p>.. function:: update!(metric, labels, preds)</p>
+<pre><code>  Update and accumulate metrics.
+
+  :param AbstractEvalMetric metric: the metric object.
+  :param labels: the labels from the data provider.
+  :type labels: Vector{NDArray}
+  :param preds: the outputs (predictions) of the network.
+  :type preds: Vector{NDArray}
+</code></pre>
+
+<p>.. function:: reset!(metric)</p>
+<pre><code>  Reset the accumulation counter.
+</code></pre>
+
+<p>.. function:: get(metric)</p>
+<pre><code>  Get the accumulated metrics.
+
+  :return: ``Vector{Tuple{Base.Symbol, Real}}``, a list of name-value pairs. For
+           example, ``[(:accuracy, 0.9)]``.
+</code></pre>
+
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/metric.jl#L1-27' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.Accuracy' href='#MXNet.mx.Accuracy'>#</a>
+<strong><code>MXNet.mx.Accuracy</code></strong> &mdash; <em>Type</em>.</p>
+<pre><code>Accuracy
+</code></pre>
+
+<p>Multiclass classification accuracy.</p>
+<p>Calculates the mean accuracy per sample for softmax in one dimension. For a multi-dimensional softmax the mean accuracy over all dimensions is calculated.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/metric.jl#L43-50' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.MSE' href='#MXNet.mx.MSE'>#</a>
+<strong><code>MXNet.mx.MSE</code></strong> &mdash; <em>Type</em>.</p>
+<pre><code>MSE
+</code></pre>
+
+<p>Mean Squared Error. TODO: add support for multi-dimensional outputs.</p>
+<p>Calculates the mean squared error regression loss in one dimension.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/metric.jl#L102-108' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.MultiACE' href='#MXNet.mx.MultiACE'>#</a>
+<strong><code>MXNet.mx.MultiACE</code></strong> &mdash; <em>Type</em>.</p>
+<pre><code>MultiACE
+</code></pre>
+
+<p>Averaged cross-entropy for classification. This also know als logloss. This variant keeps track of the different losses per class.</p>
+<p>Calculated the averaged cross entropy for multi-dimentions output.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/metric.jl#L186-193' class='documenter-source'>source</a><br></p>
+          <aside class="copyright" role="note">
+            
+            Documentation built with
+            <a href="http://www.mkdocs.org" target="_blank">MkDocs</a>
+            using the
+            <a href="http://squidfunk.github.io/mkdocs-material/" target="_blank">
+              Material
+            </a>
+            theme.
+          </aside>
+          
+            <footer class="footer">
+              
+  <nav class="pagination" aria-label="Footer">
+    <div class="previous">
+      
+        <a href="../callback/" title="Callbacks in training">
+          <span class="direction">
+            Previous
+          </span>
+          <div class="page">
+            <div class="button button-previous" role="button" aria-label="Previous">
+              <i class="icon icon-back"></i>
+            </div>
+            <div class="stretch">
+              <div class="title">
+                Callbacks in training
+              </div>
+            </div>
+          </div>
+        </a>
+      
+    </div>
+    <div class="next">
+      
+        <a href="../io/" title="Data Providers">
+          <span class="direction">
+            Next
+          </span>
+          <div class="page">
+            <div class="stretch">
+              <div class="title">
+                Data Providers
+              </div>
+            </div>
+            <div class="button button-next" role="button" aria-label="Next">
+              <i class="icon icon-forward"></i>
+            </div>
+          </div>
+        </a>
+      
+    </div>
+  </nav>
+
+            </footer>
+          
+        </div>
+      </article>
+      <div class="results" role="status" aria-live="polite">
+        <div class="scrollable">
+          <div class="wrapper">
+            <div class="meta"></div>
+            <div class="list"></div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <script>
+      var base_url = '../..';
+      var repo_id  = 'dmlc/MXNet.jl';
+    </script>
+    <script src="../../assets/javascripts/application-997097ee0c.js"></script>
+    
+      <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.jl?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+      <script src="../../assets/mathjaxhelper.js"></script>
+    
+    
+  </body>
+</html>

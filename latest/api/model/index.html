@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="no-js ie6"><![endif]-->
+<!--[if IE 7 ]><html class="no-js ie7"><![endif]-->
+<!--[if IE 8 ]><html class="no-js ie8"><![endif]-->
+<!--[if IE 9 ]><html class="no-js ie9"><![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
+    
+      
+        <title>Models - MXNet.jl</title>
+      
+      
+      
+      
+    
+    <meta property="og:url" content="None">
+    <meta property="og:title" content="MXNet.jl">
+    <meta property="og:image" content="None/../../">
+    <meta name="apple-mobile-web-app-title" content="MXNet.jl">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    
+    <link rel="shortcut icon" type="image/x-icon" href="../../assets/images/favicon-e565ddfa3b.ico">
+    <link rel="icon" type="image/x-icon" href="../../assets/images/favicon-e565ddfa3b.ico">
+    <style>
+      @font-face {
+      	font-family: 'Icon';
+      	src: url('../../assets/fonts/icon.eot?52m981');
+      	src: url('../../assets/fonts/icon.eot?#iefix52m981')
+               format('embedded-opentype'),
+      		   url('../../assets/fonts/icon.woff?52m981')
+               format('woff'),
+      		   url('../../assets/fonts/icon.ttf?52m981')
+               format('truetype'),
+      		   url('../../assets/fonts/icon.svg?52m981#icon')
+               format('svg');
+      	font-weight: normal;
+      	font-style: normal;
+      }
+    </style>
+    <link rel="stylesheet" href="../../assets/stylesheets/application-a422ff04cc.css">
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/palettes-05ab2406df.css">
+    
+    
+      
+      
+      
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,700|Ubuntu+Mono">
+      <style>
+        body, input {
+          font-family: 'Ubuntu', Helvetica, Arial, sans-serif;
+        }
+        pre, code {
+          font-family: 'Ubuntu Mono', 'Courier New', 'Courier', monospace;
+        }
+      </style>
+    
+    
+      <link rel="stylesheet" href="../../assets/Documenter.css">
+    
+    <script src="../../assets/javascripts/modernizr-4ab42b99fd.js"></script>
+    
+  </head>
+  
+  
+  
+  <body class="palette-primary-indigo palette-accent-blue">
+    
+      
+      
+    
+    <div class="backdrop">
+      <div class="backdrop-paper"></div>
+    </div>
+    <input class="toggle" type="checkbox" id="toggle-drawer">
+    <input class="toggle" type="checkbox" id="toggle-search">
+    <label class="toggle-button overlay" for="toggle-drawer"></label>
+    <header class="header">
+      <nav aria-label="Header">
+  <div class="bar default">
+    <div class="button button-menu" role="button" aria-label="Menu">
+      <label class="toggle-button icon icon-menu" for="toggle-drawer">
+        <span></span>
+      </label>
+    </div>
+    <div class="stretch">
+      <div class="title">
+        
+          <span class="path">
+            
+              
+                API Documentation <i class="icon icon-link"></i>
+              
+            
+          </span>
+        
+        Models
+      </div>
+    </div>
+    
+    
+    <div class="button button-search" role="button" aria-label="Search">
+      <label class="toggle-button icon icon-search" title="Search" for="toggle-search"></label>
+    </div>
+  </div>
+  <div class="bar search">
+    <div class="button button-close" role="button" aria-label="Close">
+      <label class="toggle-button icon icon-back" for="toggle-search"></label>
+    </div>
+    <div class="stretch">
+      <div class="field">
+        <input class="query" type="text" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck>
+      </div>
+    </div>
+    <div class="button button-reset" role="button" aria-label="Search">
+      <button class="toggle-button icon icon-close" id="reset-search"></button>
+    </div>
+  </div>
+</nav>
+    </header>
+    <main class="main">
+      
+      <div class="drawer">
+        <nav aria-label="Navigation">
+  
+  <a href="https://github.com/dmlc/MXNet.jl" class="project">
+    <div class="banner">
+      
+      <div class="name">
+        <strong>
+          MXNet.jl
+          <span class="version">
+            
+          </span>
+        </strong>
+        
+          <br>
+          dmlc/MXNet.jl
+        
+      </div>
+    </div>
+  </a>
+  <div class="scrollable">
+    <div class="wrapper">
+      
+        <ul class="repo">
+          <li class="repo-download">
+            
+            <a href="https://github.com/dmlc/MXNet.jl/archive/master.zip" target="_blank" title="Download" data-action="download">
+              <i class="icon icon-download"></i> Download
+            </a>
+          </li>
+          <li class="repo-stars">
+            <a href="https://github.com/dmlc/MXNet.jl/stargazers" target="_blank" title="Stargazers" data-action="star">
+              <i class="icon icon-star"></i> Stars
+              <span class="count">&ndash;</span>
+            </a>
+          </li>
+        </ul>
+        <hr>
+      
+      <div class="toc">
+        <ul>
+          
+            
+  <li>
+    <a class="" title="Home" href="../..">
+      Home
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Tutorial</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Digit Recognition on MNIST" href="../../tutorial/mnist/">
+      Digit Recognition on MNIST
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Generating Random Sentence with LSTM RNN" href="../../tutorial/char-lstm/">
+      Generating Random Sentence with LSTM RNN
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <span class="section">User Guide</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Installation Guide" href="../../user-guide/install/">
+      Installation Guide
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Overview" href="../../user-guide/overview/">
+      Overview
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="FAQ" href="../../user-guide/faq/">
+      FAQ
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <span class="section">API Documentation</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Context" href="../context/">
+      Context
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="current" title="Models" href="./">
+      Models
+    </a>
+    
+      
+        
+      
+      
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Initializers" href="../initializer/">
+      Initializers
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Optimizers" href="../optimizer/">
+      Optimizers
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Callbacks in training" href="../callback/">
+      Callbacks in training
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Evaluation Metrics" href="../metric/">
+      Evaluation Metrics
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Data Providers" href="../io/">
+      Data Providers
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="NDArray API" href="../ndarray/">
+      NDArray API
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Symbolic API" href="../symbolic-node/">
+      Symbolic API
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Neural Networks Factory" href="../nn-factory/">
+      Neural Networks Factory
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Executor" href="../executor/">
+      Executor
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Network Visualization" href="../visualize/">
+      Network Visualization
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+        </ul>
+        
+      </div>
+    </div>
+  </div>
+</nav>
+      </div>
+      <article class="article">
+        <div class="wrapper">
+          
+          <p><a id='Model-1'></a></p>
+<h1 id="model">Model</h1>
+<p>The model API provides convenient high-level interface to do training and predicting on a network described using the symbolic API.</p>
+<p><a id='MXNet.mx.AbstractModel' href='#MXNet.mx.AbstractModel'>#</a>
+<strong><code>MXNet.mx.AbstractModel</code></strong> &mdash; <em>Type</em>.</p>
+<pre><code>AbstractModel
+</code></pre>
+
+<p>The abstract super type of all models in MXNet.jl.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/model.jl#L1-5' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.FeedForward' href='#MXNet.mx.FeedForward'>#</a>
+<strong><code>MXNet.mx.FeedForward</code></strong> &mdash; <em>Type</em>.</p>
+<pre><code>FeedForward
+</code></pre>
+
+<p>The feedforward model provides convenient interface to train and predict on feedforward architectures like multi-layer MLP, ConvNets, etc. There is no explicitly handling of <em>time index</em>, but it is relatively easy to implement unrolled RNN / LSTM under this framework (<strong>TODO</strong>: add example). For models that handles sequential data explicitly, please use <strong>TODO</strong>...</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/model.jl#L8-16' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.FeedForward-Tuple{MXNet.mx.SymbolicNode}' href='#MXNet.mx.FeedForward-Tuple{MXNet.mx.SymbolicNode}'>#</a>
+<strong><code>MXNet.mx.FeedForward</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>FeedForward(arch :: SymbolicNode, ctx)
+</code></pre>
+
+<ul>
+<li>arch: the architecture of the network constructed using the symbolic API.</li>
+<li>ctx: the devices on which this model should do computation. It could be a single :class:<code>Context</code>              or a list of :class:<code>Context</code> objects. In the latter case, data parallelization will be used              for training. If no context is provided, the default context $cpu()$ will be used.</li>
+</ul>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/model.jl#L47-54' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx._split_inputs-Tuple{Int64,Int64}' href='#MXNet.mx._split_inputs-Tuple{Int64,Int64}'>#</a>
+<strong><code>MXNet.mx._split_inputs</code></strong> &mdash; <em>Method</em>.</p>
+<p>Get a split of <code>batch_size</code> into <code>n_split</code> pieces for data parallelization. Returns a vector of length <code>n_split</code>, with each entry a <code>UnitRange{Int}</code> indicating the slice index for that piece.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/model.jl#L30-34' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.fit-Tuple{MXNet.mx.FeedForward,MXNet.mx.AbstractOptimizer,MXNet.mx.AbstractDataProvider}' href='#MXNet.mx.fit-Tuple{MXNet.mx.FeedForward,MXNet.mx.AbstractOptimizer,MXNet.mx.AbstractDataProvider}'>#</a>
+<strong><code>MXNet.mx.fit</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>fit(model :: FeedForward, optimizer, data; kwargs...)
+</code></pre>
+
+<p>Train the $model$ on $data$ with the $optimizer$.</p>
+<ul>
+<li>FeedForward model: the model to be trained.</li>
+<li>AbstractOptimizer optimizer: the optimization algorithm to use.</li>
+<li>AbstractDataProvider data: the training data provider.</li>
+<li>Int n_epoch: default 10, the number of full data-passes to run.</li>
+<li>AbstractDataProvider eval_data: keyword argument, default $nothing$. The data provider for         the validation set.</li>
+<li>AbstractEvalMetric eval_metric: keyword argument, default $Accuracy()$. The metric used         to evaluate the training performance. If $eval_data$ is provided, the same metric is also         calculated on the validation set.</li>
+<li>kvstore: keyword argument, default $:local$. The key-value store used to synchronize gradients         and parameters when multiple devices are used for training.  :type kvstore: :class:<code>KVStore</code> or $Base.Symbol$</li>
+<li>AbstractInitializer initializer: keyword argument, default $UniformInitializer(0.01)$.</li>
+<li>Bool force_init: keyword argument, default false. By default, the random initialization using the         provided $initializer$ will be skipped if the model weights already exists, maybe from a previous         call to :func:<code>train</code> or an explicit call to :func:<code>init_model</code> or :func:<code>load_checkpoint</code>. When         this option is set, it will always do random initialization at the begining of training.</li>
+<li>callbacks: keyword argument, default $[]$. Callbacks to be invoked at each epoch or mini-batch,         see :class:<code>AbstractCallback</code>.  :type callbacks: $Vector{AbstractCallback}$</li>
+</ul>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/model.jl#L319-344' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.init_model-Tuple{MXNet.mx.FeedForward,MXNet.mx.AbstractInitializer}' href='#MXNet.mx.init_model-Tuple{MXNet.mx.FeedForward,MXNet.mx.AbstractInitializer}'>#</a>
+<strong><code>MXNet.mx.init_model</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>init_model(self, initializer; overwrite=false, input_shapes...)
+</code></pre>
+
+<p>Initialize the weights in the model.</p>
+<p>This method will be called automatically when training a model. So there is usually no    need to call this method unless one needs to inspect a model with only randomly initialized    weights.</p>
+<ul>
+<li>FeedForward self: the model to be initialized.</li>
+<li>AbstractInitializer initializer: an initializer describing how the weights should be initialized.</li>
+<li>Bool overwrite: keyword argument, force initialization even when weights already exists.</li>
+<li>input_shapes: the shape of all data and label inputs to this model, given as keyword arguments.                       For example, $data=(28,28,1,100), label=(100,)$.</li>
+</ul>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/model.jl#L64-78' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.predict-Tuple{Function,MXNet.mx.FeedForward,MXNet.mx.AbstractDataProvider}' href='#MXNet.mx.predict-Tuple{Function,MXNet.mx.FeedForward,MXNet.mx.AbstractDataProvider}'>#</a>
+<strong><code>MXNet.mx.predict</code></strong> &mdash; <em>Method</em>.</p>
+<p>.. function::    predict(self, data; overwrite=false, callback=nothing)</p>
+<p>Predict using an existing model. The model should be already initialized, or trained or loaded from    a checkpoint. There is an overloaded function that allows to pass the callback as the first argument,    so it is possible to do</p>
+<p>.. code-block:: julia</p>
+<pre><code>  predict(model, data) do batch_output
+    # consume or write batch_output to file
+  end
+</code></pre>
+
+<ul>
+<li>FeedForward self: the model.</li>
+<li>AbstractDataProvider data: the data to perform prediction on.</li>
+<li>
+<p>Bool overwrite: an :class:<code>Executor</code> is initialized the first time predict is called. The memory                         allocation of the :class:<code>Executor</code> depends on the mini-batch size of the test                         data provider. If you call predict twice with data provider of the same batch-size,                         then the executor can be potentially be re-used. So, if $overwrite$ is false,                         we will try to re-use, and raise an error if batch-size changed. If $overwrite$                         is true (the default), a new :class:<code>Executor</code> will be created to replace the old one.</p>
+<p>.. note::</p>
+<p>```
+Prediction is computationally much less costly than training, so the bottleneck sometimes becomes the IO
+for copying mini-batches of data. Since there is no concern about convergence in prediction, it is better
+to set the mini-batch size as large as possible (limited by your device memory) if prediction speed is a
+concern.</p>
+<p>For the same reason, currently prediction will only use the first device even if multiple devices are
+provided to construct the model.
+```</p>
+<p>.. note::</p>
+<p><code>If you perform further after prediction. The weights are not automatically synchronized if ``overwrite``
+is set to false and the old predictor is re-used. In this case
+setting ``overwrite`` to true (the default) will re-initialize the predictor the next time you call
+predict and synchronize the weights again.</code></p>
+<p>:seealso: :func:<code>train</code>, :func:<code>fit</code>, :func:<code>init_model</code>, :func:<code>load_checkpoint</code></p>
+</li>
+</ul>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/model.jl#L164-205' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.train-Tuple{MXNet.mx.FeedForward,MXNet.mx.AbstractOptimizer,MXNet.mx.AbstractDataProvider}' href='#MXNet.mx.train-Tuple{MXNet.mx.FeedForward,MXNet.mx.AbstractOptimizer,MXNet.mx.AbstractDataProvider}'>#</a>
+<strong><code>MXNet.mx.train</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>train(model :: FeedForward, ...)
+</code></pre>
+
+<p>Alias to :func:<code>fit</code>.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/model.jl#L310-314' class='documenter-source'>source</a><br></p>
+          <aside class="copyright" role="note">
+            
+            Documentation built with
+            <a href="http://www.mkdocs.org" target="_blank">MkDocs</a>
+            using the
+            <a href="http://squidfunk.github.io/mkdocs-material/" target="_blank">
+              Material
+            </a>
+            theme.
+          </aside>
+          
+            <footer class="footer">
+              
+  <nav class="pagination" aria-label="Footer">
+    <div class="previous">
+      
+        <a href="../context/" title="Context">
+          <span class="direction">
+            Previous
+          </span>
+          <div class="page">
+            <div class="button button-previous" role="button" aria-label="Previous">
+              <i class="icon icon-back"></i>
+            </div>
+            <div class="stretch">
+              <div class="title">
+                Context
+              </div>
+            </div>
+          </div>
+        </a>
+      
+    </div>
+    <div class="next">
+      
+        <a href="../initializer/" title="Initializers">
+          <span class="direction">
+            Next
+          </span>
+          <div class="page">
+            <div class="stretch">
+              <div class="title">
+                Initializers
+              </div>
+            </div>
+            <div class="button button-next" role="button" aria-label="Next">
+              <i class="icon icon-forward"></i>
+            </div>
+          </div>
+        </a>
+      
+    </div>
+  </nav>
+
+            </footer>
+          
+        </div>
+      </article>
+      <div class="results" role="status" aria-live="polite">
+        <div class="scrollable">
+          <div class="wrapper">
+            <div class="meta"></div>
+            <div class="list"></div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <script>
+      var base_url = '../..';
+      var repo_id  = 'dmlc/MXNet.jl';
+    </script>
+    <script src="../../assets/javascripts/application-997097ee0c.js"></script>
+    
+      <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.jl?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+      <script src="../../assets/mathjaxhelper.js"></script>
+    
+    
+  </body>
+</html>
