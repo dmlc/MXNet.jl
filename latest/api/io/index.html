@@ -440,7 +440,7 @@
   The same as :func:`load_data!`, except that this is for loading labels.
 </code></pre>
 
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/io.jl#L121-186' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/f442c4916fd107c436d85a02cfd2d8fa4502faad/src/io.jl#L121-186' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.AbstractDataProvider' href='#MXNet.mx.AbstractDataProvider'>#</a>
 <strong><code>MXNet.mx.AbstractDataProvider</code></strong> &mdash; <em>Type</em>.</p>
 <pre><code>AbstractDataProvider
@@ -523,21 +523,21 @@
   end
 </code></pre>
 
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/io.jl#L1-111' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/f442c4916fd107c436d85a02cfd2d8fa4502faad/src/io.jl#L1-111' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.AbstractDataProviderState' href='#MXNet.mx.AbstractDataProviderState'>#</a>
 <strong><code>MXNet.mx.AbstractDataProviderState</code></strong> &mdash; <em>Type</em>.</p>
 <pre><code>AbstractDataProviderState
 </code></pre>
 
 <p>Base type for data provider states.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/io.jl#L114-118' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/f442c4916fd107c436d85a02cfd2d8fa4502faad/src/io.jl#L114-118' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.ArrayDataProvider' href='#MXNet.mx.ArrayDataProvider'>#</a>
 <strong><code>MXNet.mx.ArrayDataProvider</code></strong> &mdash; <em>Type</em>.</p>
 <pre><code>ArrayDataProvider
 </code></pre>
 
 <p>A convenient tool to iterate :class:<code>NDArray</code> or Julia $Array$.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/io.jl#L257-261' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/f442c4916fd107c436d85a02cfd2d8fa4502faad/src/io.jl#L257-261' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.ArrayDataProvider-Tuple{Any}' href='#MXNet.mx.ArrayDataProvider-Tuple{Any}'>#</a>
 <strong><code>MXNet.mx.ArrayDataProvider</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>ArrayDataProvider(data[, label]; batch_size, shuffle, data_padding, label_padding)
@@ -553,28 +553,28 @@
 
 <p>:param label: the same as the $data$ parameter. When this argument is omitted, the constructed           provider will provide no labels.    :param Int batch_size: the batch size, default is 0, which means treating the whole array as a           single mini-batch.    :param Bool shuffle: turn on if the data should be shuffled at every epoch.    :param Real data_padding: when the mini-batch goes beyond the dataset boundary, there might           be less samples to include than a mini-batch. This value specify a scalar to pad the           contents of all the missing data points.    :param Real label_padding: the same as $data_padding$, except for the labels.</p>
 <p>TODO: remove $data_padding$ and $label_padding$, and implement rollover that copies    the last or first several training samples to feed the padding.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/io.jl#L277-301' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/f442c4916fd107c436d85a02cfd2d8fa4502faad/src/io.jl#L277-301' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.DataBatch' href='#MXNet.mx.DataBatch'>#</a>
 <strong><code>MXNet.mx.DataBatch</code></strong> &mdash; <em>Type</em>.</p>
 <pre><code>DataBatch
 </code></pre>
 
 <p>A basic subclass of :class:<code>AbstractDataBatch</code>, that implement the interface by    accessing member fields.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/io.jl#L189-194' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/f442c4916fd107c436d85a02cfd2d8fa4502faad/src/io.jl#L189-194' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.MXDataProvider' href='#MXNet.mx.MXDataProvider'>#</a>
 <strong><code>MXNet.mx.MXDataProvider</code></strong> &mdash; <em>Type</em>.</p>
 <pre><code>MXDataProvider
 </code></pre>
 
 <p>A data provider that wrap built-in data iterators from libmxnet. See below for a list of built-in data iterators.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/io.jl#L450-455' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/f442c4916fd107c436d85a02cfd2d8fa4502faad/src/io.jl#L450-455' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.SlicedNDArray' href='#MXNet.mx.SlicedNDArray'>#</a>
 <strong><code>MXNet.mx.SlicedNDArray</code></strong> &mdash; <em>Type</em>.</p>
 <pre><code>SlicedNDArray
 </code></pre>
 
 <p>A alias type of $Tuple{UnitRange{Int},NDArray}$.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c651ff096fd60bee1b8f0c29e42c136358a7240/src/io.jl#L204-208' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/f442c4916fd107c436d85a02cfd2d8fa4502faad/src/io.jl#L204-208' class='documenter-source'>source</a><br></p>
           <aside class="copyright" role="note">
             
             Documentation built with
