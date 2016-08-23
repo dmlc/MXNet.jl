@@ -379,14 +379,14 @@
 </code></pre>
 
 <p>The abstract super type of all models in MXNet.jl.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/8058ff77e2cf7c5f9ea8d7afc6de21ca71509a7f/src/model.jl#L1-5' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/da6d9e4276fbe553e59207721940e8502df09407/src/model.jl#L1-L5' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.FeedForward' href='#MXNet.mx.FeedForward'>#</a>
 <strong><code>MXNet.mx.FeedForward</code></strong> &mdash; <em>Type</em>.</p>
 <pre><code>FeedForward
 </code></pre>
 
 <p>The feedforward model provides convenient interface to train and predict on feedforward architectures like multi-layer MLP, ConvNets, etc. There is no explicitly handling of <em>time index</em>, but it is relatively easy to implement unrolled RNN / LSTM under this framework (<strong>TODO</strong>: add example). For models that handles sequential data explicitly, please use <strong>TODO</strong>...</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/8058ff77e2cf7c5f9ea8d7afc6de21ca71509a7f/src/model.jl#L8-16' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/da6d9e4276fbe553e59207721940e8502df09407/src/model.jl#L8-L16' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.FeedForward-Tuple{MXNet.mx.SymbolicNode}' href='#MXNet.mx.FeedForward-Tuple{MXNet.mx.SymbolicNode}'>#</a>
 <strong><code>MXNet.mx.FeedForward</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>FeedForward(arch :: SymbolicNode, ctx)
@@ -394,32 +394,32 @@
 
 <ul>
 <li>arch: the architecture of the network constructed using the symbolic API.</li>
-<li>ctx: the devices on which this model should do computation. It could be a single :class:<code>Context</code>              or a list of :class:<code>Context</code> objects. In the latter case, data parallelization will be used              for training. If no context is provided, the default context $cpu()$ will be used.</li>
+<li>ctx: the devices on which this model should do computation. It could be a single <code>Context</code>              or a list of <code>Context</code> objects. In the latter case, data parallelization will be used              for training. If no context is provided, the default context <code>cpu()</code> will be used.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/8058ff77e2cf7c5f9ea8d7afc6de21ca71509a7f/src/model.jl#L47-54' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/da6d9e4276fbe553e59207721940e8502df09407/src/model.jl#L47-L54' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx._split_inputs-Tuple{Int64,Int64}' href='#MXNet.mx._split_inputs-Tuple{Int64,Int64}'>#</a>
 <strong><code>MXNet.mx._split_inputs</code></strong> &mdash; <em>Method</em>.</p>
 <p>Get a split of <code>batch_size</code> into <code>n_split</code> pieces for data parallelization. Returns a vector of length <code>n_split</code>, with each entry a <code>UnitRange{Int}</code> indicating the slice index for that piece.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/8058ff77e2cf7c5f9ea8d7afc6de21ca71509a7f/src/model.jl#L30-34' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/da6d9e4276fbe553e59207721940e8502df09407/src/model.jl#L30-L34' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.fit-Tuple{MXNet.mx.FeedForward,MXNet.mx.AbstractOptimizer,MXNet.mx.AbstractDataProvider}' href='#MXNet.mx.fit-Tuple{MXNet.mx.FeedForward,MXNet.mx.AbstractOptimizer,MXNet.mx.AbstractDataProvider}'>#</a>
 <strong><code>MXNet.mx.fit</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>fit(model :: FeedForward, optimizer, data; kwargs...)
 </code></pre>
 
-<p>Train the $model$ on $data$ with the $optimizer$.</p>
+<p>Train the <code>model</code> on <code>data</code> with the <code>optimizer</code>.</p>
 <ul>
 <li>FeedForward model: the model to be trained.</li>
 <li>AbstractOptimizer optimizer: the optimization algorithm to use.</li>
 <li>AbstractDataProvider data: the training data provider.</li>
 <li>Int n_epoch: default 10, the number of full data-passes to run.</li>
-<li>AbstractDataProvider eval_data: keyword argument, default $nothing$. The data provider for         the validation set.</li>
-<li>AbstractEvalMetric eval_metric: keyword argument, default $Accuracy()$. The metric used         to evaluate the training performance. If $eval_data$ is provided, the same metric is also         calculated on the validation set.</li>
-<li>kvstore: keyword argument, default $:local$. The key-value store used to synchronize gradients         and parameters when multiple devices are used for training.  :type kvstore: :class:<code>KVStore</code> or $Base.Symbol$</li>
-<li>AbstractInitializer initializer: keyword argument, default $UniformInitializer(0.01)$.</li>
-<li>Bool force_init: keyword argument, default false. By default, the random initialization using the         provided $initializer$ will be skipped if the model weights already exists, maybe from a previous         call to :func:<code>train</code> or an explicit call to :func:<code>init_model</code> or :func:<code>load_checkpoint</code>. When         this option is set, it will always do random initialization at the begining of training.</li>
-<li>callbacks: keyword argument, default $[]$. Callbacks to be invoked at each epoch or mini-batch,         see :class:<code>AbstractCallback</code>.  :type callbacks: $Vector{AbstractCallback}$</li>
+<li>AbstractDataProvider eval_data: keyword argument, default <code>nothing</code>. The data provider for         the validation set.</li>
+<li>AbstractEvalMetric eval_metric: keyword argument, default <code>Accuracy()</code>. The metric used         to evaluate the training performance. If <code>eval_data</code> is provided, the same metric is also         calculated on the validation set.</li>
+<li>kvstore: keyword argument, default <code>:local</code>. The key-value store used to synchronize gradients         and parameters when multiple devices are used for training.  :type kvstore: <code>KVStore</code> or <code>Base.Symbol</code></li>
+<li>AbstractInitializer initializer: keyword argument, default <code>UniformInitializer(0.01)</code>.</li>
+<li>Bool force_init: keyword argument, default false. By default, the random initialization using the         provided <code>initializer</code> will be skipped if the model weights already exists, maybe from a previous         call to :func:<code>train</code> or an explicit call to :func:<code>init_model</code> or :func:<code>load_checkpoint</code>. When         this option is set, it will always do random initialization at the begining of training.</li>
+<li>callbacks: keyword argument, default <code>[]</code>. Callbacks to be invoked at each epoch or mini-batch,         see <code>AbstractCallback</code>.  :type callbacks: <code>Vector{AbstractCallback}</code></li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/8058ff77e2cf7c5f9ea8d7afc6de21ca71509a7f/src/model.jl#L319-344' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/da6d9e4276fbe553e59207721940e8502df09407/src/model.jl#L319-L344' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.init_model-Tuple{MXNet.mx.FeedForward,MXNet.mx.AbstractInitializer}' href='#MXNet.mx.init_model-Tuple{MXNet.mx.FeedForward,MXNet.mx.AbstractInitializer}'>#</a>
 <strong><code>MXNet.mx.init_model</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>init_model(self, initializer; overwrite=false, input_shapes...)
@@ -431,9 +431,9 @@
 <li>FeedForward self: the model to be initialized.</li>
 <li>AbstractInitializer initializer: an initializer describing how the weights should be initialized.</li>
 <li>Bool overwrite: keyword argument, force initialization even when weights already exists.</li>
-<li>input_shapes: the shape of all data and label inputs to this model, given as keyword arguments.                       For example, $data=(28,28,1,100), label=(100,)$.</li>
+<li>input_shapes: the shape of all data and label inputs to this model, given as keyword arguments.                       For example, <code>data=(28,28,1,100), label=(100,)</code>.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/8058ff77e2cf7c5f9ea8d7afc6de21ca71509a7f/src/model.jl#L64-78' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/da6d9e4276fbe553e59207721940e8502df09407/src/model.jl#L64-L78' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.predict-Tuple{Function,MXNet.mx.FeedForward,MXNet.mx.AbstractDataProvider}' href='#MXNet.mx.predict-Tuple{Function,MXNet.mx.FeedForward,MXNet.mx.AbstractDataProvider}'>#</a>
 <strong><code>MXNet.mx.predict</code></strong> &mdash; <em>Method</em>.</p>
 <p>.. function::    predict(self, data; overwrite=false, callback=nothing)</p>
@@ -448,7 +448,7 @@
 <li>FeedForward self: the model.</li>
 <li>AbstractDataProvider data: the data to perform prediction on.</li>
 <li>
-<p>Bool overwrite: an :class:<code>Executor</code> is initialized the first time predict is called. The memory                         allocation of the :class:<code>Executor</code> depends on the mini-batch size of the test                         data provider. If you call predict twice with data provider of the same batch-size,                         then the executor can be potentially be re-used. So, if $overwrite$ is false,                         we will try to re-use, and raise an error if batch-size changed. If $overwrite$                         is true (the default), a new :class:<code>Executor</code> will be created to replace the old one.</p>
+<p>Bool overwrite: an <code>Executor</code> is initialized the first time predict is called. The memory                         allocation of the <code>Executor</code> depends on the mini-batch size of the test                         data provider. If you call predict twice with data provider of the same batch-size,                         then the executor can be potentially be re-used. So, if <code>overwrite</code> is false,                         we will try to re-use, and raise an error if batch-size changed. If <code>overwrite</code>                         is true (the default), a new <code>Executor</code> will be created to replace the old one.</p>
 <p>.. note::</p>
 <p>```
 Prediction is computationally much less costly than training, so the bottleneck sometimes becomes the IO
@@ -459,21 +459,21 @@ concern.</p>
 provided to construct the model.
 ```</p>
 <p>.. note::</p>
-<p><code>If you perform further after prediction. The weights are not automatically synchronized if ``overwrite``
+<p><code>If you perform further after prediction. The weights are not automatically synchronized if `overwrite`
 is set to false and the old predictor is re-used. In this case
-setting ``overwrite`` to true (the default) will re-initialize the predictor the next time you call
+setting `overwrite` to true (the default) will re-initialize the predictor the next time you call
 predict and synchronize the weights again.</code></p>
 <p>:seealso: :func:<code>train</code>, :func:<code>fit</code>, :func:<code>init_model</code>, :func:<code>load_checkpoint</code></p>
 </li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/8058ff77e2cf7c5f9ea8d7afc6de21ca71509a7f/src/model.jl#L164-205' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/da6d9e4276fbe553e59207721940e8502df09407/src/model.jl#L164-L205' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.train-Tuple{MXNet.mx.FeedForward,MXNet.mx.AbstractOptimizer,MXNet.mx.AbstractDataProvider}' href='#MXNet.mx.train-Tuple{MXNet.mx.FeedForward,MXNet.mx.AbstractOptimizer,MXNet.mx.AbstractDataProvider}'>#</a>
 <strong><code>MXNet.mx.train</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>train(model :: FeedForward, ...)
 </code></pre>
 
 <p>Alias to :func:<code>fit</code>.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/8058ff77e2cf7c5f9ea8d7afc6de21ca71509a7f/src/model.jl#L310-314' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/da6d9e4276fbe553e59207721940e8502df09407/src/model.jl#L310-L314' class='documenter-source'>source</a><br></p>
           <aside class="copyright" role="note">
             
             Documentation built with

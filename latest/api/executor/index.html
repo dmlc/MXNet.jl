@@ -377,24 +377,24 @@
 <pre><code>Executor
 </code></pre>
 
-<p>An executor is a realization of a symbolic architecture defined by a :class:<code>SymbolicNode</code>. The actual forward and backward computation specified by the network architecture can be carried out with an executor.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/8058ff77e2cf7c5f9ea8d7afc6de21ca71509a7f/src/executor.jl#L1-7' class='documenter-source'>source</a><br></p>
+<p>An executor is a realization of a symbolic architecture defined by a <code>SymbolicNode</code>. The actual forward and backward computation specified by the network architecture can be carried out with an executor.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/da6d9e4276fbe553e59207721940e8502df09407/src/executor.jl#L1-L7' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.GRAD_REQ' href='#MXNet.mx.GRAD_REQ'>#</a>
 <strong><code>MXNet.mx.GRAD_REQ</code></strong> &mdash; <em>Type</em>.</p>
 <pre><code>bind(sym, ctx, args; args_grad=Dict(), aux_states=Dict(), grad_req=GRAD_WRITE)
 </code></pre>
 
-<p>Create an :class:<code>Executor</code> by binding a :class:<code>SymbolicNode</code> to concrete :class:<code>NDArray</code>.</p>
+<p>Create an <code>Executor</code> by binding a <code>SymbolicNode</code> to concrete <code>NDArray</code>.</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>sym::SymbolicNode</code>: the network architecture describing the computation graph.</li>
 <li><code>ctx::Context</code>: the context on which the computation should run.</li>
-<li><code>args</code>: either a list of :class:<code>NDArray</code> or a dictionary of name-array pairs. Concrete         arrays for all the inputs in the network architecture. The inputs typically include         network parameters (weights, bias, filters, etc.), data and labels. See :func:<code>list_arguments</code>         and :func:<code>infer_shape</code>.</li>
+<li><code>args</code>: either a list of <code>NDArray</code> or a dictionary of name-array pairs. Concrete         arrays for all the inputs in the network architecture. The inputs typically include         network parameters (weights, bias, filters, etc.), data and labels. See :func:<code>list_arguments</code>         and :func:<code>infer_shape</code>.</li>
 <li><code>args_grad</code>:</li>
 <li><code>aux_states</code>:</li>
 <li><code>grad_req</code>:</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/8058ff77e2cf7c5f9ea8d7afc6de21ca71509a7f/src/executor.jl#L68-83' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/da6d9e4276fbe553e59207721940e8502df09407/src/executor.jl#L68-L83' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.debug_str-Tuple{MXNet.mx.Executor}' href='#MXNet.mx.debug_str-Tuple{MXNet.mx.Executor}'>#</a>
 <strong><code>MXNet.mx.debug_str</code></strong> &mdash; <em>Method</em>.</p>
 <p>Get a debug string about internal execution plan.</p>
@@ -407,7 +407,7 @@
 '])[end-2])
 </code></pre>
 
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/8058ff77e2cf7c5f9ea8d7afc6de21ca71509a7f/src/executor.jl#L205-217' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/da6d9e4276fbe553e59207721940e8502df09407/src/executor.jl#L205-L217' class='documenter-source'>source</a><br></p>
           <aside class="copyright" role="note">
             
             Documentation built with

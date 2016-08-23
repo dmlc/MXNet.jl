@@ -426,7 +426,7 @@ mx.copy!(z, y)                 # Same as copy!(z, y)
 <p>While most of the computation is hidden in libmxnet by operators corresponding to various neural network layers. Getting familiar with the NDArray API is useful for implementing <code>Optimizer</code> or customized operators in Julia directly.</p>
 <p>The followings are common ways to create NDArray objects:</p>
 <ul>
-<li><code>mx.empty(shape[, context])</code>: create on uninitialized array of a   given shape on a specific device. For example,   $mx.empty(2,3)<code>,</code>mx.((2,3), mx.gpu(2))$.</li>
+<li><code>mx.empty(shape[, context])</code>: create on uninitialized array of a   given shape on a specific device. For example,   <code>mx.empty(2,3)</code>, <code>mx.((2,3), mx.gpu(2))</code>.</li>
 <li><code>mx.zeros(shape[, context])</code> and <code>mx.ones(shape[, context])</code>:   similar to the Julia's built-in <code>zeros</code> and <code>ones</code>.</li>
 <li><code>mx.copy(jl_arr, context)</code>: copy the contents of a Julia <code>Array</code> to   a specific device.</li>
 </ul>
@@ -516,7 +516,33 @@ println(compare([inplace_op, normal_op], 100))
 </code></pre>
 
 <p>The comparison on my laptop shows that <code>normal_op</code> while allocating a lot of temp NDArray in the loop (the performance gets worse when increasing <code>N_REP</code>), is only about twice slower than the pre-allocated one.</p>
-<p>Row    Function        Average      Relative    Replications   ––– –––––––- –––––– –––––- –––––––-   1      "inplace_op"   0.0074854    1.0         100   2      "normal_op"    0.0174202    2.32723     100</p>
+<table>
+<thead>
+<tr>
+<th align="right">Row</th>
+<th align="right">Function</th>
+<th align="right">Average</th>
+<th align="right">Relative</th>
+<th align="right">Replications</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="right">1</td>
+<td align="right">"inplace_op"</td>
+<td align="right">0.0074854</td>
+<td align="right">1.0</td>
+<td align="right">100</td>
+</tr>
+<tr>
+<td align="right">2</td>
+<td align="right">"normal_op"</td>
+<td align="right">0.0174202</td>
+<td align="right">2.32723</td>
+<td align="right">100</td>
+</tr>
+</tbody>
+</table>
 <p>So it will usually not be a big problem unless you are at the bottleneck of the computation.</p>
 <p><a id='Distributed-Key-value-Store-1'></a></p>
 <h3 id="distributed-key-value-store">Distributed Key-value Store</h3>

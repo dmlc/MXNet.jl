@@ -401,32 +401,24 @@
 <pre><code class="julia">using MXNet
 </code></pre>
 
-<p>to load the <code>MXNet</code> module. Then we are ready to define the network architecture via the symbolic API &lt;/user-guide/overview&gt;. We start with a placeholder <code>data</code> symbol,</p>
+<p>to load the <code>MXNet</code> module. Then we are ready to define the network architecture via the <a href="../../user-guide/overview/">symbolic API</a>. We start with a placeholder <code>data</code> symbol,</p>
 <pre><code class="julia">data = mx.Variable(:data)
 </code></pre>
 
 <p>and then cascading fully-connected layers and activation functions:</p>
-<p>```{.sourceCode .julia}
-fc1  = mx.FullyConnected(data = data, name=:fc1, num_hidden=128)
+<pre><code class="julia">fc1  = mx.FullyConnected(data = data, name=:fc1, num_hidden=128)
 act1 = mx.Activation(data = fc1, name=:relu1, act_type=:relu)
 fc2  = mx.FullyConnected(data = act1, name=:fc2, num_hidden=64)
 act2 = mx.Activation(data = fc2, name=:relu2, act_type=:relu)
-fc3  = mx.FullyConnected(data = act2, name=:fc3, num_hidden=10)</p>
-<pre><code>
-
-Note each composition we take the previous symbol as the data argument, forming a feedforward chain. The architecture looks like
-
-
+fc3  = mx.FullyConnected(data = act2, name=:fc3, num_hidden=10)
 </code></pre>
 
-<p>Input --&gt; 128 units (ReLU) --&gt; 64 units (ReLU) --&gt; 10 units</p>
-<pre><code>
+<p>Note each composition we take the previous symbol as the data argument, forming a feedforward chain. The architecture looks like</p>
+<pre><code>Input --&gt; 128 units (ReLU) --&gt; 64 units (ReLU) --&gt; 10 units
+</code></pre>
 
-where the last 10 units correspond to the 10 output classes (digits 0,...,9). We then add a final `SoftmaxOutput` operation to turn the 10-dimensional prediction to proper probability values for the 10 classes:
-
-
-```julia
-mlp  = mx.SoftmaxOutput(data = fc3, name=:softmax)
+<p>where the last 10 units correspond to the 10 output classes (digits 0,...,9). We then add a final <code>SoftmaxOutput</code> operation to turn the 10-dimensional prediction to proper probability values for the 10 classes:</p>
+<pre><code class="julia">mlp  = mx.SoftmaxOutput(data = fc3, name=:softmax)
 </code></pre>
 
 <p>As we can see, the MLP is just a chain of layers. For this case, we can also use the <code>mx.chain</code> macro. The same architecture above can be defined as</p>

@@ -389,35 +389,35 @@ _init_beta(self :: AbstractInitializer, name :: Base.Symbol, array :: NDArray)
 <pre><code>init(self :: AbstractInitializer, name :: Base.Symbol, array :: NDArray)
 </code></pre>
 
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/8058ff77e2cf7c5f9ea8d7afc6de21ca71509a7f/src/initializer.jl#L1-17' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/da6d9e4276fbe553e59207721940e8502df09407/src/initializer.jl#L1-L17' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.NormalInitializer' href='#MXNet.mx.NormalInitializer'>#</a>
 <strong><code>MXNet.mx.NormalInitializer</code></strong> &mdash; <em>Type</em>.</p>
 <pre><code>NormalInitializer
 </code></pre>
 
 <p>Initialize weights according to a univariate Gaussian distribution.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/8058ff77e2cf7c5f9ea8d7afc6de21ca71509a7f/src/initializer.jl#L75-79' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/da6d9e4276fbe553e59207721940e8502df09407/src/initializer.jl#L75-L79' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.NormalInitializer-Tuple{}' href='#MXNet.mx.NormalInitializer-Tuple{}'>#</a>
 <strong><code>MXNet.mx.NormalInitializer</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>NormalIninitializer(; mu=0, sigma=0.01)
 </code></pre>
 
-<p>Construct a :class:<code>NormalInitializer</code> with mean $mu$ and variance $sigma$.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/8058ff77e2cf7c5f9ea8d7afc6de21ca71509a7f/src/initializer.jl#L84-88' class='documenter-source'>source</a><br></p>
+<p>Construct a <code>NormalInitializer</code> with mean <code>mu</code> and variance <code>sigma</code>.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/da6d9e4276fbe553e59207721940e8502df09407/src/initializer.jl#L84-L88' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.UniformInitializer' href='#MXNet.mx.UniformInitializer'>#</a>
 <strong><code>MXNet.mx.UniformInitializer</code></strong> &mdash; <em>Type</em>.</p>
 <pre><code>UniformInitializer
 </code></pre>
 
 <p>Initialize weights according to a uniform distribution within the provided scale.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/8058ff77e2cf7c5f9ea8d7afc6de21ca71509a7f/src/initializer.jl#L56-60' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/da6d9e4276fbe553e59207721940e8502df09407/src/initializer.jl#L56-L60' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.UniformInitializer-Tuple{}' href='#MXNet.mx.UniformInitializer-Tuple{}'>#</a>
 <strong><code>MXNet.mx.UniformInitializer</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>UniformInitializer(scale=0.07)
 </code></pre>
 
-<p>Construct a :class:<code>UniformInitializer</code> with the specified scale.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/8058ff77e2cf7c5f9ea8d7afc6de21ca71509a7f/src/initializer.jl#L64-68' class='documenter-source'>source</a><br></p>
+<p>Construct a <code>UniformInitializer</code> with the specified scale.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/da6d9e4276fbe553e59207721940e8502df09407/src/initializer.jl#L64-L68' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.XavierDistribution' href='#MXNet.mx.XavierDistribution'>#</a>
 <strong><code>MXNet.mx.XavierDistribution</code></strong> &mdash; <em>Type</em>.</p>
 <pre><code>XavierInitializer
@@ -427,11 +427,11 @@ _init_beta(self :: AbstractInitializer, name :: Base.Symbol, array :: NDArray)
 <p>There are several different version of the XavierInitializer used in the wild. The general idea is that the variance of the initialization distribution is controlled by the dimensionality of the input and output. As a distribution one can either choose a normal distribution with μ = 0 and σ² or a uniform distribution from -σ to σ.</p>
 <p>Several different ways of calculating the variance are given in the literature or are used by various libraries.</p>
 <ul>
-<li>[Bengio and Glorot 2010]: $mx.XavierInitializer(distribution = mx.xv_uniform, regularization = mx.xv_avg, magnitude = 1)$</li>
-<li>[K. He, X. Zhang, S. Ren, and J. Sun 2015]: $mx.XavierInitializer(distribution = mx.xv_gaussian, regularization = mx.xv_in, magnitude = 2)$</li>
-<li>caffe_avg: $mx.XavierInitializer(distribution = mx.xv_uniform, regularization = mx.xv_avg, magnitude = 3)$</li>
+<li>[Bengio and Glorot 2010]: <code>mx.XavierInitializer(distribution = mx.xv_uniform, regularization = mx.xv_avg, magnitude = 1)</code></li>
+<li>[K. He, X. Zhang, S. Ren, and J. Sun 2015]: <code>mx.XavierInitializer(distribution = mx.xv_gaussian, regularization = mx.xv_in, magnitude = 2)</code></li>
+<li>caffe_avg: <code>mx.XavierInitializer(distribution = mx.xv_uniform, regularization = mx.xv_avg, magnitude = 3)</code></li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/8058ff77e2cf7c5f9ea8d7afc6de21ca71509a7f/src/initializer.jl#L95-112' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/da6d9e4276fbe553e59207721940e8502df09407/src/initializer.jl#L95-L112' class='documenter-source'>source</a><br></p>
           <aside class="copyright" role="note">
             
             Documentation built with
