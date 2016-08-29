@@ -388,28 +388,28 @@
 </code></pre>
 
 <p>Base type for all learning rate scheduler.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/d79f9df4f6eb8c10eb33dbfad6376b707590dbc6/src/optimizer.jl#L8-L12' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/0621b13c5f543201bb4401ecd71749275a8d5039/src/optimizer.jl#L8-L12' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.AbstractMomentumScheduler' href='#MXNet.mx.AbstractMomentumScheduler'>#</a>
 <strong><code>MXNet.mx.AbstractMomentumScheduler</code></strong> &mdash; <em>Type</em>.</p>
 <pre><code>AbstractMomentumScheduler
 </code></pre>
 
 <p>Base type for all momentum scheduler.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/d79f9df4f6eb8c10eb33dbfad6376b707590dbc6/src/optimizer.jl#L15-L19' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/0621b13c5f543201bb4401ecd71749275a8d5039/src/optimizer.jl#L15-L19' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.AbstractOptimizer' href='#MXNet.mx.AbstractOptimizer'>#</a>
 <strong><code>MXNet.mx.AbstractOptimizer</code></strong> &mdash; <em>Type</em>.</p>
 <pre><code>AbstractOptimizer
 </code></pre>
 
 <p>Base type for all optimizers.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/d79f9df4f6eb8c10eb33dbfad6376b707590dbc6/src/optimizer.jl#L1-L5' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/0621b13c5f543201bb4401ecd71749275a8d5039/src/optimizer.jl#L1-L5' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.AbstractOptimizerOptions' href='#MXNet.mx.AbstractOptimizerOptions'>#</a>
 <strong><code>MXNet.mx.AbstractOptimizerOptions</code></strong> &mdash; <em>Type</em>.</p>
 <pre><code>AbstractOptimizerOptions
 </code></pre>
 
 <p>Base class for all optimizer options.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/d79f9df4f6eb8c10eb33dbfad6376b707590dbc6/src/optimizer.jl#L199-L203' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/0621b13c5f543201bb4401ecd71749275a8d5039/src/optimizer.jl#L199-L203' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.OptimizationState' href='#MXNet.mx.OptimizationState'>#</a>
 <strong><code>MXNet.mx.OptimizationState</code></strong> &mdash; <em>Type</em>.</p>
 <pre><code>OptimizationState
@@ -437,7 +437,7 @@
   in each epoch. So it track the *total* number of mini-batches seen so far.
 </code></pre>
 
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/d79f9df4f6eb8c10eb33dbfad6376b707590dbc6/src/optimizer.jl#L24-L48' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/0621b13c5f543201bb4401ecd71749275a8d5039/src/optimizer.jl#L24-L48' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.get_learning_rate' href='#MXNet.mx.get_learning_rate'>#</a>
 <strong><code>MXNet.mx.get_learning_rate</code></strong> &mdash; <em>Function</em>.</p>
 <pre><code>get_learning_rate(scheduler, state)
@@ -448,7 +448,7 @@
 <li>AbstractLearningRateScheduler scheduler: a learning rate scheduler.</li>
 <li>OptimizationState state: the current state about epoch, mini-batch and iteration count.  :return: the current learning rate.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/d79f9df4f6eb8c10eb33dbfad6376b707590dbc6/src/optimizer.jl#L58-L65' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/0621b13c5f543201bb4401ecd71749275a8d5039/src/optimizer.jl#L58-L65' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.get_momentum' href='#MXNet.mx.get_momentum'>#</a>
 <strong><code>MXNet.mx.get_momentum</code></strong> &mdash; <em>Function</em>.</p>
 <pre><code>get_momentum(scheduler, state)
@@ -458,7 +458,7 @@
 <li>AbstractMomentumScheduler scheduler: the momentum scheduler.</li>
 <li>OptimizationState state: the state about current epoch, mini-batch and iteration count.  :return: the current momentum.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/d79f9df4f6eb8c10eb33dbfad6376b707590dbc6/src/optimizer.jl#L132-L138' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/0621b13c5f543201bb4401ecd71749275a8d5039/src/optimizer.jl#L132-L138' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.get_updater-Tuple{MXNet.mx.AbstractOptimizer}' href='#MXNet.mx.get_updater-Tuple{MXNet.mx.AbstractOptimizer}'>#</a>
 <strong><code>MXNet.mx.get_updater</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>get_updater(optimizer)
@@ -470,7 +470,7 @@
 <p>A utility function to create an updater function, that uses its closure to  store all the states needed for each weights.</p>
 </li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/d79f9df4f6eb8c10eb33dbfad6376b707590dbc6/src/optimizer.jl#L180-L187' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/0621b13c5f543201bb4401ecd71749275a8d5039/src/optimizer.jl#L180-L187' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.normalized_gradient-Tuple{MXNet.mx.AbstractOptimizerOptions,MXNet.mx.OptimizationState,MXNet.mx.NDArray,MXNet.mx.NDArray}' href='#MXNet.mx.normalized_gradient-Tuple{MXNet.mx.AbstractOptimizerOptions,MXNet.mx.OptimizationState,MXNet.mx.NDArray,MXNet.mx.NDArray}'>#</a>
 <strong><code>MXNet.mx.normalized_gradient</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>normalized_gradient(opts, state, grad)
@@ -485,7 +485,7 @@
 <p>Get the properly normalized gradient (re-scaled and clipped if necessary).</p>
 </li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/d79f9df4f6eb8c10eb33dbfad6376b707590dbc6/src/optimizer.jl#L206-L216' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/0621b13c5f543201bb4401ecd71749275a8d5039/src/optimizer.jl#L206-L216' class='documenter-source'>source</a><br></p>
 <p><a id='Built-in-optimizers-1'></a></p>
 <h2 id="built-in-optimizers">Built-in optimizers</h2>
 <ul>
