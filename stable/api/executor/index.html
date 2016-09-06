@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="no-js ie6"><![endif]-->
+<!--[if IE 7 ]><html class="no-js ie7"><![endif]-->
+<!--[if IE 8 ]><html class="no-js ie8"><![endif]-->
+<!--[if IE 9 ]><html class="no-js ie9"><![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
+    
+      
+        <title>Executor - MXNet.jl</title>
+      
+      
+      
+      
+    
+    <meta property="og:url" content="None">
+    <meta property="og:title" content="MXNet.jl">
+    <meta property="og:image" content="None/../../">
+    <meta name="apple-mobile-web-app-title" content="MXNet.jl">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    
+    <link rel="shortcut icon" type="image/x-icon" href="../../assets/images/favicon-e565ddfa3b.ico">
+    <link rel="icon" type="image/x-icon" href="../../assets/images/favicon-e565ddfa3b.ico">
+    <style>
+      @font-face {
+      	font-family: 'Icon';
+      	src: url('../../assets/fonts/icon.eot?52m981');
+      	src: url('../../assets/fonts/icon.eot?#iefix52m981')
+               format('embedded-opentype'),
+      		   url('../../assets/fonts/icon.woff?52m981')
+               format('woff'),
+      		   url('../../assets/fonts/icon.ttf?52m981')
+               format('truetype'),
+      		   url('../../assets/fonts/icon.svg?52m981#icon')
+               format('svg');
+      	font-weight: normal;
+      	font-style: normal;
+      }
+    </style>
+    <link rel="stylesheet" href="../../assets/stylesheets/application-a422ff04cc.css">
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/palettes-05ab2406df.css">
+    
+    
+      
+      
+      
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,700|Ubuntu+Mono">
+      <style>
+        body, input {
+          font-family: 'Ubuntu', Helvetica, Arial, sans-serif;
+        }
+        pre, code {
+          font-family: 'Ubuntu Mono', 'Courier New', 'Courier', monospace;
+        }
+      </style>
+    
+    
+      <link rel="stylesheet" href="../../assets/Documenter.css">
+    
+    <script src="../../assets/javascripts/modernizr-4ab42b99fd.js"></script>
+    
+  </head>
+  
+  
+  
+  <body class="palette-primary-indigo palette-accent-blue">
+    
+      
+      
+    
+    <div class="backdrop">
+      <div class="backdrop-paper"></div>
+    </div>
+    <input class="toggle" type="checkbox" id="toggle-drawer">
+    <input class="toggle" type="checkbox" id="toggle-search">
+    <label class="toggle-button overlay" for="toggle-drawer"></label>
+    <header class="header">
+      <nav aria-label="Header">
+  <div class="bar default">
+    <div class="button button-menu" role="button" aria-label="Menu">
+      <label class="toggle-button icon icon-menu" for="toggle-drawer">
+        <span></span>
+      </label>
+    </div>
+    <div class="stretch">
+      <div class="title">
+        
+          <span class="path">
+            
+              
+                API Documentation <i class="icon icon-link"></i>
+              
+            
+          </span>
+        
+        Executor
+      </div>
+    </div>
+    
+    
+    <div class="button button-search" role="button" aria-label="Search">
+      <label class="toggle-button icon icon-search" title="Search" for="toggle-search"></label>
+    </div>
+  </div>
+  <div class="bar search">
+    <div class="button button-close" role="button" aria-label="Close">
+      <label class="toggle-button icon icon-back" for="toggle-search"></label>
+    </div>
+    <div class="stretch">
+      <div class="field">
+        <input class="query" type="text" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck>
+      </div>
+    </div>
+    <div class="button button-reset" role="button" aria-label="Search">
+      <button class="toggle-button icon icon-close" id="reset-search"></button>
+    </div>
+  </div>
+</nav>
+    </header>
+    <main class="main">
+      
+      <div class="drawer">
+        <nav aria-label="Navigation">
+  
+  <a href="https://github.com/dmlc/MXNet.jl" class="project">
+    <div class="banner">
+      
+      <div class="name">
+        <strong>
+          MXNet.jl
+          <span class="version">
+            
+          </span>
+        </strong>
+        
+          <br>
+          dmlc/MXNet.jl
+        
+      </div>
+    </div>
+  </a>
+  <div class="scrollable">
+    <div class="wrapper">
+      
+        <ul class="repo">
+          <li class="repo-download">
+            
+            <a href="https://github.com/dmlc/MXNet.jl/archive/master.zip" target="_blank" title="Download" data-action="download">
+              <i class="icon icon-download"></i> Download
+            </a>
+          </li>
+          <li class="repo-stars">
+            <a href="https://github.com/dmlc/MXNet.jl/stargazers" target="_blank" title="Stargazers" data-action="star">
+              <i class="icon icon-star"></i> Stars
+              <span class="count">&ndash;</span>
+            </a>
+          </li>
+        </ul>
+        <hr>
+      
+      <div class="toc">
+        <ul>
+          
+            
+  <li>
+    <a class="" title="Home" href="../..">
+      Home
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Tutorial</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Digit Recognition on MNIST" href="../../tutorial/mnist/">
+      Digit Recognition on MNIST
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Generating Random Sentence with LSTM RNN" href="../../tutorial/char-lstm/">
+      Generating Random Sentence with LSTM RNN
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <span class="section">User Guide</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Installation Guide" href="../../user-guide/install/">
+      Installation Guide
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Overview" href="../../user-guide/overview/">
+      Overview
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="FAQ" href="../../user-guide/faq/">
+      FAQ
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <span class="section">API Documentation</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Context" href="../context/">
+      Context
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Models" href="../model/">
+      Models
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Initializers" href="../initializer/">
+      Initializers
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Optimizers" href="../optimizer/">
+      Optimizers
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Callbacks in training" href="../callback/">
+      Callbacks in training
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Evaluation Metrics" href="../metric/">
+      Evaluation Metrics
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Data Providers" href="../io/">
+      Data Providers
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="NDArray API" href="../ndarray/">
+      NDArray API
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Symbolic API" href="../symbolic-node/">
+      Symbolic API
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Neural Networks Factory" href="../nn-factory/">
+      Neural Networks Factory
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="current" title="Executor" href="./">
+      Executor
+    </a>
+    
+      
+        
+      
+      
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Network Visualization" href="../visualize/">
+      Network Visualization
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+        </ul>
+        
+      </div>
+    </div>
+  </div>
+</nav>
+      </div>
+      <article class="article">
+        <div class="wrapper">
+          
+          <p><a id='Executor-1'></a></p>
+<h1 id="executor">Executor</h1>
+<p><a id='MXNet.mx.Executor' href='#MXNet.mx.Executor'>#</a>
+<strong><code>MXNet.mx.Executor</code></strong> &mdash; <em>Type</em>.</p>
+<pre><code>Executor
+</code></pre>
+
+<p>An executor is a realization of a symbolic architecture defined by a <code>SymbolicNode</code>. The actual forward and backward computation specified by the network architecture can be carried out with an executor.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/ae1d45b4566114c1f271c07fdc36e5f3bd4824eb/src/executor.jl#L1-L7' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.GRAD_REQ' href='#MXNet.mx.GRAD_REQ'>#</a>
+<strong><code>MXNet.mx.GRAD_REQ</code></strong> &mdash; <em>Type</em>.</p>
+<pre><code>bind(sym, ctx, args; args_grad=Dict(), aux_states=Dict(), grad_req=GRAD_WRITE)
+</code></pre>
+
+<p>Create an <code>Executor</code> by binding a <code>SymbolicNode</code> to concrete <code>NDArray</code>.</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>sym::SymbolicNode</code>: the network architecture describing the computation graph.</li>
+<li><code>ctx::Context</code>: the context on which the computation should run.</li>
+<li><code>args</code>: either a list of <code>NDArray</code> or a dictionary of name-array pairs. Concrete         arrays for all the inputs in the network architecture. The inputs typically include         network parameters (weights, bias, filters, etc.), data and labels. See <a href="../symbolic-node/#MXNet.mx.list_arguments-Tuple{MXNet.mx.SymbolicNode}"><code>list_arguments</code></a>         and <a href="../symbolic-node/#MXNet.mx.infer_shape-Tuple{MXNet.mx.SymbolicNode}"><code>infer_shape</code></a>.</li>
+<li><code>args_grad</code>:</li>
+<li><code>aux_states</code>:</li>
+<li><code>grad_req</code>:</li>
+</ul>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/ae1d45b4566114c1f271c07fdc36e5f3bd4824eb/src/executor.jl#L68-L83' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.debug_str-Tuple{MXNet.mx.Executor}' href='#MXNet.mx.debug_str-Tuple{MXNet.mx.Executor}'>#</a>
+<strong><code>MXNet.mx.debug_str</code></strong> &mdash; <em>Method</em>.</p>
+<p>Get a debug string about internal execution plan.</p>
+<p>Can be used to get an estimated about the memory cost.</p>
+<pre><code class="julia">  net = ... # Symbol
+  dProvider = ... # DataProvider
+  exec = mx.simple_bind(net, mx.cpu(), data=size(dProvider.data_batch[1]))
+  dbg_str = mx.debug_str(exec)
+  println(split(ref, ['\n'])[end-2])
+</code></pre>
+
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/ae1d45b4566114c1f271c07fdc36e5f3bd4824eb/src/executor.jl#L205-L216' class='documenter-source'>source</a><br></p>
+          <aside class="copyright" role="note">
+            
+            Documentation built with
+            <a href="http://www.mkdocs.org" target="_blank">MkDocs</a>
+            using the
+            <a href="http://squidfunk.github.io/mkdocs-material/" target="_blank">
+              Material
+            </a>
+            theme.
+          </aside>
+          
+            <footer class="footer">
+              
+  <nav class="pagination" aria-label="Footer">
+    <div class="previous">
+      
+        <a href="../nn-factory/" title="Neural Networks Factory">
+          <span class="direction">
+            Previous
+          </span>
+          <div class="page">
+            <div class="button button-previous" role="button" aria-label="Previous">
+              <i class="icon icon-back"></i>
+            </div>
+            <div class="stretch">
+              <div class="title">
+                Neural Networks Factory
+              </div>
+            </div>
+          </div>
+        </a>
+      
+    </div>
+    <div class="next">
+      
+        <a href="../visualize/" title="Network Visualization">
+          <span class="direction">
+            Next
+          </span>
+          <div class="page">
+            <div class="stretch">
+              <div class="title">
+                Network Visualization
+              </div>
+            </div>
+            <div class="button button-next" role="button" aria-label="Next">
+              <i class="icon icon-forward"></i>
+            </div>
+          </div>
+        </a>
+      
+    </div>
+  </nav>
+
+            </footer>
+          
+        </div>
+      </article>
+      <div class="results" role="status" aria-live="polite">
+        <div class="scrollable">
+          <div class="wrapper">
+            <div class="meta"></div>
+            <div class="list"></div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <script>
+      var base_url = '../..';
+      var repo_id  = 'dmlc/MXNet.jl';
+    </script>
+    <script src="../../assets/javascripts/application-997097ee0c.js"></script>
+    
+      <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.jl?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+      <script src="../../assets/mathjaxhelper.js"></script>
+    
+    
+  </body>
+</html>

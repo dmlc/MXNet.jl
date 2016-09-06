@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="no-js ie6"><![endif]-->
+<!--[if IE 7 ]><html class="no-js ie7"><![endif]-->
+<!--[if IE 8 ]><html class="no-js ie8"><![endif]-->
+<!--[if IE 9 ]><html class="no-js ie9"><![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
+    
+      
+        <title>Digit Recognition on MNIST - MXNet.jl</title>
+      
+      
+      
+      
+    
+    <meta property="og:url" content="None">
+    <meta property="og:title" content="MXNet.jl">
+    <meta property="og:image" content="None/../../">
+    <meta name="apple-mobile-web-app-title" content="MXNet.jl">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    
+    <link rel="shortcut icon" type="image/x-icon" href="../../assets/images/favicon-e565ddfa3b.ico">
+    <link rel="icon" type="image/x-icon" href="../../assets/images/favicon-e565ddfa3b.ico">
+    <style>
+      @font-face {
+      	font-family: 'Icon';
+      	src: url('../../assets/fonts/icon.eot?52m981');
+      	src: url('../../assets/fonts/icon.eot?#iefix52m981')
+               format('embedded-opentype'),
+      		   url('../../assets/fonts/icon.woff?52m981')
+               format('woff'),
+      		   url('../../assets/fonts/icon.ttf?52m981')
+               format('truetype'),
+      		   url('../../assets/fonts/icon.svg?52m981#icon')
+               format('svg');
+      	font-weight: normal;
+      	font-style: normal;
+      }
+    </style>
+    <link rel="stylesheet" href="../../assets/stylesheets/application-a422ff04cc.css">
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/palettes-05ab2406df.css">
+    
+    
+      
+      
+      
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,700|Ubuntu+Mono">
+      <style>
+        body, input {
+          font-family: 'Ubuntu', Helvetica, Arial, sans-serif;
+        }
+        pre, code {
+          font-family: 'Ubuntu Mono', 'Courier New', 'Courier', monospace;
+        }
+      </style>
+    
+    
+      <link rel="stylesheet" href="../../assets/Documenter.css">
+    
+    <script src="../../assets/javascripts/modernizr-4ab42b99fd.js"></script>
+    
+  </head>
+  
+  
+  
+  <body class="palette-primary-indigo palette-accent-blue">
+    
+      
+      
+    
+    <div class="backdrop">
+      <div class="backdrop-paper"></div>
+    </div>
+    <input class="toggle" type="checkbox" id="toggle-drawer">
+    <input class="toggle" type="checkbox" id="toggle-search">
+    <label class="toggle-button overlay" for="toggle-drawer"></label>
+    <header class="header">
+      <nav aria-label="Header">
+  <div class="bar default">
+    <div class="button button-menu" role="button" aria-label="Menu">
+      <label class="toggle-button icon icon-menu" for="toggle-drawer">
+        <span></span>
+      </label>
+    </div>
+    <div class="stretch">
+      <div class="title">
+        
+          <span class="path">
+            
+              
+                Tutorial <i class="icon icon-link"></i>
+              
+            
+          </span>
+        
+        Digit Recognition on MNIST
+      </div>
+    </div>
+    
+    
+    <div class="button button-search" role="button" aria-label="Search">
+      <label class="toggle-button icon icon-search" title="Search" for="toggle-search"></label>
+    </div>
+  </div>
+  <div class="bar search">
+    <div class="button button-close" role="button" aria-label="Close">
+      <label class="toggle-button icon icon-back" for="toggle-search"></label>
+    </div>
+    <div class="stretch">
+      <div class="field">
+        <input class="query" type="text" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck>
+      </div>
+    </div>
+    <div class="button button-reset" role="button" aria-label="Search">
+      <button class="toggle-button icon icon-close" id="reset-search"></button>
+    </div>
+  </div>
+</nav>
+    </header>
+    <main class="main">
+      
+      <div class="drawer">
+        <nav aria-label="Navigation">
+  
+  <a href="https://github.com/dmlc/MXNet.jl" class="project">
+    <div class="banner">
+      
+      <div class="name">
+        <strong>
+          MXNet.jl
+          <span class="version">
+            
+          </span>
+        </strong>
+        
+          <br>
+          dmlc/MXNet.jl
+        
+      </div>
+    </div>
+  </a>
+  <div class="scrollable">
+    <div class="wrapper">
+      
+        <ul class="repo">
+          <li class="repo-download">
+            
+            <a href="https://github.com/dmlc/MXNet.jl/archive/master.zip" target="_blank" title="Download" data-action="download">
+              <i class="icon icon-download"></i> Download
+            </a>
+          </li>
+          <li class="repo-stars">
+            <a href="https://github.com/dmlc/MXNet.jl/stargazers" target="_blank" title="Stargazers" data-action="star">
+              <i class="icon icon-star"></i> Stars
+              <span class="count">&ndash;</span>
+            </a>
+          </li>
+        </ul>
+        <hr>
+      
+      <div class="toc">
+        <ul>
+          
+            
+  <li>
+    <a class="" title="Home" href="../..">
+      Home
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Tutorial</span>
+    <ul>
+      
+        
+  <li>
+    <a class="current" title="Digit Recognition on MNIST" href="./">
+      Digit Recognition on MNIST
+    </a>
+    
+      
+        
+      
+      
+        <ul>
+          
+            <li class="anchor">
+              <a title="Simple 3-layer MLP" href="#simple-3-layer-mlp">
+                Simple 3-layer MLP
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Convolutional Neural Networks" href="#convolutional-neural-networks">
+                Convolutional Neural Networks
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Predicting with a trained model" href="#predicting-with-a-trained-model">
+                Predicting with a trained model
+              </a>
+            </li>
+          
+        </ul>
+      
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Generating Random Sentence with LSTM RNN" href="../char-lstm/">
+      Generating Random Sentence with LSTM RNN
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <span class="section">User Guide</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Installation Guide" href="../../user-guide/install/">
+      Installation Guide
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Overview" href="../../user-guide/overview/">
+      Overview
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="FAQ" href="../../user-guide/faq/">
+      FAQ
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <span class="section">API Documentation</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Context" href="../../api/context/">
+      Context
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Models" href="../../api/model/">
+      Models
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Initializers" href="../../api/initializer/">
+      Initializers
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Optimizers" href="../../api/optimizer/">
+      Optimizers
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Callbacks in training" href="../../api/callback/">
+      Callbacks in training
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Evaluation Metrics" href="../../api/metric/">
+      Evaluation Metrics
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Data Providers" href="../../api/io/">
+      Data Providers
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="NDArray API" href="../../api/ndarray/">
+      NDArray API
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Symbolic API" href="../../api/symbolic-node/">
+      Symbolic API
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Neural Networks Factory" href="../../api/nn-factory/">
+      Neural Networks Factory
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Executor" href="../../api/executor/">
+      Executor
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Network Visualization" href="../../api/visualize/">
+      Network Visualization
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+        </ul>
+        
+      </div>
+    </div>
+  </div>
+</nav>
+      </div>
+      <article class="article">
+        <div class="wrapper">
+          
+          <p><a id='Digit-Recognition-on-MNIST-1'></a></p>
+<h1 id="digit-recognition-on-mnist">Digit Recognition on MNIST</h1>
+<p>In this tutorial, we will work through examples of training a simple multi-layer perceptron and then a convolutional neural network (the LeNet architecture) on the <a href="http://yann.lecun.com/exdb/mnist/">MNIST handwritten digit dataset</a>. The code for this tutorial could be found in <a href="https://github.com/dmlc/MXNet.jl/tree/master/examples/mnist">examples/mnist</a>.</p>
+<p><a id='Simple-3-layer-MLP-1'></a></p>
+<h2 id="simple-3-layer-mlp">Simple 3-layer MLP</h2>
+<p>This is a tiny 3-layer MLP that could be easily trained on CPU. The script starts with</p>
+<pre><code class="julia">using MXNet
+</code></pre>
+
+<p>to load the <code>MXNet</code> module. Then we are ready to define the network architecture via the <a href="../../user-guide/overview/">symbolic API</a>. We start with a placeholder <code>data</code> symbol,</p>
+<pre><code class="julia">data = mx.Variable(:data)
+</code></pre>
+
+<p>and then cascading fully-connected layers and activation functions:</p>
+<pre><code class="julia">fc1  = mx.FullyConnected(data = data, name=:fc1, num_hidden=128)
+act1 = mx.Activation(data = fc1, name=:relu1, act_type=:relu)
+fc2  = mx.FullyConnected(data = act1, name=:fc2, num_hidden=64)
+act2 = mx.Activation(data = fc2, name=:relu2, act_type=:relu)
+fc3  = mx.FullyConnected(data = act2, name=:fc3, num_hidden=10)
+</code></pre>
+
+<p>Note each composition we take the previous symbol as the data argument, forming a feedforward chain. The architecture looks like</p>
+<pre><code>Input --&gt; 128 units (ReLU) --&gt; 64 units (ReLU) --&gt; 10 units
+</code></pre>
+
+<p>where the last 10 units correspond to the 10 output classes (digits 0,...,9). We then add a final <code>SoftmaxOutput</code> operation to turn the 10-dimensional prediction to proper probability values for the 10 classes:</p>
+<pre><code class="julia">mlp  = mx.SoftmaxOutput(data = fc3, name=:softmax)
+</code></pre>
+
+<p>As we can see, the MLP is just a chain of layers. For this case, we can also use the <code>mx.chain</code> macro. The same architecture above can be defined as</p>
+<pre><code class="julia">mlp = @mx.chain mx.Variable(:data)             =&gt;
+  mx.FullyConnected(name=:fc1, num_hidden=128) =&gt;
+  mx.Activation(name=:relu1, act_type=:relu)   =&gt;
+  mx.FullyConnected(name=:fc2, num_hidden=64)  =&gt;
+  mx.Activation(name=:relu2, act_type=:relu)   =&gt;
+  mx.FullyConnected(name=:fc3, num_hidden=10)  =&gt;
+  mx.SoftmaxOutput(name=:softmax)
+</code></pre>
+
+<p>After defining the architecture, we are ready to load the MNIST data. MXNet.jl provide built-in data providers for the MNIST dataset, which could automatically download the dataset into <code>Pkg.dir("MXNet")/data/mnist</code> if necessary. We wrap the code to construct the data provider into <code>mnist-data.jl</code> so that it could be shared by both the MLP example and the LeNet ConvNets example.</p>
+<pre><code class="julia">batch_size = 100
+include(&quot;mnist-data.jl&quot;)
+train_provider, eval_provider = get_mnist_providers(batch_size)
+</code></pre>
+
+<p>If you need to write your own data providers for customized data format, please refer to <a href="../../api/io/#MXNet.mx.AbstractDataProvider"><code>mx.AbstractDataProvider</code></a>.</p>
+<p>Given the architecture and data, we can instantiate an <em>model</em> to do the actual training. <code>mx.FeedForward</code> is the built-in model that is suitable for most feed-forward architectures. When constructing the model, we also specify the <em>context</em> on which the computation should be carried out. Because this is a really tiny MLP, we will just run on a single CPU device.</p>
+<pre><code class="julia">model = mx.FeedForward(mlp, context=mx.cpu())
+</code></pre>
+
+<p>You can use a <code>mx.gpu()</code> or if a list of devices (e.g. <code>[mx.gpu(0), mx.gpu(1)]</code>) is provided, data-parallelization will be used automatically. But for this tiny example, using a GPU device might not help.</p>
+<p>The last thing we need to specify is the optimization algorithm (a.k.a. <em>optimizer</em>) to use. We use the basic SGD with a fixed learning rate 0.1 and momentum 0.9:</p>
+<pre><code class="julia">optimizer = mx.SGD(lr=0.1, momentum=0.9, weight_decay=0.00001)
+</code></pre>
+
+<p>Now we can do the training. Here the <code>n_epoch</code> parameter specifies that we want to train for 20 epochs. We also supply a <code>eval_data</code> to monitor validation accuracy on the validation set.</p>
+<pre><code class="julia">mx.fit(model, optimizer, train_provider, n_epoch=20, eval_data=eval_provider)
+</code></pre>
+
+<p>Here is a sample output</p>
+<pre><code>INFO: Start training on [CPU0]
+INFO: Initializing parameters...
+INFO: Creating KVStore...
+INFO: == Epoch 001 ==========
+INFO: ## Training summary
+INFO:       :accuracy = 0.7554
+INFO:            time = 1.3165 seconds
+INFO: ## Validation summary
+INFO:       :accuracy = 0.9502
+...
+INFO: == Epoch 020 ==========
+INFO: ## Training summary
+INFO:       :accuracy = 0.9949
+INFO:            time = 0.9287 seconds
+INFO: ## Validation summary
+INFO:       :accuracy = 0.9775
+</code></pre>
+
+<p><a id='Convolutional-Neural-Networks-1'></a></p>
+<h2 id="convolutional-neural-networks">Convolutional Neural Networks</h2>
+<p>In the second example, we show a slightly more complicated architecture that involves convolution and pooling. This architecture for the MNIST is usually called the [LeNet]_. The first part of the architecture is listed below:</p>
+<pre><code class="julia"># input
+data = mx.Variable(:data)
+
+# first conv
+conv1 = @mx.chain mx.Convolution(data=data, kernel=(5,5), num_filter=20)  =&gt;
+                  mx.Activation(act_type=:tanh) =&gt;
+                  mx.Pooling(pool_type=:max, kernel=(2,2), stride=(2,2))
+
+# second conv
+conv2 = @mx.chain mx.Convolution(data=conv1, kernel=(5,5), num_filter=50) =&gt;
+                  mx.Activation(act_type=:tanh) =&gt;
+                  mx.Pooling(pool_type=:max, kernel=(2,2), stride=(2,2))
+</code></pre>
+
+<p>We basically defined two convolution modules. Each convolution module is actually a chain of <code>Convolution</code>, <code>tanh</code> activation and then max <code>Pooling</code> operations.</p>
+<p>Each sample in the MNIST dataset is a 28x28 single-channel grayscale image. In the tensor format used by <code>NDArray</code>, a batch of 100 samples is a tensor of shape <code>(28,28,1,100)</code>. The convolution and pooling operates in the spatial axis, so <code>kernel=(5,5)</code> indicate a square region of 5-width and 5-height. The rest of the architecture follows as:</p>
+<pre><code class="ulia"># first fully-connected
+fc1   = @mx.chain mx.Flatten(data=conv2) =&gt;
+                  mx.FullyConnected(num_hidden=500) =&gt;
+                  mx.Activation(act_type=:tanh)
+
+# second fully-connected
+fc2   = mx.FullyConnected(data=fc1, num_hidden=10)
+
+# softmax loss
+lenet = mx.Softmax(data=fc2, name=:softmax)
+</code></pre>
+
+<p>Note a fully-connected operator expects the input to be a matrix. However, the results from spatial convolution and pooling are 4D tensors. So we explicitly used a <code>Flatten</code> operator to flat the tensor, before connecting it to the <code>FullyConnected</code> operator.</p>
+<p>The rest of the network is the same as the previous MLP example. As before, we can now load the MNIST dataset:</p>
+<pre><code class="julia">batch_size = 100
+include(&quot;mnist-data.jl&quot;)
+train_provider, eval_provider = get_mnist_providers(batch_size; flat=false)
+</code></pre>
+
+<p>Note we specified <code>flat=false</code> to tell the data provider to provide 4D tensors instead of 2D matrices because the convolution operators needs correct spatial shape information. We then construct a feedforward model on GPU, and train it.</p>
+<pre><code class="julia"># fit model
+model = mx.FeedForward(lenet, context=mx.gpu())
+
+# optimizer
+optimizer = mx.SGD(lr=0.05, momentum=0.9, weight_decay=0.00001)
+
+# fit parameters
+mx.fit(model, optimizer, train_provider, n_epoch=20, eval_data=eval_provider)
+</code></pre>
+
+<p>And here is a sample of running outputs:</p>
+<pre><code>INFO: == Epoch 001 ==========
+INFO: ## Training summary
+INFO:       :accuracy = 0.6750
+INFO:            time = 4.9814 seconds
+INFO: ## Validation summary
+INFO:       :accuracy = 0.9712
+...
+INFO: == Epoch 020 ==========
+INFO: ## Training summary
+INFO:       :accuracy = 1.0000
+INFO:            time = 4.0086 seconds
+INFO: ## Validation summary
+INFO:       :accuracy = 0.9915
+</code></pre>
+
+<p><a id='Predicting-with-a-trained-model-1'></a></p>
+<h2 id="predicting-with-a-trained-model">Predicting with a trained model</h2>
+<p>Predicting with a trained model is very simple. By calling <code>mx.predict</code> with the model and a data provider, we get the model output as a Julia Array:</p>
+<pre><code class="julia">probs = mx.predict(model, eval_provider)
+</code></pre>
+
+<p>The following code shows a stupid way of getting all the labels from the data provider, and compute the prediction accuracy manually:</p>
+<pre><code class="julia"># collect all labels from eval data
+labels = Array[]
+for batch in eval_provider
+  push!(labels, copy(mx.get_label(batch)))
+end
+labels = cat(1, labels...)
+
+# Now we use compute the accuracy
+correct = 0
+for i = 1:length(labels)
+  # labels are 0...9
+  if indmax(probs[:,i]) == labels[i]+1
+    correct += 1
+  end
+end
+println(mx.format(&quot;Accuracy on eval set: {1:.2f}%&quot;, 100correct/length(labels)))
+</code></pre>
+
+<p>Alternatively, when the dataset is huge, one can provide a callback to <code>mx.predict</code>, then the callback function will be invoked with the outputs of each mini-batch. The callback could, for example, write the data to disk for future inspection. In this case, no value is returned from <code>mx.predict</code>. See also predict.</p>
+          <aside class="copyright" role="note">
+            
+            Documentation built with
+            <a href="http://www.mkdocs.org" target="_blank">MkDocs</a>
+            using the
+            <a href="http://squidfunk.github.io/mkdocs-material/" target="_blank">
+              Material
+            </a>
+            theme.
+          </aside>
+          
+            <footer class="footer">
+              
+  <nav class="pagination" aria-label="Footer">
+    <div class="previous">
+      
+        <a href="../.." title="Home">
+          <span class="direction">
+            Previous
+          </span>
+          <div class="page">
+            <div class="button button-previous" role="button" aria-label="Previous">
+              <i class="icon icon-back"></i>
+            </div>
+            <div class="stretch">
+              <div class="title">
+                Home
+              </div>
+            </div>
+          </div>
+        </a>
+      
+    </div>
+    <div class="next">
+      
+        <a href="../char-lstm/" title="Generating Random Sentence with LSTM RNN">
+          <span class="direction">
+            Next
+          </span>
+          <div class="page">
+            <div class="stretch">
+              <div class="title">
+                Generating Random Sentence with LSTM RNN
+              </div>
+            </div>
+            <div class="button button-next" role="button" aria-label="Next">
+              <i class="icon icon-forward"></i>
+            </div>
+          </div>
+        </a>
+      
+    </div>
+  </nav>
+
+            </footer>
+          
+        </div>
+      </article>
+      <div class="results" role="status" aria-live="polite">
+        <div class="scrollable">
+          <div class="wrapper">
+            <div class="meta"></div>
+            <div class="list"></div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <script>
+      var base_url = '../..';
+      var repo_id  = 'dmlc/MXNet.jl';
+    </script>
+    <script src="../../assets/javascripts/application-997097ee0c.js"></script>
+    
+      <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.jl?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+      <script src="../../assets/mathjaxhelper.js"></script>
+    
+    
+  </body>
+</html>

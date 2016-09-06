@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="no-js ie6"><![endif]-->
+<!--[if IE 7 ]><html class="no-js ie7"><![endif]-->
+<!--[if IE 8 ]><html class="no-js ie8"><![endif]-->
+<!--[if IE 9 ]><html class="no-js ie9"><![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
+    
+      
+        <title>Generating Random Sentence with LSTM RNN - MXNet.jl</title>
+      
+      
+      
+      
+    
+    <meta property="og:url" content="None">
+    <meta property="og:title" content="MXNet.jl">
+    <meta property="og:image" content="None/../../">
+    <meta name="apple-mobile-web-app-title" content="MXNet.jl">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    
+    <link rel="shortcut icon" type="image/x-icon" href="../../assets/images/favicon-e565ddfa3b.ico">
+    <link rel="icon" type="image/x-icon" href="../../assets/images/favicon-e565ddfa3b.ico">
+    <style>
+      @font-face {
+      	font-family: 'Icon';
+      	src: url('../../assets/fonts/icon.eot?52m981');
+      	src: url('../../assets/fonts/icon.eot?#iefix52m981')
+               format('embedded-opentype'),
+      		   url('../../assets/fonts/icon.woff?52m981')
+               format('woff'),
+      		   url('../../assets/fonts/icon.ttf?52m981')
+               format('truetype'),
+      		   url('../../assets/fonts/icon.svg?52m981#icon')
+               format('svg');
+      	font-weight: normal;
+      	font-style: normal;
+      }
+    </style>
+    <link rel="stylesheet" href="../../assets/stylesheets/application-a422ff04cc.css">
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/palettes-05ab2406df.css">
+    
+    
+      
+      
+      
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,700|Ubuntu+Mono">
+      <style>
+        body, input {
+          font-family: 'Ubuntu', Helvetica, Arial, sans-serif;
+        }
+        pre, code {
+          font-family: 'Ubuntu Mono', 'Courier New', 'Courier', monospace;
+        }
+      </style>
+    
+    
+      <link rel="stylesheet" href="../../assets/Documenter.css">
+    
+    <script src="../../assets/javascripts/modernizr-4ab42b99fd.js"></script>
+    
+  </head>
+  
+  
+  
+  <body class="palette-primary-indigo palette-accent-blue">
+    
+      
+      
+    
+    <div class="backdrop">
+      <div class="backdrop-paper"></div>
+    </div>
+    <input class="toggle" type="checkbox" id="toggle-drawer">
+    <input class="toggle" type="checkbox" id="toggle-search">
+    <label class="toggle-button overlay" for="toggle-drawer"></label>
+    <header class="header">
+      <nav aria-label="Header">
+  <div class="bar default">
+    <div class="button button-menu" role="button" aria-label="Menu">
+      <label class="toggle-button icon icon-menu" for="toggle-drawer">
+        <span></span>
+      </label>
+    </div>
+    <div class="stretch">
+      <div class="title">
+        
+          <span class="path">
+            
+              
+                Tutorial <i class="icon icon-link"></i>
+              
+            
+          </span>
+        
+        Generating Random Sentence with LSTM RNN
+      </div>
+    </div>
+    
+    
+    <div class="button button-search" role="button" aria-label="Search">
+      <label class="toggle-button icon icon-search" title="Search" for="toggle-search"></label>
+    </div>
+  </div>
+  <div class="bar search">
+    <div class="button button-close" role="button" aria-label="Close">
+      <label class="toggle-button icon icon-back" for="toggle-search"></label>
+    </div>
+    <div class="stretch">
+      <div class="field">
+        <input class="query" type="text" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck>
+      </div>
+    </div>
+    <div class="button button-reset" role="button" aria-label="Search">
+      <button class="toggle-button icon icon-close" id="reset-search"></button>
+    </div>
+  </div>
+</nav>
+    </header>
+    <main class="main">
+      
+      <div class="drawer">
+        <nav aria-label="Navigation">
+  
+  <a href="https://github.com/dmlc/MXNet.jl" class="project">
+    <div class="banner">
+      
+      <div class="name">
+        <strong>
+          MXNet.jl
+          <span class="version">
+            
+          </span>
+        </strong>
+        
+          <br>
+          dmlc/MXNet.jl
+        
+      </div>
+    </div>
+  </a>
+  <div class="scrollable">
+    <div class="wrapper">
+      
+        <ul class="repo">
+          <li class="repo-download">
+            
+            <a href="https://github.com/dmlc/MXNet.jl/archive/master.zip" target="_blank" title="Download" data-action="download">
+              <i class="icon icon-download"></i> Download
+            </a>
+          </li>
+          <li class="repo-stars">
+            <a href="https://github.com/dmlc/MXNet.jl/stargazers" target="_blank" title="Stargazers" data-action="star">
+              <i class="icon icon-star"></i> Stars
+              <span class="count">&ndash;</span>
+            </a>
+          </li>
+        </ul>
+        <hr>
+      
+      <div class="toc">
+        <ul>
+          
+            
+  <li>
+    <a class="" title="Home" href="../..">
+      Home
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Tutorial</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Digit Recognition on MNIST" href="../mnist/">
+      Digit Recognition on MNIST
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="current" title="Generating Random Sentence with LSTM RNN" href="./">
+      Generating Random Sentence with LSTM RNN
+    </a>
+    
+      
+        
+      
+      
+        <ul>
+          
+            <li class="anchor">
+              <a title="LSTM Cells" href="#lstm-cells">
+                LSTM Cells
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Unfolding LSTM" href="#unfolding-lstm">
+                Unfolding LSTM
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Data Provider for Text Sequences" href="#data-provider-for-text-sequences">
+                Data Provider for Text Sequences
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Training the LSTM" href="#training-the-lstm">
+                Training the LSTM
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Sampling Random Sentences" href="#sampling-random-sentences">
+                Sampling Random Sentences
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Visualizing the LSTM" href="#visualizing-the-lstm">
+                Visualizing the LSTM
+              </a>
+            </li>
+          
+        </ul>
+      
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <span class="section">User Guide</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Installation Guide" href="../../user-guide/install/">
+      Installation Guide
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Overview" href="../../user-guide/overview/">
+      Overview
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="FAQ" href="../../user-guide/faq/">
+      FAQ
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <span class="section">API Documentation</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Context" href="../../api/context/">
+      Context
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Models" href="../../api/model/">
+      Models
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Initializers" href="../../api/initializer/">
+      Initializers
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Optimizers" href="../../api/optimizer/">
+      Optimizers
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Callbacks in training" href="../../api/callback/">
+      Callbacks in training
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Evaluation Metrics" href="../../api/metric/">
+      Evaluation Metrics
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Data Providers" href="../../api/io/">
+      Data Providers
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="NDArray API" href="../../api/ndarray/">
+      NDArray API
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Symbolic API" href="../../api/symbolic-node/">
+      Symbolic API
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Neural Networks Factory" href="../../api/nn-factory/">
+      Neural Networks Factory
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Executor" href="../../api/executor/">
+      Executor
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Network Visualization" href="../../api/visualize/">
+      Network Visualization
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+        </ul>
+        
+      </div>
+    </div>
+  </div>
+</nav>
+      </div>
+      <article class="article">
+        <div class="wrapper">
+          
+          <p><a id='Generating-Random-Sentence-with-LSTM-RNN-1'></a></p>
+<h1 id="generating-random-sentence-with-lstm-rnn">Generating Random Sentence with LSTM RNN</h1>
+<p>This tutorial shows how to train a LSTM (Long short-term memory) RNN (recurrent neural network) to perform character-level sequence training and prediction. The original model, usually called <code>char-rnn</code> is described in <a href="http://karpathy.github.io/2015/05/21/rnn-effectiveness/">Andrej Karpathy's blog</a>, with a reference implementation in Torch available <a href="https://github.com/karpathy/char-rnn">here</a>.</p>
+<p>Because MXNet.jl does not have a specialized model for recurrent neural networks yet, the example shown here is an implementation of LSTM by using the default FeedForward model via explicitly unfolding over time. We will be using fixed-length input sequence for training. The code is adapted from the <a href="https://github.com/dmlc/mxnet/blob/master/example/rnn/char_lstm.ipynb">char-rnn example for MXNet's Python binding</a>, which demonstrates how to use low-level <a href="../../api/symbolic-node/#Symbolic-API-1">Symbolic API</a> to build customized neural network models directly.</p>
+<p>The most important code snippets of this example is shown and explained here. To see and run the complete code, please refer to the <a href="https://github.com/dmlc/MXNet.jl/tree/master/examples/char-lstm">examples/char-lstm</a> directory. You will need to install <a href="https://github.com/JuliaLang/Iterators.jl">Iterators.jl</a> and <a href="https://github.com/JuliaStats/StatsBase.jl">StatsBase.jl</a> to run this example.</p>
+<p><a id='LSTM-Cells-1'></a></p>
+<h2 id="lstm-cells">LSTM Cells</h2>
+<p>Christopher Olah has a <a href="http://colah.github.io/posts/2015-08-Understanding-LSTMs/">great blog post about LSTM</a> with beautiful and clear illustrations. So we will not repeat the definition and explanation of what an LSTM cell is here. Basically, an LSTM cell takes input <code>x</code>, as well as previous states (including <code>c</code> and <code>h</code>), and produce the next states. We define a helper type to bundle the two state variables together:</p>
+<p>Because LSTM weights are shared at every time when we do explicit unfolding, so we also define a helper type to hold all the weights (and bias) for an LSTM cell for convenience.</p>
+<p>Note all the variables are of type SymbolicNode. We will construct the LSTM network as a symbolic computation graph, which is then instantiated with NDArray for actual computation.</p>
+<p>The following figure is stolen (permission requested) from <a href="http://colah.github.io/posts/2015-08-Understanding-LSTMs/">Christopher Olah's blog</a>, which illustrate exactly what the code snippet above is doing.</p>
+<p><img alt="image" src="../images/LSTM3-chain.png" /></p>
+<p>In particular, instead of defining the four gates independently, we do the computation together and then use SliceChannel to split them into four outputs. The computation of gates are all done with the symbolic API. The return value is a LSTM state containing the output of a LSTM cell.</p>
+<p><a id='Unfolding-LSTM-1'></a></p>
+<h2 id="unfolding-lstm">Unfolding LSTM</h2>
+<p>Using the LSTM cell defined above, we are now ready to define a function to unfold a LSTM network with L layers and T time steps. The first part of the function is just defining all the symbolic variables for the shared weights and states.</p>
+<p>The <code>embed_W</code> is the weights used for character embedding –- i.e. mapping the one-hot encoded characters into real vectors. The <code>pred_W</code> and <code>pred_b</code> are weights and bias for the final prediction at each time step.</p>
+<p>Then we define the weights for each LSTM cell. Note there is one cell for each layer, and it will be replicated (unrolled) over time. The states are, however, <em>not</em> shared over time. Instead, here we define the initial states here at the beginning of a sequence, and we will update them with the output states at each time step as we explicitly unroll the LSTM.</p>
+<p>Unrolling over time is a straightforward procedure of stacking the embedding layer, and then LSTM cells, on top of which the prediction layer. During unrolling, we update the states and collect all the outputs. Note each time step takes data and label as inputs. If the LSTM is named as <code>:ptb</code>, the data and label at step <code>t</code> will be named <code>:ptb_data_$t</code> and <code>:ptb_label_$t</code>. Late on when we prepare the data, we will define the data provider to match those names.</p>
+<p>Note at each time step, the prediction is connected to a SoftmaxOutput operator, which could back propagate when corresponding labels are provided. The states are then connected to the next time step, which allows back propagate through time. However, at the end of the sequence, the final states are not connected to anything. This dangling outputs is problematic, so we explicitly connect each of them to a BlockGrad operator, which simply back propagates 0-gradient and closes the computation graph.</p>
+<p>In the end, we just group all the prediction outputs at each time step as a single SymbolicNode and return. Optionally we will also group the final states, this is used when we use the trained LSTM to sample sentences.</p>
+<p><a id='Data-Provider-for-Text-Sequences-1'></a></p>
+<h2 id="data-provider-for-text-sequences">Data Provider for Text Sequences</h2>
+<p>Now we need to construct a data provider that takes a text file, divide the text into mini-batches of fixed-length character-sequences, and provide them as one-hot encoded vectors.</p>
+<p>Note the is no fancy feature extraction at all. Each character is simply encoded as a one-hot vector: a 0-1 vector of the size given by the vocabulary. Here we just construct the vocabulary by collecting all the unique characters in the training text – there are not too many of them (including punctuations and whitespace) for English text. Each input character is then encoded as a vector of 0s on all coordinates, and 1 on the coordinate corresponding to that character. The character-to-coordinate mapping is giving by the vocabulary.</p>
+<p>The text sequence data provider implements the <a href="../../api/io/#Data-Providers-1">Data Providers</a> api. We define the <code>CharSeqProvider</code> as below:</p>
+<p>The provided data and labels follow the naming convention of inputs used when unrolling the LSTM. Note in the code below, apart from <code>$name_data_$t</code> and <code>$name_label_$t</code>, we also provides the initial <code>c</code> and <code>h</code> states for each layer. This is because we are using the high-level FeedForward API, which has no idea about time and states. So we will feed the initial states for each sequence from the data provider. Since the initial states is always zero, we just need to always provide constant zero blobs.</p>
+<p>Next we implement the <code>eachbatch</code> method from the <a href="../../api/io/#MXNet.mx.AbstractDataProvider"><code>mx.AbstractDataProvider</code></a> interface for the provider. We start by defining the data and label arrays, and the <code>DataBatch</code> object we will provide in each iteration.</p>
+<p>The actual data providing iteration is implemented as a Julia <strong>coroutine</strong>. In this way, we can write the data loading logic as a simple coherent <code>for</code> loop, and do not need to implement the interface functions like Base.start, Base.next, etc.</p>
+<p>Basically, we partition the text into batches, each batch containing several contiguous text sequences. Note at each time step, the LSTM is trained to predict the next character, so the label is the same as the data, but shifted ahead by one index.</p>
+<p><a id='Training-the-LSTM-1'></a></p>
+<h2 id="training-the-lstm">Training the LSTM</h2>
+<p>Now we have implemented all the supporting infrastructures for our char-lstm. To train the model, we just follow the standard high-level API. Firstly, we construct a LSTM symbolic architecture:</p>
+<p>Note all the parameters are defined in <a href="https://github.com/dmlc/MXNet.jl/blob/master/examples/char-lstm/config.jl">examples/char-lstm/config.jl</a>. Now we load the text file and define the data provider. The data <code>input.txt</code> we used in this example is <a href="https://github.com/dmlc/web-data/tree/master/mxnet/tinyshakespeare">a tiny Shakespeare dataset</a>. But you can try with other text files.</p>
+<p>The last step is to construct a model, an optimizer and fit the mode to the data. We are using the ADAM optimizer [Adam]_ in this example.</p>
+<p>Note we are also using a customized <code>NLL</code> evaluation metric, which calculate the negative log-likelihood during training. Here is an output sample at the end of the training process.</p>
+<pre><code>...
+INFO: Speed: 357.72 samples/sec
+INFO: == Epoch 020 ==========
+INFO: ## Training summary
+INFO:                NLL = 1.4672
+INFO:         perplexity = 4.3373
+INFO:               time = 87.2631 seconds
+INFO: ## Validation summary
+INFO:                NLL = 1.6374
+INFO:         perplexity = 5.1418
+INFO: Saved checkpoint to 'char-lstm/checkpoints/ptb-0020.params'
+INFO: Speed: 368.74 samples/sec
+INFO: Speed: 361.04 samples/sec
+INFO: Speed: 360.02 samples/sec
+INFO: Speed: 362.34 samples/sec
+INFO: Speed: 360.80 samples/sec
+INFO: Speed: 362.77 samples/sec
+INFO: Speed: 357.18 samples/sec
+INFO: Speed: 355.30 samples/sec
+INFO: Speed: 362.33 samples/sec
+INFO: Speed: 359.23 samples/sec
+INFO: Speed: 358.09 samples/sec
+INFO: Speed: 356.89 samples/sec
+INFO: Speed: 371.91 samples/sec
+INFO: Speed: 372.24 samples/sec
+INFO: Speed: 356.59 samples/sec
+INFO: Speed: 356.64 samples/sec
+INFO: Speed: 360.24 samples/sec
+INFO: Speed: 360.32 samples/sec
+INFO: Speed: 362.38 samples/sec
+INFO: == Epoch 021 ==========
+INFO: ## Training summary
+INFO:                NLL = 1.4655
+INFO:         perplexity = 4.3297
+INFO:               time = 86.9243 seconds
+INFO: ## Validation summary
+INFO:                NLL = 1.6366
+INFO:         perplexity = 5.1378
+INFO: Saved checkpoint to 'examples/char-lstm/checkpoints/ptb-0021.params'
+</code></pre>
+
+<p><a id='Sampling-Random-Sentences-1'></a></p>
+<h2 id="sampling-random-sentences">Sampling Random Sentences</h2>
+<p>After training the LSTM, we can now sample random sentences from the trained model. The sampler works in the following way:</p>
+<ul>
+<li>Starting from some fixed character, take <code>a</code> for example, and feed   it as input to the LSTM.</li>
+<li>The LSTM will produce an output distribution over the vocabulary and   a state in the first time step. We sample a character from the   output distribution, fix it as the second character.</li>
+<li>In the next time step, we feed the previously sampled character as   input and continue running the LSTM by also taking the previous   states (instead of the 0 initial states).</li>
+<li>Continue running until we sampled enough characters.</li>
+</ul>
+<p>Note we are running with mini-batches, so several sentences could be sampled simultaneously. Here are some sampled outputs from a network I trained for around half an hour on the Shakespeare dataset. Note all the line-breaks, punctuations and upper-lower case letters are produced by the sampler itself. I did not do any post-processing.</p>
+<pre><code>## Sample 1
+all have sir,
+Away will fill'd in His time, I'll keep her, do not madam, if they here? Some more ha?
+
+## Sample 2
+am.
+
+CLAUDIO:
+Hone here, let her, the remedge, and I know not slept a likely, thou some soully free?
+
+## Sample 3
+arrel which noble thing
+The exchnachsureding worns: I ne'er drunken Biancas, fairer, than the lawfu?
+
+## Sample 4
+augh assalu, you'ld tell me corn;
+Farew. First, for me of a loved. Has thereat I knock you presents?
+
+## Sample 5
+ame the first answer.
+
+MARIZARINIO:
+Door of Angelo as her lord, shrield liken Here fellow the fool ?
+
+## Sample 6
+ad well.
+
+CLAUDIO:
+Soon him a fellows here; for her fine edge in a bogms' lord's wife.
+
+LUCENTIO:
+I?
+
+## Sample 7
+adrezilian measure.
+
+LUCENTIO:
+So, help'd you hath nes have a than dream's corn, beautio, I perchas?
+
+## Sample 8
+as eatter me;
+The girlly: and no other conciolation!
+
+BISTRUMIO:
+I have be rest girl. O, that I a h?
+
+## Sample 9
+and is intend you sort:
+What held her all 'clama's for maffice. Some servant.' what I say me the cu?
+
+## Sample 10
+an thoughts will said in our pleasue,
+Not scanin on him that you live; believaries she.
+
+ISABELLLLL?
+</code></pre>
+
+<p>See <a href="http://karpathy.github.io/2015/05/21/rnn-effectiveness/">Andrej Karpathy's blog post</a> on more examples and links including Linux source codes, Algebraic Geometry Theorems, and even cooking recipes. The code for sampling can be found in <a href="https://github.com/dmlc/MXNet.jl/blob/master/examples/char-lstm/sampler.jl">examples/char-lstm/sampler.jl</a>.</p>
+<p><a id='Visualizing-the-LSTM-1'></a></p>
+<h2 id="visualizing-the-lstm">Visualizing the LSTM</h2>
+<p>Finally, you could visualize the LSTM by calling to_graphviz on the constructed LSTM symbolic architecture. We only show an example of 1-layer and 2-time-step LSTM below. The automatic layout produced by GraphViz is definitely much less clear than <a href="http://colah.github.io/posts/2015-08-Understanding-LSTMs/">Christopher Olah's illustrations</a>, but could otherwise be very useful for debugging. As we can see, the LSTM unfolded over time is just a (very) deep neural network. The complete code for producing this visualization can be found in <a href="https://github.com/dmlc/MXNet.jl/blob/master/examples/char-lstm/visualize.jl">examples/char-lstm/visualize.jl</a>.</p>
+<p><img alt="image" src="../images/char-lstm-vis.svg" /></p>
+          <aside class="copyright" role="note">
+            
+            Documentation built with
+            <a href="http://www.mkdocs.org" target="_blank">MkDocs</a>
+            using the
+            <a href="http://squidfunk.github.io/mkdocs-material/" target="_blank">
+              Material
+            </a>
+            theme.
+          </aside>
+          
+            <footer class="footer">
+              
+  <nav class="pagination" aria-label="Footer">
+    <div class="previous">
+      
+        <a href="../mnist/" title="Digit Recognition on MNIST">
+          <span class="direction">
+            Previous
+          </span>
+          <div class="page">
+            <div class="button button-previous" role="button" aria-label="Previous">
+              <i class="icon icon-back"></i>
+            </div>
+            <div class="stretch">
+              <div class="title">
+                Digit Recognition on MNIST
+              </div>
+            </div>
+          </div>
+        </a>
+      
+    </div>
+    <div class="next">
+      
+        <a href="../../user-guide/install/" title="Installation Guide">
+          <span class="direction">
+            Next
+          </span>
+          <div class="page">
+            <div class="stretch">
+              <div class="title">
+                Installation Guide
+              </div>
+            </div>
+            <div class="button button-next" role="button" aria-label="Next">
+              <i class="icon icon-forward"></i>
+            </div>
+          </div>
+        </a>
+      
+    </div>
+  </nav>
+
+            </footer>
+          
+        </div>
+      </article>
+      <div class="results" role="status" aria-live="polite">
+        <div class="scrollable">
+          <div class="wrapper">
+            <div class="meta"></div>
+            <div class="list"></div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <script>
+      var base_url = '../..';
+      var repo_id  = 'dmlc/MXNet.jl';
+    </script>
+    <script src="../../assets/javascripts/application-997097ee0c.js"></script>
+    
+      <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.jl?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+      <script src="../../assets/mathjaxhelper.js"></script>
+    
+    
+  </body>
+</html>
