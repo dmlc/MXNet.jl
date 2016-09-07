@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
     
       
-        <title>Callbacks in training - MXNet.jl</title>
+        <title>Installation Guide - MXNet.jl</title>
       
       
       
@@ -93,12 +93,12 @@
           <span class="path">
             
               
-                API Documentation <i class="icon icon-link"></i>
+                User Guide <i class="icon icon-link"></i>
               
             
           </span>
         
-        Callbacks in training
+        Installation Guide
       </div>
     </div>
     
@@ -209,16 +209,37 @@
       
         
   <li>
-    <a class="" title="Installation Guide" href="../../user-guide/install/">
+    <a class="current" title="Installation Guide" href="./">
       Installation Guide
     </a>
+    
+      
+        
+      
+      
+        <ul>
+          
+            <li class="anchor">
+              <a title="Automatic Installation" href="#automatic-installation">
+                Automatic Installation
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Manual Compilation" href="#manual-compilation">
+                Manual Compilation
+              </a>
+            </li>
+          
+        </ul>
+      
     
   </li>
 
       
         
   <li>
-    <a class="" title="Overview" href="../../user-guide/overview/">
+    <a class="" title="Overview" href="../overview/">
       Overview
     </a>
     
@@ -227,7 +248,7 @@
       
         
   <li>
-    <a class="" title="FAQ" href="../../user-guide/faq/">
+    <a class="" title="FAQ" href="../faq/">
       FAQ
     </a>
     
@@ -245,7 +266,7 @@
       
         
   <li>
-    <a class="" title="Context" href="../context/">
+    <a class="" title="Context" href="../../api/context/">
       Context
     </a>
     
@@ -254,7 +275,7 @@
       
         
   <li>
-    <a class="" title="Models" href="../model/">
+    <a class="" title="Models" href="../../api/model/">
       Models
     </a>
     
@@ -263,7 +284,7 @@
       
         
   <li>
-    <a class="" title="Initializers" href="../initializer/">
+    <a class="" title="Initializers" href="../../api/initializer/">
       Initializers
     </a>
     
@@ -272,7 +293,7 @@
       
         
   <li>
-    <a class="" title="Optimizers" href="../optimizer/">
+    <a class="" title="Optimizers" href="../../api/optimizer/">
       Optimizers
     </a>
     
@@ -281,21 +302,16 @@
       
         
   <li>
-    <a class="current" title="Callbacks in training" href="./">
+    <a class="" title="Callbacks in training" href="../../api/callback/">
       Callbacks in training
     </a>
-    
-      
-        
-      
-      
     
   </li>
 
       
         
   <li>
-    <a class="" title="Evaluation Metrics" href="../metric/">
+    <a class="" title="Evaluation Metrics" href="../../api/metric/">
       Evaluation Metrics
     </a>
     
@@ -304,7 +320,7 @@
       
         
   <li>
-    <a class="" title="Data Providers" href="../io/">
+    <a class="" title="Data Providers" href="../../api/io/">
       Data Providers
     </a>
     
@@ -313,7 +329,7 @@
       
         
   <li>
-    <a class="" title="NDArray API" href="../ndarray/">
+    <a class="" title="NDArray API" href="../../api/ndarray/">
       NDArray API
     </a>
     
@@ -322,7 +338,7 @@
       
         
   <li>
-    <a class="" title="Symbolic API" href="../symbolic-node/">
+    <a class="" title="Symbolic API" href="../../api/symbolic-node/">
       Symbolic API
     </a>
     
@@ -331,7 +347,7 @@
       
         
   <li>
-    <a class="" title="Neural Networks Factory" href="../nn-factory/">
+    <a class="" title="Neural Networks Factory" href="../../api/nn-factory/">
       Neural Networks Factory
     </a>
     
@@ -340,7 +356,7 @@
       
         
   <li>
-    <a class="" title="Executor" href="../executor/">
+    <a class="" title="Executor" href="../../api/executor/">
       Executor
     </a>
     
@@ -349,7 +365,7 @@
       
         
   <li>
-    <a class="" title="Network Visualization" href="../visualize/">
+    <a class="" title="Network Visualization" href="../../api/visualize/">
       Network Visualization
     </a>
     
@@ -370,86 +386,36 @@
       <article class="article">
         <div class="wrapper">
           
-          <p><a id='Callback-in-training-1'></a></p>
-<h1 id="callback-in-training">Callback in training</h1>
-<p><a id='MXNet.mx.AbstractBatchCallback' href='#MXNet.mx.AbstractBatchCallback'>#</a>
-<strong><code>MXNet.mx.AbstractBatchCallback</code></strong> &mdash; <em>Type</em>.</p>
-<pre><code>AbstractBatchCallback
+          <p><a id='Installation-Guide-1'></a></p>
+<h1 id="installation-guide">Installation Guide</h1>
+<p><a id='Automatic-Installation-1'></a></p>
+<h2 id="automatic-installation">Automatic Installation</h2>
+<p>To install MXNet.jl, simply type</p>
+<pre><code class="julia">Pkg.add(&quot;MXNet&quot;)
 </code></pre>
 
-<p>Abstract type of callbacks to be called every mini-batch.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/abbbd485f6cb3cde0ac4e5c660560988eee48cfe/src/callback.jl#L8-L12' class='documenter-source'>source</a><br></p>
-<p><a id='MXNet.mx.AbstractCallback' href='#MXNet.mx.AbstractCallback'>#</a>
-<strong><code>MXNet.mx.AbstractCallback</code></strong> &mdash; <em>Type</em>.</p>
-<pre><code>AbstractCallback
+<p>in the Julia REPL. Or to use the latest git version of MXNet.jl, use the following command instead</p>
+<pre><code class="julia">Pkg.checkout(&quot;MXNet&quot;)
 </code></pre>
 
-<p>Abstract type of callback functions used in training.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/abbbd485f6cb3cde0ac4e5c660560988eee48cfe/src/callback.jl#L1-L5' class='documenter-source'>source</a><br></p>
-<p><a id='MXNet.mx.AbstractEpochCallback' href='#MXNet.mx.AbstractEpochCallback'>#</a>
-<strong><code>MXNet.mx.AbstractEpochCallback</code></strong> &mdash; <em>Type</em>.</p>
-<pre><code>AbstractEpochCallback
-</code></pre>
-
-<p>Abstract type of callbacks to be called every epoch.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/abbbd485f6cb3cde0ac4e5c660560988eee48cfe/src/callback.jl#L15-L19' class='documenter-source'>source</a><br></p>
-<p><a id='MXNet.mx.do_checkpoint-Tuple{AbstractString}' href='#MXNet.mx.do_checkpoint-Tuple{AbstractString}'>#</a>
-<strong><code>MXNet.mx.do_checkpoint</code></strong> &mdash; <em>Method</em>.</p>
-<pre><code>do_checkpoint(prefix; frequency=1, save_epoch_0=false)
-</code></pre>
-
-<p>Create an <code>AbstractEpochCallback</code> that save checkpoints of the model to disk. The checkpoints can be loaded back later on.</p>
-<p><strong>Arguments</strong></p>
+<p>MXNet.jl is built on top of <a href="https://github.com/dmlc/mxnet">libmxnet</a>. Upon installation, Julia will try to automatically download and build libmxnet.</p>
+<p>The libmxnet source is downloaded to <code>Pkg.dir("MXNet")/deps/src/mxnet</code>. The automatic build is using default configurations, with OpenCV, CUDA disabled. If the compilation failed due to unresolved dependency, or if you want to customize the build, you can compile and install libmxnet manually. Please see below for more details.</p>
+<p><a id='Manual-Compilation-1'></a></p>
+<h2 id="manual-compilation">Manual Compilation</h2>
+<p>It is possible to compile libmxnet separately and point MXNet.jl to a the existing library in case automatic compilation fails due to unresolved dependencies in an un-standard environment; Or when one want to work with a seperate, maybe customized libmxnet.</p>
+<p>To build libmxnet, please refer to <a href="http://mxnet.readthedocs.org/en/latest/build.html">the installation guide of libmxnet</a>. After successfully installing libmxnet, set the <code>MXNET_HOME</code> <em>environment variable</em> to the location of libmxnet. In other words, the compiled <code>libmxnet.so</code> should be found in <code>$MXNET_HOME/lib</code>.</p>
+<blockquote>
+<p><strong>note</strong></p>
+<p>The constant <code>MXNET_HOME</code> is pre-compiled in MXNet.jl package cache. If you updated the environment variable after installing MXNet.jl, make sure to update the pre-compilation cache by <code>Base.compilecache("MXNet")</code>.</p>
+</blockquote>
+<p>When the <code>MXNET_HOME</code> environment variable is detected and the corresponding <code>libmxnet.so</code> could be loaded successfully, MXNet.jl will skip automatic building during installation and use the specified libmxnet instead.</p>
+<p>Basically, MXNet.jl will search <code>libmxnet.so</code> or <code>libmxnet.dll</code> in the following paths (and in that order):</p>
 <ul>
-<li><code>prefix::AbstractString</code>: the prefix of the filenames to save the model. The model         architecture will be saved to prefix-symbol.json, while the weights will be saved         to prefix-0012.params, for example, for the 12-th epoch.</li>
-<li><code>frequency::Int</code>: keyword argument, default 1. The frequency (measured in epochs) to         save checkpoints.</li>
-<li><code>save_epoch_0::Bool</code>: keyword argument, default false. Whether we should save a         checkpoint for epoch 0 (model initialized but not seen any data yet).</li>
+<li><code>$MXNET_HOME/lib</code>: customized libmxnet builds</li>
+<li><code>Pkg.dir("MXNet")/deps/usr/lib</code>: automatic builds</li>
+<li>Any system wide library search path</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/abbbd485f6cb3cde0ac4e5c660560988eee48cfe/src/callback.jl#L120-L134' class='documenter-source'>source</a><br></p>
-<p><a id='MXNet.mx.every_n_batch-Tuple{Function,Int64}' href='#MXNet.mx.every_n_batch-Tuple{Function,Int64}'>#</a>
-<strong><code>MXNet.mx.every_n_batch</code></strong> &mdash; <em>Method</em>.</p>
-<pre><code>every_n_batch(callback :: Function, n :: Int; call_on_0 = false)
-</code></pre>
-
-<p>A convenient function to construct a callback that runs every <code>n</code> mini-batches.</p>
-<p><strong>Arguments</strong></p>
-<ul>
-<li><code>call_on_0::Bool</code>: keyword argument, default false. Unless set, the callback         will <em>not</em> be run on batch 0.</li>
-</ul>
-<p>For example, the <a href="./#MXNet.mx.speedometer-Tuple{}"><code>speedometer</code></a> callback is defined as</p>
-<pre><code class="julia">every_n_iter(frequency, call_on_0=true) do state :: OptimizationState
-  if state.curr_batch == 0
-    # reset timer
-  else
-    # compute and print speed
-  end
-end
-</code></pre>
-
-<p>See also <a href="./#MXNet.mx.every_n_epoch-Tuple{Function,Int64}"><code>every_n_epoch</code></a> and <a href="./#MXNet.mx.speedometer-Tuple{}"><code>speedometer</code></a>.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/abbbd485f6cb3cde0ac4e5c660560988eee48cfe/src/callback.jl#L28-L50' class='documenter-source'>source</a><br></p>
-<p><a id='MXNet.mx.every_n_epoch-Tuple{Function,Int64}' href='#MXNet.mx.every_n_epoch-Tuple{Function,Int64}'>#</a>
-<strong><code>MXNet.mx.every_n_epoch</code></strong> &mdash; <em>Method</em>.</p>
-<pre><code>every_n_epoch(callback :: Function, n :: Int; call_on_0 = false)
-</code></pre>
-
-<p>A convenient function to construct a callback that runs every <code>n</code> full data-passes.</p>
-<ul>
-<li><code>call_on_0::Int</code>: keyword argument, default false. Unless set, the callback         will <em>not</em> be run on epoch 0. Epoch 0 means no training has been performed         yet. This is useful if you want to inspect the randomly initialized model         that has not seen any data yet.</li>
-</ul>
-<p>See also <a href="../@ref"><code>every_n_iter</code></a>.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/abbbd485f6cb3cde0ac4e5c660560988eee48cfe/src/callback.jl#L95-L106' class='documenter-source'>source</a><br></p>
-<p><a id='MXNet.mx.speedometer-Tuple{}' href='#MXNet.mx.speedometer-Tuple{}'>#</a>
-<strong><code>MXNet.mx.speedometer</code></strong> &mdash; <em>Method</em>.</p>
-<pre><code>speedometer(; frequency=50)
-</code></pre>
-
-<p>Create an <code>AbstractBatchCallback</code> that measure the training speed    (number of samples processed per second) every k mini-batches.</p>
-<p><strong>Arguments</strong></p>
-<ul>
-<li><code>frequency::Int</code>: keyword argument, default 50. The frequency (number of         min-batches) to measure and report the speed.</li>
-</ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/abbbd485f6cb3cde0ac4e5c660560988eee48cfe/src/callback.jl#L64-L73' class='documenter-source'>source</a><br></p>
+<p>Note that MXNet.jl can not load <code>libmxnet.so</code> even if it is on one of the paths above in case a library it depends upon is missing from the <code>LD_LIBRARY_PATH</code>. Thus, if you are going to compile to add CUDA, the path to the CUDA libraries will have to be added to <code>LD_LIBRARY_PATH</code>.</p>
           <aside class="copyright" role="note">
             
             Documentation built with
@@ -466,7 +432,7 @@ end
   <nav class="pagination" aria-label="Footer">
     <div class="previous">
       
-        <a href="../optimizer/" title="Optimizers">
+        <a href="../../tutorial/char-lstm/" title="Generating Random Sentence with LSTM RNN">
           <span class="direction">
             Previous
           </span>
@@ -476,7 +442,7 @@ end
             </div>
             <div class="stretch">
               <div class="title">
-                Optimizers
+                Generating Random Sentence with LSTM RNN
               </div>
             </div>
           </div>
@@ -485,14 +451,14 @@ end
     </div>
     <div class="next">
       
-        <a href="../metric/" title="Evaluation Metrics">
+        <a href="../overview/" title="Overview">
           <span class="direction">
             Next
           </span>
           <div class="page">
             <div class="stretch">
               <div class="title">
-                Evaluation Metrics
+                Overview
               </div>
             </div>
             <div class="button button-next" role="button" aria-label="Next">

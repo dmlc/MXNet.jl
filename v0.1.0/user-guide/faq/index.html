@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
     
       
-        <title>Callbacks in training - MXNet.jl</title>
+        <title>FAQ - MXNet.jl</title>
       
       
       
@@ -93,12 +93,12 @@
           <span class="path">
             
               
-                API Documentation <i class="icon icon-link"></i>
+                User Guide <i class="icon icon-link"></i>
               
             
           </span>
         
-        Callbacks in training
+        FAQ
       </div>
     </div>
     
@@ -209,7 +209,7 @@
       
         
   <li>
-    <a class="" title="Installation Guide" href="../../user-guide/install/">
+    <a class="" title="Installation Guide" href="../install/">
       Installation Guide
     </a>
     
@@ -218,7 +218,7 @@
       
         
   <li>
-    <a class="" title="Overview" href="../../user-guide/overview/">
+    <a class="" title="Overview" href="../overview/">
       Overview
     </a>
     
@@ -227,9 +227,24 @@
       
         
   <li>
-    <a class="" title="FAQ" href="../../user-guide/faq/">
+    <a class="current" title="FAQ" href="./">
       FAQ
     </a>
+    
+      
+        
+      
+      
+        <ul>
+          
+            <li class="anchor">
+              <a title="Running MXNet on AWS GPU instances" href="#running-mxnet-on-aws-gpu-instances">
+                Running MXNet on AWS GPU instances
+              </a>
+            </li>
+          
+        </ul>
+      
     
   </li>
 
@@ -245,7 +260,7 @@
       
         
   <li>
-    <a class="" title="Context" href="../context/">
+    <a class="" title="Context" href="../../api/context/">
       Context
     </a>
     
@@ -254,7 +269,7 @@
       
         
   <li>
-    <a class="" title="Models" href="../model/">
+    <a class="" title="Models" href="../../api/model/">
       Models
     </a>
     
@@ -263,7 +278,7 @@
       
         
   <li>
-    <a class="" title="Initializers" href="../initializer/">
+    <a class="" title="Initializers" href="../../api/initializer/">
       Initializers
     </a>
     
@@ -272,7 +287,7 @@
       
         
   <li>
-    <a class="" title="Optimizers" href="../optimizer/">
+    <a class="" title="Optimizers" href="../../api/optimizer/">
       Optimizers
     </a>
     
@@ -281,21 +296,16 @@
       
         
   <li>
-    <a class="current" title="Callbacks in training" href="./">
+    <a class="" title="Callbacks in training" href="../../api/callback/">
       Callbacks in training
     </a>
-    
-      
-        
-      
-      
     
   </li>
 
       
         
   <li>
-    <a class="" title="Evaluation Metrics" href="../metric/">
+    <a class="" title="Evaluation Metrics" href="../../api/metric/">
       Evaluation Metrics
     </a>
     
@@ -304,7 +314,7 @@
       
         
   <li>
-    <a class="" title="Data Providers" href="../io/">
+    <a class="" title="Data Providers" href="../../api/io/">
       Data Providers
     </a>
     
@@ -313,7 +323,7 @@
       
         
   <li>
-    <a class="" title="NDArray API" href="../ndarray/">
+    <a class="" title="NDArray API" href="../../api/ndarray/">
       NDArray API
     </a>
     
@@ -322,7 +332,7 @@
       
         
   <li>
-    <a class="" title="Symbolic API" href="../symbolic-node/">
+    <a class="" title="Symbolic API" href="../../api/symbolic-node/">
       Symbolic API
     </a>
     
@@ -331,7 +341,7 @@
       
         
   <li>
-    <a class="" title="Neural Networks Factory" href="../nn-factory/">
+    <a class="" title="Neural Networks Factory" href="../../api/nn-factory/">
       Neural Networks Factory
     </a>
     
@@ -340,7 +350,7 @@
       
         
   <li>
-    <a class="" title="Executor" href="../executor/">
+    <a class="" title="Executor" href="../../api/executor/">
       Executor
     </a>
     
@@ -349,7 +359,7 @@
       
         
   <li>
-    <a class="" title="Network Visualization" href="../visualize/">
+    <a class="" title="Network Visualization" href="../../api/visualize/">
       Network Visualization
     </a>
     
@@ -370,86 +380,11 @@
       <article class="article">
         <div class="wrapper">
           
-          <p><a id='Callback-in-training-1'></a></p>
-<h1 id="callback-in-training">Callback in training</h1>
-<p><a id='MXNet.mx.AbstractBatchCallback' href='#MXNet.mx.AbstractBatchCallback'>#</a>
-<strong><code>MXNet.mx.AbstractBatchCallback</code></strong> &mdash; <em>Type</em>.</p>
-<pre><code>AbstractBatchCallback
-</code></pre>
-
-<p>Abstract type of callbacks to be called every mini-batch.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/abbbd485f6cb3cde0ac4e5c660560988eee48cfe/src/callback.jl#L8-L12' class='documenter-source'>source</a><br></p>
-<p><a id='MXNet.mx.AbstractCallback' href='#MXNet.mx.AbstractCallback'>#</a>
-<strong><code>MXNet.mx.AbstractCallback</code></strong> &mdash; <em>Type</em>.</p>
-<pre><code>AbstractCallback
-</code></pre>
-
-<p>Abstract type of callback functions used in training.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/abbbd485f6cb3cde0ac4e5c660560988eee48cfe/src/callback.jl#L1-L5' class='documenter-source'>source</a><br></p>
-<p><a id='MXNet.mx.AbstractEpochCallback' href='#MXNet.mx.AbstractEpochCallback'>#</a>
-<strong><code>MXNet.mx.AbstractEpochCallback</code></strong> &mdash; <em>Type</em>.</p>
-<pre><code>AbstractEpochCallback
-</code></pre>
-
-<p>Abstract type of callbacks to be called every epoch.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/abbbd485f6cb3cde0ac4e5c660560988eee48cfe/src/callback.jl#L15-L19' class='documenter-source'>source</a><br></p>
-<p><a id='MXNet.mx.do_checkpoint-Tuple{AbstractString}' href='#MXNet.mx.do_checkpoint-Tuple{AbstractString}'>#</a>
-<strong><code>MXNet.mx.do_checkpoint</code></strong> &mdash; <em>Method</em>.</p>
-<pre><code>do_checkpoint(prefix; frequency=1, save_epoch_0=false)
-</code></pre>
-
-<p>Create an <code>AbstractEpochCallback</code> that save checkpoints of the model to disk. The checkpoints can be loaded back later on.</p>
-<p><strong>Arguments</strong></p>
-<ul>
-<li><code>prefix::AbstractString</code>: the prefix of the filenames to save the model. The model         architecture will be saved to prefix-symbol.json, while the weights will be saved         to prefix-0012.params, for example, for the 12-th epoch.</li>
-<li><code>frequency::Int</code>: keyword argument, default 1. The frequency (measured in epochs) to         save checkpoints.</li>
-<li><code>save_epoch_0::Bool</code>: keyword argument, default false. Whether we should save a         checkpoint for epoch 0 (model initialized but not seen any data yet).</li>
-</ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/abbbd485f6cb3cde0ac4e5c660560988eee48cfe/src/callback.jl#L120-L134' class='documenter-source'>source</a><br></p>
-<p><a id='MXNet.mx.every_n_batch-Tuple{Function,Int64}' href='#MXNet.mx.every_n_batch-Tuple{Function,Int64}'>#</a>
-<strong><code>MXNet.mx.every_n_batch</code></strong> &mdash; <em>Method</em>.</p>
-<pre><code>every_n_batch(callback :: Function, n :: Int; call_on_0 = false)
-</code></pre>
-
-<p>A convenient function to construct a callback that runs every <code>n</code> mini-batches.</p>
-<p><strong>Arguments</strong></p>
-<ul>
-<li><code>call_on_0::Bool</code>: keyword argument, default false. Unless set, the callback         will <em>not</em> be run on batch 0.</li>
-</ul>
-<p>For example, the <a href="./#MXNet.mx.speedometer-Tuple{}"><code>speedometer</code></a> callback is defined as</p>
-<pre><code class="julia">every_n_iter(frequency, call_on_0=true) do state :: OptimizationState
-  if state.curr_batch == 0
-    # reset timer
-  else
-    # compute and print speed
-  end
-end
-</code></pre>
-
-<p>See also <a href="./#MXNet.mx.every_n_epoch-Tuple{Function,Int64}"><code>every_n_epoch</code></a> and <a href="./#MXNet.mx.speedometer-Tuple{}"><code>speedometer</code></a>.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/abbbd485f6cb3cde0ac4e5c660560988eee48cfe/src/callback.jl#L28-L50' class='documenter-source'>source</a><br></p>
-<p><a id='MXNet.mx.every_n_epoch-Tuple{Function,Int64}' href='#MXNet.mx.every_n_epoch-Tuple{Function,Int64}'>#</a>
-<strong><code>MXNet.mx.every_n_epoch</code></strong> &mdash; <em>Method</em>.</p>
-<pre><code>every_n_epoch(callback :: Function, n :: Int; call_on_0 = false)
-</code></pre>
-
-<p>A convenient function to construct a callback that runs every <code>n</code> full data-passes.</p>
-<ul>
-<li><code>call_on_0::Int</code>: keyword argument, default false. Unless set, the callback         will <em>not</em> be run on epoch 0. Epoch 0 means no training has been performed         yet. This is useful if you want to inspect the randomly initialized model         that has not seen any data yet.</li>
-</ul>
-<p>See also <a href="../@ref"><code>every_n_iter</code></a>.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/abbbd485f6cb3cde0ac4e5c660560988eee48cfe/src/callback.jl#L95-L106' class='documenter-source'>source</a><br></p>
-<p><a id='MXNet.mx.speedometer-Tuple{}' href='#MXNet.mx.speedometer-Tuple{}'>#</a>
-<strong><code>MXNet.mx.speedometer</code></strong> &mdash; <em>Method</em>.</p>
-<pre><code>speedometer(; frequency=50)
-</code></pre>
-
-<p>Create an <code>AbstractBatchCallback</code> that measure the training speed    (number of samples processed per second) every k mini-batches.</p>
-<p><strong>Arguments</strong></p>
-<ul>
-<li><code>frequency::Int</code>: keyword argument, default 50. The frequency (number of         min-batches) to measure and report the speed.</li>
-</ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/abbbd485f6cb3cde0ac4e5c660560988eee48cfe/src/callback.jl#L64-L73' class='documenter-source'>source</a><br></p>
+          <p><a id='FAQ-1'></a></p>
+<h1 id="faq">FAQ</h1>
+<p><a id='Running-MXNet-on-AWS-GPU-instances-1'></a></p>
+<h2 id="running-mxnet-on-aws-gpu-instances">Running MXNet on AWS GPU instances</h2>
+<p>See the discussions and notes <a href="https://github.com/dmlc/MXNet.jl/issues/43">here</a>.</p>
           <aside class="copyright" role="note">
             
             Documentation built with
@@ -466,7 +401,7 @@ end
   <nav class="pagination" aria-label="Footer">
     <div class="previous">
       
-        <a href="../optimizer/" title="Optimizers">
+        <a href="../overview/" title="Overview">
           <span class="direction">
             Previous
           </span>
@@ -476,7 +411,7 @@ end
             </div>
             <div class="stretch">
               <div class="title">
-                Optimizers
+                Overview
               </div>
             </div>
           </div>
@@ -485,14 +420,14 @@ end
     </div>
     <div class="next">
       
-        <a href="../metric/" title="Evaluation Metrics">
+        <a href="../../api/context/" title="Context">
           <span class="direction">
             Next
           </span>
           <div class="page">
             <div class="stretch">
               <div class="title">
-                Evaluation Metrics
+                Context
               </div>
             </div>
             <div class="button button-next" role="button" aria-label="Next">
