@@ -1,4 +1,4 @@
-__precompile__()
+#__precompile__()
 
 module MXNet
 
@@ -37,6 +37,7 @@ include("kvstore.jl")
 
 include("callback.jl")
 include("model.jl")
+include("module/Module.jl")
 
 include("visualize.jl")
 

@@ -45,4 +45,5 @@ pages:
     - Symbolic API: api/symbolic-node.md
     - Neural Networks Factory: api/nn-factory.md
     - Executor: api/executor.md
+    - Modules: api/modules.md
     - Network Visualization: api/visualize.md
