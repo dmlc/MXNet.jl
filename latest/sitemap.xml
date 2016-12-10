@@ -3,8 +3,8 @@
 
     
     <url>
-     <loc>None/</loc>
-     <lastmod>2016-10-24</lastmod>
+     <loc>/</loc>
+     <lastmod>2016-12-10</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -12,36 +12,14 @@
     
         
     <url>
-     <loc>None/tutorial/mnist/</loc>
-     <lastmod>2016-10-24</lastmod>
+     <loc>/tutorial/mnist/</loc>
+     <lastmod>2016-12-10</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
-     <loc>None/tutorial/char-lstm/</loc>
-     <lastmod>2016-10-24</lastmod>
-     <changefreq>daily</changefreq>
-    </url>
-        
-    
-
-    
-        
-    <url>
-     <loc>None/user-guide/install/</loc>
-     <lastmod>2016-10-24</lastmod>
-     <changefreq>daily</changefreq>
-    </url>
-        
-    <url>
-     <loc>None/user-guide/overview/</loc>
-     <lastmod>2016-10-24</lastmod>
-     <changefreq>daily</changefreq>
-    </url>
-        
-    <url>
-     <loc>None/user-guide/faq/</loc>
-     <lastmod>2016-10-24</lastmod>
+     <loc>/tutorial/char-lstm/</loc>
+     <lastmod>2016-12-10</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
@@ -50,74 +28,96 @@
     
         
     <url>
-     <loc>None/api/context/</loc>
-     <lastmod>2016-10-24</lastmod>
+     <loc>/user-guide/install/</loc>
+     <lastmod>2016-12-10</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
-     <loc>None/api/model/</loc>
-     <lastmod>2016-10-24</lastmod>
+     <loc>/user-guide/overview/</loc>
+     <lastmod>2016-12-10</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
-     <loc>None/api/initializer/</loc>
-     <lastmod>2016-10-24</lastmod>
+     <loc>/user-guide/faq/</loc>
+     <lastmod>2016-12-10</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    
+
+    
+        
+    <url>
+     <loc>/api/context/</loc>
+     <lastmod>2016-12-10</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
-     <loc>None/api/optimizer/</loc>
-     <lastmod>2016-10-24</lastmod>
+     <loc>/api/model/</loc>
+     <lastmod>2016-12-10</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
-     <loc>None/api/callback/</loc>
-     <lastmod>2016-10-24</lastmod>
+     <loc>/api/initializer/</loc>
+     <lastmod>2016-12-10</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
-     <loc>None/api/metric/</loc>
-     <lastmod>2016-10-24</lastmod>
+     <loc>/api/optimizer/</loc>
+     <lastmod>2016-12-10</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
-     <loc>None/api/io/</loc>
-     <lastmod>2016-10-24</lastmod>
+     <loc>/api/callback/</loc>
+     <lastmod>2016-12-10</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
-     <loc>None/api/ndarray/</loc>
-     <lastmod>2016-10-24</lastmod>
+     <loc>/api/metric/</loc>
+     <lastmod>2016-12-10</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
-     <loc>None/api/symbolic-node/</loc>
-     <lastmod>2016-10-24</lastmod>
+     <loc>/api/io/</loc>
+     <lastmod>2016-12-10</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
-     <loc>None/api/nn-factory/</loc>
-     <lastmod>2016-10-24</lastmod>
+     <loc>/api/ndarray/</loc>
+     <lastmod>2016-12-10</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
-     <loc>None/api/executor/</loc>
-     <lastmod>2016-10-24</lastmod>
+     <loc>/api/symbolic-node/</loc>
+     <lastmod>2016-12-10</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
-     <loc>None/api/visualize/</loc>
-     <lastmod>2016-10-24</lastmod>
+     <loc>/api/nn-factory/</loc>
+     <lastmod>2016-12-10</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>/api/executor/</loc>
+     <lastmod>2016-12-10</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>/api/visualize/</loc>
+     <lastmod>2016-12-10</lastmod>
      <changefreq>daily</changefreq>
     </url>
         

@@ -382,14 +382,14 @@
 <p class="admonition-title">Note</p>
 <p>since C/C++ use row-major ordering for arrays while Julia follows a   column-major ordering. To keep things consistent, we keep the underlying data   in their original layout, but use <em>language-native</em> convention when we talk   about shapes. For example, a mini-batch of 100 MNIST images is a tensor of   C/C++/Python shape (100,1,28,28), while in Julia, the same piece of memory   have shape (28,28,1,100).</p>
 </div>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L70-L83' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L70-L83' class='documenter-source'>source</a><br></p>
 <p><a id='Base.:*-Tuple{MXNet.mx.NDArray,Real}' href='#Base.:*-Tuple{MXNet.mx.NDArray,Real}'>#</a>
 <strong><code>Base.:*</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>*(arg0, arg1)
 </code></pre>
 
 <p>Currently only multiplication a scalar with an <code>NDArray</code> is implemented. Matrix multiplication is to be added soon.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L623-L628' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L623-L628' class='documenter-source'>source</a><br></p>
 <p><a id='Base.:+-Tuple{MXNet.mx.NDArray,Vararg{Union{MXNet.mx.NDArray,Real},N}}' href='#Base.:+-Tuple{MXNet.mx.NDArray,Vararg{Union{MXNet.mx.NDArray,Real},N}}'>#</a>
 <strong><code>Base.:+</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>+(args...)
@@ -397,7 +397,7 @@
 </code></pre>
 
 <p>Summation. Multiple arguments of either scalar or <code>NDArray</code> could be added together. Note at least the first or second argument needs to be an <code>NDArray</code> to avoid ambiguity of built-in summation.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L526-L533' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L526-L533' class='documenter-source'>source</a><br></p>
 <p><a id='Base.:--Tuple{MXNet.mx.NDArray,Union{MXNet.mx.NDArray,Real}}' href='#Base.:--Tuple{MXNet.mx.NDArray,Union{MXNet.mx.NDArray,Real}}'>#</a>
 <strong><code>Base.:-</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>-(arg0, arg1)
@@ -406,28 +406,28 @@
 </code></pre>
 
 <p>Subtraction <code>arg0 - arg1</code>, of scalar types or <code>NDArray</code>. Or create the negative of <code>arg0</code>.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L564-L571' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L564-L571' class='documenter-source'>source</a><br></p>
 <p><a id='Base.:.*-Tuple{MXNet.mx.NDArray,Union{MXNet.mx.NDArray,Real}}' href='#Base.:.*-Tuple{MXNet.mx.NDArray,Union{MXNet.mx.NDArray,Real}}'>#</a>
 <strong><code>Base.:.*</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>.*(arg0, arg1)
 </code></pre>
 
 <p>Elementwise multiplication of <code>arg0</code> and <code>arg</code>, could be either scalar or <code>NDArray</code>.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L610-L614' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L610-L614' class='documenter-source'>source</a><br></p>
 <p><a id='Base.:./-Tuple{MXNet.mx.NDArray,Union{MXNet.mx.NDArray,Real}}' href='#Base.:./-Tuple{MXNet.mx.NDArray,Union{MXNet.mx.NDArray,Real}}'>#</a>
 <strong><code>Base.:./</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>./(arg0 :: NDArray, arg :: Union{Real, NDArray})
 </code></pre>
 
 <p>Elementwise dividing an <code>NDArray</code> by a scalar or another <code>NDArray</code> of the same shape.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L652-L656' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L652-L656' class='documenter-source'>source</a><br></p>
 <p><a id='Base.:/-Tuple{MXNet.mx.NDArray,Real}' href='#Base.:/-Tuple{MXNet.mx.NDArray,Real}'>#</a>
 <strong><code>Base.:/</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>/(arg0 :: NDArray, arg :: Real)
 </code></pre>
 
 <p>Divide an <code>NDArray</code> by a scalar. Matrix division (solving linear systems) is not implemented yet.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L662-L666' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L662-L666' class='documenter-source'>source</a><br></p>
 <p><a id='Base.LinAlg.dot-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray,MXNet.mx.NDArray}' href='#Base.LinAlg.dot-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray,MXNet.mx.NDArray}'>#</a>
 <strong><code>Base.LinAlg.dot</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>dot(lhs, rhs)
@@ -439,7 +439,7 @@
 <li><code>lhs::NDArray</code>: Left operand  to the function</li>
 <li><code>rhs::NDArray</code>: Right operand to the function</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L1108-L1117' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L1108-L1117' class='documenter-source'>source</a><br></p>
 <p><a id='Base.LinAlg.norm-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray}' href='#Base.LinAlg.norm-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray}'>#</a>
 <strong><code>Base.LinAlg.norm</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>norm(src)
@@ -450,7 +450,7 @@
 <ul>
 <li><code>src::NDArray</code>: Source input to the function</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L1108-L1115' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L1108-L1115' class='documenter-source'>source</a><br></p>
 <p><a id='Base._div-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray,MXNet.mx.NDArray}' href='#Base._div-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray,MXNet.mx.NDArray}'>#</a>
 <strong><code>Base._div</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>_div(lhs, rhs)
@@ -462,7 +462,7 @@
 <li><code>lhs::NDArray</code>: Left operand  to the function</li>
 <li><code>rhs::NDArray</code>: Right operand to the function</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L1108-L1117' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L1108-L1117' class='documenter-source'>source</a><br></p>
 <p><a id='Base.abs-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray}' href='#Base.abs-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray}'>#</a>
 <strong><code>Base.abs</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>abs(src)
@@ -473,7 +473,7 @@
 <ul>
 <li><code>src::NDArray</code>: Source input to the function</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L1108-L1115' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L1108-L1115' class='documenter-source'>source</a><br></p>
 <p><a id='Base.ceil-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray}' href='#Base.ceil-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray}'>#</a>
 <strong><code>Base.ceil</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>ceil(src)
@@ -484,21 +484,21 @@
 <ul>
 <li><code>src::NDArray</code>: Source input to the function</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L1108-L1115' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L1108-L1115' class='documenter-source'>source</a><br></p>
 <p><a id='Base.convert-Tuple{Type{Array{T<:Real,N}},MXNet.mx.NDArray}' href='#Base.convert-Tuple{Type{Array{T<:Real,N}},MXNet.mx.NDArray}'>#</a>
 <strong><code>Base.convert</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>convert(::Type{Array{T}}, arr :: NDArray)
 </code></pre>
 
 <p>Convert an <code>NDArray</code> into a Julia <code>Array</code> of specific type. Data will be copied.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L461-L465' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L461-L465' class='documenter-source'>source</a><br></p>
 <p><a id='Base.copy!-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray}' href='#Base.copy!-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray}'>#</a>
 <strong><code>Base.copy!</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>copy!(dst :: Union{NDArray, Array}, src :: Union{NDArray, Array})
 </code></pre>
 
 <p>Copy contents of <code>src</code> into <code>dst</code>.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L389-L393' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L389-L393' class='documenter-source'>source</a><br></p>
 <p><a id='Base.copy-Tuple{MXNet.mx.NDArray}' href='#Base.copy-Tuple{MXNet.mx.NDArray}'>#</a>
 <strong><code>Base.copy</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>copy(arr :: NDArray)
@@ -507,7 +507,7 @@ copy(arr :: Array, ctx :: Context)
 </code></pre>
 
 <p>Create a copy of an array. When no <code>Context</code> is given, create a Julia <code>Array</code>. Otherwise, create an <code>NDArray</code> on the specified context.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L435-L442' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L435-L442' class='documenter-source'>source</a><br></p>
 <p><a id='Base.cos-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray}' href='#Base.cos-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray}'>#</a>
 <strong><code>Base.cos</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>cos(src)
@@ -518,14 +518,14 @@ copy(arr :: Array, ctx :: Context)
 <ul>
 <li><code>src::NDArray</code>: Source input to the function</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L1108-L1115' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L1108-L1115' class='documenter-source'>source</a><br></p>
 <p><a id='Base.eltype-Tuple{T<:Union{MXNet.mx.MX_NDArrayHandle,MXNet.mx.NDArray}}' href='#Base.eltype-Tuple{T<:Union{MXNet.mx.MX_NDArrayHandle,MXNet.mx.NDArray}}'>#</a>
 <strong><code>Base.eltype</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>eltype(arr :: NDArray)
 </code></pre>
 
 <p>Get the element type of an <code>NDArray</code>.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L272-L276' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L272-L276' class='documenter-source'>source</a><br></p>
 <p><a id='Base.exp-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray}' href='#Base.exp-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray}'>#</a>
 <strong><code>Base.exp</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>exp(src)
@@ -536,7 +536,7 @@ copy(arr :: Array, ctx :: Context)
 <ul>
 <li><code>src::NDArray</code>: Source input to the function</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L1108-L1115' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L1108-L1115' class='documenter-source'>source</a><br></p>
 <p><a id='Base.floor-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray}' href='#Base.floor-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray}'>#</a>
 <strong><code>Base.floor</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>floor(src)
@@ -547,7 +547,7 @@ copy(arr :: Array, ctx :: Context)
 <ul>
 <li><code>src::NDArray</code>: Source input to the function</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L1108-L1115' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L1108-L1115' class='documenter-source'>source</a><br></p>
 <p><a id='Base.getindex-Tuple{MXNet.mx.NDArray,Colon}' href='#Base.getindex-Tuple{MXNet.mx.NDArray,Colon}'>#</a>
 <strong><code>Base.getindex</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>getindex(arr :: NDArray, idx)
@@ -569,18 +569,18 @@ copy(arr :: Array, ctx :: Context)
 <p class="admonition-title">Note</p>
 <p>The behavior is quite different from indexing into Julia's <code>Array</code>. For example, <code>arr[2:5]</code> create a <strong>copy</strong> of the sub-array for Julia <code>Array</code>, while for <code>NDArray</code>, this is a <em>slice</em> that shares the memory.</p>
 </div>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L350-L375' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L350-L375' class='documenter-source'>source</a><br></p>
 <p><a id='Base.getindex-Tuple{MXNet.mx.NDArray,UnitRange{Int64}}' href='#Base.getindex-Tuple{MXNet.mx.NDArray,UnitRange{Int64}}'>#</a>
 <strong><code>Base.getindex</code></strong> &mdash; <em>Method</em>.</p>
 <p>Shortcut for <a href="./#Base.slice-Tuple{MXNet.mx.NDArray,Colon}"><code>slice</code></a>. <strong>NOTE</strong> the behavior for Julia's built-in index slicing is to create a copy of the sub-array, while here we simply call <code>slice</code>, which shares the underlying memory.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L380-L383' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L380-L383' class='documenter-source'>source</a><br></p>
 <p><a id='Base.length-Tuple{MXNet.mx.NDArray}' href='#Base.length-Tuple{MXNet.mx.NDArray}'>#</a>
 <strong><code>Base.length</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>length(arr :: NDArray)
 </code></pre>
 
 <p>Get the number of elements in an <code>NDArray</code>.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L254-L258' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L254-L258' class='documenter-source'>source</a><br></p>
 <p><a id='Base.log-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray}' href='#Base.log-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray}'>#</a>
 <strong><code>Base.log</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>log(src)
@@ -591,7 +591,7 @@ copy(arr :: Array, ctx :: Context)
 <ul>
 <li><code>src::NDArray</code>: Source input to the function</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L1108-L1115' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L1108-L1115' class='documenter-source'>source</a><br></p>
 <p><a id='Base.max-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray}' href='#Base.max-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray}'>#</a>
 <strong><code>Base.max</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>max(src, axis, keepdims)
@@ -604,7 +604,7 @@ copy(arr :: Array, ctx :: Context)
 <li><code>axis::Shape(tuple), optional, default=()</code>: Same as Numpy. The axes to perform the reduction.If left empty, a global reduction will be performed.</li>
 <li><code>keepdims::boolean, optional, default=False</code>: Same as Numpy. If keepdims is set to true, the axis which is reduced is left in the result as dimension with size one.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L1108-L1119' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L1108-L1119' class='documenter-source'>source</a><br></p>
 <p><a id='Base.min-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray}' href='#Base.min-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray}'>#</a>
 <strong><code>Base.min</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>min(src, axis, keepdims)
@@ -617,14 +617,14 @@ copy(arr :: Array, ctx :: Context)
 <li><code>axis::Shape(tuple), optional, default=()</code>: Same as Numpy. The axes to perform the reduction.If left empty, a global reduction will be performed.</li>
 <li><code>keepdims::boolean, optional, default=False</code>: Same as Numpy. If keepdims is set to true, the axis which is reduced is left in the result as dimension with size one.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L1108-L1119' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L1108-L1119' class='documenter-source'>source</a><br></p>
 <p><a id='Base.ndims-Tuple{MXNet.mx.NDArray}' href='#Base.ndims-Tuple{MXNet.mx.NDArray}'>#</a>
 <strong><code>Base.ndims</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>ndims(arr :: NDArray)
 </code></pre>
 
 <p>Get the number of dimensions of an <code>NDArray</code>. Is equivalent to <code>length(size(arr))</code>.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L263-L267' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L263-L267' class='documenter-source'>source</a><br></p>
 <p><a id='Base.round-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray}' href='#Base.round-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray}'>#</a>
 <strong><code>Base.round</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>round(src)
@@ -635,7 +635,7 @@ copy(arr :: Array, ctx :: Context)
 <ul>
 <li><code>src::NDArray</code>: Source input to the function</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L1108-L1115' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L1108-L1115' class='documenter-source'>source</a><br></p>
 <p><a id='Base.setindex!-Tuple{MXNet.mx.NDArray,Real,Colon}' href='#Base.setindex!-Tuple{MXNet.mx.NDArray,Real,Colon}'>#</a>
 <strong><code>Base.setindex!</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>setindex!(arr :: NDArray, val, idx)
@@ -646,7 +646,7 @@ copy(arr :: Array, ctx :: Context)
 <li><code>arr[:] = val</code>: whole array assignment, <code>val</code> could be a scalar or an array (Julia <code>Array</code> or <code>NDArray</code>) of the same shape.</li>
 <li><code>arr[start:stop] = val</code>: assignment to a <em>slice</em>, <code>val</code> could be a scalar or an array of the same shape to the slice. See also <a href="./#Base.slice-Tuple{MXNet.mx.NDArray,Colon}"><code>slice</code></a>.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L323-L333' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L323-L333' class='documenter-source'>source</a><br></p>
 <p><a id='Base.sign-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray}' href='#Base.sign-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray}'>#</a>
 <strong><code>Base.sign</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>sign(src)
@@ -657,7 +657,7 @@ copy(arr :: Array, ctx :: Context)
 <ul>
 <li><code>src::NDArray</code>: Source input to the function</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L1108-L1115' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L1108-L1115' class='documenter-source'>source</a><br></p>
 <p><a id='Base.sin-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray}' href='#Base.sin-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray}'>#</a>
 <strong><code>Base.sin</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>sin(src)
@@ -668,7 +668,7 @@ copy(arr :: Array, ctx :: Context)
 <ul>
 <li><code>src::NDArray</code>: Source input to the function</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L1108-L1115' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L1108-L1115' class='documenter-source'>source</a><br></p>
 <p><a id='Base.size-Tuple{MXNet.mx.NDArray}' href='#Base.size-Tuple{MXNet.mx.NDArray}'>#</a>
 <strong><code>Base.size</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>size(arr :: NDArray)
@@ -676,14 +676,14 @@ size(arr :: NDArray, dim :: Int)
 </code></pre>
 
 <p>Get the shape of an <code>NDArray</code>. The shape is in Julia's column-major convention. See also the notes on NDArray shapes <a href="./#MXNet.mx.NDArray"><code>NDArray</code></a>.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L236-L242' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L236-L242' class='documenter-source'>source</a><br></p>
 <p><a id='Base.slice-Tuple{MXNet.mx.NDArray,Colon}' href='#Base.slice-Tuple{MXNet.mx.NDArray,Colon}'>#</a>
 <strong><code>Base.slice</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>slice(arr :: NDArray, start:stop)
 </code></pre>
 
 <p>Create a view into a sub-slice of an <code>NDArray</code>. Note only slicing at the slowest changing dimension is supported. In Julia's column-major perspective, this is the last dimension. For example, given an <code>NDArray</code> of shape (2,3,4), <code>slice(array, 2:3)</code> will create a <code>NDArray</code> of shape (2,3,2), sharing the data with the original array. This operation is used in data parallelization to split mini-batch into sub-batches for different devices.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L293-L301' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L293-L301' class='documenter-source'>source</a><br></p>
 <p><a id='Base.sqrt-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray}' href='#Base.sqrt-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray}'>#</a>
 <strong><code>Base.sqrt</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>sqrt(src)
@@ -694,7 +694,7 @@ size(arr :: NDArray, dim :: Int)
 <ul>
 <li><code>src::NDArray</code>: Source input to the function</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L1108-L1115' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L1108-L1115' class='documenter-source'>source</a><br></p>
 <p><a id='Base.sum-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray}' href='#Base.sum-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray}'>#</a>
 <strong><code>Base.sum</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>sum(src, axis, keepdims)
@@ -707,7 +707,7 @@ size(arr :: NDArray, dim :: Int)
 <li><code>axis::Shape(tuple), optional, default=()</code>: Same as Numpy. The axes to perform the reduction.If left empty, a global reduction will be performed.</li>
 <li><code>keepdims::boolean, optional, default=False</code>: Same as Numpy. If keepdims is set to true, the axis which is reduced is left in the result as dimension with size one.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L1108-L1119' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L1108-L1119' class='documenter-source'>source</a><br></p>
 <p><a id='Base.transpose-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray}' href='#Base.transpose-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray}'>#</a>
 <strong><code>Base.transpose</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>transpose(src, axes)
@@ -719,7 +719,7 @@ size(arr :: NDArray, dim :: Int)
 <li><code>src::NDArray</code>: Source input to the function</li>
 <li><code>axes::Shape(tuple), optional, default=()</code>: Target axis order. By default the axes will be inverted.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L1108-L1117' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L1108-L1117' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx._broadcast-Tuple{MXNet.mx.NDArray,Real,Real,MXNet.mx.NDArray}' href='#MXNet.mx._broadcast-Tuple{MXNet.mx.NDArray,Real,Real,MXNet.mx.NDArray}'>#</a>
 <strong><code>MXNet.mx._broadcast</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>_broadcast(src, axis, size)
@@ -732,7 +732,7 @@ size(arr :: NDArray, dim :: Int)
 <li><code>axis::int</code>: axis to broadcast</li>
 <li><code>size::int</code>: size of broadcast</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L1108-L1119' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L1108-L1119' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx._copyto-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray}' href='#MXNet.mx._copyto-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray}'>#</a>
 <strong><code>MXNet.mx._copyto</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>_copyto(src)
@@ -742,7 +742,7 @@ size(arr :: NDArray, dim :: Int)
 <ul>
 <li><code>src::NDArray</code>: Source input to the function.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L1108-L1115' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L1108-L1115' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx._crop_assign-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray,MXNet.mx.NDArray}' href='#MXNet.mx._crop_assign-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray,MXNet.mx.NDArray}'>#</a>
 <strong><code>MXNet.mx._crop_assign</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>_crop_assign(lhs, rhs, begin, end)
@@ -761,7 +761,7 @@ size(arr :: NDArray, dim :: Int)
 <li><code>begin::Shape(tuple), required</code>: starting coordinates</li>
 <li><code>end::Shape(tuple), required</code>: ending coordinates</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L1108-L1127' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L1108-L1127' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx._crop_assign_scalar-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray}' href='#MXNet.mx._crop_assign_scalar-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray}'>#</a>
 <strong><code>MXNet.mx._crop_assign_scalar</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>_crop_assign_scalar(src, begin, end, scalar)
@@ -779,7 +779,7 @@ size(arr :: NDArray, dim :: Int)
 <li><code>end::Shape(tuple), required</code>: ending coordinates</li>
 <li><code>scalar::float, optional, default=0</code>: The scalar value for assignment.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L1108-L1126' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L1108-L1126' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx._div_scalar-Tuple{MXNet.mx.NDArray,Real,MXNet.mx.NDArray}' href='#MXNet.mx._div_scalar-Tuple{MXNet.mx.NDArray,Real,MXNet.mx.NDArray}'>#</a>
 <strong><code>MXNet.mx._div_scalar</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>_div_scalar(src, scalar)
@@ -790,7 +790,7 @@ size(arr :: NDArray, dim :: Int)
 <li><code>src::NDArray</code>: Source input to the function</li>
 <li><code>scalar::float</code>: scalar input to the function</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L1108-L1117' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L1108-L1117' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx._get_ndarray_functions-Tuple{}' href='#MXNet.mx._get_ndarray_functions-Tuple{}'>#</a>
 <strong><code>MXNet.mx._get_ndarray_functions</code></strong> &mdash; <em>Method</em>.</p>
 <p>The libxmnet APIs are automatically imported from <code>libmxnet.so</code>. The functions listed here operate on <code>NDArray</code> objects. The arguments to the functions are typically ordered as</p>
@@ -807,13 +807,13 @@ size(arr :: NDArray, dim :: Int)
 
 <p>Upon calling, the output arguments will be automatically initialized with empty NDArrays.</p>
 <p>Those functions always return the output arguments. If there is only one output (the typical situation), that object (<code>NDArray</code>) is returned. Otherwise, a tuple containing all the outputs will be returned.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L924-L949' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L924-L949' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx._imdecode-Tuple{MXNet.mx.NDArray,Real,Real,Real,Real,Real,Real,Real,MXNet.mx.NDArray}' href='#MXNet.mx._imdecode-Tuple{MXNet.mx.NDArray,Real,Real,Real,Real,Real,Real,Real,MXNet.mx.NDArray}'>#</a>
 <strong><code>MXNet.mx._imdecode</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>_imdecode(mean, index, x0, y0, x1, y1, c, size)
 </code></pre>
 
-<p>Decode an image, clip to (x0, y0, x1, y1), substract mean, and write to buffer</p>
+<p>Decode an image, clip to (x0, y0, x1, y1), subtract mean, and write to buffer</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>mean::NDArray</code>: image mean</li>
@@ -825,7 +825,7 @@ size(arr :: NDArray, dim :: Int)
 <li><code>c::int</code>: channel</li>
 <li><code>size::int</code>: length of str_img</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L1108-L1129' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L1108-L1129' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx._maximum-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray,MXNet.mx.NDArray}' href='#MXNet.mx._maximum-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray,MXNet.mx.NDArray}'>#</a>
 <strong><code>MXNet.mx._maximum</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>_maximum(lhs, rhs)
@@ -837,7 +837,7 @@ size(arr :: NDArray, dim :: Int)
 <li><code>lhs::NDArray</code>: Left operand  to the function</li>
 <li><code>rhs::NDArray</code>: Right operand to the function</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L1108-L1117' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L1108-L1117' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx._maximum_scalar-Tuple{MXNet.mx.NDArray,Real,MXNet.mx.NDArray}' href='#MXNet.mx._maximum_scalar-Tuple{MXNet.mx.NDArray,Real,MXNet.mx.NDArray}'>#</a>
 <strong><code>MXNet.mx._maximum_scalar</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>_maximum_scalar(src, scalar)
@@ -848,7 +848,7 @@ size(arr :: NDArray, dim :: Int)
 <li><code>src::NDArray</code>: Source input to the function</li>
 <li><code>scalar::float</code>: scalar input to the function</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L1108-L1117' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L1108-L1117' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx._minimum-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray,MXNet.mx.NDArray}' href='#MXNet.mx._minimum-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray,MXNet.mx.NDArray}'>#</a>
 <strong><code>MXNet.mx._minimum</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>_minimum(lhs, rhs)
@@ -860,7 +860,7 @@ size(arr :: NDArray, dim :: Int)
 <li><code>lhs::NDArray</code>: Left operand  to the function</li>
 <li><code>rhs::NDArray</code>: Right operand to the function</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L1108-L1117' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L1108-L1117' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx._minimum_scalar-Tuple{MXNet.mx.NDArray,Real,MXNet.mx.NDArray}' href='#MXNet.mx._minimum_scalar-Tuple{MXNet.mx.NDArray,Real,MXNet.mx.NDArray}'>#</a>
 <strong><code>MXNet.mx._minimum_scalar</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>_minimum_scalar(src, scalar)
@@ -871,7 +871,7 @@ size(arr :: NDArray, dim :: Int)
 <li><code>src::NDArray</code>: Source input to the function</li>
 <li><code>scalar::float</code>: scalar input to the function</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L1108-L1117' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L1108-L1117' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx._minus-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray,MXNet.mx.NDArray}' href='#MXNet.mx._minus-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray,MXNet.mx.NDArray}'>#</a>
 <strong><code>MXNet.mx._minus</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>_minus(lhs, rhs)
@@ -883,7 +883,7 @@ size(arr :: NDArray, dim :: Int)
 <li><code>lhs::NDArray</code>: Left operand  to the function</li>
 <li><code>rhs::NDArray</code>: Right operand to the function</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L1108-L1117' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L1108-L1117' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx._minus_scalar-Tuple{MXNet.mx.NDArray,Real,MXNet.mx.NDArray}' href='#MXNet.mx._minus_scalar-Tuple{MXNet.mx.NDArray,Real,MXNet.mx.NDArray}'>#</a>
 <strong><code>MXNet.mx._minus_scalar</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>_minus_scalar(src, scalar)
@@ -894,7 +894,7 @@ size(arr :: NDArray, dim :: Int)
 <li><code>src::NDArray</code>: Source input to the function</li>
 <li><code>scalar::float</code>: scalar input to the function</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L1108-L1117' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L1108-L1117' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx._mul-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray,MXNet.mx.NDArray}' href='#MXNet.mx._mul-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray,MXNet.mx.NDArray}'>#</a>
 <strong><code>MXNet.mx._mul</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>_mul(lhs, rhs)
@@ -906,7 +906,7 @@ size(arr :: NDArray, dim :: Int)
 <li><code>lhs::NDArray</code>: Left operand  to the function</li>
 <li><code>rhs::NDArray</code>: Right operand to the function</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L1108-L1117' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L1108-L1117' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx._mul_scalar-Tuple{MXNet.mx.NDArray,Real,MXNet.mx.NDArray}' href='#MXNet.mx._mul_scalar-Tuple{MXNet.mx.NDArray,Real,MXNet.mx.NDArray}'>#</a>
 <strong><code>MXNet.mx._mul_scalar</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>_mul_scalar(src, scalar)
@@ -917,7 +917,7 @@ size(arr :: NDArray, dim :: Int)
 <li><code>src::NDArray</code>: Source input to the function</li>
 <li><code>scalar::float</code>: scalar input to the function</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L1108-L1117' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L1108-L1117' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx._onehot_encode-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray,MXNet.mx.NDArray}' href='#MXNet.mx._onehot_encode-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray,MXNet.mx.NDArray}'>#</a>
 <strong><code>MXNet.mx._onehot_encode</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>_onehot_encode(lhs, rhs)
@@ -928,7 +928,7 @@ size(arr :: NDArray, dim :: Int)
 <li><code>lhs::NDArray</code>: Left operand to the function.</li>
 <li><code>rhs::NDArray</code>: Right operand to the function.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L1108-L1117' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L1108-L1117' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx._plus-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray,MXNet.mx.NDArray}' href='#MXNet.mx._plus-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray,MXNet.mx.NDArray}'>#</a>
 <strong><code>MXNet.mx._plus</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>_plus(lhs, rhs)
@@ -940,7 +940,7 @@ size(arr :: NDArray, dim :: Int)
 <li><code>lhs::NDArray</code>: Left operand  to the function</li>
 <li><code>rhs::NDArray</code>: Right operand to the function</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L1108-L1117' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L1108-L1117' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx._plus_scalar-Tuple{MXNet.mx.NDArray,Real,MXNet.mx.NDArray}' href='#MXNet.mx._plus_scalar-Tuple{MXNet.mx.NDArray,Real,MXNet.mx.NDArray}'>#</a>
 <strong><code>MXNet.mx._plus_scalar</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>_plus_scalar(src, scalar)
@@ -951,7 +951,7 @@ size(arr :: NDArray, dim :: Int)
 <li><code>src::NDArray</code>: Source input to the function</li>
 <li><code>scalar::float</code>: scalar input to the function</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L1108-L1117' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L1108-L1117' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx._power-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray,MXNet.mx.NDArray}' href='#MXNet.mx._power-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray,MXNet.mx.NDArray}'>#</a>
 <strong><code>MXNet.mx._power</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>_power(lhs, rhs)
@@ -963,7 +963,7 @@ size(arr :: NDArray, dim :: Int)
 <li><code>lhs::NDArray</code>: Left operand  to the function</li>
 <li><code>rhs::NDArray</code>: Right operand to the function</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L1108-L1117' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L1108-L1117' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx._power_scalar-Tuple{MXNet.mx.NDArray,Real,MXNet.mx.NDArray}' href='#MXNet.mx._power_scalar-Tuple{MXNet.mx.NDArray,Real,MXNet.mx.NDArray}'>#</a>
 <strong><code>MXNet.mx._power_scalar</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>_power_scalar(src, scalar)
@@ -974,21 +974,21 @@ size(arr :: NDArray, dim :: Int)
 <li><code>src::NDArray</code>: Source input to the function</li>
 <li><code>scalar::float</code>: scalar input to the function</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L1108-L1117' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L1108-L1117' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx._random_gaussian-Tuple{Real,Real,MXNet.mx.NDArray}' href='#MXNet.mx._random_gaussian-Tuple{Real,Real,MXNet.mx.NDArray}'>#</a>
 <strong><code>MXNet.mx._random_gaussian</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>_random_gaussian()
 </code></pre>
 
 <p><strong>Arguments</strong></p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L1108-L1114' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L1108-L1114' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx._random_uniform-Tuple{Real,Real,MXNet.mx.NDArray}' href='#MXNet.mx._random_uniform-Tuple{Real,Real,MXNet.mx.NDArray}'>#</a>
 <strong><code>MXNet.mx._random_uniform</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>_random_uniform()
 </code></pre>
 
 <p><strong>Arguments</strong></p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L1108-L1114' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L1108-L1114' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx._rdiv_scalar-Tuple{MXNet.mx.NDArray,Real,MXNet.mx.NDArray}' href='#MXNet.mx._rdiv_scalar-Tuple{MXNet.mx.NDArray,Real,MXNet.mx.NDArray}'>#</a>
 <strong><code>MXNet.mx._rdiv_scalar</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>_rdiv_scalar(src, scalar)
@@ -999,7 +999,7 @@ size(arr :: NDArray, dim :: Int)
 <li><code>src::NDArray</code>: Source input to the function</li>
 <li><code>scalar::float</code>: scalar input to the function</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L1108-L1117' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L1108-L1117' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx._rminus_scalar-Tuple{MXNet.mx.NDArray,Real,MXNet.mx.NDArray}' href='#MXNet.mx._rminus_scalar-Tuple{MXNet.mx.NDArray,Real,MXNet.mx.NDArray}'>#</a>
 <strong><code>MXNet.mx._rminus_scalar</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>_rminus_scalar(src, scalar)
@@ -1010,7 +1010,7 @@ size(arr :: NDArray, dim :: Int)
 <li><code>src::NDArray</code>: Source input to the function</li>
 <li><code>scalar::float</code>: scalar input to the function</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L1108-L1117' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L1108-L1117' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx._rpower_scalar-Tuple{MXNet.mx.NDArray,Real,MXNet.mx.NDArray}' href='#MXNet.mx._rpower_scalar-Tuple{MXNet.mx.NDArray,Real,MXNet.mx.NDArray}'>#</a>
 <strong><code>MXNet.mx._rpower_scalar</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>_rpower_scalar(src, scalar)
@@ -1021,7 +1021,7 @@ size(arr :: NDArray, dim :: Int)
 <li><code>src::NDArray</code>: Source input to the function</li>
 <li><code>scalar::float</code>: scalar input to the function</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L1108-L1117' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L1108-L1117' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx._sample_normal-Tuple{MXNet.mx.NDArray}' href='#MXNet.mx._sample_normal-Tuple{MXNet.mx.NDArray}'>#</a>
 <strong><code>MXNet.mx._sample_normal</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>_sample_normal(loc, scale, shape)
@@ -1034,7 +1034,7 @@ size(arr :: NDArray, dim :: Int)
 <li><code>scale::float, optional, default=1</code>: Standard deviation of the distribution.</li>
 <li><code>shape::Shape(tuple), required</code>: The shape of the output</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L1108-L1119' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L1108-L1119' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx._sample_uniform-Tuple{MXNet.mx.NDArray}' href='#MXNet.mx._sample_uniform-Tuple{MXNet.mx.NDArray}'>#</a>
 <strong><code>MXNet.mx._sample_uniform</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>_sample_uniform(low, high, shape)
@@ -1047,7 +1047,7 @@ size(arr :: NDArray, dim :: Int)
 <li><code>high::float, optional, default=1</code>: The upper bound of distribution</li>
 <li><code>shape::Shape(tuple), required</code>: The shape of the output</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L1108-L1119' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L1108-L1119' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx._set_value-Tuple{Real,MXNet.mx.NDArray}' href='#MXNet.mx._set_value-Tuple{Real,MXNet.mx.NDArray}'>#</a>
 <strong><code>MXNet.mx._set_value</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>_set_value(src)
@@ -1057,14 +1057,14 @@ size(arr :: NDArray, dim :: Int)
 <ul>
 <li><code>src::real_t</code>: Source input to the function.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L1108-L1115' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L1108-L1115' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.add_to!-Tuple{MXNet.mx.NDArray,Vararg{Union{MXNet.mx.NDArray,Real},N}}' href='#MXNet.mx.add_to!-Tuple{MXNet.mx.NDArray,Vararg{Union{MXNet.mx.NDArray,Real},N}}'>#</a>
 <strong><code>MXNet.mx.add_to!</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>add_to!(dst :: NDArray, args :: Union{Real, NDArray}...)
 </code></pre>
 
 <p>Add a bunch of arguments into <code>dst</code>. Inplace updating.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L507-L511' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L507-L511' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.argmax_channel-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray}' href='#MXNet.mx.argmax_channel-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray}'>#</a>
 <strong><code>MXNet.mx.argmax_channel</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>argmax_channel(src)
@@ -1075,7 +1075,7 @@ size(arr :: NDArray, dim :: Int)
 <ul>
 <li><code>src::NDArray</code>: Source input to the function</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L1108-L1115' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L1108-L1115' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.batch_dot-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray,MXNet.mx.NDArray}' href='#MXNet.mx.batch_dot-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray,MXNet.mx.NDArray}'>#</a>
 <strong><code>MXNet.mx.batch_dot</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>batch_dot(lhs, rhs)
@@ -1087,7 +1087,7 @@ size(arr :: NDArray, dim :: Int)
 <li><code>lhs::NDArray</code>: Left operand  to the function</li>
 <li><code>rhs::NDArray</code>: Right operand to the function</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L1108-L1117' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L1108-L1117' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.broadcast_axis-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray}' href='#MXNet.mx.broadcast_axis-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray}'>#</a>
 <strong><code>MXNet.mx.broadcast_axis</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>broadcast_axis(src, axis, size)
@@ -1100,7 +1100,7 @@ size(arr :: NDArray, dim :: Int)
 <li><code>axis::Shape(tuple), optional, default=()</code>: The axes to perform the broadcasting.</li>
 <li><code>size::Shape(tuple), optional, default=()</code>: Target sizes of the broadcasting axes.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L1108-L1119' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L1108-L1119' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.broadcast_div-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray,MXNet.mx.NDArray}' href='#MXNet.mx.broadcast_div-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray,MXNet.mx.NDArray}'>#</a>
 <strong><code>MXNet.mx.broadcast_div</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>broadcast_div(lhs, rhs)
@@ -1112,7 +1112,7 @@ size(arr :: NDArray, dim :: Int)
 <li><code>lhs::NDArray</code>: Left operand  to the function</li>
 <li><code>rhs::NDArray</code>: Right operand to the function</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L1108-L1117' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L1108-L1117' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.broadcast_minus-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray,MXNet.mx.NDArray}' href='#MXNet.mx.broadcast_minus-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray,MXNet.mx.NDArray}'>#</a>
 <strong><code>MXNet.mx.broadcast_minus</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>broadcast_minus(lhs, rhs)
@@ -1124,7 +1124,7 @@ size(arr :: NDArray, dim :: Int)
 <li><code>lhs::NDArray</code>: Left operand  to the function</li>
 <li><code>rhs::NDArray</code>: Right operand to the function</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L1108-L1117' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L1108-L1117' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.broadcast_mul-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray,MXNet.mx.NDArray}' href='#MXNet.mx.broadcast_mul-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray,MXNet.mx.NDArray}'>#</a>
 <strong><code>MXNet.mx.broadcast_mul</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>broadcast_mul(lhs, rhs)
@@ -1136,7 +1136,7 @@ size(arr :: NDArray, dim :: Int)
 <li><code>lhs::NDArray</code>: Left operand  to the function</li>
 <li><code>rhs::NDArray</code>: Right operand to the function</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L1108-L1117' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L1108-L1117' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.broadcast_plus-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray,MXNet.mx.NDArray}' href='#MXNet.mx.broadcast_plus-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray,MXNet.mx.NDArray}'>#</a>
 <strong><code>MXNet.mx.broadcast_plus</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>broadcast_plus(lhs, rhs)
@@ -1148,7 +1148,7 @@ size(arr :: NDArray, dim :: Int)
 <li><code>lhs::NDArray</code>: Left operand  to the function</li>
 <li><code>rhs::NDArray</code>: Right operand to the function</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L1108-L1117' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L1108-L1117' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.broadcast_power-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray,MXNet.mx.NDArray}' href='#MXNet.mx.broadcast_power-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray,MXNet.mx.NDArray}'>#</a>
 <strong><code>MXNet.mx.broadcast_power</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>broadcast_power(lhs, rhs)
@@ -1160,7 +1160,7 @@ size(arr :: NDArray, dim :: Int)
 <li><code>lhs::NDArray</code>: Left operand  to the function</li>
 <li><code>rhs::NDArray</code>: Right operand to the function</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L1108-L1117' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L1108-L1117' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.broadcast_to-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray}' href='#MXNet.mx.broadcast_to-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray}'>#</a>
 <strong><code>MXNet.mx.broadcast_to</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>broadcast_to(src, shape)
@@ -1172,7 +1172,7 @@ size(arr :: NDArray, dim :: Int)
 <li><code>src::NDArray</code>: Source input to the function</li>
 <li><code>shape::Shape(tuple), optional, default=()</code>: The shape of the desired array. We can set the dim to zero if it's same as the original. E.g <code>A = broadcast_to(B, shape=(10, 0, 0))</code> has the same meaning as <code>A = broadcast_axis(B, axis=0, size=10)</code>.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L1108-L1117' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L1108-L1117' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.choose_element_0index-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray,MXNet.mx.NDArray}' href='#MXNet.mx.choose_element_0index-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray,MXNet.mx.NDArray}'>#</a>
 <strong><code>MXNet.mx.choose_element_0index</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>choose_element_0index(lhs, rhs)
@@ -1184,7 +1184,7 @@ size(arr :: NDArray, dim :: Int)
 <li><code>lhs::NDArray</code>: Left operand to the function.</li>
 <li><code>rhs::NDArray</code>: Right operand to the function.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L1108-L1117' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L1108-L1117' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.clip-Tuple{MXNet.mx.NDArray,Real,Real,MXNet.mx.NDArray}' href='#MXNet.mx.clip-Tuple{MXNet.mx.NDArray,Real,Real,MXNet.mx.NDArray}'>#</a>
 <strong><code>MXNet.mx.clip</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>clip(src, a_min, a_max)
@@ -1197,14 +1197,14 @@ size(arr :: NDArray, dim :: Int)
 <li><code>a_min::real_t</code>: Minimum value</li>
 <li><code>a_max::real_t</code>: Maximum value</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L1108-L1119' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L1108-L1119' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.context-Tuple{MXNet.mx.NDArray}' href='#MXNet.mx.context-Tuple{MXNet.mx.NDArray}'>#</a>
 <strong><code>MXNet.mx.context</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>context(arr :: NDArray)
 </code></pre>
 
 <p>Get the context that this <code>NDArray</code> lives on.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L110-L114' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L110-L114' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.crop-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray}' href='#MXNet.mx.crop-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray}'>#</a>
 <strong><code>MXNet.mx.crop</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>crop(src, begin, end)
@@ -1221,14 +1221,14 @@ size(arr :: NDArray, dim :: Int)
 <li><code>begin::Shape(tuple), required</code>: starting coordinates</li>
 <li><code>end::Shape(tuple), required</code>: ending coordinates</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L1108-L1125' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L1108-L1125' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.div_from!-Tuple{MXNet.mx.NDArray,Union{MXNet.mx.NDArray,Real}}' href='#MXNet.mx.div_from!-Tuple{MXNet.mx.NDArray,Union{MXNet.mx.NDArray,Real}}'>#</a>
 <strong><code>MXNet.mx.div_from!</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>div_from!(dst :: NDArray, arg :: Union{Real, NDArray})
 </code></pre>
 
 <p>Elementwise divide a scalar or an <code>NDArray</code> of the same shape from <code>dst</code>. Inplace updating.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L637-L641' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L637-L641' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.element_mask-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray,MXNet.mx.NDArray}' href='#MXNet.mx.element_mask-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray,MXNet.mx.NDArray}'>#</a>
 <strong><code>MXNet.mx.element_mask</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>element_mask(lhs, rhs)
@@ -1240,7 +1240,7 @@ size(arr :: NDArray, dim :: Int)
 <li><code>lhs::NDArray</code>: Left operand  to the function</li>
 <li><code>rhs::NDArray</code>: Right operand to the function</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L1108-L1117' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L1108-L1117' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.empty-Tuple{Tuple{Vararg{Int64,N}}}' href='#MXNet.mx.empty-Tuple{Tuple{Vararg{Int64,N}}}'>#</a>
 <strong><code>MXNet.mx.empty</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>empty(shape :: Tuple, ctx :: Context)
@@ -1249,7 +1249,7 @@ empty(dim1, dim2, ...)
 </code></pre>
 
 <p>Allocate memory for an uninitialized <code>NDArray</code> with specific shape of type Float32.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L141-L147' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L141-L147' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.empty-Tuple{Type{T<:Union{Float16,Float32,Float64,Int32,UInt8}},Tuple{Vararg{Int64,N}}}' href='#MXNet.mx.empty-Tuple{Type{T<:Union{Float16,Float32,Float64,Int32,UInt8}},Tuple{Vararg{Int64,N}}}'>#</a>
 <strong><code>MXNet.mx.empty</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>empty(DType, shape :: Tuple, ctx :: Context)
@@ -1258,7 +1258,7 @@ empty(DType, dim1, dim2, ...)
 </code></pre>
 
 <p>Allocate memory for an uninitialized <code>NDArray</code> with a specified type.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L124-L130' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L124-L130' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.expand_dims-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray}' href='#MXNet.mx.expand_dims-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray}'>#</a>
 <strong><code>MXNet.mx.expand_dims</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>expand_dims(src, axis)
@@ -1270,7 +1270,7 @@ empty(DType, dim1, dim2, ...)
 <li><code>src::NDArray</code>: Source input to the function</li>
 <li><code>axis::int (non-negative), required</code>: Position (amongst axes) where new axis is to be inserted.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L1108-L1117' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L1108-L1117' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.fill_element_0index-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray,MXNet.mx.NDArray,MXNet.mx.NDArray}' href='#MXNet.mx.fill_element_0index-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray,MXNet.mx.NDArray,MXNet.mx.NDArray}'>#</a>
 <strong><code>MXNet.mx.fill_element_0index</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>fill_element_0index(lhs, mhs, rhs)
@@ -1283,7 +1283,7 @@ empty(DType, dim1, dim2, ...)
 <li><code>mhs::NDArray</code>: Middle operand to the function.</li>
 <li><code>rhs::NDArray</code>: Right operand to the function.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L1108-L1119' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L1108-L1119' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.flip-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray}' href='#MXNet.mx.flip-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray}'>#</a>
 <strong><code>MXNet.mx.flip</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>flip(src, axis)
@@ -1295,7 +1295,7 @@ empty(DType, dim1, dim2, ...)
 <li><code>src::NDArray</code>: Source input to the function</li>
 <li><code>axis::int, required</code>: The dimension to flip</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L1108-L1117' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L1108-L1117' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.is_shared-Tuple{Array,MXNet.mx.NDArray}' href='#MXNet.mx.is_shared-Tuple{Array,MXNet.mx.NDArray}'>#</a>
 <strong><code>MXNet.mx.is_shared</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>is_shared(j_arr, arr)
@@ -1307,7 +1307,7 @@ empty(DType, dim1, dim2, ...)
 <li>Array j_arr: the Julia Array.</li>
 <li>NDArray arr: the <code>NDArray</code>.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L823-L831' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L823-L831' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.load-Tuple{AbstractString,Type{MXNet.mx.NDArray}}' href='#MXNet.mx.load-Tuple{AbstractString,Type{MXNet.mx.NDArray}}'>#</a>
 <strong><code>MXNet.mx.load</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>load(filename, ::Type{NDArray})
@@ -1325,7 +1325,7 @@ empty(DType, dim1, dim2, ...)
 <li><code>hdfs://my-bucket/path/my-hdfs-ndarray</code></li>
 <li><code>/path-to/my-local-ndarray</code></li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L845-L860' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L845-L860' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.max_axis-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray}' href='#MXNet.mx.max_axis-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray}'>#</a>
 <strong><code>MXNet.mx.max_axis</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>max_axis(src, axis, keepdims)
@@ -1338,7 +1338,7 @@ empty(DType, dim1, dim2, ...)
 <li><code>axis::Shape(tuple), optional, default=()</code>: Same as Numpy. The axes to perform the reduction.If left empty, a global reduction will be performed.</li>
 <li><code>keepdims::boolean, optional, default=False</code>: Same as Numpy. If keepdims is set to true, the axis which is reduced is left in the result as dimension with size one.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L1108-L1119' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L1108-L1119' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.min_axis-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray}' href='#MXNet.mx.min_axis-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray}'>#</a>
 <strong><code>MXNet.mx.min_axis</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>min_axis(src, axis, keepdims)
@@ -1351,14 +1351,14 @@ empty(DType, dim1, dim2, ...)
 <li><code>axis::Shape(tuple), optional, default=()</code>: Same as Numpy. The axes to perform the reduction.If left empty, a global reduction will be performed.</li>
 <li><code>keepdims::boolean, optional, default=False</code>: Same as Numpy. If keepdims is set to true, the axis which is reduced is left in the result as dimension with size one.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L1108-L1119' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L1108-L1119' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.mul_to!-Tuple{MXNet.mx.NDArray,Union{MXNet.mx.NDArray,Real}}' href='#MXNet.mx.mul_to!-Tuple{MXNet.mx.NDArray,Union{MXNet.mx.NDArray,Real}}'>#</a>
 <strong><code>MXNet.mx.mul_to!</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>mul_to!(dst :: NDArray, arg :: Union{Real, NDArray})
 </code></pre>
 
 <p>Elementwise multiplication into <code>dst</code> of either a scalar or an <code>NDArray</code> of the same shape. Inplace updating.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L592-L597' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L592-L597' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.ones-Tuple{Tuple{Vararg{Int64,N}}}' href='#MXNet.mx.ones-Tuple{Tuple{Vararg{Int64,N}}}'>#</a>
 <strong><code>MXNet.mx.ones</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>ones(shape :: Tuple, ctx :: Context)
@@ -1367,7 +1367,7 @@ ones(dim1, dim2, ...)
 </code></pre>
 
 <p>Create an <code>NDArray</code> with specific shape and initialize with 1.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L215-L221' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L215-L221' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.ones-Tuple{Type{T<:Union{Float16,Float32,Float64,Int32,UInt8}},Tuple{Vararg{Int64,N}}}' href='#MXNet.mx.ones-Tuple{Type{T<:Union{Float16,Float32,Float64,Int32,UInt8}},Tuple{Vararg{Int64,N}}}'>#</a>
 <strong><code>MXNet.mx.ones</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>ones(DType, shape :: Tuple, ctx :: Context)
@@ -1376,7 +1376,7 @@ ones(DType, dim1, dim2, ...)
 </code></pre>
 
 <p>Create an <code>NDArray</code> with specific shape &amp; type, and initialize with 1.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L196-L202' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L196-L202' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.rsqrt-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray}' href='#MXNet.mx.rsqrt-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray}'>#</a>
 <strong><code>MXNet.mx.rsqrt</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>rsqrt(src)
@@ -1387,7 +1387,7 @@ ones(DType, dim1, dim2, ...)
 <ul>
 <li><code>src::NDArray</code>: Source input to the function</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L1108-L1115' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L1108-L1115' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.save-Tuple{String,MXNet.mx.NDArray}' href='#MXNet.mx.save-Tuple{String,MXNet.mx.NDArray}'>#</a>
 <strong><code>MXNet.mx.save</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>save(filename :: AbstractString, data)
@@ -1398,7 +1398,7 @@ ones(DType, dim1, dim2, ...)
 <li><code>filename::String</code>: path to the binary file to write to.</li>
 <li><code>data</code>: data to save to file. Data can be a<code>NDArray</code>, a <code>Vector{NDArray}</code>, or a <code>Dict{Base.Symbol, NDArray}</code>.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L879-L887' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L879-L887' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.slice_axis-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray}' href='#MXNet.mx.slice_axis-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray}'>#</a>
 <strong><code>MXNet.mx.slice_axis</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>slice_axis(src, axis, begin, end)
@@ -1412,7 +1412,7 @@ ones(DType, dim1, dim2, ...)
 <li><code>begin::int, required</code>: The beginning index to be sliced</li>
 <li><code>end::int, required</code>: The end index to be sliced</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L1108-L1121' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L1108-L1121' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.smooth_l1-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray}' href='#MXNet.mx.smooth_l1-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray}'>#</a>
 <strong><code>MXNet.mx.smooth_l1</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>smooth_l1(src)
@@ -1423,7 +1423,7 @@ ones(DType, dim1, dim2, ...)
 <ul>
 <li><code>src::NDArray</code>: Source input to the function</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L1108-L1115' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L1108-L1115' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.softmax_cross_entropy-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray,MXNet.mx.NDArray}' href='#MXNet.mx.softmax_cross_entropy-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray,MXNet.mx.NDArray}'>#</a>
 <strong><code>MXNet.mx.softmax_cross_entropy</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>softmax_cross_entropy(lhs, rhs)
@@ -1435,7 +1435,7 @@ ones(DType, dim1, dim2, ...)
 <li><code>lhs::NDArray</code>: Left operand  to the function</li>
 <li><code>rhs::NDArray</code>: Right operand to the function</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L1108-L1117' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L1108-L1117' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.square-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray}' href='#MXNet.mx.square-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray}'>#</a>
 <strong><code>MXNet.mx.square</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>square(src)
@@ -1446,14 +1446,14 @@ ones(DType, dim1, dim2, ...)
 <ul>
 <li><code>src::NDArray</code>: Source input to the function</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L1108-L1115' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L1108-L1115' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.sub_from!-Tuple{MXNet.mx.NDArray,Union{MXNet.mx.NDArray,Real}}' href='#MXNet.mx.sub_from!-Tuple{MXNet.mx.NDArray,Union{MXNet.mx.NDArray,Real}}'>#</a>
 <strong><code>MXNet.mx.sub_from!</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>sub_from!(dst :: NDArray, args :: Union{Real, NDArray}...)
 </code></pre>
 
 <p>Subtract a bunch of arguments from <code>dst</code>. Inplace updating.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L548-L552' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L548-L552' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.sum_axis-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray}' href='#MXNet.mx.sum_axis-Tuple{MXNet.mx.NDArray,MXNet.mx.NDArray}'>#</a>
 <strong><code>MXNet.mx.sum_axis</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>sum_axis(src, axis, keepdims)
@@ -1466,7 +1466,7 @@ ones(DType, dim1, dim2, ...)
 <li><code>axis::Shape(tuple), optional, default=()</code>: Same as Numpy. The axes to perform the reduction.If left empty, a global reduction will be performed.</li>
 <li><code>keepdims::boolean, optional, default=False</code>: Same as Numpy. If keepdims is set to true, the axis which is reduced is left in the result as dimension with size one.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L1108-L1119' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L1108-L1119' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.try_get_shared-Tuple{MXNet.mx.NDArray}' href='#MXNet.mx.try_get_shared-Tuple{MXNet.mx.NDArray}'>#</a>
 <strong><code>MXNet.mx.try_get_shared</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>try_get_shared(arr)
@@ -1481,7 +1481,7 @@ ones(DType, dim1, dim2, ...)
 <p class="admonition-title">Note</p>
 <p>The returned array does not guarantee to share data with the underlying <code>NDArray</code>. In particular, data sharing is possible only when the <code>NDArray</code> lives on CPU.</p>
 </div>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L801-L812' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L801-L812' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.zeros-Tuple{Tuple{Vararg{Int64,N}}}' href='#MXNet.mx.zeros-Tuple{Tuple{Vararg{Int64,N}}}'>#</a>
 <strong><code>MXNet.mx.zeros</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>zeros(shape :: Tuple, ctx :: Context)
@@ -1490,7 +1490,7 @@ zeros(dim1, dim2, ...)
 </code></pre>
 
 <p>Create zero-ed <code>NDArray</code> with specific shape.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L177-L183' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L177-L183' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.zeros-Tuple{Type{T<:Union{Float16,Float32,Float64,Int32,UInt8}},Tuple{Vararg{Int64,N}}}' href='#MXNet.mx.zeros-Tuple{Type{T<:Union{Float16,Float32,Float64,Int32,UInt8}},Tuple{Vararg{Int64,N}}}'>#</a>
 <strong><code>MXNet.mx.zeros</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>zeros(DType, shape :: Tuple, ctx :: Context)
@@ -1499,7 +1499,7 @@ zeros(DType, dim1, dim2, ...)
 </code></pre>
 
 <p>Create zero-ed <code>NDArray</code> with specific shape and type</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L158-L164' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L158-L164' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.@inplace-Tuple{Any}' href='#MXNet.mx.@inplace-Tuple{Any}'>#</a>
 <strong><code>MXNet.mx.@inplace</code></strong> &mdash; <em>Macro</em>.</p>
 <pre><code>@inplace
@@ -1515,7 +1515,7 @@ zeros(DType, dim1, dim2, ...)
 </code></pre>
 
 <p>which will do inplace adding of the contents of <code>b</code> into <code>a</code>.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L470-L492' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L470-L492' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.@nd_as_jl-Tuple{Vararg{Any,N}}' href='#MXNet.mx.@nd_as_jl-Tuple{Vararg{Any,N}}'>#</a>
 <strong><code>MXNet.mx.@nd_as_jl</code></strong> &mdash; <em>Macro</em>.</p>
 <p><strong>Manipulating as Julia Arrays</strong></p>
@@ -1546,7 +1546,7 @@ zeros(DType, dim1, dim2, ...)
 <li>The execution results of the expanded macro is always <code>nothing</code>.</li>
 <li>The statements are wrapped in a <code>let</code>, thus locally introduced new variables will not be available after the statements. So you will need to declare the variables before calling the macro if needed.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/5880b775b94c1c2c2c548dec576d0ab6ffc6ac90/src/ndarray.jl#L672-L713' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/c06b21111971878d9a8f46c75f9a22bb668fd780/src/ndarray.jl#L672-L713' class='documenter-source'>source</a><br></p>
           <aside class="copyright" role="note">
             
             Documentation built with
