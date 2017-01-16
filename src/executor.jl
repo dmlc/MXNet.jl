@@ -179,8 +179,7 @@ function backward(self :: Executor, out_grads :: Vector{NDArray})
 end
 
 
-function copy_params_from(self::Executor, arg_params::Dict{Base.Symbol,NDArray},
-                          aux_params::Union{Void,Dict{Base.Symbol,NDArray}}=nothing;
+function copy_params_from(self::Executor, arg_params, aux_params=nothing;
                           allow_extra_params::Bool=false)
   for (name, array) in arg_params
     if haskey(self.arg_dict, name)
@@ -200,7 +199,6 @@ function copy_params_from(self::Executor, arg_params::Dict{Base.Symbol,NDArray},
     end
   end
 end
-
 
 """
 Get a debug string about internal execution plan.

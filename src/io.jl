@@ -122,6 +122,33 @@ count_samples(batch :: DataBatch) = batch.count
 get_data{Provider<:AbstractDataProvider}(::Provider, batch :: DataBatch) = batch.data
 get_label{Provider<:AbstractDataProvider}(::Provider, batch :: DataBatch) = batch.label
 
+type DataBatchProvider <: AbstractDataProvider
+  provider :: AbstractDataProvider
+
+  DataBatchProvider() = new()
+  DataBatchProvider(provider) = new(provider)
+end
+
+eachdatabatch(provider :: AbstractDataProvider) = DataBatchProvider(provider)
+
+function Base.eltype(provider :: DataBatchProvider)
+  DataBatch
+end
+function Base.start(provider :: DataBatchProvider)
+  return Base.start(provider.provider)
+end
+function Base.next(provider :: DataBatchProvider, state :: AbstractDataProviderState)
+  (inner_batch, next_state) = Base.next(provider.provider, state)
+  batch = DataBatch(get_data(provider.provider, inner_batch),
+                    get_label(provider.provider, inner_batch),
+                    count_samples(provider.provider, inner_batch))
+
+  return (batch, next_state)
+end
+function Base.done(provider :: DataBatchProvider, state :: AbstractDataProviderState)
+  return Base.done(provider.provider, state)
+end
+
 """
     SlicedNDArray
 

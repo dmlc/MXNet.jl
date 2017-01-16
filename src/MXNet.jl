@@ -37,6 +37,7 @@ include("kvstore.jl")
 
 include("callback.jl")
 include("model.jl")
+include("executor-group.jl")
 include("module/Module.jl")
 
 include("visualize.jl")

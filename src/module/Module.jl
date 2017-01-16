@@ -1,4 +1,6 @@
 module Module
+import ....MXNet: mx
+import ..mx: DataBatch, AbstractDataProvider, AbstractDataBatch, DataBatchProvider
 
 """
     AbstractModule
@@ -174,7 +176,9 @@ end
 ###
 """
 """
-function forward(self :: AbstractModule, )
+forward(self :: AbstractModule, data_batch :: DataBatch, is_train=nothing) = forward(self, DataBatchProvider(), data_batch, is_train)
+function forward(self :: AbstractModule, provider :: AbstractDataProvider, data_batch :: AbstractDataBatch, is_train=nothing)
+  throw(MethodError(forward, (self, )))
 end
 
 """
