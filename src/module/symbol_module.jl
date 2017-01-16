@@ -1,5 +1,5 @@
 import ....MXNet: mx # in order to use mx.
-import ..mx: SymbolicNode, NDArray, Context, Executor
+import ..mx: SymbolicNode, NDArray, Context, Executor, list_arguments, infer_shape, GRAD_NOP
 
 """
     Module
@@ -26,9 +26,9 @@ type SymbolModule <: AbstractModule
   params_initialized :: Bool
   optimizer_initialized :: Bool
 
-  data_shapes :: Nullable{Vector{Tuple{Int}}}
-  label_shapes :: Nullable{Vector{Tuple{Int}}}
-  output_shapes :: Nullable{Vector{Tuple{Int}}}
+  data_shapes :: Nullable{Vector{Tuple{Vararg{Int}}}}
+  label_shapes :: Nullable{Vector{Tuple{Vararg{Int}}}}
+  output_shapes :: Nullable{Vector{Tuple{Vararg{Int}}}}
 
   arg_arrays :: Nullable{Vector{NDArray}}
   aux_arrays :: Nullable{Vector{NDArray}}
@@ -104,7 +104,7 @@ function init_params(self::SymbolModule; initializer=nothing, arg_params=nothing
   @assert isbinded(self) "Call `bind` before initialization"
 end
 
-function bind(self::SymbolModule, data_shapes, label_shapes = Vector{Typle{Int}}();
+function bind(self::SymbolModule, data_shapes, label_shapes = Vector{Tuple{Int}}();
               for_training=true, inputs_need_grad=true, force_rebind=false,
               grad_req=mx.GRAD_WRITE)
   if force_rebind
@@ -132,13 +132,13 @@ function bind(self::SymbolModule, data_shapes, label_shapes = Vector{Typle{Int}}
       Dict(name => shape for (name, shape) in zip(self.data_names,  data_shapes)),
       Dict(name => shape for (name, shape) in zip(self.label_names, label_shapes)))
 
-  arg_shapes, out_shapes, aux_shapes = infer_shape(self; provided_shapes...)
+  arg_shapes, out_shapes, aux_shapes = infer_shape(self.symbol; provided_shapes...)
   @assert(!isa(arg_shapes, Void), "Information not enough to perform complete shape inference")
 
   # TODO: perform type inference
 
-  arg_arrays = NDArray[mx.zeros(shape, ctx) for shape in arg_shapes]
-  arg_names  = list_arguments(self.symbol)
+  arg_arrays = NDArray[mx.zeros(shape, self.context) for shape in arg_shapes]
+  arg_names  = mx.list_arguments(self.symbol)
 
   grad_arrays = Dict{Symbol,NDArray}()
 
@@ -146,7 +146,7 @@ function bind(self::SymbolModule, data_shapes, label_shapes = Vector{Typle{Int}}
     shapes = zip(arg_names, arg_shapes)
 
     # if not in provided data, should be parameters
-    provided_data_names = [x[1] for x in keys(provided_shapes)]
+    provided_data_names = keys(provided_shapes)
     shapes = filter(x -> !in(x[1], provided_data_names), shapes)
 
     # Remove all gradients for nop params
@@ -155,12 +155,12 @@ function bind(self::SymbolModule, data_shapes, label_shapes = Vector{Typle{Int}}
     # end
 
     for (name, shape) in shapes
-      grad_arrays[name] = mx.zeros(shape, ctx)
+      grad_arrays[name] = mx.zeros(shape, self.context)
     end
   end
 
-  aux_arrays = NDArray[mx.zeros(shape, ctx) for shape in aux_shapes]
-  executor = mx.bind(self, ctx, arg_arrays, args_grad=grad_arrays, grad_req=grad_req, aux_states=aux_arrays)
+  aux_arrays = NDArray[mx.zeros(shape, self.context) for shape in aux_shapes]
+  executor = mx.bind(self.symbol, self.context, arg_arrays, args_grad=grad_arrays, grad_req=grad_req, aux_states=aux_arrays)
 
   self.executor = Nullable{Executor}(executor)
 end
