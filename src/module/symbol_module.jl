@@ -189,12 +189,15 @@ function init_optimizer(self::SymbolModule; optimizer::AbstractOptimizer=ADAM(),
   self.optimizer = optimizer
   self.kvstore = kvstore
   self.update_on_kvstore = update_on_kvstore
-  self.optimizer_initialized = true
+  self.updater = Nullable()
 
   # add adequate calculation of batch_size
   op_state = OptimizationState(self.data_shapes[1][end])
   optimizer.state = op_state
 
+  if !update_on_kvstore
+    self.updater = Nullable(get_updater(optimizer))
+  end
   if !isa(kvstore, Void)
     if update_on_kvstore
       set_optimizer(kvstore, optimizer)
@@ -219,6 +222,8 @@ function init_optimizer(self::SymbolModule; optimizer::AbstractOptimizer=ADAM(),
   #=   load_optimizer_states!(self, self.preload_opt_states) =#
   #=   self.preload_opt_states = nothing =#
   #= end =#
+
+  self.optimizer_initialized = true
 
   return self
 end
@@ -247,31 +252,20 @@ Backward computation.
   This parameter is only needed when bind is called
   on outputs that are not a loss function.
 """
-function backward(self:: SymbolModule, out_grads=nothing)
+function backward(self::SymbolModule, out_grads::Union{NDArray, Vector{NDArray}}=Vector{NDArray}())
   @assert isbinded(self) && isinitialized(self)
   backward(self.exec_group, out_grads=out_grads)
 end
 
-
 """
-    update!(mod)
+    update!(module)
 Update parameters according to the installed optimizer and the gradients computed
 in the previous forward-backward batch.
 """
-function update!(self::SymbolModule)
+function update(self::SymbolModule)
   @assert isbinded(self) && isinitialized(self) && hasoptimizer(self)
   self.params_dirty = true
-  if self.update_on_kvstore
-    _update_params_on_kvstore(self.kvstore,
-                              self.exec_group.param_arrays,
-                              self.exec_group.grad_arrays)
-  else
-    _update_params(self.kvstore,
-                   self.exec_group.param_arrays,
-                   self.exec_group.grad_arrays,
-                   updater=self.updater,
-                   num_device=length(self.context))
-  end
+  update_params(self.exec_group, self.updater, self.update_on_kvstore, self.kvstore)
 end
 
 ##

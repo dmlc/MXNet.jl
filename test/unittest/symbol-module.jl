@@ -65,6 +65,8 @@ function test_init_params()
   data = mx.ArrayDataProvider(:data => x, :linout_label => y; batch_size = 10)
   for batch in mx.eachdatabatch(data)
     mx.Module.forward(m1, batch)
+    mx.Module.backward(m1)
+    mx.Module.update(m1)
   end
 end
 

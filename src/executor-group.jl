@@ -16,7 +16,10 @@ type DataParallelExecutorGroup <: AbstractExecutorGroup
 
   data_shapes :: Dict{Symbol, Tuple{Vararg{Int}}}
   label_shapes :: Dict{Symbol, Tuple{Vararg{Int}}}
+
   for_training :: Bool
+  slices :: Vector{UnitRange{Int}}
+  batch_size :: Int
 
   shared_group :: Nullable{DataParallelExecutorGroup}
   inputs_need_grad :: Bool
@@ -127,7 +130,7 @@ function DataParallelExecutorGroup(symbol::SymbolicNode, context::Vector{Context
 
   return DataParallelExecutorGroup(
     symbol, context, execs,
-    data_shapes, label_shapes, for_training,
+    data_shapes, label_shapes, for_training, slices, batch_size,
     shared_group, inputs_need_grad, fixed_param_names, grad_req, freeze_idx,
     data_arrays, label_arrays, param_arrays, grad_arrays, aux_arrays,
     input_grad_arrays, arg_params, aux_params)
@@ -157,6 +160,21 @@ function forward(self:: DataParallelExecutorGroup, data_provider :: AbstractData
    # TODO add callbacks here
 end
 
+# TODO Add description
+backward(self::DataParallelExecutorGroup, out_grads::Void) = backward(self, NDArray[])
+backward(self::DataParallelExecutorGroup, out_grads::NDArray) = backward(self, [out_grads])
+function backward(self::DataParallelExecutorGroup, out_grads::Vector{NDArray}=Vector{NDArray}())
+  @assert self.for_training, "re-bind with for_training=True to run backward"
+  
+  for (i, exec) in enumerate(self.execs)
+    out_grad_slices = NDArray[]
+    for grad in out_grads
+      push!(out_grad_slices, copy(grad, self.context[i]))
+    end
+    backward(exec, out_grad_slices)
+  end
+end
+
 """
 		set_params!(self::DataParallelExecutorGroup, arg_params, aux_params)
 
@@ -173,6 +191,47 @@ function set_params!(self::DataParallelExecutorGroup,
     copy_params_from(exec, arg_params, aux_params, allow_extra_params=allow_extra_params)
   end
 end
+
+##
+# Utility
+##
+
+update_params(self::DataParallelExecutorGroup, updater, update_on_kvstore, kvstore::Void = nothing) = update_params(self, updater, update_on_kvstore, Nullable{KVStore}())
+update_params(self::DataParallelExecutorGroup, updater, update_on_kvstore, kvstore::KVStore) = update_params(self, updater, update_on_kvstore, Nullable(kvstore))
+function update_params(self::DataParallelExecutorGroup, updater, update_on_kvstore, kvstore::Nullable{KVStore})
+  num_dev = length(self.context)
+  for idx = 1:length(self.param_names)
+    #= if isa(self.grad_arrays[i][1], Void) =#
+    #=   continue =#
+    #= end =#
+    if in(idx, self.freeze_idx)
+      continue # Skip parameter update entirely
+    end
+    if !isnull(kvstore)
+      kvstore = get(kvstore)
+      # push gradient, priority is negative index
+      push!(kvstore, idx, self.param_arrays[idx], priority=-idx)
+      if update_on_kvstore
+        # pull back the weights
+        pull!(kvstore, idx, self.param_arrays[idx], priority=-idx)
+      else
+        # pull back the sum-ed gradients, to the same locations
+        pull!(kvstore, idx, self.grad_arrays[idx], priority=-idx)
+      end
+    end
+
+    if !update_on_kvstore
+      # manual updating
+      for i_dev = 1:num_dev
+        # create a fake index, so that the updater create states
+        # for different param AND different devices, TODO(mli)
+        # use a better solution later
+        fake_idx = idx * num_dev + i_dev
+        get(updater)(fake_idx, self.grad_arrays[idx][i_dev], self.param_arrays[idx][i_dev])
+      end
+    end
+  end
+end 
 
 ##
 # Internals
