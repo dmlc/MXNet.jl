@@ -1,5 +1,5 @@
 import ....MXNet: mx # in order to use mx.
-import ..mx: SymbolicNode, NDArray, Context, Executor, list_arguments, infer_shape, GRAD_NOP, AbstractExecutorGroup, list_outputs, DataParallelExecutorGroup, KVStore, OptimizationState, ADAM, UniformInitializer, set_params!, AbstractOptimizer
+import ..mx: SymbolicNode, NDArray, Context, Executor, list_arguments, infer_shape, GRAD_NOP, AbstractExecutorGroup, list_outputs, DataParallelExecutorGroup, KVStore, OptimizationState, ADAM, UniformInitializer, set_params!, AbstractOptimizer, get_updater, update_params, provide_data, provide_label, AbstractEvalMetric
 
 """
     Module
@@ -37,6 +37,7 @@ type SymbolModule <: AbstractModule
 
   fixed_param_names :: Nullable{Vector{Symbol}}
   optimizer
+  updater
   kvstore
   update_on_kvstore
 
@@ -104,7 +105,7 @@ function get_params(self::SymbolModule)
     return (Nullable{Dict{Symbol, NDArray}}(), Nullable{Dict{Symbol, NDArray}}())
   end
   if self.params_dirty
-    sync_params_from_device(self)
+    mx.get_params!(self.exec_group, self.arg_params, self.aux_params)
   end
 
   return (self.arg_params, self.aux_params)
@@ -119,11 +120,11 @@ function init_params(self::SymbolModule; initializer=UniformInitializer(0.07), a
   @assert isbinded(self) "Call `bind` before initialization"
 
   if !isdefined(self, :arg_params) || isempty(self.arg_params)
-    self.arg_params = Dict(k => zeros(size(v)) for (k, v) in self.exec_group.arg_params)
+    self.arg_params = Dict(k => mx.empty(size(v)) for (k, v) in self.exec_group.arg_params)
   end
 
   if !isdefined(self, :aux_params) || isempty(self.aux_params)
-    self.aux_params = Dict(k => zeros(size(v)) for (k, v) in self.exec_group.aux_params)
+    self.aux_params = Dict(k => mx.empty(size(v)) for (k, v) in self.exec_group.aux_params)
   end
 
   # TODO need initialization
@@ -137,6 +138,8 @@ function init_params(self::SymbolModule; initializer=UniformInitializer(0.07), a
   return self
 end
 
+bind(self::SymbolModule, data_provider::AbstractDataProvider; kwargs...) = bind(self, map((x) -> x[2], provide_data(data_provider)),
+  map((x) -> x[2], provide_label(data_provider)); kwargs...)
 function bind(self::SymbolModule, data_shapes, label_shapes = Vector{Tuple{Int}}();
               for_training=true, inputs_need_grad=true, force_rebind=false,
               grad_req=mx.GRAD_WRITE, shared_group = nothing)
@@ -228,6 +231,29 @@ function init_optimizer(self::SymbolModule; optimizer::AbstractOptimizer=ADAM(),
   return self
 end
 
+"""
+		get_outputs
+
+Get outputs of the previous forward computation.
+
+# Arguments
+* merge_multi_context : bool
+	Default is `True`. In the case when data-parallelism is used, the outputs
+	will be collected from multiple devices. A `True` value indicate that we
+	should merge the collected results so that they look like from a single
+	executor.
+
+# Returns
+If `merge_multi_context` is `true`, it is like `[out1, out2]`. Otherwise, it
+is like `[[out1_dev1, out1_dev2], [out2_dev1, out2_dev2]]`. All the output
+elements are `NDArray`.
+"""
+function get_outputs(self::SymbolModule, merge_multi_context::Bool=true)
+	@assert isbinded(self) && isinitialized(self)
+
+  mx.get_outputs(self.exec_group, merge_multi_context)
+end
+
 # TODO add description
 """
     forward(module, data_provider, data_batch; is_train)
@@ -237,9 +263,9 @@ Forward computation.
 * `is_train` : Nullable{Bool}
   Default is `nothing`, which means `is_train` takes the value of `self.for_training`.
 """
-function forward(self::SymbolModule, data_provider :: AbstractDataProvider, data_batch :: AbstractDataBatch, is_train=nothing)
+forward(self::SymbolModule, data_provider :: AbstractDataProvider, data_batch :: AbstractDataBatch, is_train = nothing) = forward(self, data_provider, data_batch, Nullable{Bool}(is_train))
+function forward(self::SymbolModule, data_provider :: AbstractDataProvider, data_batch :: AbstractDataBatch, is_train::Nullable{Bool})
   @assert isbinded(self) && isinitialized(self)
-  is_train = convert(Nullable{Bool}, is_train)
   mx.forward(self.exec_group, data_provider, data_batch, is_train)
 end
 
@@ -252,13 +278,15 @@ Backward computation.
   This parameter is only needed when bind is called
   on outputs that are not a loss function.
 """
-function backward(self::SymbolModule, out_grads::Union{NDArray, Vector{NDArray}}=Vector{NDArray}())
+backward(self::SymbolModule, out_grads::Void=nothing) = backward(self, NDArray[])
+backward(self::SymbolModule, out_grads::NDArray) = backward(self, [out_grads])
+function backward(self::SymbolModule, out_grads::Vector{NDArray})
   @assert isbinded(self) && isinitialized(self)
-  backward(self.exec_group, out_grads=out_grads)
+  mx.backward(self.exec_group, out_grads)
 end
 
 """
-    update!(module)
+    update(module)
 Update parameters according to the installed optimizer and the gradients computed
 in the previous forward-backward batch.
 """
@@ -268,13 +296,22 @@ function update(self::SymbolModule)
   update_params(self.exec_group, self.updater, self.update_on_kvstore, self.kvstore)
 end
 
+"""
+		update_metric()
+
+Evaluate and accumulate evaluation metric on outputs of the last forward computation.
+# Arguments
+* eval_metric : EvalMetric
+* labels : Dict of NDArray
+	Typically `data_batch.label`.
+"""
+function update_metric(self::SymbolModule, eval_metric::AbstractEvalMetric, labels)
+  mx.update_metric(self.exec_group, eval_metric, labels)
+end
+
 ##
 # Internals
 ##
-
-function sync_params_from_devices(self::SymbolModule)
-  throw(MethodError(sync_params_from_devices, (self,)))
-end
 
 """
     borrow_optimizer!(module, shared_module)

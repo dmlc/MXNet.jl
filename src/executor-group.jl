@@ -14,8 +14,8 @@ type DataParallelExecutorGroup <: AbstractExecutorGroup
   context :: Vector{Context}
   execs :: Vector{Executor}
 
-  data_shapes :: Dict{Symbol, Tuple{Vararg{Int}}}
-  label_shapes :: Dict{Symbol, Tuple{Vararg{Int}}}
+  data_shapes :: Vector{Tuple{Vararg{Int}}}
+  label_shapes :: Vector{Tuple{Vararg{Int}}}
 
   for_training :: Bool
   slices :: Vector{UnitRange{Int}}
@@ -36,6 +36,8 @@ type DataParallelExecutorGroup <: AbstractExecutorGroup
 
   arg_params :: Dict{Symbol, NDArray}
   aux_params :: Dict{Symbol, NDArray}
+  param_names :: Vector{Symbol}
+  aux_names :: Vector{Symbol}
 end
 function DataParallelExecutorGroup(symbol::SymbolicNode, context::Vector{Context},
            data_shapes, data_names, label_shapes, label_names, for_training, inputs_need_grad,
@@ -81,13 +83,15 @@ function DataParallelExecutorGroup(symbol::SymbolicNode, context::Vector{Context
   end
 
   for i = 1:num_dev
-    data_shapes = Dict(k => tuple(v[1:end-1]...,length(slices[i])) for (k,v) in zip(data_names, data_shapes))
-    label_shapes = Dict(k => tuple(v[1:end-1]...,length(slices[i])) for (k,v) in zip(label_names, label_shapes))
-    arg_arrays = NDArray[zeros(shape, context[i]) for shape in arg_shapes]
+    data_shapes_dev = Dict(k => tuple(v[1:end-1]...,length(slices[i])) for (k,v) in zip(data_names, data_shapes))
+    label_shapes_dev = Dict(k => tuple(v[1:end-1]...,length(slices[i])) for (k,v) in zip(label_names, label_shapes))
+    arg_shapes_dev, out_shapes_dev, aux_shapes_dev = infer_shape(symbol; data_shapes_dev..., label_shapes_dev...)
+    @assert(!isa(arg_shapes_dev, Void), "Information not enough to perform complete shape inference")
+    arg_arrays = NDArray[zeros(shape, context[i]) for shape in arg_shapes_dev]
     grad_arrays = Dict{Symbol,NDArray}()
-    aux_arrays = NDArray[zeros(shape, context[i]) for shape in aux_shapes]
+    aux_arrays = NDArray[zeros(shape, context[i]) for shape in aux_shapes_dev]
 
-    shapes = zip(arg_names, arg_shapes)
+    shapes = zip(arg_names, arg_shapes_dev)
 
     # if not in provided data, should be parameters
     if inputs_need_grad
@@ -133,7 +137,7 @@ function DataParallelExecutorGroup(symbol::SymbolicNode, context::Vector{Context
     data_shapes, label_shapes, for_training, slices, batch_size,
     shared_group, inputs_need_grad, fixed_param_names, grad_req, freeze_idx,
     data_arrays, label_arrays, param_arrays, grad_arrays, aux_arrays,
-    input_grad_arrays, arg_params, aux_params)
+    input_grad_arrays, arg_params, aux_params, param_names, aux_names)
 end
 
 """
@@ -163,8 +167,8 @@ end
 # TODO Add description
 backward(self::DataParallelExecutorGroup, out_grads::Void) = backward(self, NDArray[])
 backward(self::DataParallelExecutorGroup, out_grads::NDArray) = backward(self, [out_grads])
-function backward(self::DataParallelExecutorGroup, out_grads::Vector{NDArray}=Vector{NDArray}())
-  @assert self.for_training, "re-bind with for_training=True to run backward"
+function backward(self::DataParallelExecutorGroup, out_grads::Vector{NDArray})
+  @assert(self.for_training, "re-bind with for_training=true to run backward")
   
   for (i, exec) in enumerate(self.execs)
     out_grad_slices = NDArray[]
@@ -233,6 +237,75 @@ function update_params(self::DataParallelExecutorGroup, updater, update_on_kvsto
   end
 end 
 
+""" 
+    get_params!(self, arg_params, aux_params)
+
+Copy data from each executor to `arg_params` and `aux_params`.
+# Arguments
+* `arg_params` : Dict{Symbol, Vector{NDArray}}. Target parameter arrays
+* `aux_params` : Dict{Symbol, Vector{NDArray}}. Target aux arrays
+
+# Notes
+This function will inplace update the NDArrays in arg_params and aux_params.
+"""
+function get_params!(self::DataParallelExecutorGroup, arg_params::Dict{Symbol, NDArray}, 
+                    aux_params::Dict{Symbol, NDArray})
+  for (name, block) in zip(self.param_names, self.param_arrays)
+    w = empty(size(block[1]))
+    for i in 1:length(block)
+      @inplace w .+= copy(block[i], cpu())
+    end
+    @inplace w ./= length(block)
+    copy!(arg_params[name], w)
+  end
+  for (name, block) in zip(self.aux_names, self.aux_arrays)
+    w = empty(size(block[1]))
+    for i in 1:length(block)
+      @inplace w .+= copy(block[i], cpu())
+    end
+    @inplace w ./= length(block)
+    copy!(aux_params[name], w)
+  end
+end
+
+"""
+
+Accumulate the performance according to `eval_metric` on all devices.
+# Parameters
+* eval_metric : EvalMetric
+	The metric used for evaluation.
+* labels : list of NDArray
+	Typically comes from `label` of a `DataBatch`.
+"""
+function update_metric(self::DataParallelExecutorGroup, eval_metric::AbstractEvalMetric, labels)
+
+end
+
+"""
+		get_outputs
+
+Get outputs of the previous forward computation.
+
+# Arguments
+merge_multi_context : Bool
+Default is `True`. In the case when data-parallelism is used, the outputs
+will be collected from multiple devices. A `True` value indicate that we
+should merge the collected results so that they look like from a single
+executor.
+# Returns
+If `merge_multi_context` is `true`, it is like `[out1, out2]`. Otherwise, it
+is like `[[out1_dev1, out1_dev2], [out2_dev1, out2_dev2]]`. All the output
+elements are `NDArray`.
+"""
+function get_outputs(self::DataParallelExecutorGroup, merge_multi_context::Bool=true)
+  outputs = [[exec.outputs[i] for exec in self.execs] for i in 1:length(self.execs[1].outputs)]
+
+  if merge_multi_context
+    return _merge_multi_context(outputs)
+  else
+    return outputs
+  end
+end
 ##
 # Internals
 ##
@@ -282,3 +355,5 @@ function get_grads(symbol, param_names, arg_names, data_names, inputs_need_grad,
 
   return grad_req_dict, freeze_idx
 end
+
+_merge_multi_context(outputs) = [concatenate(tensors, always_copy=false) for tensors in outputs]

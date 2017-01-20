@@ -353,7 +353,10 @@ end
 function setindex!(arr :: NDArray, val :: NDArray, ::Colon)
   copy!(arr, val)
 end
-function setindex!{T<:Real}(arr :: NDArray, val :: Union{T,Array{T},NDArray}, idx::UnitRange{Int})
+function setindex!(arr :: NDArray, val :: NDArray, idx::UnitRange{Int})
+  setindex!(slice(arr, idx), val, Colon())
+end
+function setindex!{T<:Real}(arr :: NDArray, val :: Union{T,Array{T}}, idx::UnitRange{Int})
   setindex!(slice(arr, idx), val, Colon())
 end
 
@@ -679,6 +682,30 @@ function /(arg0 :: NDArray, arg :: Real)
   ./(arg0, arg)
 end
 
+function concatenate(arrays::Vector{NDArray}; always_copy=true)
+  if isempty(arrays) || (!always_copy && length(arrays) == 1)
+    return arrays
+  end
+
+  shape_axis = size(arrays[1])[end]
+  shape_rest = size(arrays[1])[1:end-1]
+  for i in 2:length(arrays)
+    shape_axis += size(arrays[i])[end]
+    @assert shape_rest == size(arrays[i])[1:end-1]
+  end
+  
+  ret_shape = tuple(shape_rest..., shape_axis)
+  ret = empty(ret_shape, context(arrays[1]))
+
+  idx = 1
+  for arr in arrays
+    setindex!(ret, arr, idx:idx+size(arr)[end])
+    #= ret[idx:idx + size(arr)[end]] = arr =#
+    idx += size(arr)[end]
+  end
+
+  return ret
+end
 
 """
 Manipulating as Julia Arrays
