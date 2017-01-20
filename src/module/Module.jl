@@ -1,6 +1,7 @@
 module Module
 import ....MXNet: mx
 import ..mx: DataBatch, AbstractDataProvider, AbstractDataBatch, DataBatchProvider
+import ..mx: SymbolicNode, NDArray, Context, Executor, list_arguments, infer_shape, GRAD_NOP, AbstractExecutorGroup, list_outputs, DataParallelExecutorGroup, KVStore, OptimizationState, ADAM, UniformInitializer, set_params!, AbstractOptimizer, get_updater, update_params, provide_data, provide_label, AbstractEvalMetric, StubProvider, init, copy!
 
 """
     AbstractModule
@@ -176,7 +177,7 @@ end
 ###
 """
 """
-forward(self :: AbstractModule, data_batch :: DataBatch, is_train=nothing) = forward(self, DataBatchProvider(), data_batch, is_train)
+forward(self :: AbstractModule, data_batch :: DataBatch, is_train=nothing) = forward(self, StubProvider(), data_batch, is_train)
 function forward(self :: AbstractModule, provider :: AbstractDataProvider, data_batch :: AbstractDataBatch, is_train=nothing)
   throw(MethodError(forward, (self, )))
 end
@@ -203,7 +204,10 @@ end
 
 """
 """
-function update_metric(self :: AbstractModule, )
+
+update_metric(self :: AbstractModule, eval_metric::AbstractEvalMetric, batch::AbstractDataBatch) = update_metric(self, eval_metric, StubProvider(), batch)
+function update_metric(self :: AbstractModule, eval_metric::AbstractEvalMetric, provider::AbstractDataProvider, batch::AbstractDataBatch)
+  throw(MethodError(update_metric, (self, )))
 end
 
 ###
@@ -230,6 +234,37 @@ function fit(self::AbstractModule, train_data)
 end
 
 """
+    predict
+
+Run prediction and collect the outputs.
+
+# Arguments
+
+* `eval_data` : `AbstractDataProvider`
+* `num_batch` : Int
+  Default is `None`, indicating running all the batches in the data iterator.
+* `merge_batches` : `Bool`
+  Default is `true`, see the doc for return values.
+* `always_output_list` : `Bool`
+  Default is `false`, see the doc for return values.
+
+# Returns
+When `merge_batches` is `true` (by default), the return value will be a vector
+`[out1, out2, out3]`.  Where each element is concatenation of the outputs for
+all the mini-batches. If further that `always_output_list` is `false` (by default),
+then in the case of a single output, `out1` is returned instead of `[out1]`.
+When `merge_batches` is `false`, the return value will be a nested list like
+`[[out1_batch1, out2_batch1], [out1_batch2], ...]`. This mode is useful because
+in some cases (e.g. bucketing), the module does not necessarily produce the same
+number of outputs.
+The objects in the results are `NDArray`s. If you need to work with julia array,
+just call `Array{Float32}` on each of the `NDArray`.
+
+# Examples
+# TODO finish doc
+An example of using predict for prediction::
+    >>> #Predict on the first 10 batches of val_dataiter
+    >>> mod.predict(eval_data=val_dataiter, num_batch=10)
 """
 function predict(self::AbstractModule, eval_data;
                  num_batch=nothing, merge_batches=true, reset=true)

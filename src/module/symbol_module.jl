@@ -1,5 +1,4 @@
 import ....MXNet: mx # in order to use mx.
-import ..mx: SymbolicNode, NDArray, Context, Executor, list_arguments, infer_shape, GRAD_NOP, AbstractExecutorGroup, list_outputs, DataParallelExecutorGroup, KVStore, OptimizationState, ADAM, UniformInitializer, set_params!, AbstractOptimizer, get_updater, update_params, provide_data, provide_label, AbstractEvalMetric
 
 """
     Module
@@ -106,17 +105,21 @@ function get_params(self::SymbolModule)
   end
   if self.params_dirty
     mx.get_params!(self.exec_group, self.arg_params, self.aux_params)
+    self.params_dirty = false
   end
 
   return (self.arg_params, self.aux_params)
 end
 
-function init_params(self::SymbolModule; initializer=UniformInitializer(0.07), arg_params=nothing,
-                     aux_params=nothing, allow_extra_params=false, force_init=false)
+function init_params(self::SymbolModule; 
+    initializer=UniformInitializer(0.07), 
+    arg_params::Dict{Symbol, NDArray}=Dict{Symbol, NDArray}(),
+    aux_params::Dict{Symbol, NDArray}=Dict{Symbol, NDArray}(),
+    allow_missing=false, allow_extra_params=false, force_init=false)
+
   if isinitialized(self) && !force_init
     return self
   end
-
   @assert isbinded(self) "Call `bind` before initialization"
 
   if !isdefined(self, :arg_params) || isempty(self.arg_params)
@@ -127,7 +130,24 @@ function init_params(self::SymbolModule; initializer=UniformInitializer(0.07), a
     self.aux_params = Dict(k => mx.empty(size(v)) for (k, v) in self.exec_group.aux_params)
   end
 
-  # TODO need initialization
+  map([[self.arg_params, arg_params], [self.aux_params, aux_params]]) do param_arr
+    dst, src = param_arr
+    for (name, arr) in dst
+      if isempty(src)
+        init(initializer, name, arr)
+      else
+        src = get(src)
+        if name in keys(src)
+          if src[name] != arr
+            copy!(arr, src[name])
+          end
+        else
+          @assert(!allow_missing, "$name is not presented")
+          init(initializer, name, arr)
+        end
+      end
+    end
+  end
 
   # copy the initialized parameters to devices
   set_params!(self.exec_group, self.arg_params, self.aux_params, allow_extra_params=allow_extra_params)
@@ -305,8 +325,8 @@ Evaluate and accumulate evaluation metric on outputs of the last forward computa
 * labels : Dict of NDArray
 	Typically `data_batch.label`.
 """
-function update_metric(self::SymbolModule, eval_metric::AbstractEvalMetric, labels)
-  mx.update_metric(self.exec_group, eval_metric, labels)
+function update_metric(self::SymbolModule, eval_metric::AbstractEvalMetric, provider::AbstractDataProvider, batch::AbstractDataBatch)
+  mx.update_metric(self.exec_group, eval_metric, provider, batch)
 end
 
 ##

@@ -277,8 +277,13 @@ Accumulate the performance according to `eval_metric` on all devices.
 * labels : list of NDArray
 	Typically comes from `label` of a `DataBatch`.
 """
-function update_metric(self::DataParallelExecutorGroup, eval_metric::AbstractEvalMetric, labels)
+function update_metric(self::DataParallelExecutorGroup, eval_metric::AbstractEvalMetric, provider::AbstractDataProvider, batch::AbstractDataBatch)
 
+  # XXX: there is a possibiilty, that label arrays lie in different
+  # context than cpu_output_arrays. It should be checked and labels 
+  # should be copied to corresponding context
+  cpu_output_arrays = get_outputs(self)
+  update!(eval_metric, get_label(provider, batch), cpu_output_arrays)
 end
 
 """
@@ -301,6 +306,10 @@ function get_outputs(self::DataParallelExecutorGroup, merge_multi_context::Bool=
   outputs = [[exec.outputs[i] for exec in self.execs] for i in 1:length(self.execs[1].outputs)]
 
   if merge_multi_context
+    # TODO In original FeedForward model single predefined
+    # output was used. _merge_multi_context creates new array
+    # each time it is called. Need to benchmark, may be it's better
+    # to predefine cpu_output_arrays in self.
     return _merge_multi_context(outputs)
   else
     return outputs

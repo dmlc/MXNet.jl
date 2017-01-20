@@ -682,7 +682,22 @@ function /(arg0 :: NDArray, arg :: Real)
   ./(arg0, arg)
 end
 
-function concatenate(arrays::Vector{NDArray}; always_copy=true)
+"""
+    concatenate(arrays; always_copy=true, context=cpu)
+
+Concatenate a list of NDArrays along the last dimension.
+
+# Arguments
+* `arrays` : vector of NDArray
+  Arrays to be concatenate. They must have identical shape except
+  the last dimension. 
+* `always_copy` : `Bool`, default `true`. When `false`, if the arrays only contain one `NDArray`, that element will be returned directly, avoid copying.
+* `context`: `Context`, context of output NDArray.
+
+# Returns
+An `NDArray` that lives on the `context`.
+"""
+function concatenate(arrays::Vector{NDArray}; always_copy=true, context=cpu())
   if isempty(arrays) || (!always_copy && length(arrays) == 1)
     return arrays
   end
@@ -695,12 +710,11 @@ function concatenate(arrays::Vector{NDArray}; always_copy=true)
   end
   
   ret_shape = tuple(shape_rest..., shape_axis)
-  ret = empty(ret_shape, context(arrays[1]))
+  ret = empty(ret_shape, context)
 
   idx = 1
   for arr in arrays
-    setindex!(ret, arr, idx:idx+size(arr)[end])
-    #= ret[idx:idx + size(arr)[end]] = arr =#
+    ret[idx:(idx + size(arr)[end] - 1)] = arr
     idx += size(arr)[end]
   end
 

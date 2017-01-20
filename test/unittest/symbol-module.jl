@@ -17,6 +17,7 @@ end
 function create_linreg(num_hidden::Int=1)
   arch = @mx.chain mx.Variable(:data) =>
          mx.FullyConnected(name=:fc1, num_hidden=num_hidden) =>
+         mx.FullyConnected(name=:fc2, num_hidden=1) =>
          mx.LinearRegressionOutput(name=:linout)
   return arch
 end
@@ -50,17 +51,18 @@ function test_basic()
   @test mx.Module.hasoptimizer(m1)
 end
 
-function test_init_params()
+function test_init_params(n_epoch::Int = 10)
   info("SymbolModule::InitParams")
 
   #= x = reshape(collect(1:10), (1, 10)) =#
   #= y = reshape(collect(2:11), (1, 10)) =#
   srand(123456)
-  epsilon = rand(1, 10)
+  epsilon = randn(1, 10)
   x = rand(4, 10)
-  y = 2*x .+ epsilon
+  y = mapslices(sum, [1, 2, 3, 4] .* x, 1) .+ epsilon
   data = mx.ArrayDataProvider(:data => x, :linout_label => y; batch_size = 5)
 
+  metric = mx.MSE()
   m1 = mx.Module.SymbolModule(create_linreg(4), 
                               label_names = [:linout_label],
                               context=[mx.cpu(), mx.cpu()])
@@ -71,12 +73,30 @@ function test_init_params()
   # TODO Should be changed to tests
   #= info(mx.Module.get_params(m1)) =#
 
+  for i in 1:n_epoch
+    for batch in mx.eachdatabatch(data)
+      mx.Module.forward(m1, batch)
+      mx.Module.update_metric(m1, metric, batch)
+
+      mx.Module.backward(m1)
+      mx.Module.update(m1)
+    end
+
+    for (name, value) in get(metric)
+      info("Epoch: $i: $name = $value")
+    end
+    mx.reset!(metric)
+  end
+
+  y_pred = Float64[]
   for batch in mx.eachdatabatch(data)
     mx.Module.forward(m1, batch)
-    info("SymbolModule::InitParams: $(copy(mx.Module.get_outputs(m1)[1]))")
-    mx.Module.backward(m1)
-    mx.Module.update(m1)
+    append!(y_pred, Array{Float64}(mx.Module.get_outputs(m1)[1]))
   end
+
+  info("Prediction: $y_pred")
+  info("Actual:     $y")
+  info("No noise:   $(mapslices(sum, [1, 2, 3, 4] .* x, 1))")
 end
 
 ################################################################################
@@ -85,7 +105,7 @@ end
 
 @testset "Symbol Module Test" begin
   test_basic()
-  test_init_params()
+  test_init_params(500)
 end
 
 end

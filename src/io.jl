@@ -17,6 +17,9 @@ Normally this involves defining:
 """
 abstract AbstractDataProvider
 
+type StubProvider <: AbstractDataProvider
+end
+
 """
     get_batch_size(provider) -> Int
 
@@ -124,9 +127,6 @@ get_label{Provider<:AbstractDataProvider}(::Provider, batch :: DataBatch) = batc
 
 type DataBatchProvider <: AbstractDataProvider
   provider :: AbstractDataProvider
-
-  DataBatchProvider() = new()
-  DataBatchProvider(provider) = new(provider)
 end
 
 eachdatabatch(provider :: AbstractDataProvider) = DataBatchProvider(provider)
