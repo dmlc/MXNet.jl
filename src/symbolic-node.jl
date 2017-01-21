@@ -345,7 +345,7 @@ function _infer_type(self, keys, arg_type_data)
            Ref{MX_uint}, Ref{Ptr{Cint}},
            Ref{MX_uint}, Ref{Ptr{Cint}},
            Ref{Cint}),
-          self, length(arg_type_data)-1, keys, arg_type_data,
+          self, length(arg_type_data), keys, arg_type_data,
           ref_in_type_size, ref_in_type_data,
           ref_out_type_size, ref_out_type_data,
           ref_aux_type_size, ref_aux_type_data,
