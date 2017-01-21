@@ -1,7 +1,7 @@
 module Module
 import ....MXNet: mx
 import ..mx: DataBatch, AbstractDataProvider, AbstractDataBatch, DataBatchProvider
-import ..mx: SymbolicNode, NDArray, Context, Executor, list_arguments, infer_shape, GRAD_NOP, AbstractExecutorGroup, list_outputs, DataParallelExecutorGroup, KVStore, OptimizationState, ADAM, UniformInitializer, set_params!, AbstractOptimizer, get_updater, update_params, provide_data, provide_label, AbstractEvalMetric, StubProvider, init, copy!
+import ..mx: SymbolicNode, NDArray, Context, Executor, list_arguments, infer_shape, GRAD_NOP, AbstractExecutorGroup, list_outputs, DataParallelExecutorGroup, KVStore, OptimizationState, ADAM, UniformInitializer, set_params!, AbstractOptimizer, get_updater, update_params, provide_data, provide_label, AbstractEvalMetric, StubProvider, init, copy!, concatenate, eachdatabatch, reset!
 
 """
     AbstractModule
@@ -120,18 +120,27 @@ end
 ##
 
 """
+    data_shapes(AbstractModule)
+
+A Dict of (name, shape) pairs specifying the data inputs to this module. 
 """
 function data_shapes(self :: AbstractModule)
   throw(MethodError(data_shapes, (self,)))
 end
 
 """
+    label_shapes(AbstractModule)
+
+A Dict of (name, shape) pairs specifying the label inputs to this module.  If this module does not accept labels -- either it is a module without loss function, or it is not binded for training, then this should return an empty Dict.
 """
 function label_shapes(self :: AbstractModule)
   throw(MethodError(label_shapes, (self,)))
 end
 
 """
+    output_shapes(AbstractModule)
+
+A Dict of (name, shape) pairs specifying the outputs of this module.
 """
 function output_shapes(self :: AbstractModule)
   throw(MethodError(output_shapes, (self,)))
@@ -142,18 +151,47 @@ end
 ##
 
 """
+    get_params(self::AbstractModule)
+
+Get parameters, those are potentially copies of the the actual parameters used to do computation on the device.
+
+# Returns
+`(arg_params, aux_params)`, a pair of dictionary of name to value mapping.
 """
 function get_params(self :: AbstractModule)
   throw(MethodError(get_params, (self,)))
 end
 
 """
+    set_params(self::AbstractModule; arg_params, aux_params, allow_missing, force_init)
+
+Assign parameter and aux state values.
+
+# Arguments
+* `arg_params` : `Dict`. Dictionary of name to value (`NDArray`) mapping.
+* `aux_params` : `Dict`.  Dictionary of name to value (`NDArray`) mapping.
+* `allow_missing` : `Bool`.  If true, params could contain missing values, and the initializer will be called to fill those missing params.
+* `force_init` : `Bool`.  If true, will force re-initialize even if already initialized.
 """
-function set_params(self :: AbstractModule, arg_params, aux_params)
-  throw(MethodError(set_params, (self, arg_params, aux_params)))
+function set_params(self::AbstractModule, 
+    arg_params::Dict{Symbol, NDArray},
+    aux_params::Dict{Symbol, NDArray};
+    allow_missing=false, force_init=false)
+  init_params(self, arg_params=arg_params, aux_params=aux_params, allow_missing=allow_missing, force_init=force_init)
 end
 
 """
+    init_params!(self; kwargs...)
+
+Initialize the parameters and auxiliary states.
+
+# Arguments
+* `self` : `AbstractModule`
+* `initializer` : `AbstractInitializer`.  Called to initialize parameters if needed.
+* `arg_params` : `Dict{Symbol, NDArray}`.  If not empty, should be a dictionary of existing `arg_params`. Initialization will be copied from that.
+* `aux_params` : `Dict{Symbol, NDArray}`.  If not empty, should be a dictionary of existing `aux_params`. Initialization will be copied from that.
+* `allow_missing` : `Bool`.  If true, params could contain missing values, and the initializer will be called to fill those missing params.
+* `force_init` : `Bool`.  If true, will force re-initialize even if already initialized.
 """
 function init_params(self :: AbstractModule, args...)
   throw(MethodError(init_params, (self, args...)))
@@ -233,6 +271,8 @@ function fit(self::AbstractModule, train_data)
   error("Not yet implemented")
 end
 
+
+# XXX: warning, this function is not type stable.
 """
     predict
 
@@ -261,45 +301,65 @@ The objects in the results are `NDArray`s. If you need to work with julia array,
 just call `Array{Float32}` on each of the `NDArray`.
 
 # Examples
-# TODO finish doc
 An example of using predict for prediction::
-    >>> #Predict on the first 10 batches of val_dataiter
-    >>> mod.predict(eval_data=val_dataiter, num_batch=10)
+```julia
+# Predict on the first 10 batches of `data` DataProvider
+predict(m1, data, num_batch=10)
+```
 """
-function predict(self::AbstractModule, eval_data;
-                 num_batch=nothing, merge_batches=true, reset=true)
+function predict(self::AbstractModule, eval_data::AbstractDataProvider;
+                 num_batch=nothing, merge_batches=true, always_output_list::Bool=false)
   @assert isbinded(self) && isinitialized(self)
 
-  reset && reset!(eval_data)
-
-  for (nbatch, eval_batch) in enumerate(eval_data)
+  output_list = []
+  for (nbatch, eval_batch) in enumerate(eachdatabatch(eval_data))
     if num_batch !== nothing && nbatch == num_back
       break
     end
-    forward(self, eval_batch, is_train=false)
+    forward(self, eval_batch, false)
 
     outputs = get_outputs(self)
+    push!(output_list, outputs)
 
-    error("Not yet implemented")
   end
+
+  if length(output_list) == 0
+    return output_list
+  end
+
+  if merge_batches
+    num_outputs = length(output_list[1])
+    for out in output_list
+      @assert(length(out) == num_outputs, 
+              "Cannot merge batches, as num of outputs is not the same in mini-batches. Maybe bucketing is used?")
+    end
+    output_list2 = [concatenate([out[i] for out in output_list]) for i = 1:num_outputs]
+
+    if num_outputs == 1 && !always_output_list
+      return output_list2[1]
+    end
+
+    return output_list2
+  end
+
+  return output_list
 end
 
 """
     score(self::AbstractModule, eval_data, eval_metric; num_batch, batch_end_callback, reset=true, epoch=0)
 """
-function score(self :: AbstractModule, eval_data, eval_metric; num_batch=nothing, batch_end_callback=nothing, reset=true, epoch=0)
+function score(self :: AbstractModule, eval_data, eval_metric; num_batch=nothing, batch_end_callback=nothing, epoch=0)
   @assert isbinded(self) && isinitialized(self)
 
-  reset && reset!(eval_data)
   reset!(eval_metric)
 
-  for (nbatch, eval_batch) in enumerate(eval_data)
+  for (nbatch, eval_batch) in enumerate(eachdatabatch(eval_data))
     if num_batch !== nothing && nbatch == num_back
       break
     end
 
-    forward(self, eval_batch, is_train=false)
-    update_metric(self, eval_metric, label(eval_batch))
+    forward(self, eval_batch, false)
+    update_metric(self, eval_metric, eval_batch)
 
     if batch_end_callback !== nothing
       error("Not implemented yet!")
@@ -312,7 +372,7 @@ end
     forward_backward(self :: AbstractModule, data_batch)
 """
 function forward_backward(self :: AbstractModule, data_batch)
-  forward(self, data_batch, is_train=true)
+  forward(self, data_batch, true)
   backward(self, data_batch)
 end
 

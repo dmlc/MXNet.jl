@@ -180,14 +180,15 @@ function backward(self::DataParallelExecutorGroup, out_grads::Vector{NDArray})
 end
 
 """
-		set_params!(self::DataParallelExecutorGroup, arg_params, aux_params)
+		set_params!(self::DataParallelExecutorGroup, arg_params, aux_params; allow_extra_params)
 
 Assign, i.e. copy parameters to all the executors.
 # Arguments
-* `arg_params` : Dict{Symbol, NDArray}
+* `arg_params` : `Dict{Symbol, NDArray}`
   A dictionary of name to `NDArray` parameter mapping.
-* `aux_params` : Dict{Symbol, NDArray}
+* `aux_params` : `Dict{Symbol, NDArray}`
   A dictionary of name to `NDArray` auxiliary variable mapping.
+* `allow_extra_params`: `Bool`, default `false`, allow parameters in `arg_params` or `aux_params` that not exists in `self`.
 """
 function set_params!(self::DataParallelExecutorGroup,
                     arg_params, aux_params; allow_extra_params::Bool = false)
@@ -315,15 +316,15 @@ function get_outputs(self::DataParallelExecutorGroup, merge_multi_context::Bool=
     return outputs
   end
 end
+
+function output_shapes(self:: DataParallelExecutorGroup)
+  outputs = [size(out) for out in self.execs[1].outputs]
+  return Dict(key => shape for (key, shape) in zip(list_outputs(self.symbol), outputs))
+end
+
 ##
 # Internals
 ##
-
-
-function output_shapes(self:: DataParallelExecutorGroup)
-  #= outputs = [size(out) for out in self.execs[1].outputs] =#
-  #= return [tuple(key, shape) for key, shape in zip(list_outputs(exec_group.symbol), outputs)] =#
-end
 
 function get_grads(symbol, param_names, arg_names, data_names, inputs_need_grad, fixed_param_names, grad_req)
   if isnull(fixed_param_names)

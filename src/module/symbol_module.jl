@@ -27,7 +27,6 @@ type SymbolModule <: AbstractModule
 
   data_shapes :: Vector{Tuple{Vararg{Int}}}
   label_shapes :: Vector{Tuple{Vararg{Int}}}
-  output_shapes :: Vector{Tuple{Vararg{Int}}}
 
   arg_arrays :: Nullable{Vector{NDArray}}
   aux_arrays :: Nullable{Vector{NDArray}}
@@ -54,7 +53,6 @@ type SymbolModule <: AbstractModule
                false, false, false, false, false,
                Vector{Tuple{Int}}(),
                Vector{Tuple{Int}}(),
-               Vector{Tuple{Int}}(),
                Nullable{Vector{NDArray}}(),
                Nullable{Vector{NDArray}}(),
                Nullable{Vector{NDArray}}(),
@@ -64,12 +62,12 @@ type SymbolModule <: AbstractModule
 end
 
 function SymbolModule(symbol::SymbolicNode;
-                data_names = [:data], label_names = [:softmax_label],
+                      data_names = [:data],
+                      label_names = [:softmax_label],
                 context = [mx.cpu()], fixed_param_names = nothing)
   fixed_param_names = Nullable{Vector{Symbol}}(fixed_param_names)
-  if !isa(context, Vector{Context})
-    context = [context]
-  end
+  label_names = Vector{Symbol}(label_names)
+  context = _wrap_context(context)
   @assert !isempty(data_names)
   @assert !isempty(context)
   return SymbolModule(symbol, data_names, label_names, context, fixed_param_names)
@@ -82,26 +80,36 @@ isinitialized(self::SymbolModule) = self.params_initialized
 hasoptimizer(self::SymbolModule) = self.optimizer_initialized
 
 data_names(self::SymbolModule) = self.data_names
+label_names(self::SymbolModule) = self.label_names
 output_names(self::SymbolModule) = list_outputs(self.symbol)
 
+"""
+    get_symbol(self::SymbolModule) -> Nullable{SymbolicNode}
+
+Returns the associated [`SymbolicNode`](@ref) of the module. It might not be defined or change over time.
+"""
+function get_symbol(self::SymbolModule)
+  return Nullable{SymbolicNode}(self.symbol)
+end
+
 function data_shapes(self::SymbolModule)
-  !isbinded(self) && return Vector{Tuple{Int}}()
-  return self.data_shapes
+  !isbinded(self) && return Dict{Symbol, Vector{Tuple{Int}}}()
+  return Dict(k => v for (k, v) in zip(data_names(self), self.data_shapes))
 end
 
 function label_shapes(self::SymbolModule)
-  !isbinded(self) && return Vector{Tuple{Int}}()
-  return self.label_shapes
+  !isbinded(self) && return Dict{Symbol, Vector{Tuple{Int}}}()
+  return Dict(k => v for (k, v) in zip(label_names(self), self.label_shapes))
 end
 
 function output_shapes(self::SymbolModule)
-  !isbinded(self) && return Vector{Tuple{Int}}()
-  return self.output_shapes
+  !isbinded(self) && return Dict{Symbol, Vector{Tuple{Int}}}()
+  return mx.output_shapes(self.exec_group)
 end
 
 function get_params(self::SymbolModule)
   if !(isbinded(self) && isinitialized(self))
-    return (Nullable{Dict{Symbol, NDArray}}(), Nullable{Dict{Symbol, NDArray}}())
+    return (Dict{Symbol, NDArray}(), Dict{Symbol, NDArray}())
   end
   if self.params_dirty
     mx.get_params!(self.exec_group, self.arg_params, self.aux_params)
@@ -115,7 +123,7 @@ function init_params(self::SymbolModule;
     initializer=UniformInitializer(0.07), 
     arg_params::Dict{Symbol, NDArray}=Dict{Symbol, NDArray}(),
     aux_params::Dict{Symbol, NDArray}=Dict{Symbol, NDArray}(),
-    allow_missing=false, allow_extra_params=false, force_init=false)
+    allow_missing=false, force_init=false)
 
   if isinitialized(self) && !force_init
     return self
@@ -150,7 +158,7 @@ function init_params(self::SymbolModule;
   end
 
   # copy the initialized parameters to devices
-  set_params!(self.exec_group, self.arg_params, self.aux_params, allow_extra_params=allow_extra_params)
+  set_params!(self.exec_group, self.arg_params, self.aux_params)
 
   self.params_dirty = false
   self.params_initialized = true
@@ -274,10 +282,11 @@ function get_outputs(self::SymbolModule, merge_multi_context::Bool=true)
   mx.get_outputs(self.exec_group, merge_multi_context)
 end
 
-# TODO add description
 """
     forward(module, data_provider, data_batch; is_train)
+
 Forward computation.
+
 # Arguments
 * `data_batch` : AbstractDataBatch
 * `is_train` : Nullable{Bool}
@@ -293,7 +302,7 @@ end
     backward(module, out_grads)
 Backward computation.
 # Arguments
-* `out_grads` : NDArray or list of NDArray, optional
+* `out_grads` : `NDArray` or vector of `NDArray`, default `nothing`.
   Gradient on the outputs to be propagated back.
   This parameter is only needed when bind is called
   on outputs that are not a loss function.
@@ -329,6 +338,29 @@ function update_metric(self::SymbolModule, eval_metric::AbstractEvalMetric, prov
   mx.update_metric(self.exec_group, eval_metric, provider, batch)
 end
 
+"""
+    get_input_grads(self::SymbolModule, merge_multi_context=true)
+
+Get the gradients with respect to the inputs of the module.
+
+# Arguments
+
+* `merge_multi_context` : `Bool`
+  Default is `true`. In the case when data-parallelism is used, the outputs
+will be collected from multiple devices. A `true` value indicate that we
+should merge the collected results so that they look like from a single
+executor.
+
+# Returns
+If `merge_multi_context` is `true`, it is like `[grad1, grad2]`. Otherwise, it
+is like `[[grad1_dev1, grad1_dev2], [grad2_dev1, grad2_dev2]]`. All the output
+elements are `NDArray`.
+"""
+function get_input_grads(self::SymbolModule, merge_multi_context::Bool=true)
+  @assert isbinded(self) && isinitialized(self) && self.inputs_need_grad
+  return mx.get_input_grads(self.exec_group, merge_multi_context)
+end
+
 ##
 # Internals
 ##
@@ -349,3 +381,6 @@ function borrow_optimizer!(self::SymbolModule, shared_module::SymbolModule)
   self.updater = shared_module.updater
   self.optimizer_initialized = true
 end
+
+_wrap_context(context::Context) = [context]
+_wrap_context(context::Vector{Context}) = context
