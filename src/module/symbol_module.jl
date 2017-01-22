@@ -1,9 +1,9 @@
 import ....MXNet: mx # in order to use mx.
 
 """
-    Module
+    SymbolModule
 
-Module is a basic module that wraps a `SymbolicNode`. It is functionally the same
+SymbolModule is a basic module that wraps a `SymbolicNode`. It is functionally the same
 as the `FeedForward` model, except using the module API.
 
 A current limitation is that it only supports one context.
@@ -46,7 +46,7 @@ type SymbolModule <: AbstractModule
 
   function SymbolModule(symbol::SymbolicNode, data_names::Vector{Symbol},
                         label_names::Vector{Symbol}, context :: Vector{Context},
-                  fixed_param_names::Nullable{Vector{Symbol}})
+                        fixed_param_names::Nullable{Vector{Symbol}})
 
     aux_names = mx.list_auxiliary_states(symbol)
     return new(symbol, data_names, label_names, aux_names, context,
@@ -64,10 +64,11 @@ end
 function SymbolModule(symbol::SymbolicNode;
                       data_names = [:data],
                       label_names = [:softmax_label],
-                      context = [mx.cpu()], fixed_param_names = nothing)
+                      context::Union{Context, Vector{Context}} = [mx.cpu()],
+                      fixed_param_names = nothing)
   fixed_param_names = Nullable{Vector{Symbol}}(fixed_param_names)
   label_names = Vector{Symbol}(label_names)
-  context = _wrap_context(context)
+  context = Vector{Context}(context)
   @assert !isempty(data_names)
   @assert !isempty(context)
   return SymbolModule(symbol, data_names, label_names, context, fixed_param_names)
@@ -119,13 +120,8 @@ function get_params(self::SymbolModule)
   return (self.arg_params, self.aux_params)
 end
 
-function init_params(self::SymbolModule;
-    initializer=UniformInitializer(0.07),
-    arg_params::Dict{Symbol, NDArray}=Dict{Symbol, NDArray}(),
-    aux_params::Dict{Symbol, NDArray}=Dict{Symbol, NDArray}(),
-    allow_missing=false, force_init=false)
-
-  if isinitialized(self) && !force_init
+function init_params(self::SymbolModule, opts::ModuleInitParamsOptions)
+  if isinitialized(self) && !opts.force_init
     return self
   end
   @assert isbinded(self) "Call `bind` before initialization"
@@ -138,11 +134,11 @@ function init_params(self::SymbolModule;
     self.aux_params = Dict(k => mx.empty(size(v)) for (k, v) in self.exec_group.aux_params)
   end
 
-  map([[self.arg_params, arg_params], [self.aux_params, aux_params]]) do param_arr
+  map([[self.arg_params, opts.arg_params], [self.aux_params, opts.aux_params]]) do param_arr
     dst, src = param_arr
     for (name, arr) in dst
       if isempty(src)
-        init(initializer, name, arr)
+        init(opts.initializer, name, arr)
       else
         src = get(src)
         if name in keys(src)
@@ -150,8 +146,8 @@ function init_params(self::SymbolModule;
             copy!(arr, src[name])
           end
         else
-          @assert(!allow_missing, "$name is not presented")
-          init(initializer, name, arr)
+          @assert(!opts.allow_missing, "$name is not presented")
+          init(opts.initializer, name, arr)
         end
       end
     end
@@ -166,12 +162,8 @@ function init_params(self::SymbolModule;
   return self
 end
 
-bind(self::SymbolModule, data_provider::AbstractDataProvider; kwargs...) = bind(self, map((x) -> x[2], provide_data(data_provider)),
-  map((x) -> x[2], provide_label(data_provider)); kwargs...)
-function bind(self::SymbolModule, data_shapes, label_shapes = Vector{Tuple{Int}}();
-              for_training=true, inputs_need_grad=true, force_rebind=false,
-              grad_req=mx.GRAD_WRITE, shared_group = nothing)
-  if force_rebind
+function bind(self::SymbolModule, data_shapes, label_shapes, opts::ModuleBindOptions)
+  if opts.force_rebind
     reset_bind(self)
   end
 
@@ -180,15 +172,16 @@ function bind(self::SymbolModule, data_shapes, label_shapes = Vector{Tuple{Int}}
     return self
   end
 
-  if !for_training
-    @assert !inputs_need_grad
+  if !opts.for_training
+    @assert !opts.inputs_need_grad
   end
 
-  self.for_training = for_training
-  self.inputs_need_grad = inputs_need_grad
+  self.for_training = opts.for_training
+  self.inputs_need_grad = opts.inputs_need_grad
   self.binded = true
 
 
+  info("SymbolModule: self.label_names=$(self.label_names); self.label_shapes=$(self.label_shapes)")
   @assert length(self.data_names)  == length(data_shapes)
   @assert length(self.label_names) == length(label_shapes)
 
@@ -199,11 +192,17 @@ function bind(self::SymbolModule, data_shapes, label_shapes = Vector{Tuple{Int}}
   data_types = [Float32 for _ in 1:length(self.data_names)]
   label_types = [Float32 for _ in 1:length(self.label_names)]
 
+  if opts.shared_module !== nothing
+    shared_group = Nullable(opts.shared_module.exec_group)
+  else
+    shared_group = Nullable{DataParallelExecutorGroup}()
+  end
+
   self.exec_group = DataParallelExecutorGroup(self.symbol, self.context,
                       self.data_shapes, self.data_names, data_types,
                       self.label_shapes, self.label_names, label_types,
                       self.for_training, self.inputs_need_grad, shared_group,
-                      self.fixed_param_names, grad_req)
+                      self.fixed_param_names, opts.grad_req)
   return self
 end
 
@@ -295,8 +294,8 @@ Forward computation.
 * `is_train` : Bool
   Default is `nothing`, which means `is_train` takes the value of `self.for_training`.
 """
-forward(self::SymbolModule, data_batch::DataBatch) = forward(self, StubProvider(), data_batch, self.for_training)
-function forward(self::SymbolModule, data_provider :: AbstractDataProvider, data_batch :: AbstractDataBatch, is_train::Bool)
+forward(self::SymbolModule, data_batch::DataBatch) = forward(self, data_batch, self.for_training)
+function forward(self::SymbolModule, data_provider :: AbstractDataProvider, data_batch :: AbstractDataBatch, is_train::Bool=self.for_training)
   @assert isbinded(self) && isinitialized(self)
   mx.forward(self.exec_group, data_provider, data_batch, is_train)
 end
@@ -385,6 +384,3 @@ function borrow_optimizer!(self::SymbolModule, shared_module::SymbolModule)
   self.updater = shared_module.updater
   self.optimizer_initialized = true
 end
-
-_wrap_context(context::Context) = [context]
-_wrap_context(context::Vector{Context}) = context

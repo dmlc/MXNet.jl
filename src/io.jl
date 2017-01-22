@@ -121,6 +121,9 @@ type DataBatch <: AbstractDataBatch
   label :: Vector{NDArray}
   count :: Int
 end
+DataBatch(provider::AbstractDataProvider, batch::AbstractDataBatch) =
+  DataBatch(get_data(provider, batch), get_label(provider, batch), count_samples(provider, batch))
+DataBatch(batch::DataBatch) = DataBatch(batch.data, batch.label, batch.count)
 count_samples(batch :: DataBatch) = batch.count
 get_data{Provider<:AbstractDataProvider}(::Provider, batch :: DataBatch) = batch.data
 get_label{Provider<:AbstractDataProvider}(::Provider, batch :: DataBatch) = batch.label

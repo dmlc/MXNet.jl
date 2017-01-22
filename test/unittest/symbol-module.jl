@@ -41,7 +41,7 @@ function test_basic()
   @test mx.Module.data_names(m1) == [:data]
   @test mx.Module.output_names(m1) == [:softmax_output]
 
-  mx.Module.bind(m1, [(20, 20, 1, 10)], [(400, 10)])
+  mx.Module.bind(m1, [(20, 20, 1, 10)], [(20, 20, 1, 10)])
   @test mx.Module.isbinded(m1)
   @test !mx.Module.isinitialized(m1)
   @test !mx.Module.hasoptimizer(m1)
@@ -57,10 +57,10 @@ function test_shapes()
   info("SymbolModule::Shapes")
 
   m1 = mx.Module.SymbolModule(create_network())
-  mx.Module.bind(m1, [(20, 20, 1, 10)], [(20, 20, 1, 10)])
+  mx.Module.bind(m1, [(20, 20, 1, 10)], [(400, 10)])
 
   @test mx.Module.data_shapes(m1) == Dict(:data => (20, 20, 1, 10))
-  @test mx.Module.label_shapes(m1) == Dict(:softmax_label => (20, 20, 1, 10))
+  @test mx.Module.label_shapes(m1) == Dict(:softmax_label => (400, 10))
   @test mx.Module.output_shapes(m1) == Dict(:softmax_output => (20, 20, 64, 10))
 
   m2 = mx.Module.SymbolModule(create_network(), label_names=[])
@@ -140,7 +140,7 @@ end
 # Run tests
 ################################################################################
 
-@testset "Symbol Module Test" begin
+@testset "  Symbol Module Test" begin
   test_basic()
   test_shapes()
   #= test_init_params(500) =#
