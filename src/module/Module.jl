@@ -1,7 +1,7 @@
 module Module
 import ....MXNet: mx
 import ..mx: DataBatch, AbstractDataProvider, AbstractDataBatch, DataBatchProvider
-import ..mx: SymbolicNode, NDArray, Context, Executor, list_arguments, infer_shape, GRAD_NOP, AbstractExecutorGroup, list_outputs, DataParallelExecutorGroup, KVStore, OptimizationState, ADAM, UniformInitializer, set_params!, AbstractOptimizer, get_updater, update_params, provide_data, provide_label, AbstractEvalMetric, StubProvider, init, copy!, concatenate, eachdatabatch, reset!
+import ..mx: SymbolicNode, NDArray, Context, Executor, list_arguments, infer_shape, GRAD_NOP, AbstractExecutorGroup, list_outputs, DataParallelExecutorGroup, KVStore, OptimizationState, ADAM, UniformInitializer, set_params!, AbstractOptimizer, get_updater, update_params, provide_data, provide_label, AbstractEvalMetric, StubProvider, init, copy!, concatenate, eachdatabatch, reset!, Accuracy
 
 """
     AbstractModule
@@ -215,8 +215,8 @@ end
 ###
 """
 """
-forward(self :: AbstractModule, data_batch :: DataBatch, is_train=nothing) = forward(self, StubProvider(), data_batch, is_train)
-function forward(self :: AbstractModule, provider :: AbstractDataProvider, data_batch :: AbstractDataBatch, is_train=nothing)
+forward(self :: AbstractModule, data_batch :: DataBatch, is_train) = forward(self, StubProvider(), data_batch, is_train)
+function forward(self :: AbstractModule, provider :: AbstractDataProvider, data_batch :: AbstractDataBatch, is_train)
   throw(MethodError(forward, (self, )))
 end
 
@@ -265,12 +265,138 @@ end
 ###
 
 """
+    fit(self::AbstractModule, train_data::AbstractDataProvider; kwargs...)
+
+Train the module parameters.
+
+# Arguments
+* `train_data` : AbstractDataProvider
+* `eval_data` : AbstractDataProvider
+  If not `nothing`, will be used as validation set and evaluate the performance
+  after each epoch.
+* `eval_metric` : str or EvalMetric
+  Default `'acc'`. The performance measure used to display during training.
+* `epoch_end_callback` : function or list of function
+  Each callback will be called with the current `epoch`, `symbol`, `arg_params`
+  and `aux_params`.
+* `batch_end_callback` : function or list of function
+  Each callback will be called with a `BatchEndParam`.
+* `kvstore` : Symbol or KVStore
+  Default `:local`.
+* `optimizer` : AbstractOptimizer
+  Default `ADAM`
+* `eval_end_callback` : function or list of function
+  These will be called at the end of each full evaluation, with the metrics over
+  the entire evaluation set.
+* `eval_batch_end_callback` : function or list of function
+  These will be called at the end of each minibatch during evaluation
+* `initializer` : Initializer
+  Will be called to initialize the module parameters if not already initialized.
+* `arg_params` : dict
+  Default `nothing`, if not `nothing`, should be existing parameters from a trained
+  model or loaded from a checkpoint (previously saved model). In this case,
+  the value here will be used to initialize the module parameters, unless they
+  are already initialized by the user via a call to `init_params` or `fit`.
+`arg_params` has higher priority to `initializer`.
+* `aux_params` : dict
+  Default `None`. Similar to `arg_params`, except for auxiliary states.
+* `allow_missing` : bool
+  Default `False`. Indicate whether we allow missing parameters when `arg_params`
+  and `aux_params` are not `None`. If this is `True`, then the missing parameters
+  will be initialized via the `initializer`.
+* `force_rebind` : bool
+  Default `False`. Whether to force rebinding the executors if already binded.
+* `force_init` : bool
+  Default `False`. Indicate whether we should force initialization even if the
+  parameters are already initialized.
+* `begin_epoch` : int
+  Default `1`. Indicate the starting epoch. Usually, if we are resuming from a
+  checkpoint saved at a previous training phase at epoch N, then we should specify
+  this value as N+1.
+* `num_epoch` : int
+  Number of epochs to run training.
+
+# Examples
+An example of using fit for training::
+```julia
+# Assume training train_data and validation eval_data are ready
+mx.Module.fit(mod, train_data, 10, eval_data=eval_data,
+  optimizer=mx.SGD(lr=0.01, momentum=0.9))
+```
 """
-function fit(self::AbstractModule, train_data)
+function fit(self::AbstractModule, train_data, num_epoch;
+             initializer=UniformInitializer(0.07),
+             optimizer = ADAM(),
+             eval_data=nothing, 
+             eval_metric::AbstractEvalMetric=Accuracy(),
+             validation_metric::AbstractEvalMetric = eval_metric,
+             epoch_end_callback = nothing,
+             batch_end_callback = nothing,
+             kvstore = :local,
+             eval_end_callback = nothing,
+             eval_batch_end_callback = nothing,
+             arg_params = Dict{Symbol, NDArray}(),
+             aux_params = Dict{Symbol, NDArray}(),
+             allow_missing = false,
+             force_rebind = false,
+             force_init = false,
+             begin_epoch = 1)
+  bind(self, train_data, for_training=true, force_rebind=force_rebind)
+  init_params(self, initializer=initializer, arg_params=arg_params,
+              aux_params=aux_params, allow_missing=allow_missing,
+              force_init=force_init)
+  init_optimizer(self, kvstore=kvstore, optimizer=optimizer, force_init=force_init)
 
-  error("Not yet implemented")
+  if validation_metric == nothing
+    validation_metric = eval_metric
+  end
+
+  ####################################################################
+  # training loop
+  ####################################################################
+  for epoch in begin_epoch:num_epoch
+    time_start = time()
+    reset!(eval_metric)
+    for (nbatch, batch) in enumerate(eachdatabatch(train_data))
+      forward_backward(self, batch)
+      update(self)
+      update_metric(self, eval_metric, batch)
+
+      if batch_end_callback !== nothing
+        error("Not implemented yet")
+      end
+    end
+
+    # one epoch of training is finished
+    for (name, val) in get(eval_metric)
+      info("Epoch[$epoch] Train-$name=$val")
+    end
+    time_stop = time()
+    info("Epoch[$epoch] Time cost=$(time_stop - time_start)")
+
+     # sync aux params across devices
+    arg_params, aux_params = get_params(self)
+    set_params(self, arg_params, aux_params)
+
+    if epoch_end_callback !== nothing
+      error("Not implemented yet")
+    end
+
+    ##################################################################
+    # evaluation on validation set
+    ##################################################################
+    if eval_data !== nothing
+      res = score(self, eval_data, validation_metric,
+                  score_end_callback=eval_end_callback,
+                  batch_end_callback=eval_batch_end_callback,
+                  epoch=epoch)
+      #TODO: pull this into default
+      for (name, val) in res
+        info("Epoch[$epoch] Validation-$name=$val")
+      end
+    end
+  end
 end
-
 
 # XXX: warning, this function is not type stable.
 """
@@ -348,7 +474,8 @@ end
 """
     score(self::AbstractModule, eval_data, eval_metric; num_batch, batch_end_callback, reset=true, epoch=0)
 """
-function score(self :: AbstractModule, eval_data, eval_metric; num_batch=nothing, batch_end_callback=nothing, epoch=0)
+function score(self :: AbstractModule, eval_data, eval_metric; num_batch=nothing, batch_end_callback=nothing, score_end_callback=nothing,
+               epoch=0)
   @assert isbinded(self) && isinitialized(self)
 
   reset!(eval_metric)
@@ -365,6 +492,10 @@ function score(self :: AbstractModule, eval_data, eval_metric; num_batch=nothing
       error("Not implemented yet!")
     end
   end
+  if score_end_callback !== nothing
+    error("Not implemented yet!")
+  end
+
   get(eval_metric)
 end
 
@@ -373,7 +504,7 @@ end
 """
 function forward_backward(self :: AbstractModule, data_batch)
   forward(self, data_batch, true)
-  backward(self, data_batch)
+  backward(self)
 end
 
 # include implementations

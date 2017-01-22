@@ -145,14 +145,13 @@ end
 Split `data_batch` according to workload and run forward on each devices.
 # Arguments
 * `data_batch` : AbstractDataBatch
-* `is_train` : Nullable{Bool}
+* `is_train` : `Bool`
   The hint for the backend, indicating whether we are during training phase.
   Default is `nothing`, then the value `self.for_training` will be used.
 """
-function forward(self:: DataParallelExecutorGroup, data_provider :: AbstractDataProvider, data_batch :: AbstractDataBatch, is_train = nothing)
+function forward(self:: DataParallelExecutorGroup, data_provider :: AbstractDataProvider, data_batch :: AbstractDataBatch, is_train::Bool = self.for_training)
 
   load_data!(data_provider, data_batch, self.data_arrays)
-  is_train = get(is_train, self.for_training)
   
   if is_train && !isempty(get_label(data_provider, data_batch))
     load_label!(data_provider, data_batch, self.label_arrays)
@@ -315,6 +314,33 @@ function get_outputs(self::DataParallelExecutorGroup, merge_multi_context::Bool=
   else
     return outputs
   end
+end
+
+"""
+    get_input_grads(self, merge_multi_context)
+
+Get the gradients with respect to the inputs of the module.
+
+# Arguments
+* `merge_multi_context` : `Bool`
+  Default is `true`. In the case when data-parallelism is used, the outputs
+  will be collected from multiple devices. A `true` value indicate that we
+  should merge the collected results so that they look like from a single
+  executor.
+
+# Returns
+If `merge_multi_context` is `True`, it is like `[grad1, grad2]`. Otherwise, it
+is like `[[grad1_dev1, grad1_dev2], [grad2_dev1, grad2_dev2]]`. All the output
+elements are `NDArray`.
+"""
+function get_input_grads(self::DataParallelExecutorGroup, merge_multi_context::Bool=true)
+  !self.inputs_need_grad && NDArray[]
+
+  if merge_multi_context
+    return _merge_multi_context(self.input_grad_arrays)
+  end
+  
+  return self.input_grad_arrays
 end
 
 function output_shapes(self:: DataParallelExecutorGroup)

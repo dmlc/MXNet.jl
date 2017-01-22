@@ -289,11 +289,11 @@ Forward computation.
 
 # Arguments
 * `data_batch` : AbstractDataBatch
-* `is_train` : Nullable{Bool}
+* `is_train` : Bool
   Default is `nothing`, which means `is_train` takes the value of `self.for_training`.
 """
-forward(self::SymbolModule, data_provider :: AbstractDataProvider, data_batch :: AbstractDataBatch, is_train = nothing) = forward(self, data_provider, data_batch, Nullable{Bool}(is_train))
-function forward(self::SymbolModule, data_provider :: AbstractDataProvider, data_batch :: AbstractDataBatch, is_train::Nullable{Bool})
+forward(self::SymbolModule, data_batch::DataBatch) = forward(self, StubProvider(), data_batch, self.for_training)
+function forward(self::SymbolModule, data_provider :: AbstractDataProvider, data_batch :: AbstractDataBatch, is_train::Bool)
   @assert isbinded(self) && isinitialized(self)
   mx.forward(self.exec_group, data_provider, data_batch, is_train)
 end

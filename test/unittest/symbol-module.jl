@@ -91,10 +91,10 @@ function test_linear_regression(n_epoch::Int = 10)
   for i in 1:n_epoch
     for batch in mx.eachdatabatch(data)
       mx.Module.forward(m1, batch)
-      mx.Module.update_metric(m1, metric, batch)
-
       mx.Module.backward(m1)
       mx.Module.update(m1)
+
+      mx.Module.update_metric(m1, metric, batch)
     end
 
     for (name, value) in get(metric)
@@ -121,6 +121,16 @@ function test_linear_regression(n_epoch::Int = 10)
   info("Score $name     : ", score)
   
   @test sum(abs(ha_pred-y_pred)) < 1e-6
+
+  m2 = mx.Module.SymbolModule(create_linreg(4), 
+                              label_names = [:linout_label],
+                              context=[mx.cpu(), mx.cpu()])
+  mx.Module.fit(m2, data, 10, eval_metric=mx.MSE())
+  name, score = mx.Module.score(m2, data, metric)[1]
+  ha_pred = mx.copy(mx.Module.predict(m2, data))
+  info("Predict result: ", ha_pred)
+  info("Score $name     : ", score)
+  @test sum(abs(ha_pred-y_pred)) < 1e-1
 end
 
 ################################################################################
