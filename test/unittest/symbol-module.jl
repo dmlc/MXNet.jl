@@ -78,7 +78,7 @@ function test_linear_regression(n_epoch::Int = 10)
   data = mx.ArrayDataProvider(:data => x, :linout_label => y; batch_size = 5)
 
   metric = mx.MSE()
-  m1 = mx.Module.SymbolModule(create_linreg(4), 
+  m1 = mx.Module.SymbolModule(create_linreg(4),
                               label_names = [:linout_label],
                               context=[mx.cpu(), mx.cpu()])
   mx.Module.bind(m1, data)

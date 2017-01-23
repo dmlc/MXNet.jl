@@ -195,9 +195,13 @@ function bind(self::SymbolModule, data_shapes, label_shapes = Vector{Tuple{Int}}
   self.data_shapes = data_shapes
   self.label_shapes = label_shapes
 
+  # TODO propagate type information
+  data_types = [Float32 for _ in 1:length(self.data_names)]
+  label_types = [Float32 for _ in 1:length(self.label_names)]
+
   self.exec_group = DataParallelExecutorGroup(self.symbol, self.context,
-                      self.data_shapes, self.data_names,
-                      self.label_shapes, self.label_names,
+                      self.data_shapes, self.data_names, data_types,
+                      self.label_shapes, self.label_names, label_types,
                       self.for_training, self.inputs_need_grad, shared_group,
                       self.fixed_param_names, grad_req)
   return self
@@ -247,7 +251,7 @@ function init_optimizer(self::SymbolModule; optimizer::AbstractOptimizer=ADAM(),
       end
     end
   end
-  
+
 	# TODO add preloaded states
   #= if !isa(self.preload_opt_states, Void) =#
   #=   load_optimizer_states!(self, self.preload_opt_states) =#
@@ -367,7 +371,7 @@ end
 
 """
     borrow_optimizer!(module, shared_module)
-Borrow optimizer from a shared module. Used in bucketing, where exactly the same 
+Borrow optimizer from a shared module. Used in bucketing, where exactly the same
 optimizer (esp. kvstore) is used.
 # Arguments
 * `module` : SymbolModule
