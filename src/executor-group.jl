@@ -79,7 +79,8 @@ function DataParallelExecutorGroup(symbol::SymbolicNode, context::Vector{Context
       Dict(name => shape for (name, shape) in zip(label_names, label_shapes))
   )
 
-  arg_shapes, out_shapes, aux_shapes = infer_shape(symbol; provided_shapes...)
+  # Run shape inference globally
+  arg_shapes, out_shapes, aux_shapes = infer_shape(symbol, provided_shapes)
   @assert(!isa(arg_shapes, Void), "Information not enough to perform complete shape inference")
 
   # Type inference based on data_types and lable_types
@@ -88,7 +89,7 @@ function DataParallelExecutorGroup(symbol::SymbolicNode, context::Vector{Context
       Dict(name => T for (name, T) in zip(label_names, label_types))
   )
 
-  arg_types, out_types, aux_types = infer_type(symbol; provided_types...)
+  arg_types, out_types, aux_types = infer_type(symbol, provided_types)
 
   # Check for what arg we needs gradients and which are frozen
   grad_req, freeze_idx = get_grads(symbol, param_names, arg_names, data_names, inputs_need_grad, fixed_param_names, grad_req)
@@ -107,8 +108,16 @@ function DataParallelExecutorGroup(symbol::SymbolicNode, context::Vector{Context
   dev_shapes(shapes, slice) = (tuple(shape[1:end-1]..., slice) for shape in shapes)
 
   for i = 1:num_dev
-    arg_shapes_dev = dev_shapes(arg_shapes, length(slices[i]))
-    aux_shapes_dev = dev_shapes(aux_shapes, length(slices[i]))
+    slice = length(slices[i])
+    # Shape inference based on data_shapes and label_shapes per device
+    provided_shapes_dev = merge(
+        Dict(name => shape for (name, shape) in zip(data_names,  dev_shapes(data_shapes,  slice))),
+        Dict(name => shape for (name, shape) in zip(label_names, dev_shapes(label_shapes, slice)))
+    )
+
+    # Run shape inference locally (per-device)
+    arg_shapes_dev, out_shapes_dev, aux_shapes_dev = infer_shape(symbol, provided_shapes_dev)
+    @assert(!isa(arg_shapes_dev, Void), "Information not enough to perform complete shape inference")
 
     arg_arrays = NDArray[zeros(T, shape, context[i]) for (shape, T) in zip(arg_shapes_dev, arg_types)]
     aux_arrays = NDArray[zeros(T, shape, context[i]) for (shape, T) in zip(aux_shapes_dev, aux_types)]
@@ -172,7 +181,6 @@ Split `data_batch` according to workload and run forward on each devices.
 function forward(self:: DataParallelExecutorGroup, data_provider :: AbstractDataProvider, data_batch :: AbstractDataBatch, is_train::Bool = self.for_training)
 
   load_data!(data_provider, data_batch, self.data_arrays)
-  is_train = get(is_train, self.for_training)
 
   if is_train && !isempty(get_label(data_provider, data_batch))
     load_label!(data_provider, data_batch, self.label_arrays)
@@ -256,9 +264,9 @@ function update_params(self::DataParallelExecutorGroup, updater, update_on_kvsto
       end
     end
   end
-end 
+end
 
-""" 
+"""
     get_params!(self, arg_params, aux_params)
 
 Copy data from each executor to `arg_params` and `aux_params`.
@@ -269,7 +277,7 @@ Copy data from each executor to `arg_params` and `aux_params`.
 # Notes
 This function will inplace update the NDArrays in arg_params and aux_params.
 """
-function get_params!(self::DataParallelExecutorGroup, arg_params::Dict{Symbol, NDArray}, 
+function get_params!(self::DataParallelExecutorGroup, arg_params::Dict{Symbol, NDArray},
                     aux_params::Dict{Symbol, NDArray})
   for (name, block) in zip(self.param_names, self.param_arrays)
     w = empty(size(block[1]))
@@ -290,6 +298,7 @@ function get_params!(self::DataParallelExecutorGroup, arg_params::Dict{Symbol, N
 end
 
 """
+    update_metric
 
 Accumulate the performance according to `eval_metric` on all devices.
 # Parameters
@@ -300,8 +309,8 @@ Accumulate the performance according to `eval_metric` on all devices.
 """
 function update_metric(self::DataParallelExecutorGroup, eval_metric::AbstractEvalMetric, provider::AbstractDataProvider, batch::AbstractDataBatch)
 
-  # XXX: there is a possibiilty, that label arrays lie in different
-  # context than cpu_output_arrays. It should be checked and labels 
+  # XXX: there is a possibility, that label arrays lie in different
+  # context than cpu_output_arrays. It should be checked and labels
   # should be copied to corresponding context
   cpu_output_arrays = get_outputs(self)
   update!(eval_metric, get_label(provider, batch), cpu_output_arrays)
@@ -360,7 +369,7 @@ function get_input_grads(self::DataParallelExecutorGroup, merge_multi_context::B
   if merge_multi_context
     return _merge_multi_context(self.input_grad_arrays)
   end
-  
+
   return self.input_grad_arrays
 end
 

@@ -1,7 +1,12 @@
 module Module
 import ....MXNet: mx
 import ..mx: DataBatch, AbstractDataProvider, AbstractDataBatch, DataBatchProvider
-import ..mx: SymbolicNode, NDArray, Context, Executor, list_arguments, infer_shape, GRAD_NOP, AbstractExecutorGroup, list_outputs, DataParallelExecutorGroup, KVStore, OptimizationState, ADAM, UniformInitializer, set_params!, AbstractOptimizer, get_updater, update_params, provide_data, provide_label, AbstractEvalMetric, StubProvider, init, copy!, concatenate, eachdatabatch, reset!, Accuracy
+import ..mx: SymbolicNode, NDArray, Context, Executor, list_arguments, infer_shape,
+             GRAD_NOP, AbstractExecutorGroup, list_outputs, DataParallelExecutorGroup,
+             KVStore, OptimizationState, ADAM, UniformInitializer, set_params!,
+             AbstractOptimizer, get_updater, update_params, provide_data,
+             provide_label, AbstractEvalMetric, StubProvider, init, copy!,
+             concatenate, eachdatabatch, reset!, Accuracy
 
 """
     AbstractModule
@@ -122,7 +127,7 @@ end
 """
     data_shapes(AbstractModule)
 
-A Dict of (name, shape) pairs specifying the data inputs to this module. 
+A Dict of (name, shape) pairs specifying the data inputs to this module.
 """
 function data_shapes(self :: AbstractModule)
   throw(MethodError(data_shapes, (self,)))
@@ -131,7 +136,9 @@ end
 """
     label_shapes(AbstractModule)
 
-A Dict of (name, shape) pairs specifying the label inputs to this module.  If this module does not accept labels -- either it is a module without loss function, or it is not binded for training, then this should return an empty Dict.
+A Dict of (name, shape) pairs specifying the label inputs to this module.
+If this module does not accept labels -- either it is a module without loss function,
+or it is not binded for training, then this should return an empty Dict.
 """
 function label_shapes(self :: AbstractModule)
   throw(MethodError(label_shapes, (self,)))
@@ -173,7 +180,7 @@ Assign parameter and aux state values.
 * `allow_missing` : `Bool`.  If true, params could contain missing values, and the initializer will be called to fill those missing params.
 * `force_init` : `Bool`.  If true, will force re-initialize even if already initialized.
 """
-function set_params(self::AbstractModule, 
+function set_params(self::AbstractModule,
     arg_params::Dict{Symbol, NDArray},
     aux_params::Dict{Symbol, NDArray};
     allow_missing=false, force_init=false)
@@ -327,7 +334,7 @@ mx.Module.fit(mod, train_data, 10, eval_data=eval_data,
 function fit(self::AbstractModule, train_data, num_epoch;
              initializer=UniformInitializer(0.07),
              optimizer = ADAM(),
-             eval_data=nothing, 
+             eval_data=nothing,
              eval_metric::AbstractEvalMetric=Accuracy(),
              validation_metric::AbstractEvalMetric = eval_metric,
              epoch_end_callback = nothing,
@@ -456,7 +463,7 @@ function predict(self::AbstractModule, eval_data::AbstractDataProvider;
   if merge_batches
     num_outputs = length(output_list[1])
     for out in output_list
-      @assert(length(out) == num_outputs, 
+      @assert(length(out) == num_outputs,
               "Cannot merge batches, as num of outputs is not the same in mini-batches. Maybe bucketing is used?")
     end
     output_list2 = [concatenate([out[i] for out in output_list]) for i = 1:num_outputs]

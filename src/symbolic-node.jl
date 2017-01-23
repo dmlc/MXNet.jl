@@ -297,6 +297,7 @@ end
 
 """
     infer_shape(self :: SymbolicNode, args...)
+    infer_shape(self :: SymbolicNode, args::Dict)
     infer_shape(self :: SymbolicNode; kwargs...)
 
 Do shape inference according to the input shapes. The input shapes could be provided
@@ -308,7 +309,8 @@ Returns a 3-tuple containing shapes of all the arguments, shapes of all the outp
 shapes of all the auxiliary variables. If shape inference failed due to incomplete
 or incompatible inputs, the return value will be `(nothing, nothing, nothing)`.
 """
-function infer_shape(self :: SymbolicNode; kwargs...)
+
+function infer_shape(self :: SymbolicNode, kwargs::Dict)
   sdata  = MX_uint[]
   indptr = MX_uint[0]
   for (k,v) in kwargs
@@ -318,6 +320,8 @@ function infer_shape(self :: SymbolicNode; kwargs...)
   keys = AbstractString[string(x[1]) for x in kwargs]
   _infer_shape(self, keys, indptr, sdata)
 end
+infer_shape(self :: SymbolicNode; kwargs...) = infer_shape(self, Dict(kwargs))
+
 function infer_shape(self :: SymbolicNode, args :: Union{Tuple, Void}...)
   sdata  = MX_uint[]
   indptr = MX_uint[0]
@@ -365,6 +369,7 @@ end
 
 """
     infer_type(self :: SymbolicNode; kwargs...)
+    infer_type(self :: SymbolicNode, args::Dict)
     infer_type(self :: SymbolicNode, args...)
 
 Do type inference according to the input types. The input types could be provided
@@ -376,11 +381,12 @@ Returns a 3-tuple containing types of all the arguments, types of all the output
 types of all the auxiliary variables. If type inference failed due to incomplete
 or incompatible inputs, the return value will be `(nothing, nothing, nothing)`.
 """
-function infer_type(self :: SymbolicNode; kwargs...)
+function infer_type(self :: SymbolicNode, kwargs::Dict)
   types = Cint[toTypeFlag(x[2]) for x in kwargs]
   keys = AbstractString[string(x[1]) for x in kwargs]
   _infer_type(self, keys, types)
 end
+infer_type(self :: SymbolicNode; kwargs...) = infer_type(self, Dict(kwargs))
 
 function infer_type(self :: SymbolicNode, args :: Union{Tuple, Void}...)
   types = Cint[]

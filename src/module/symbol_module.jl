@@ -64,7 +64,7 @@ end
 function SymbolModule(symbol::SymbolicNode;
                       data_names = [:data],
                       label_names = [:softmax_label],
-                context = [mx.cpu()], fixed_param_names = nothing)
+                      context = [mx.cpu()], fixed_param_names = nothing)
   fixed_param_names = Nullable{Vector{Symbol}}(fixed_param_names)
   label_names = Vector{Symbol}(label_names)
   context = _wrap_context(context)
@@ -119,8 +119,8 @@ function get_params(self::SymbolModule)
   return (self.arg_params, self.aux_params)
 end
 
-function init_params(self::SymbolModule; 
-    initializer=UniformInitializer(0.07), 
+function init_params(self::SymbolModule;
+    initializer=UniformInitializer(0.07),
     arg_params::Dict{Symbol, NDArray}=Dict{Symbol, NDArray}(),
     aux_params::Dict{Symbol, NDArray}=Dict{Symbol, NDArray}(),
     allow_missing=false, force_init=false)
@@ -281,8 +281,7 @@ is like `[[out1_dev1, out1_dev2], [out2_dev1, out2_dev2]]`. All the output
 elements are `NDArray`.
 """
 function get_outputs(self::SymbolModule, merge_multi_context::Bool=true)
-	@assert isbinded(self) && isinitialized(self)
-
+  @assert isbinded(self) && isinitialized(self)
   mx.get_outputs(self.exec_group, merge_multi_context)
 end
 
@@ -371,6 +370,7 @@ end
 
 """
     borrow_optimizer!(module, shared_module)
+    
 Borrow optimizer from a shared module. Used in bucketing, where exactly the same
 optimizer (esp. kvstore) is used.
 # Arguments
