@@ -133,6 +133,9 @@ function test_linear_regression(n_epoch::Int = 10)
   @test sum(abs(ha_pred-y_pred)) < 1e-1
 end
 
+function test_simplepipeline()
+end
+
 ################################################################################
 # Run tests
 ################################################################################

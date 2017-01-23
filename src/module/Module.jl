@@ -516,5 +516,7 @@ end
 
 # include implementations
 include("symbol_module.jl")
+include("pipeline.jl")
+include("native_module.jl")
 
 end
