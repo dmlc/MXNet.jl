@@ -1,4 +1,5 @@
 import ....MXNet: mx # in order to use mx.
+import Base.push!
 
 @defstruct SequentialModuleMetas (
   take_labels :: Bool = false,
@@ -46,7 +47,7 @@ label_names(self::SequentialModule) = self.label_names
 output_names(self::SequentialModule) = length(self.modules) > 0 ? output_names(self.modules[end]) : Symbol[]
 
 """
-    add(self, module; kwargs...)
+    push!(self, module; kwargs...)
 
 Add a module to the chain.
 # Arguments
@@ -71,11 +72,11 @@ series of `add` calls.
 An example of addinging two modules to a chain::
 ```julia
 seq_mod = @mx.chain mx.Module.SequentialModule() =>
-          add(mod1) => 
-          add(mod2)
+          mx.Module.push!(mod1) => 
+          mx.Module.push!(mod2)
 ```
 """
-function add(self::SequentialModule, mod::AbstractModule; kwargs...)
+function push!(self::SequentialModule, mod::AbstractModule; kwargs...)
   push!(self.modules, mod)
 
   metas = SequentialModuleMetas(;kwargs...)
@@ -160,7 +161,6 @@ end
 """
 """
 function bind(self::SequentialModule, data_shapes, label_shapes, opts::ModuleBindOptions)
-  info("SequentialModule: label_shapes=$label_shapes")
   if opts.inputs_need_grad
     @assert opts.for_training
   end

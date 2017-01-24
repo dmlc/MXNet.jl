@@ -17,14 +17,15 @@ function test_basic()
 
   net1 = @mx.chain mx.Variable(:data) =>
            mx.FullyConnected(name=:fc1, num_hidden=4)
-  net2 = @mx.chain mx.FullyConnected(mx.SymbolicNode, name=:fc2, num_hidden=1) =>
+  net2 = @mx.chain mx.Variable(:fc1_output) =>
+           mx.FullyConnected(name=:fc2, num_hidden=1) =>
            mx.LinearRegressionOutput(name=:linout)
 
   m1 = mx.Module.SymbolModule(net1, label_names=Symbol[])
-  m2 = mx.Module.SymbolModule(net2)
+  m2 = mx.Module.SymbolModule(net2, data_names=[:fc1_output], label_names=[:linout_label])
   seq_mod = mx.Module.SequentialModule()
-  mx.Module.add(seq_mod, m1)
-  mx.Module.add(seq_mod, m2, take_labels=true)
+  mx.Module.push!(seq_mod, m1)
+  mx.Module.push!(seq_mod, m2, take_labels=true)
   @test !mx.Module.isbinded(seq_mod)
   @test !mx.Module.allows_training(seq_mod)
   @test !mx.Module.isinitialized(seq_mod)

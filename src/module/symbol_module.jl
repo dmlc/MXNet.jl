@@ -180,8 +180,11 @@ function bind(self::SymbolModule, data_shapes, label_shapes, opts::ModuleBindOpt
   self.inputs_need_grad = opts.inputs_need_grad
   self.binded = true
 
+  wrap_in_vector(x::Vector, names) = x
+  wrap_in_vector(x::Dict, names) = [x[name] for name in names]
+  data_shapes = wrap_in_vector(data_shapes, self.data_names)
+  label_shapes = wrap_in_vector(label_shapes, self.label_names)
 
-  info("SymbolModule: self.label_names=$(self.label_names); self.label_shapes=$(self.label_shapes)")
   @assert length(self.data_names)  == length(data_shapes)
   @assert length(self.label_names) == length(label_shapes)
 
