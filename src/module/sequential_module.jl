@@ -3,7 +3,8 @@ import Base.push!
 
 @defstruct SequentialModuleMetas (
   take_labels :: Bool = false,
-  auto_wiring :: Bool = false
+  auto_wiring :: Bool = false,
+  join :: Dict{Symbol, Symbol} = Dict{Symbol, Symbol}()
 )
 
 """
@@ -29,10 +30,11 @@ type SequentialModule <: AbstractModule
 
   label_names :: Vector{Symbol}
   label_shapes :: Vector{Tuple{Vararg{Int}}}
-  function SequentialModule()
+  function SequentialModule(label_names = [:softmax_label])
     new(Vector{AbstractModule}(),
         Vector{Symbol}[],
-        false, false, false, false, false)
+        false, false, false, false, false,
+        label_names)
   end
 end
 
@@ -56,13 +58,16 @@ Add a module to the chain.
 * `kwargs` : keywords
   All the keyword arguments are saved as meta information
   for the added module. The currently known meta includes
-  * `:take_labels`: indicating whether the module expect to
-  take labels when doing computation. Note any module in
-  the chain can take labels (not necessarily only the top
-  most one), and they all take the same labels passed
-  from the original data batch for the `SequentialModule`.
-  * `:auto_wiring`: TODO...
-
+  * `take_labels`: `Bool` indicating whether the module expect to
+    take labels when doing computation. Note any module in
+    the chain can take labels (not necessarily only the top
+    most one), and they all take the same labels passed
+    from the original data batch for the `SequentialModule`.
+  * `auto_wiring`: `Bool` transfer data outputs of previous module
+    to the data inputs of next module, with the order given by 
+    `output_names()`
+  * `join`: `Dict{Symbol, Symbol}`. 
+  
 # Returns
 
 This function returns `self` to allow us to easily chain a
@@ -169,10 +174,15 @@ function bind(self::SequentialModule, data_shapes, label_shapes, opts::ModuleBin
   end
   @assert(length(self.modules) > 0, "Attempting to bind empty SequentialModule")
 
+  wrap_in_dict(x::Vector, names) = Dict(k => v for (k, v) in zip(names, x))
+  wrap_in_dict(x::Dict, names) = x
+  data_shapes = wrap_in_dict(data_shapes, data_names(self))
+
   # the same label shapes are used for all chained modules
   self.label_shapes = label_shapes
 
   module_data_shapes = data_shapes
+  module_data_names = data_names(self)
   anybody_ever_needs_label = false
   for (i, mod) in enumerate(self.modules)
     meta = self.metas[i]
@@ -184,11 +194,17 @@ function bind(self::SequentialModule, data_shapes, label_shapes, opts::ModuleBin
     end
     
     module_inputs_need_grad = opts.inputs_need_grad || (opts.for_training && i > 1)
-    
-    if meta.auto_wiring
-      data_names = data_names(mod)
-      @assert length(module_data_shapes) == length(data_names)
-      module_data_shapes = [(new_name, shape) for (new_name, (_, shape)) in zip(data_names, module_data_shapes)]
+
+    @assert length(module_data_names) == length(data_names(mod))
+    if length(module_data_names) == 1
+      module_data_shapes = collect(values(module_data_shapes))
+    elseif Set(module_data_names) != Set(data_names(mod))
+      if meta.auto_wiring
+        module_data_shapes = [module_data_shapes[name] for name in module_data_names]
+      else
+        @assert union(setdiff(Set(module_data_names), Set(keys(meta.join))), Set(values(meta.join))) == Set(data_names(mod))
+        module_data_shapes = Dict(get(meta.join, name, name) => value for (name, value) in zip(module_data_names, module_data_shapes))
+      end
     end
 
     bind(mod, module_data_shapes, module_label_shapes,
@@ -196,6 +212,7 @@ function bind(self::SequentialModule, data_shapes, label_shapes, opts::ModuleBin
          force_rebind=opts.force_rebind, shared_module=nothing, grad_req=opts.grad_req)
     
     # the output of the previous module is the data of the next module
+    module_data_names  = output_names(mod)
     module_data_shapes = output_shapes(mod)
   end
 
