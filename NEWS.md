@@ -1,9 +1,12 @@
-# v0.1.0 (2016.09.07)
+# v0.2.0 (2017.01.26)
+* Drop support for Julia v0.4.
+* Added support for NVVM.
+* Updated supported version of MXNet to 0.9.3.
+* New optimizers (@Arkoniak).
+
+# v0.1.0 (2016.09.08)
 
 * Track specific libmxnet version for each release.
-
-# v0.0.9 (2016.09.06)
-
 * Migrated documentation system to `Documenter.jl` (@vchuravy)
 * Simplified building by using Julia's OpenBlas (@staticfloat)
 * Freezing parameters (@vchuravy)

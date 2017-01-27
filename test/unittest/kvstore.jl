@@ -1,6 +1,11 @@
 module TestKVStore
 using MXNet
-using Base.Test
+if VERSION ≥ v"0.5.0-dev+7720"
+    using Base.Test
+else
+    using BaseTestNext
+    const Test = BaseTestNext
+end
 
 using ..Main: rand_dims
 
@@ -32,7 +37,7 @@ function test_single_kv_pair()
   mx.push!(kv, 3, mx.ones(SHAPE))
   val = mx.empty(SHAPE)
   mx.pull!(kv, 3, val)
-  @test maximum(abs(copy(val) - 1)) == 0
+  @test maximum(abs.(copy(val) .- 1)) == 0
 end
 
 function test_aggregator()
@@ -47,7 +52,7 @@ function test_aggregator()
   mx.push!(kv, 3, vals)
   mx.pull!(kv, 3, vals)
   for v in vals
-    @test maximum(abs(copy(v)) - num_devs) == 0
+    @test maximum(abs.(copy(v)) - num_devs) == 0
   end
 
   # list
@@ -62,8 +67,10 @@ function test_aggregator()
   end
 end
 
-test_kv_basic()
-test_single_kv_pair()
-test_aggregator()
+@testset "KVStore Test" begin
+  test_kv_basic()
+  test_single_kv_pair()
+  test_aggregator()
+end
 
 end

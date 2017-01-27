@@ -1,9 +1,12 @@
 using Compat
+import JSON
+
 ################################################################################
 # First try to detect and load existing libmxnet
 ################################################################################
 libmxnet_detected = false
 libmxnet_curr_ver = "873b92856d0c42198716e4df206d9387d0d59ec8" # HEAD of 2016.09.08
+curr_win = "20161125"
 
 if haskey(ENV, "MXNET_HOME")
   info("MXNET_HOME environment detected: $(ENV["MXNET_HOME"])")
@@ -17,20 +20,51 @@ if haskey(ENV, "MXNET_HOME")
   end
 end
 
+
+
 using BinDeps
 @BinDeps.setup
 if !libmxnet_detected
+  if is_windows()
+    # TODO: Detect GPU support on Windows
+    info("Downloading pre-built CPU packages for Windows.")
+    base_url = "https://github.com/dmlc/mxnet/releases/download/20160531/20160531_win10_x64_cpu.7z"
+    if libmxnet_curr_ver == "master"
+      # download_cmd uses powershell 2, but we need powershell 3 to do this
+      ps_wget(url, file) = run(`powershell -NoProfile -Command "wget \"$url\" -o \"$file\""`)
+      ps_wget("https://api.github.com/repos/yajiedesign/mxnet/releases/latest", "mxnet.json")
+      curr_win = JSON.parsefile("mxnet.json")["tag_name"]
+      info("Can't use MXNet master on Windows, using latest binaries from $curr_win.")
+    end
+    # TODO: Get url from JSON.
+    package_url = "https://github.com/yajiedesign/mxnet/releases/download/$(curr_win)/$(curr_win)_mxnet_x64_vc12_cpu.7z"
+
+    run(download_cmd(base_url, "mxnet_base.7z"))
+    run(`7z x mxnet_base.7z -y -ousr`)
+    run(`usr\\setupenv.cmd`)
+    run(`cmd /c copy "usr\\3rdparty\\openblas\\bin\\*.dll" "usr\\lib"`)
+
+    run(download_cmd(package_url, "mxnet.7z"))
+    run(`7z x mxnet.7z -y -ousr`)
+
+    return
+  end
+
   ################################################################################
   # If not found, try to build automatically using BinDeps
   ################################################################################
-  if is_windows()
-    info("Please follow the libmxnet documentation on how to build manually")
-    info("or to install pre-build packages:")
-    info("http://mxnet.readthedocs.io/en/latest/how_to/build.html#building-on-windows")
-    error("Automatic building libxmnet on Windows is currently not supported yet.")
-  end
 
   blas_path = Libdl.dlpath(Libdl.dlopen(Base.libblas_name))
+
+  # Try to find cuda
+  hascuda = false
+  if haskey(ENV, "CUDA_HOME")
+    hascuda = Libdl.dlopen_e(joinpath(ENV["CUDA_HOME"], "lib64", "libcuda.so")) != C_NULL
+  else
+    cudapaths = String["/opt/cuda/lib64", "/usr/local/cuda/lib64"]
+    cudalib = Libdl.find_library(["libcuda", "libcuda.so"], cudapaths)
+    hascuda = Libdl.dlopen_e(cudalib) != C_NULL
+  end
 
   if VERSION >= v"0.5.0-dev+4338"
     blas_vendor = Base.BLAS.vendor()
@@ -80,7 +114,6 @@ if !libmxnet_detected
         end)
         @build_steps begin
           ChangeDirectory(_mxdir)
-          # TODO(vchuravy). We have to reset mshadow/make/mshadow.mk
           `git -C mshadow checkout -- make/mshadow.mk`
           `git fetch`
           `git checkout $libmxnet_curr_ver`
@@ -95,6 +128,12 @@ if !libmxnet_detected
             `cp make/config.mk config.mk`
           end
           `sed -i -s 's/USE_OPENCV = 1/USE_OPENCV = 0/' config.mk`
+          if hascuda
+            `sed -i -s 's/USE_CUDA = 0/USE_CUDA = 1/' config.mk`
+            if haskey(ENV, "CUDA_HOME")
+              `sed -i -s 's/USE_CUDA_PATH = NULL/USE_CUDA_PATH = $(ENV["CUDA_HOME"])/' config.mk`
+            end
+          end
         end)
         @build_steps begin
           ChangeDirectory(_mxdir)
