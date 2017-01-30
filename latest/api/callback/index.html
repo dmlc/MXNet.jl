@@ -487,21 +487,21 @@
 </code></pre>
 
 <p>Abstract type of callbacks to be called every mini-batch.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/ba3c9fb52ee13680a40aacdd13a34ed210595d2e/src/callback.jl#L8-L12' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/79d80b6e3f2e66cf42a5e59d0f383ade8e1b4e95/src/callback.jl#L8-L12' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.AbstractCallback' href='#MXNet.mx.AbstractCallback'>#</a>
 <strong><code>MXNet.mx.AbstractCallback</code></strong> &mdash; <em>Type</em>.</p>
 <pre><code>AbstractCallback
 </code></pre>
 
 <p>Abstract type of callback functions used in training.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/ba3c9fb52ee13680a40aacdd13a34ed210595d2e/src/callback.jl#L1-L5' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/79d80b6e3f2e66cf42a5e59d0f383ade8e1b4e95/src/callback.jl#L1-L5' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.AbstractEpochCallback' href='#MXNet.mx.AbstractEpochCallback'>#</a>
 <strong><code>MXNet.mx.AbstractEpochCallback</code></strong> &mdash; <em>Type</em>.</p>
 <pre><code>AbstractEpochCallback
 </code></pre>
 
 <p>Abstract type of callbacks to be called every epoch.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/ba3c9fb52ee13680a40aacdd13a34ed210595d2e/src/callback.jl#L15-L19' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/79d80b6e3f2e66cf42a5e59d0f383ade8e1b4e95/src/callback.jl#L15-L19' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.do_checkpoint-Tuple{AbstractString}' href='#MXNet.mx.do_checkpoint-Tuple{AbstractString}'>#</a>
 <strong><code>MXNet.mx.do_checkpoint</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>do_checkpoint(prefix; frequency=1, save_epoch_0=false)
@@ -514,7 +514,7 @@
 <li><code>frequency::Int</code>: keyword argument, default 1. The frequency (measured in epochs) to         save checkpoints.</li>
 <li><code>save_epoch_0::Bool</code>: keyword argument, default false. Whether we should save a         checkpoint for epoch 0 (model initialized but not seen any data yet).</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/ba3c9fb52ee13680a40aacdd13a34ed210595d2e/src/callback.jl#L120-L134' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/79d80b6e3f2e66cf42a5e59d0f383ade8e1b4e95/src/callback.jl#L120-L134' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.every_n_batch-Tuple{Function,Int64}' href='#MXNet.mx.every_n_batch-Tuple{Function,Int64}'>#</a>
 <strong><code>MXNet.mx.every_n_batch</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>every_n_batch(callback :: Function, n :: Int; call_on_0 = false)
@@ -536,7 +536,7 @@ end
 </code></pre>
 
 <p>See also <a href="./#MXNet.mx.every_n_epoch-Tuple{Function,Int64}"><code>every_n_epoch</code></a> and <a href="./#MXNet.mx.speedometer-Tuple{}"><code>speedometer</code></a>.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/ba3c9fb52ee13680a40aacdd13a34ed210595d2e/src/callback.jl#L28-L50' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/79d80b6e3f2e66cf42a5e59d0f383ade8e1b4e95/src/callback.jl#L28-L50' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.every_n_epoch-Tuple{Function,Int64}' href='#MXNet.mx.every_n_epoch-Tuple{Function,Int64}'>#</a>
 <strong><code>MXNet.mx.every_n_epoch</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>every_n_epoch(callback :: Function, n :: Int; call_on_0 = false)
@@ -547,7 +547,7 @@ end
 <li><code>call_on_0::Int</code>: keyword argument, default false. Unless set, the callback         will <em>not</em> be run on epoch 0. Epoch 0 means no training has been performed         yet. This is useful if you want to inspect the randomly initialized model         that has not seen any data yet.</li>
 </ul>
 <p>See also <a href="../@ref"><code>every_n_iter</code></a>.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/ba3c9fb52ee13680a40aacdd13a34ed210595d2e/src/callback.jl#L95-L106' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/79d80b6e3f2e66cf42a5e59d0f383ade8e1b4e95/src/callback.jl#L95-L106' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.speedometer-Tuple{}' href='#MXNet.mx.speedometer-Tuple{}'>#</a>
 <strong><code>MXNet.mx.speedometer</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>speedometer(; frequency=50)
@@ -558,7 +558,7 @@ end
 <ul>
 <li><code>frequency::Int</code>: keyword argument, default 50. The frequency (number of         min-batches) to measure and report the speed.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/ba3c9fb52ee13680a40aacdd13a34ed210595d2e/src/callback.jl#L64-L73' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/79d80b6e3f2e66cf42a5e59d0f383ade8e1b4e95/src/callback.jl#L64-L73' class='documenter-source'>source</a><br></p>
               
             </article>
           </div>
