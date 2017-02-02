@@ -1,12 +1,12 @@
 module Module
 import ....MXNet: mx
-import ..mx: DataBatch, AbstractDataProvider, AbstractDataBatch, DataBatchProvider
-import ..mx: SymbolicNode, NDArray, Context, Executor, list_arguments, infer_shape,
+import ..mx: DataBatch, AbstractDataProvider, AbstractDataBatch, DataBatchProvider,
+             SymbolicNode, NDArray, Context, Executor, list_arguments, infer_shape,
              GRAD_NOP, AbstractExecutorGroup, list_outputs, DataParallelExecutorGroup,
              KVStore, OptimizationState, ADAM, UniformInitializer, set_params!,
              AbstractOptimizer, get_updater, update_params, provide_data,
              provide_label, AbstractEvalMetric, StubProvider, init, copy!,
-             concatenate, eachdatabatch, reset!, Accuracy
+             concatenate, eachdatabatch, reset!, Accuracy, @defstruct, AbstractInitializer
 
 """
     AbstractModule
@@ -187,6 +187,13 @@ function set_params(self::AbstractModule,
   init_params(self, arg_params=arg_params, aux_params=aux_params, allow_missing=allow_missing, force_init=force_init)
 end
 
+@defstruct ModuleInitParamsOptions (
+    initializer::AbstractInitializer=UniformInitializer(0.07), 
+    arg_params::Dict{Symbol, NDArray}=Dict{Symbol, NDArray}(),
+    aux_params::Dict{Symbol, NDArray}=Dict{Symbol, NDArray}(),
+    allow_missing::Bool=false, 
+    force_init::Bool=false
+)
 """
     init_params!(self; kwargs...)
 
@@ -200,16 +207,31 @@ Initialize the parameters and auxiliary states.
 * `allow_missing` : `Bool`.  If true, params could contain missing values, and the initializer will be called to fill those missing params.
 * `force_init` : `Bool`.  If true, will force re-initialize even if already initialized.
 """
-function init_params(self :: AbstractModule, args...)
-  throw(MethodError(init_params, (self, args...)))
+init_params(self :: AbstractModule; kwargs...) = init_params(self, ModuleInitParamsOptions(; kwargs...))
+function init_params(self :: AbstractModule, opts::ModuleInitParamsOptions)
+  throw(MethodError(init_params, (self, opts)))
 end
 
 ###
 # Setup
 ###
+
+@defstruct ModuleBindOptions (
+  for_training::Bool = true,
+  inputs_need_grad::Bool = true,
+  force_rebind::Bool = false,
+  grad_req::mx.GRAD_REQ = mx.GRAD_WRITE,
+  shared_module::Union{Void, AbstractModule} = nothing
+)
 """
 """
-function bind(self :: AbstractModule, )
+bind(self::AbstractModule, data_provider::AbstractDataProvider; kwargs...) =
+  bind(self, 
+       [x[2] for x in provide_data(data_provider)],
+       [x[2] for x in provide_label(data_provider)]; kwargs...)
+bind(self::AbstractModule, data_shapes, label_shapes = Tuple{Int}[]; kwargs...) = bind(self, data_shapes, label_shapes, ModuleBindOptions(;kwargs...))
+function bind(self :: AbstractModule, data_shapes, label_shapes, opts::ModuleBindOptions)
+  throw(MethodError(bind, (self, data_shapes, label_shapes, opts)))
 end
 
 """
@@ -222,7 +244,7 @@ end
 ###
 """
 """
-forward(self :: AbstractModule, data_batch :: DataBatch, is_train) = forward(self, StubProvider(), data_batch, is_train)
+forward{T <: AbstractModule}(self :: T, data_batch :: DataBatch, is_train) = forward(self, StubProvider(), data_batch, is_train)
 function forward(self :: AbstractModule, provider :: AbstractDataProvider, data_batch :: AbstractDataBatch, is_train)
   throw(MethodError(forward, (self, )))
 end
@@ -272,7 +294,7 @@ end
 ###
 
 """
-    fit(self::AbstractModule, train_data::AbstractDataProvider; kwargs...)
+    fit(self::AbstractModule, train_data::AbstractDataProvider, num_epoch::Int; kwargs...)
 
 Train the module parameters.
 
@@ -516,7 +538,8 @@ end
 
 # include implementations
 include("symbol_module.jl")
-include("pipeline.jl")
+# include("pipeline.jl")
 include("native_module.jl")
+include("sequential_module.jl")
 
 end

@@ -22,8 +22,8 @@ type DataParallelExecutorGroup <: AbstractExecutorGroup
   context :: Vector{Context}
   execs :: Vector{Executor}
 
-  data_shapes :: Vector{Tuple{Vararg{Int}}}
-  label_shapes :: Vector{Tuple{Vararg{Int}}}
+  data_shapes :: Dict{Symbol, Tuple{Vararg{Int}}}
+  label_shapes :: Dict{Symbol, Tuple{Vararg{Int}}}
 
   for_training :: Bool
   slices :: Vector{UnitRange{Int}}
@@ -160,6 +160,9 @@ function DataParallelExecutorGroup(symbol::SymbolicNode, context::Vector{Context
   else
     input_grad_arrays = []
   end
+
+  data_shapes = Dict(name => shape for (name, shape) in zip(data_names, data_shapes))
+  label_shapes = Dict(name => shape for (name, shape) in zip(label_names, label_shapes))
 
   return DataParallelExecutorGroup(
     symbol, context, execs,
@@ -340,7 +343,7 @@ function get_outputs(self::DataParallelExecutorGroup, merge_multi_context::Bool=
     # output was used. _merge_multi_context creates new array
     # each time it is called. Need to benchmark, may be it's better
     # to predefine cpu_output_arrays in self.
-    return _merge_multi_context(outputs)
+    return [concatenate(tensors, always_copy=false) for tensors in outputs]
   else
     return outputs
   end
@@ -367,7 +370,7 @@ function get_input_grads(self::DataParallelExecutorGroup, merge_multi_context::B
   !self.inputs_need_grad && NDArray[]
 
   if merge_multi_context
-    return _merge_multi_context(self.input_grad_arrays)
+    return [concatenate(tensors, always_copy=false) for tensors in self.input_grad_arrays]
   end
 
   return self.input_grad_arrays
@@ -421,5 +424,3 @@ function get_grads(symbol, param_names, arg_names, data_names, inputs_need_grad,
 
   return grad_req_dict, freeze_idx
 end
-
-_merge_multi_context(outputs) = [concatenate(tensors, always_copy=false) for tensors in outputs]
