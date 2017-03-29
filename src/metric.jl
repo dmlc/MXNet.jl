@@ -349,26 +349,34 @@ function _update_single_output{T}(metric :: ACE, label :: Array{T}, pred :: Arra
   eps = convert(T, metric.eps)
   # Samples are stored in the last dimension
   @assert size(label, ndims(label)) == size(pred, ndims(pred))
+
+  # ACE kernel for 4d
+  work4d = function (low, high, sample, label, pred)
+    result = 0.0
+    for idx in low:high
+      i, j = ind2sub(size(label, 1, 2), idx)
+      @inbounds target = Int(labels[i, j, 1, sample]) + 1 # klasses are 0...k-1 => julia indexing
+      # Cross-entropy reduces to -(ln(p_1)*0 + ln(p_2)*1) for classification
+      # Since we can only target labels right now this is the only thing we can do.
+      @inbounds p_k = pred[i, j, target, sample]
+      result += log(p_k + eps)
+    end
+    return result
+  end
+
   if size(label) == size(pred) # simply calculate the cross entropy of the probabilities
     for (q, p) in zip(pred, label)
       # p == true probability
       # q == "unnatural" probability
       metric.ace_sum += p * log(q + eps)
-      metric.n_sample += 1
     end
+    metric.n_sample += length(pred)
   elseif ndims(pred) == 4
     labels = reshape(label, size(pred, 1, 2)..., 1, size(pred, 4))
     for sample in 1:size(labels, 4)
-      for j in 1:size(labels, 2)
-        for i in 1:size(labels, 1)
-          # Cross-entropy reduces to -(ln(p_1)*0 + ln(p_2)*1) for classification
-          # Since we can only target labels right now this is the only thing we can do.
-          target = Int(labels[i, j, 1, sample]) + 1 # klasses are 0...k-1 => julia indexing
-          p_k = pred[i, j, target, sample]
-          metric.ace_sum += log(p_k + eps)
-          metric.n_sample += 1
-        end
-      end
+      N = prod(size(labels, 1, 2))
+      metric.ace_sum += __threaded_reduction(work4d, N, sample, labels, pred)
+      metric.n_sample += N
     end
   elseif ndims(pred) == 2 # 1-dimensional case
     for sample in 1:size(label, 1)
