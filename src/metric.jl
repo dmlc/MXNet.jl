@@ -219,8 +219,19 @@ end
 
 function _update_single_output{T}(metric :: MSE, label :: Array{T}, pred :: Array{T})
   @assert size(label) == size(pred)
-  metric.n_sample += length(label)
-  metric.mse_sum += sumabs2(label .- pred)
+  N = length(label)
+
+  # MSE-kernel important to be allocation free
+  work = function (low, high, label, pred)
+    result = 0.0
+    @simd for i in low:high
+      @inbounds result += (label[i] - pred[i])^2
+    end
+    return result
+  end
+
+  metric.n_sample += N
+  metric.mse_sum += __threaded_reduction(work, N, label, pred)
   return nothing
 end
 

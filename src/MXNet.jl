@@ -16,6 +16,7 @@ if VERSION >= v"0.6.0-dev.1024"
 end
 
 using Formatting
+using Base.Threads
 
 # Functions from base that we can safely extend and that are defined by libmxnet.
 import Base: round, ceil, floor, cos, sin, abs, sign, exp, sqrt, exp, log, norm,

@@ -1,4 +1,21 @@
 ################################################################################
+# Multithreaded work load
+################################################################################
+function __threaded_reduction{F<:Function}(work::F, N, args...)
+  NT = nthreads()
+
+  # split range
+  slice = ceil(Int, N / NT)
+  results = Base.zeros(Float64, NT)
+  @threads for threadid in 1:NT
+    low = ((threadid - 1) * slice) + 1
+    high = min(N, threadid * slice)
+    results[threadid] = work(low, high, args...)
+  end
+  return sum(results)
+end
+
+################################################################################
 # Dataset related utilities
 ################################################################################
 function get_data_dir()
