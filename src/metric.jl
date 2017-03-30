@@ -351,10 +351,10 @@ function _update_single_output{T}(metric :: ACE, label :: Array{T}, pred :: Arra
   @assert size(label, ndims(label)) == size(pred, ndims(pred))
 
   # ACE kernel for 4d
-  work4d = function (low, high, sample, label, pred)
+  work4d = function (low, high, label, pred)
     result = 0.0
     for idx in low:high
-      i, j = ind2sub(size(label, 1, 2), idx)
+      i, j, sample = ind2sub(size(label, 1, 2, 4), idx)
       @inbounds target = Int(labels[i, j, 1, sample]) + 1 # klasses are 0...k-1 => julia indexing
       # Cross-entropy reduces to -(ln(p_1)*0 + ln(p_2)*1) for classification
       # Since we can only target labels right now this is the only thing we can do.
@@ -373,11 +373,11 @@ function _update_single_output{T}(metric :: ACE, label :: Array{T}, pred :: Arra
     metric.n_sample += length(pred)
   elseif ndims(pred) == 4
     labels = reshape(label, size(pred, 1, 2)..., 1, size(pred, 4))
-    for sample in 1:size(labels, 4)
-      N = prod(size(labels, 1, 2))
-      metric.ace_sum += __threaded_reduction(work4d, N, sample, labels, pred)
-      metric.n_sample += N
-    end
+    # We are pretending here that dim=3 does no exist in order to linearize
+    # the upper iteration limit and to effectivly spread out the data accross processes.
+    N = prod(size(labels, 1, 2, 4))
+    metric.ace_sum += __threaded_reduction(work4d, N, labels, pred)
+    metric.n_sample += N
   elseif ndims(pred) == 2 # 1-dimensional case
     for sample in 1:size(label, 1)
       target = Int(label[sample]) + 1    # 0-based indexing => 1-based indexing
