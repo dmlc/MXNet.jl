@@ -520,8 +520,9 @@ function fit(self :: FeedForward, optimizer :: AbstractOptimizer, data :: Abstra
       update!(opts.eval_metric, cpu_label_arrays, cpu_output_arrays)
     end # end of one epoch
 
-    time_stop = time()
     metric = get(opts.eval_metric)
+
+    time_stop = time()
     opts.verbosity >= 2 && info(format("== Epoch {1:0>3d}/{2:0>3d} ==========", i_epoch, opts.n_epoch))
     if opts.verbosity >= 3
         info("## Training summary")
