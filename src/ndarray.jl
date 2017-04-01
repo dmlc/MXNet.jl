@@ -416,7 +416,7 @@ end
 function copy!{T<:DType}(dst :: Array{T}, src :: NDArray)
   @assert T == eltype(src)
   @assert size(dst) == size(src)
-  @mxcall(:MXNDArraySyncCopyToCPU, (MX_handle, Ptr{Void}, Csize_t),
+  @mxthreadcall(:MXNDArraySyncCopyToCPU, (MX_handle, Ptr{Void}, Csize_t),
           src, pointer(dst), length(dst))
   return dst
 end
@@ -428,7 +428,7 @@ function copy!{T<:Real}(dst :: NDArray, src :: Array{T})
   @assert dst.writable
   @assert size(dst) == size(src)
   src = convert(Array{eltype(dst)}, src) # this might involve copying
-  @mxcall(:MXNDArraySyncCopyFromCPU, (MX_handle, Ptr{Void}, Csize_t),
+  @mxthreadcall(:MXNDArraySyncCopyFromCPU, (MX_handle, Ptr{Void}, Csize_t),
           dst.handle, pointer(src), length(src))
   return dst
 end
@@ -437,7 +437,7 @@ function copy_ignore_shape!{T<:Real}(dst :: NDArray, src :: Array{T})
   @assert dst.writable
   @assert length(dst) == length(src)
   src = convert(Array{eltype(dst)}, src) # this might involve copying
-  @mxcall(:MXNDArraySyncCopyFromCPU, (MX_handle, Ptr{Void}, Csize_t),
+  @mxthreadcall(:MXNDArraySyncCopyFromCPU, (MX_handle, Ptr{Void}, Csize_t),
           dst.handle, pointer(src), length(src))
   return dst
 end

@@ -132,9 +132,9 @@ typealias SlicedNDArray Tuple{UnitRange{Int},NDArray}
 function _load_general!(provider :: AbstractDataProvider, batch :: AbstractDataBatch,
                         targets :: Vector{Vector{SlicedNDArray}}, loader::Function)
   data = loader(provider, batch)
-  for (d_src, d_targets) in zip(data, targets)
+  @sync for (d_src, d_targets) in zip(data, targets)
     for (slice_idx, d_dst) in d_targets
-      copy!(d_dst, slice(d_src, slice_idx))
+      @async copy!(d_dst, slice(d_src, slice_idx))
     end
   end
 end
@@ -176,13 +176,13 @@ function load_label!(provider :: AbstractDataProvider, batch :: AbstractDataBatc
 end
 
 function load_data!(provider :: AbstractDataProvider, batch :: AbstractDataBatch, targets :: Vector{NDArray})
-  for (src, dst) in zip(get_data(provider, batch), targets)
-    copy!(dst, src)
+  @sync for (src, dst) in zip(get_data(provider, batch), targets)
+    @async copy!(dst, src)
   end
 end
 function load_label!(provider :: AbstractDataProvider, batch :: AbstractDataBatch, targets :: Vector{NDArray})
-  for (src, dst) in zip(get_label(provider, batch), targets)
-    copy!(dst, src)
+  @sync for (src, dst) in zip(get_label(provider, batch), targets)
+    @async copy!(dst, src)
   end
 end
 

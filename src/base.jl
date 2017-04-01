@@ -61,6 +61,20 @@ macro mxcall(fv, argtypes, args...)
   end
 end
 
+"Utility macro to @threadcall MXNet API functions"
+macro mxthreadcall(fv, argtypes, args...)
+  f = eval(fv)
+  args = map(esc, args)
+  quote
+    _mxret = Base.@threadcall( ($(Meta.quot(f)), $MXNET_LIB),
+                    Cint, $argtypes, $(args...) )
+    if _mxret != 0
+      err_msg = mx_get_last_error()
+      throw(MXError(err_msg))
+    end
+  end
+end
+
 ################################################################################
 # Handle types
 ################################################################################
