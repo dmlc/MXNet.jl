@@ -461,10 +461,35 @@ function fit(self :: FeedForward, optimizer :: AbstractOptimizer, data :: Abstra
     # invoke callbacks on iteration 0
     _invoke_callbacks(self, opts.callbacks, op_state, AbstractBatchCallback)
 
-    for batch in eachbatch(data)
+    # How many batches to preload
+    # TODO: make configurable, 4 is used to keep memory pressure low.
+    channel_sz = 4
+
+    # Communication between the task preloading and the main task
+    batch_channel = Channel{Tuple{AbstractDataBatch, typeof(data_arrays), typeof(label_arrays)}}(channel_sz)
+    done = Ref(false)
+
+    # Prefetch the data from each batch and copy to device
+    # When done == true && !isready(batch_channel) --> all batches processed
+    @schedule begin
+      for batch in eachbatch(data)
+        prefetch_data  = map(arr -> map(a -> (a[1], similar(a[2])), arr), data_arrays)
+        prefetch_label = map(arr -> map(a -> (a[1], similar(a[2])), arr), label_arrays)
+        @sync begin
+          @async load_data!(data, batch, prefetch_data)
+          @async load_label!(data, batch, prefetch_label)
+        end
+        put!(batch_channel, (batch, prefetch_data, prefetch_label))
+      end
+      done[] = true
+    end
+
+    while !done[] || isready(batch_channel)
+      # take! blocks when no data is available
+      batch, prefetch_data, prefetch_label = take!(batch_channel)
       @sync begin
-        @async load_data!(data, batch, data_arrays)
-        @async load_label!(data, batch, label_arrays)
+        @async map(copy!, data_arrays, prefetch_data)
+        @async map(copy!, label_arrays, prefetch_label)
       end
 
       # forward and backward
@@ -523,6 +548,9 @@ function fit(self :: FeedForward, optimizer :: AbstractOptimizer, data :: Abstra
     end # end of one epoch
 
     metric = get(opts.eval_metric)
+    # In order to insure meaning full timings we will need to block here
+    # If metric was already run this is essentially a nop.
+    map(_wait_to_read, cpu_output_arrays)
 
     time_stop = time()
     opts.verbosity >= 2 && info(format("== Epoch {1:0>3d}/{2:0>3d} ==========", i_epoch, opts.n_epoch))
