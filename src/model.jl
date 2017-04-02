@@ -462,8 +462,10 @@ function fit(self :: FeedForward, optimizer :: AbstractOptimizer, data :: Abstra
     _invoke_callbacks(self, opts.callbacks, op_state, AbstractBatchCallback)
 
     for batch in eachbatch(data)
-      load_data!(data, batch, data_arrays)
-      load_label!(data, batch, label_arrays)
+      @sync begin
+        @async load_data!(data, batch, data_arrays)
+        @async load_label!(data, batch, label_arrays)
+      end
 
       # forward and backward
       for (texec, islice) in zip(train_execs, slices)
