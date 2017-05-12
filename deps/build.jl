@@ -40,11 +40,11 @@ if !libmxnet_detected
 
     run(download_cmd(base_url, "mxnet_base.7z"))
     run(`7z x mxnet_base.7z -y -ousr`)
-    run(`usr\\setupenv.cmd`)
     run(`cmd /c copy "usr\\3rdparty\\openblas\\bin\\*.dll" "usr\\lib"`)
 
     run(download_cmd(package_url, "mxnet.7z"))
-    run(`7z x mxnet.7z -y -ousr`)
+    exe7z = joinpath(JULIA_HOME, "7z.exe")
+    run(`$exe7z x mxnet.7z -y -ousr`)
 
     return
   end
@@ -116,7 +116,8 @@ if !libmxnet_detected
           `git -C mshadow checkout -- make/mshadow.mk`
           `git fetch`
           `git checkout $libmxnet_curr_ver`
-          `git submodule update`
+          `git submodule update --init`
+          `make clean`
           `sed -i -s "s/MSHADOW_CFLAGS = \(.*\)/MSHADOW_CFLAGS = \1 $ilp64/" mshadow/make/mshadow.mk`
         end
         FileRule(joinpath(_mxdir, "config.mk"), @build_steps begin

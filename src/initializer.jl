@@ -19,7 +19,13 @@ abstract AbstractInitializer
 
 function init{T<:AbstractInitializer}(self :: T, name :: Base.Symbol, array :: NDArray)
   strname = string(name)
-  if endswith(strname, "bias")
+  if startswith(strname,"upsampling")
+    _init_bilinear(self,name, array)
+  elseif startswith(strname,"stn_loc") && endswith(strname,"weight")
+    _init_zero(self,name, array)
+  elseif startswith(strname,"stn_loc") && endswith(strname,"bias")
+    _init_loc_bias(self,name, array)
+  elseif endswith(strname, "bias")
     _init_bias(self, name, array)
   elseif endswith(strname, "gamma")
     _init_gamma(self, name, array)
@@ -33,6 +39,36 @@ function init{T<:AbstractInitializer}(self :: T, name :: Base.Symbol, array :: N
     _init_zero(self, name, array)
   else
     _init_default(self, name, array)
+  end
+end
+
+function _init_loc_bias(self :: AbstractInitializer, name :: Base.Symbol, array :: NDArray)
+ assert(size(array) == (6,))
+ array[:]= [1.0, 0, 0, 0, 1.0, 0]
+end
+
+function _init_bilinear(self :: AbstractInitializer, name :: Base.Symbol, array :: NDArray)
+  @assert ndims(array) == 4
+
+  W, H, C, N = size(array) # Inverse of NCHW layout
+  filter = Base.zeros(eltype(array), W, H)
+
+  @assert H == W
+
+  f = ceil(Int, W / 2) # factor
+  c = (2 * f - 1 - f % 2) / (2 * f) # center
+  for x in 0:(W-1)
+    for y in 0:(H-1)
+      filter[x+1, y+1] = (1 - abs(x / f - c)) * (1 - abs(y / f - c))
+    end
+  end
+
+  @nd_as_jl rw=array begin
+    for i in 1:N
+      for j in 1:C
+        array[:,:, j, i] = filter
+      end
+    end
   end
 end
 
