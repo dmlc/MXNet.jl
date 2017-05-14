@@ -440,17 +440,17 @@ function _reset_data_iter(handle :: MX_DataIterHandle)
 end
 function _iter_next(handle :: MX_DataIterHandle)
   ref_ret = Ref{Cint}(0)
-  @mxthreadcall(:MXDataIterNext, (MX_handle, Ref{Cint}), handle, ref_ret)
+  @mxthreadcall(:MXDataIterNext, (MX_handle, Ptr{Cint}), handle, ref_ret)
   return Bool(ref_ret[])
 end
 function _get_data(handle :: MX_DataIterHandle)
   ref_hdr = Ref{MX_handle}(0)
-  @mxthreadcall(:MXDataIterGetData, (MX_handle, Ref{MX_handle}), handle, ref_hdr)
+  @mxthreadcall(:MXDataIterGetData, (MX_handle, Ptr{MX_handle}), handle, ref_hdr)
   return NDArray(MX_NDArrayHandle(ref_hdr[]), false)
 end
 function _get_label(handle :: MX_DataIterHandle)
   ref_hdr = Ref{MX_handle}(0)
-  @mxthreadcall(:MXDataIterGetLabel, (MX_handle, Ref{MX_handle}), handle, ref_hdr)
+  @mxthreadcall(:MXDataIterGetLabel, (MX_handle, Ptr{MX_handle}), handle, ref_hdr)
   return NDArray(MX_NDArrayHandle(ref_hdr[]), false)
 end
 

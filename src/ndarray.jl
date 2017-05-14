@@ -324,7 +324,7 @@ function slice(arr :: NDArray, slice::UnitRange{Int})
   # note Julia is 1-based, inclusive-inclusive indexing, while C++ is
   # 0-based, inclusive-exclusive indexing. So 1:3 in Julia should
   # translates into 0:3 in C++.
-  @mxthreadcall(:MXNDArraySlice, (MX_handle, MX_uint, MX_uint, Ref{MX_handle}),
+  @mxthreadcall(:MXNDArraySlice, (MX_handle, MX_uint, MX_uint, Ptr{MX_handle}),
           arr, slice.start-1, slice.stop, hdr_ref)
   return NDArray(MX_NDArrayHandle(hdr_ref[]), arr.writable)
 end
@@ -799,7 +799,7 @@ end
 import Base.pointer
 function pointer(arr :: NDArray)
   pdata = Ref{Ptr{Void}}(0)
-  @mxthreadcall(:MXNDArrayGetData, (MX_handle, Ref{Ptr{Void}}), arr, pdata)
+  @mxthreadcall(:MXNDArrayGetData, (MX_handle, Ptr{Ptr{Void}}), arr, pdata)
   return convert(Ptr{eltype(arr)}, pdata[])
 end
 function _wait_to_read(arr :: NDArray)
@@ -874,7 +874,7 @@ function load(filename::AbstractString, ::Type{NDArray})
   out_hdrs      = Ref{Ptr{MX_handle}}(0)
   out_name_size = Ref{MX_uint}(0)
   out_names     = Ref{char_pp}(0)
-  @mxthreadcall(:MXNDArrayLoad, (char_p, Ref{MX_uint}, Ref{Ptr{MX_handle}}, Ref{MX_uint}, Ref{char_pp}),
+  @mxthreadcall(:MXNDArrayLoad, (char_p, Ref{MX_uint}, Ptr{Ptr{MX_handle}}, Ptr{MX_uint}, Ptr{char_pp}),
           filename, out_size, out_hdrs, out_name_size, out_names)
   out_name_size = out_name_size[]
   out_size      = out_size[]
