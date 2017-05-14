@@ -200,6 +200,27 @@ function set_attr(self :: SymbolicNode, key :: Symbol, value :: AbstractString)
 end
 
 """
+    get_name(self :: SymbolicNode)
+
+Get the name of the symbol.
+
+    julia> x = mx.Variable(:data)
+    julia> mx.get_name(x)
+    :data
+
+    julia> y = mx.FullyConnected(x, num_hidden = 128)
+    julia> mx.get_name(y)
+    :fullyconnected0
+"""
+function get_name(self :: mx.SymbolicNode)
+    name = Ref{mx.char_p}(0)
+    success = Ref(0)
+    @mxcall(:MXSymbolGetName, (MX_handle, Ref{char_p}, Ref{Int}), self.handle.value, name, success)
+    @assert success[] != -1
+    return Symbol(unsafe_wrap(String, name[]))
+end
+
+"""
     grad(self :: SymbolicNode, wrt :: Vector{SymbolicNode})
 
 Get the autodiff gradient of the current `SymbolicNode`. This function can
@@ -650,8 +671,8 @@ function _define_atomic_symbol_creator(name :: String)
       end
     end
 
-    if length(args) != 0 && length(symbol_kws) != 0
-      @assert(false, $name * " only accepts SymbolicNode either as positional or keyword arguments, not both.")
+    if length(args) > 1 && length(symbol_kws) != 0
+      @assert(false, $name * " only accepts SymbolicNode either as positional or keyword arguments with optional positional `data` argument, not both.")
     end
     $(if key_narg != ""
       quote
@@ -680,8 +701,10 @@ function _define_atomic_symbol_creator(name :: String)
       set_attr(node, k, v)
     end
 
-    if length(args) != 0
+    if length(symbol_kws) == 0
       _compose!(node, name, args...)
+    elseif length(args) == 1
+      _compose!(node; name=name, data=args[1], symbol_kws...)
     else
       _compose!(node; name=name, symbol_kws...)
     end

@@ -11,6 +11,16 @@ interfaces:
 abstract AbstractEvalMetric
 
 """
+    hasNDArraySupport(metric) -> Val{true/false}
+
+Trait for `_update_single_output` should return `Val{true}() if metric can handle `NDArray`
+directly and `Val{false}()i` if requires `Array`. Metric that work with NDArrays can be
+async, while native Julia arrays require that we copy the output of the network, which is
+a blocking operation.
+"""
+hasNDArraySupport(::AbstractEvalMetric) = Val{true}()
+
+"""
     update!(metric, labels, preds)
 
 Update and accumulate metrics.
@@ -21,6 +31,10 @@ Update and accumulate metrics.
 * `preds::Vector{NDArray}`: the outputs (predictions) of the network.
 """
 function update!{T <: AbstractEvalMetric}(metric :: T, labels :: Vector{NDArray}, preds :: Vector{NDArray})
+  _update!(metric, labels, preds, hasNDArraySupport(metric))
+end
+
+function _update!{T<: AbstractEvalMetric}(metric :: T, labels :: Vector{NDArray}, preds :: Vector{NDArray}, :: Val{true})
   if length(labels) != length(preds)
     Base.warn_once(
       "The number of labels ($(length(labels))) does not correspond to the\
@@ -28,6 +42,21 @@ function update!{T <: AbstractEvalMetric}(metric :: T, labels :: Vector{NDArray}
   end
   for (label, pred) in zip(labels, preds)
     _update_single_output(metric, label, pred)
+  end
+end
+
+function _update!{T<: AbstractEvalMetric}(metric :: T, labels :: Vector{NDArray}, preds :: Vector{NDArray}, :: Val{false})
+  if length(labels) != length(preds)
+    Base.warn_once(
+      "The number of labels ($(length(labels))) does not correspond to the\
+      number of outputs ($(length(preds))). The calculated metric might not be accuracte.")
+  end
+  for (label, pred) in zip(labels, preds)
+     @nd_as_jl ro=(label, pred) begin
+       # This is a dynamic dispatch since the conversion from NDArray to
+       # Array is not type-stable.
+      _update_single_output(metric, label, pred)
+    end
   end
 end
 
@@ -52,6 +81,26 @@ For example, `[(:accuracy, 0.9)]`.
 """
 function get(metric :: AbstractEvalMetric)
   throw(MethodError(get, (typeof(metric),)))
+end
+
+"""
+    NullMetric()
+
+A metric that calculates nothing. Can be used to ignore an output during training.
+"""
+type NullMetric <: mx.AbstractEvalMetric
+end
+
+function update!(metric :: NullMetric, labels :: Vector{NDArray}, preds :: Vector{NDArray})
+  return nothing
+end
+
+function reset!(metric :: NullMetric)
+  return nothing
+end
+
+function get(metric :: NullMetric)
+  return Tuple{Symbol, Float64}[]
 end
 
 """
@@ -86,6 +135,40 @@ function get(metric :: MultiMetric)
 end
 
 """
+    SeqMetric(metrics::Vector{AbstractEvalMetric})
+
+Apply a different metric to each output. This is especially useful for `mx.Group`.
+
+# Usage
+Calculate accuracy [`Accuracy`](@ref) for the first output
+and log-loss [`ACE`](@ref) for the second output:
+```julia
+  mx.fit(..., eval_metric = mx.SeqMetric([mx.Accuracy(), mx.ACE()]))
+```
+"""
+type SeqMetric <: mx.AbstractEvalMetric
+    metrics :: Vector{mx.AbstractEvalMetric}
+end
+
+function update!(metric :: SeqMetric, labels :: Vector{NDArray}, preds :: Vector{NDArray})
+    @assert length(metric.metrics) == length(labels)
+    @assert length(metric.metrics) == length(preds)
+    for (m, l, p) in zip(metric.metrics, labels, preds)
+        update!(m, [l], [p])
+    end
+    return nothing
+end
+
+function reset!(metric :: SeqMetric)
+    map(reset!, metric.metrics)
+    return nothing
+end
+
+function get(metric :: SeqMetric)
+    mapreduce(get, append!, metric.metrics)
+end
+
+"""
     Accuracy
 
 Multiclass classification accuracy.
@@ -100,37 +183,37 @@ type Accuracy <: AbstractEvalMetric
   Accuracy() = new(0.0, 0)
 end
 
-function _update_single_output(metric :: Accuracy, label :: NDArray, pred :: NDArray)
-  @nd_as_jl ro=(label,pred) begin
-    # Samples are stored in the last dimension
-    @assert size(label, ndims(label)) == size(pred, ndims(pred))
+hasNDArraySupport(::Accuracy) = Val{false}()
 
-    if ndims(pred) == 4 # Multidimensional case
-      # Reshape label to be of the same shape as pred.
-      # Except for the third dimension where the predictions are stored.
-      labels = reshape(label, size(pred, 1, 2)..., 1, size(pred, 4))
+function _update_single_output(metric :: Accuracy, label :: Array, pred :: Array)
+  # Samples are stored in the last dimension
+  @assert size(label, ndims(label)) == size(pred, ndims(pred))
 
-      for sample in 1:size(labels, 4)
-        for j in 1:size(labels, 2)
-          for i in 1:size(labels, 1)
-            label = labels[i, j, 1, sample]
-            klasses = view(pred, i, j, :, sample)
-            klass = indmax(klasses) - 1 # Classes start at 0...k-1
+  if ndims(pred) == 4 # Multidimensional case
+    # Reshape label to be of the same shape as pred.
+    # Except for the third dimension where the predictions are stored.
+    labels = reshape(label, size(pred, 1, 2)..., 1, size(pred, 4))
 
-            metric.acc_sum += klass == label
-            metric.n_sample += 1
-          end
+    for sample in 1:size(labels, 4)
+      for j in 1:size(labels, 2)
+        for i in 1:size(labels, 1)
+          label = labels[i, j, 1, sample]
+          klasses = view(pred, i, j, :, sample)
+          klass = indmax(klasses) - 1 # Classes start at 0...k-1
+
+          metric.acc_sum += klass == label
+          metric.n_sample += 1
         end
       end
-    elseif ndims(pred) == 2 # 1-dimensional case
-      for sample in 1:size(label, 1)
-        klass = indmax(view(pred, :, sample)) - 1
-        metric.acc_sum += klass == label[sample]
-        metric.n_sample += 1
-      end
-    else
-      error("Can't handle prediction with dimensions $(ndims(pred)).")
     end
+  elseif ndims(pred) == 2 # 1-dimensional case
+    for sample in 1:size(label, 1)
+      klass = indmax(view(pred, :, sample)) - 1
+      metric.acc_sum += klass == label[sample]
+      metric.n_sample += 1
+    end
+  else
+    error("Can't handle prediction with dimensions $(ndims(pred)).")
   end
 end
 
@@ -146,36 +229,115 @@ end
 """
     MSE
 
-Mean Squared Error. TODO: add support for multi-dimensional outputs.
+Mean Squared Error.
 
-Calculates the mean squared error regression loss in one dimension.
+Calculates the mean squared error regression loss.
+Requires that label and prediction have the same shape.
 """
 
 type MSE <: AbstractEvalMetric
-  mse_sum  :: Float64
+  mse_sum  :: Vector{NDArray}
   n_sample :: Int
 
-  MSE() = new(0.0, 0)
+  MSE() = new(Vector{NDArray}(), 0)
 end
 
-function _update_single_output(metric :: MSE, label :: NDArray, pred :: NDArray)
-  label = copy(label)
-  pred  = copy(pred)
+hasNDArraySupport(::MSE) = Val{true}()
 
+function _update_single_output(metric :: MSE, label :: NDArray, pred :: NDArray)
+  @assert size(label) == size(pred)
+  metric.n_sample += length(label)
+  mse_sum = mx.sum(mx._PowerScalar(label - pred,scalar=2))
+  push!(metric.mse_sum, mse_sum)
+  return nothing
+end
+
+function get(metric :: MSE)
+  # Delay copy until last possible moment
+  mse_sum = mapreduce(nda->copy(nda)[1], +, 0.0, metric.mse_sum)
+  return [(:MSE, mse_sum / metric.n_sample)]
+end
+
+function reset!(metric :: MSE)
+  metric.mse_sum = Vector{NDArray}()
+  metric.n_sample = 0
+end
+
+doc"""
+    NMSE
+
+Normalized Mean Squared Error
+
+```math
+\sum_i (\frac{label_i - pred_i}{label_i})^2
+```
+
+Note that there are various ways to do the *normalization*.
+It depends on your own context. Please judge the problem setting you have
+first. If the current implementation do not suitable for you,
+feel free to file it on GitHub.
+
+Let me show you a use case of this kind of normalization:
+
+Bob is training a network for option pricing. The option pricing problem is
+a regression problem (pirce predicting). There are lots of option contracts
+on same target stock but different strike price.
+For example, there is a stock `S`; it's market price is 1000.
+And, there are two call option contracts with different strike price.
+Assume Bob obtains the outcome as following table:
+
+```
++--------+----------------+----------------+--------------+
+|        | Strike Price   | Market Price   | Pred Price   |
++--------+----------------+----------------+--------------+
+| Op 1   | 1500           |  100           | 80           |
++--------+----------------+----------------+--------------+
+| Op 2   | 500            |  10            | 8            |
++--------+----------------+----------------+--------------+
+```
+
+Now, obviously, Bob will calculate the normalized MSE as:
+
+```math
+    (\frac{100 - 80}{100})^2
+    \text{ vs }
+    (\frac{10 - 8}{10}) ^2
+```
+
+Both of the pred prices got the same degree of error.
+
+For more discussion about normalized MSE, please see
+[#211](https://github.com/dmlc/MXNet.jl/pull/211) also.
+
+"""
+type NMSE <: AbstractEvalMetric
+  nmse_sum  :: Float64
+  n_sample :: Int
+
+  NMSE() = new(0.0, 0)
+end
+
+hasNDArraySupport(::NMSE) = Val{false}()
+
+function _update_single_output(metric :: NMSE, label :: Array, pred :: Array)
   n_sample = size(pred)[end]
   metric.n_sample += n_sample
 
   for i = 1:n_sample
-    metric.mse_sum += (label[i] - pred[i])^2
+    if label[i] == 0.0f0  # in case of batch padding
+        continue
+    end
+
+    metric.nmse_sum += ((label[i] - pred[i]) / label[i])^2
   end
 end
 
-function get(metric :: MSE)
-  return [(:MSE, metric.mse_sum / metric.n_sample)]
+function get(metric :: NMSE)
+  return [(:NMSE, metric.nmse_sum / metric.n_sample)]
 end
 
-function reset!(metric :: MSE)
-  metric.mse_sum  = 0.0
+function reset!(metric :: NMSE)
+  metric.nmse_sum = 0.0
   metric.n_sample = 0
 end
 
@@ -183,12 +345,16 @@ end
     ACE
 
 Calculates the averaged cross-entropy (logloss) for classification.
+
+# Arguments:
+* `eps::Float64`: Prevents returning `Inf` if `p = 0`.
 """
 type ACE <: AbstractEvalMetric
   ace_sum  :: Float64
   n_sample :: Int
+  eps :: Float64
 
-  ACE() = new(0.0, 0)
+  ACE(eps=1.0e-8) = new(0.0, 0, eps)
 end
 
 function get(metric :: ACE)
@@ -200,34 +366,42 @@ function reset!(metric :: ACE)
   metric.n_sample = 0
 end
 
-function _update_single_output(metric :: ACE, label :: NDArray, pred :: NDArray)
-  @nd_as_jl ro=(label,pred) begin
-    # Samples are stored in the last dimension
-    @assert size(label, ndims(label)) == size(pred, ndims(pred))
-    if ndims(pred) == 4
-      labels = reshape(label, size(pred, 1, 2)..., 1, size(pred, 4))
-      for sample in 1:size(labels, 4)
-        for j in 1:size(labels, 2)
-          for i in 1:size(labels, 1)
-            # Cross-entropy reduces to -(ln(p_1)*0 + ln(p_2)*1) for classification
-            # Since we can only target labels right now this is the only thing we can do.
-            target = Int(labels[i, j, 1, sample]) + 1 # klasses are 0...k-1 => julia indexing
-            p_k = pred[i, j, target, sample]
-            metric.ace_sum += log(p_k)
-            metric.n_sample += 1
-          end
+hasNDArraySupport(::ACE) = Val{false}()
+
+function _update_single_output{T}(metric :: ACE, label :: Array{T}, pred :: Array{T})
+  eps = convert(T, metric.eps)
+  # Samples are stored in the last dimension
+  @assert size(label, ndims(label)) == size(pred, ndims(pred))
+  if size(label) == size(pred) # simply calculate the cross entropy of the probabilities
+    for (q, p) in zip(pred, label)
+      # p == true probability
+      # q == "unnatural" probability
+      metric.ace_sum += p * log(q + eps)
+      metric.n_sample += 1
+    end
+  elseif ndims(pred) == 4
+    labels = reshape(label, size(pred, 1, 2)..., 1, size(pred, 4))
+    for sample in 1:size(labels, 4)
+      for j in 1:size(labels, 2)
+        for i in 1:size(labels, 1)
+          # Cross-entropy reduces to -(ln(p_1)*0 + ln(p_2)*1) for classification
+          # Since we can only target labels right now this is the only thing we can do.
+          target = Int(labels[i, j, 1, sample]) + 1 # klasses are 0...k-1 => julia indexing
+          p_k = pred[i, j, target, sample]
+          metric.ace_sum += log(p_k + eps)
+          metric.n_sample += 1
         end
       end
-    elseif ndims(pred) == 2 # 1-dimensional case
-      for sample in 1:size(label, 1)
-        target = Int(label[sample]) + 1    # 0-based indexing => 1-based indexing
-        p_k = pred[target, sample]
-        metric.ace_sum += log(p_k)
-        metric.n_sample += 1
-      end
-    else
-      error("Can't handle prediction with dimensions $(ndims(pred)).")
     end
+  elseif ndims(pred) == 2 # 1-dimensional case
+    for sample in 1:size(label, 1)
+      target = Int(label[sample]) + 1    # 0-based indexing => 1-based indexing
+      p_k = pred[target, sample]
+      metric.ace_sum += log(p_k +eps)
+      metric.n_sample += 1
+    end
+  else
+    error("Can't handle prediction with dimensions $(ndims(pred)).")
   end
 end
 
@@ -240,8 +414,9 @@ This can be used to quantify the influence of different classes on the overall l
 type MultiACE <: AbstractEvalMetric
   aces  :: Vector{Float64}
   counts :: Vector{Int}
+  eps :: Float64
 
-  MultiACE(nclasses) = new(Base.zeros(nclasses), Base.zeros(Int, nclasses))
+  MultiACE(nclasses, eps=1.0e-8) = new(Base.zeros(nclasses), Base.zeros(Int, nclasses), eps)
 end
 
 function get(metric :: MultiACE)
@@ -255,36 +430,48 @@ function reset!(metric :: MultiACE)
   metric.counts = Base.zero(metric.counts)
 end
 
-function _update_single_output(metric :: MultiACE, label :: NDArray, pred :: NDArray)
-  @nd_as_jl ro=(label,pred) begin
-    # Samples are stored in the last dimension
-    @assert size(label, ndims(label)) == size(pred, ndims(pred))
+hasNDArraySupport(::MultiACE) = Val{false}()
 
-    if ndims(pred) == 4
-      labels = reshape(label, size(pred, 1, 2)..., 1, size(pred, 4))
-      for sample in 1:size(labels, 4)
-        for j in 1:size(labels, 2)
-          for i in 1:size(labels, 1)
-            # Cross-entropy reduces to -(ln(p_1)*0 + ln(p_2)*1) for classification
-            # Since we can only target labels right now this is the only thing we can do.
-            target = Int(labels[i, j, 1, sample]) + 1 # klasses are 0...k-1 => julia indexing
-            p_k = pred[i, j, target, sample]
+function _update_single_output{T}(metric :: MultiACE, label :: Array{T}, pred :: Array{T})
+  eps = convert(T, metric.eps)
+  # Samples are stored in the last dimension
+  @assert size(label, ndims(label)) == size(pred, ndims(pred))
+  @assert size(metric.aces) == size(metric.counts)
+  if size(label) == size(pred) # simply calculate the cross entropy of the probabilities
+    for k in 1:length(metric.aces)
+      kpred  = view(pred,  ntuple(d->:, ndims(pred)  - 2)..., k, :)
+      klabel = view(label, ntuple(d->:, ndims(label) - 2)..., k, :)
+      for (q, p) in zip(kpred, klabel)
+        # p == true probability
+        # q == "unnatural" probability
+        metric.aces[k] += p * log(q + eps)
+        metric.counts[k] += 1
+      end
+    end
+  elseif ndims(pred) == 4
+    labels = reshape(label, size(pred, 1, 2)..., 1, size(pred, 4))
+    for sample in 1:size(labels, 4)
+      for j in 1:size(labels, 2)
+        for i in 1:size(labels, 1)
+          # Cross-entropy reduces to -(ln(p_1)*0 + ln(p_2)*1) for classification
+          # Since we can only target labels right now this is the only thing we can do.
+          target = Int(labels[i, j, 1, sample]) + 1 # klasses are 0...k-1 => julia indexing
+          p_k = pred[i, j, target, sample]
 
-            metric.aces[target] += log(p_k)
-            metric.counts[target] += 1
-          end
+          metric.aces[target] += log(p_k + eps)
+          metric.counts[target] += 1
         end
       end
-    elseif ndims(pred) == 2
-      for sample in 1:size(label, 1)
-        target = Int(label[sample]) + 1
-        p_k = pred[target, sample]
-        metric.aces[target] += log(p_k)
-        metric.counts[target] += 1
-      end
-    else
-      error("Can't handle prediction with dimensions $(ndims(pred)).")
     end
+  elseif ndims(pred) == 2
+    for sample in 1:size(label, 1)
+      target = Int(label[sample]) + 1
+      p_k = pred[target, sample]
+      metric.aces[target] += log(p_k + eps)
+      metric.counts[target] += 1
+    end
+  else
+    error("Can't handle prediction with dimensions $(ndims(pred)).")
   end
 end
 

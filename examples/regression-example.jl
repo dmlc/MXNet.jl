@@ -6,7 +6,7 @@ the predictions from the trained net.
 =#
 using MXNet
 using Distributions
-using PyPlot
+using Plots
 
 # data generating process
 generate_inputs(mean, var, size) = rand(MvNormal(mean, var), size)
@@ -30,17 +30,16 @@ evalprovider = mx.ArrayDataProvider(:data => ValidationInput, batch_size=batchsi
 # or add/remove a layer
 data = mx.Variable(:data)
 label = mx.Variable(:label)
-net  = @mx.chain    mx.FullyConnected(data = data, num_hidden=10) =>
+net = @mx.chain     mx.Variable(:data) =>
+                    mx.FullyConnected(num_hidden=10) =>
                     mx.Activation(act_type=:tanh) =>
                     mx.FullyConnected(num_hidden=3) =>
                     mx.Activation(act_type=:tanh) =>
-                    mx.FullyConnected(num_hidden=1)        
-
-# squared error loss is appropriate for regression, don't change
-cost = mx.LinearRegressionOutput(data = net, label=label)
+                    mx.FullyConnected(num_hidden=1) =>        
+                    mx.LinearRegressionOutput(label)
 
 # final model definition, don't change, except if using gpu
-model = mx.FeedForward(cost, context=mx.cpu())
+model = mx.FeedForward(net, context=mx.cpu())
 
 # set up the optimizer: select one, explore parameters, if desired
 #optimizer = mx.SGD(lr=0.01, momentum=0.9, weight_decay=0.00001)
@@ -48,16 +47,13 @@ optimizer = mx.ADAM()
 
 # train, reporting loss for training and evaluation sets
 # initial training with small batch size, to get to a good neighborhood
-batchsize = 100
-mx.fit(model, optimizer, initializer=mx.NormalInitializer(0.0,0.1), eval_metric=mx.MSE(), trainprovider, eval_data=evalprovider, n_epoch = 500)
+batchsize = 200
+mx.fit(model, optimizer, initializer=mx.NormalInitializer(0.0,0.1), eval_metric=mx.MSE(), trainprovider, eval_data=evalprovider, n_epoch = 20)
 # more training with the full sample
 batchsize = samplesize
-mx.fit(model, optimizer, eval_metric=mx.MSE(), trainprovider, eval_data=evalprovider, n_epoch = 500)
+mx.fit(model, optimizer, eval_metric=mx.MSE(), trainprovider, eval_data=evalprovider, n_epoch = 20)
 
 # obtain predictions
 plotprovider = mx.ArrayDataProvider(:data => ValidationInput, :label => ValidationOutput)
 fit = mx.predict(model, plotprovider)
-plot(ValidationOutput,fit',".")
-xlabel("true")
-ylabel("predicted")
-title("outputs: true versus predicted. 45º line is what we hope for")
+scatter(ValidationOutput,fit',w = 3, xlabel="true", ylabel="predicted", title="45º line is what we hope for", show=true)
