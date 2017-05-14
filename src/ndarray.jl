@@ -324,7 +324,7 @@ function slice(arr :: NDArray, slice::UnitRange{Int})
   # note Julia is 1-based, inclusive-inclusive indexing, while C++ is
   # 0-based, inclusive-exclusive indexing. So 1:3 in Julia should
   # translates into 0:3 in C++.
-  @mxcall(:MXNDArraySlice, (MX_handle, MX_uint, MX_uint, Ref{MX_handle}),
+  @mxthreadcall(:MXNDArraySlice, (MX_handle, MX_uint, MX_uint, Ref{MX_handle}),
           arr, slice.start-1, slice.stop, hdr_ref)
   return NDArray(MX_NDArrayHandle(hdr_ref[]), arr.writable)
 end
@@ -416,7 +416,7 @@ end
 function copy!{T<:DType}(dst :: Array{T}, src :: NDArray)
   @assert T == eltype(src)
   @assert size(dst) == size(src)
-  @mxcall(:MXNDArraySyncCopyToCPU, (MX_handle, Ptr{Void}, Csize_t),
+  @mxthreadcall(:MXNDArraySyncCopyToCPU, (MX_handle, Ptr{Void}, Csize_t),
           src, pointer(dst), length(dst))
   return dst
 end
@@ -428,7 +428,7 @@ function copy!{T<:Real}(dst :: NDArray, src :: Array{T})
   @assert dst.writable
   @assert size(dst) == size(src)
   src = convert(Array{eltype(dst)}, src) # this might involve copying
-  @mxcall(:MXNDArraySyncCopyFromCPU, (MX_handle, Ptr{Void}, Csize_t),
+  @mxthreadcall(:MXNDArraySyncCopyFromCPU, (MX_handle, Ptr{Void}, Csize_t),
           dst.handle, pointer(src), length(src))
   return dst
 end
@@ -437,7 +437,7 @@ function copy_ignore_shape!{T<:Real}(dst :: NDArray, src :: Array{T})
   @assert dst.writable
   @assert length(dst) == length(src)
   src = convert(Array{eltype(dst)}, src) # this might involve copying
-  @mxcall(:MXNDArraySyncCopyFromCPU, (MX_handle, Ptr{Void}, Csize_t),
+  @mxthreadcall(:MXNDArraySyncCopyFromCPU, (MX_handle, Ptr{Void}, Csize_t),
           dst.handle, pointer(src), length(src))
   return dst
 end
@@ -799,14 +799,14 @@ end
 import Base.pointer
 function pointer(arr :: NDArray)
   pdata = Ref{Ptr{Void}}(0)
-  @mxcall(:MXNDArrayGetData, (MX_handle, Ref{Ptr{Void}}), arr, pdata)
+  @mxthreadcall(:MXNDArrayGetData, (MX_handle, Ref{Ptr{Void}}), arr, pdata)
   return convert(Ptr{eltype(arr)}, pdata[])
 end
 function _wait_to_read(arr :: NDArray)
-  @mxcall(:MXNDArrayWaitToRead, (MX_handle,), arr)
+  @mxthreadcall(:MXNDArrayWaitToRead, (MX_handle,), arr)
 end
 function _wait_to_write(arr :: NDArray)
-  @mxcall(:MXNDArrayWaitToWrite, (MX_handle,), arr)
+  @mxthreadcall(:MXNDArrayWaitToWrite, (MX_handle,), arr)
 end
 
 """
@@ -874,7 +874,7 @@ function load(filename::AbstractString, ::Type{NDArray})
   out_hdrs      = Ref{Ptr{MX_handle}}(0)
   out_name_size = Ref{MX_uint}(0)
   out_names     = Ref{char_pp}(0)
-  @mxcall(:MXNDArrayLoad, (char_p, Ref{MX_uint}, Ref{Ptr{MX_handle}}, Ref{MX_uint}, Ref{char_pp}),
+  @mxthreadcall(:MXNDArrayLoad, (char_p, Ref{MX_uint}, Ref{Ptr{MX_handle}}, Ref{MX_uint}, Ref{char_pp}),
           filename, out_size, out_hdrs, out_name_size, out_names)
   out_name_size = out_name_size[]
   out_size      = out_size[]
@@ -900,7 +900,7 @@ function save(filename::String, data::NDArray)
   save(filename, [data])
 end
 function save(filename::String, data::Vector{NDArray})
-  @mxcall(:MXNDArraySave, (char_p, MX_uint, Ptr{MX_handle}, char_pp),
+  @mxthreadcall(:MXNDArraySave, (char_p, MX_uint, Ptr{MX_handle}, char_pp),
           filename, length(data), MX_handle[data...], char_pp(0))
 end
 function save(filename::String, data::Dict{Base.Symbol,NDArray})
@@ -908,7 +908,7 @@ function save(filename::String, data::Dict{Base.Symbol,NDArray})
   arrays = MX_handle[data[k] for k in names]
   names  = String[string(k) for k in names]
 
-  @mxcall(:MXNDArraySave, (char_p, MX_uint, Ptr{MX_handle}, char_pp),
+  @mxthreadcall(:MXNDArraySave, (char_p, MX_uint, Ptr{MX_handle}, char_pp),
           filename, length(names), arrays, names)
 end
 
@@ -918,7 +918,7 @@ end
 function _invoke_mxfunction(func_handle::MX_handle, use_vars, scalars, mut_vars; kwargs...)
   names = String[string(entry[1]) for entry in kwargs]
   args = String[string(entry[2]) for entry in kwargs]
-  @mxcall(:MXFuncInvokeEx,
+  @mxthreadcall(:MXFuncInvokeEx,
           (MX_handle, Ptr{MX_handle}, Ptr{MX_float}, Ptr{MX_handle}, Cint, char_pp, char_pp),
           func_handle, use_vars, scalars, mut_vars, length(names), names, args)
 end
@@ -1021,7 +1021,7 @@ function _get_ndarray_function_def(name :: String)
 
       #op_handle = _get_cached_libmx_op_handle($(QuoteNode(name)))
       op_handle = _get_cached_libmx_op_handle($(name))
-      @mxcall(:MXImperativeInvoke,
+      @mxthreadcall(:MXImperativeInvoke,
               (MX_handle, Cint, Ptr{MX_handle},
                Ptr{Cint}, Ptr{Ptr{MX_handle}},
                Cint, char_pp, char_pp),

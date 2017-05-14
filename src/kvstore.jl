@@ -62,7 +62,7 @@ function push!(self :: KVStore, keys :: Vector{Int}, vals :: Vector{NDArray}; pr
   @assert length(keys) == length(vals)
   keys = Cint[keys...]
   vals = MX_handle[vals...]
-  @mxcall(:MXKVStorePush, (MX_handle, MX_uint, Ptr{Cint}, Ptr{MX_handle}, Cint),
+  @mxthreadcall(:MXKVStorePush, (MX_handle, MX_uint, Ptr{Cint}, Ptr{MX_handle}, Cint),
           self, length(keys), keys, vals, priority)
 end
 
@@ -79,7 +79,7 @@ function pull!(self :: KVStore, keys :: Vector{Int}, outs :: Vector{NDArray}; pr
   @assert length(keys) == length(outs)
   keys = Cint[keys...]
   outs = MX_handle[outs...]
-  @mxcall(:MXKVStorePull, (MX_handle, MX_uint, Ptr{Cint}, Ptr{MX_handle}, Cint),
+  @mxthreadcall(:MXKVStorePull, (MX_handle, MX_uint, Ptr{Cint}, Ptr{MX_handle}, Cint),
           self, length(keys), keys, outs, priority)
 end
 
