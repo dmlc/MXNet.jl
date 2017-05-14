@@ -874,7 +874,7 @@ function load(filename::AbstractString, ::Type{NDArray})
   out_hdrs      = Ref{Ptr{MX_handle}}(0)
   out_name_size = Ref{MX_uint}(0)
   out_names     = Ref{char_pp}(0)
-  @mxthreadcall(:MXNDArrayLoad, (char_p, Ref{MX_uint}, Ptr{Ptr{MX_handle}}, Ptr{MX_uint}, Ptr{char_pp}),
+  @mxthreadcall(:MXNDArrayLoad, (char_p, Ptr{MX_uint}, Ptr{Ptr{MX_handle}}, Ptr{MX_uint}, Ptr{char_pp}),
           filename, out_size, out_hdrs, out_name_size, out_names)
   out_name_size = out_name_size[]
   out_size      = out_size[]
