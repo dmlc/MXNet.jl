@@ -1,6 +1,10 @@
 environment:
   matrix:
   - JULIA_URL: "https://julialang-s3.julialang.org/bin/winnt/x64/0.5/julia-0.5-latest-win64.exe"
+  oauth_id:
+    secure: qPKBWSZLF1BGfONpjRv4kA==
+  oauth_secret:
+    secure: A0AunrZoK2oW1YbIs7b1VXe4ogocJWGUViLyDdbYwJHFkcJf3EnfPZmuWOSq6+RB
 
 branches:
   only:
