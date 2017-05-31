@@ -5,8 +5,8 @@ import JSON
 # First try to detect and load existing libmxnet
 ################################################################################
 libmxnet_detected = false
-libmxnet_curr_ver = "v0.9.5"
-curr_win = "20170502"
+libmxnet_curr_ver = "v0.10.0"
+curr_win = "20170527"
 
 if haskey(ENV, "MXNET_HOME")
   info("MXNET_HOME environment detected: $(ENV["MXNET_HOME"])")
@@ -168,9 +168,9 @@ if !libmxnet_detected
           ChangeDirectory(_mxdir)
           `cp ../../cblas.h include/cblas.h`
           if USE_JULIA_BLAS
-            `make -j$(nprocs()) USE_BLAS=$blas_name $MSHADOW_LDFLAGS`
+            `make -j$(min(Sys.CPU_CORES,8)) USE_BLAS=$blas_name $MSHADOW_LDFLAGS`
           else
-            `make -j$(nprocs())`
+            `make -j$(min(Sys.CPU_CORES,8))`
           end
         end
         FileRule(joinpath(_libdir, "libmxnet.so"), @build_steps begin
