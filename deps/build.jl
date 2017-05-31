@@ -5,8 +5,8 @@ import JSON
 # First try to detect and load existing libmxnet
 ################################################################################
 libmxnet_detected = false
-libmxnet_curr_ver = "v0.9.5"
-curr_win = "20170502"
+libmxnet_curr_ver = "v0.10.0"
+curr_win = "20170527"
 
 if haskey(ENV, "MXNET_HOME")
   info("MXNET_HOME environment detected: $(ENV["MXNET_HOME"])")
