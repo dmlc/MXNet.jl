@@ -1,17 +1,18 @@
 
 <!DOCTYPE html>
-<html class="no-js">
+<html lang="en" class="no-js">
   <head>
     
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
       
       
       
       
-        <link rel="shortcut icon" href="../../assets/images/favicon.ico">
+        <link rel="shortcut icon" href="../../assets/images/favicon.png">
       
-      <meta name="generator" content="mkdocs+mkdocs-material#1.0.3">
+      <meta name="generator" content="mkdocs-0.16.3, mkdocs-material-1.10.0">
     
     
       
@@ -19,7 +20,13 @@
       
     
     
-      <script src="../../assets/javascripts/modernizr-facb31f4a3.js"></script>
+      <script src="../../assets/javascripts/modernizr-e826f8942a.js"></script>
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/application-b6a6d08807.css">
+      
+        <link rel="stylesheet" href="../../assets/stylesheets/application-23f75ab9c7.palette.css">
+      
     
     
       
@@ -32,13 +39,7 @@
       <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/application-f3ab63f78a.css">
-      
-        <link rel="stylesheet" href="../../assets/stylesheets/application-02ce7adcc2.palette.css">
-      
-      
-        <link rel="stylesheet" href="../../assets/Documenter.css">
-      
+      <link rel="stylesheet" href="../../assets/Documenter.css">
     
     
   </head>
@@ -60,11 +61,13 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="search">
     <label class="md-overlay" data-md-component="overlay" for="drawer"></label>
     
-      <header class="md-header">
+      <header class="md-header" data-md-component="header">
   <nav class="md-header-nav md-grid">
     <div class="md-flex">
       <div class="md-flex__cell md-flex__cell--shrink">
-        <a href="../.." title="MXNet.jl" class=" md-icon md-icon--home  md-header-nav__button">
+        <a href="../.." title="MXNet.jl" class="md-header-nav__button md-logo">
+          
+            <i class="md-icon md-icon--home"></i>
           
         </a>
       </div>
@@ -89,26 +92,32 @@
         
           <label class="md-icon md-icon--search md-header-nav__button" for="search"></label>
           
-<div class="md-search" data-md-component="search">
-  <div class="md-search__overlay"></div>
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="search"></label>
   <div class="md-search__inner">
     <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" placeholder="Search" accesskey="s" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false">
+      <input type="text" class="md-search__input" name="query" required placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query">
       <label class="md-icon md-search__icon" for="search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset">&#xE5CD;</button>
     </form>
     <div class="md-search__output">
       <div class="md-search__scrollwrap" data-md-scrollfix>
-        <div class="md-search-result" data-md-component="result"></div>
+        <div class="md-search-result" data-md-component="result" data-md-lang-search="" data-md-lang-tokenizer="[\s\-]+">
+          <div class="md-search-result__meta" data-md-lang-result-none="No matching documents" data-md-lang-result-one="1 matching document" data-md-lang-result-other="# matching documents">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
       </div>
     </div>
   </div>
 </div>
         
       </div>
-      <div class="md-flex__cell md-flex__cell--shrink">
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
           <div class="md-header-nav__source">
             
-              
 
 
   
@@ -127,14 +136,16 @@
     </div>
   </a>
 
-            
           </div>
-      </div>
+        </div>
+      
     </div>
   </nav>
 </header>
     
     <div class="md-container">
+      
+      
       <main class="md-main">
         <div class="md-main__inner md-grid" data-md-component="container">
           
@@ -142,11 +153,13 @@
               <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
-                    <nav class="md-nav md-nav--primary">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
   <label class="md-nav__title md-nav__title--site" for="drawer">
-    <i class=" md-icon md-icon--home  md-nav__button">
+    <div class="md-nav__button md-logo">
       
-    </i>
+        <i class="md-icon md-icon--home"></i>
+      
+    </div>
     MXNet.jl
   </label>
   
@@ -176,17 +189,21 @@
     
       
       
+      
+
+
   <li class="md-nav__item">
-    
-      <a href="../.." title="Home" class="md-nav__link">
-        Home
-      </a>
-    
+    <a href="../.." title="Home" class="md-nav__link">
+      Home
+    </a>
   </li>
 
     
       
       
+      
+
+
   <li class="md-nav__item md-nav__item--nested">
     
       <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
@@ -194,7 +211,7 @@
     <label class="md-nav__link" for="nav-2">
       Tutorial
     </label>
-    <nav class="md-nav" data-md-component="collapsible">
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
       <label class="md-nav__title" for="nav-2">
         Tutorial
       </label>
@@ -203,23 +220,25 @@
         
           
           
+          
+
+
   <li class="md-nav__item">
-    
-      <a href="../../tutorial/mnist/" title="Digit Recognition on MNIST" class="md-nav__link">
-        Digit Recognition on MNIST
-      </a>
-    
+    <a href="../../tutorial/mnist/" title="Digit Recognition on MNIST" class="md-nav__link">
+      Digit Recognition on MNIST
+    </a>
   </li>
 
         
           
           
+          
+
+
   <li class="md-nav__item">
-    
-      <a href="../../tutorial/char-lstm/" title="Generating Random Sentence with LSTM RNN" class="md-nav__link">
-        Generating Random Sentence with LSTM RNN
-      </a>
-    
+    <a href="../../tutorial/char-lstm/" title="Generating Random Sentence with LSTM RNN" class="md-nav__link">
+      Generating Random Sentence with LSTM RNN
+    </a>
   </li>
 
         
@@ -230,6 +249,9 @@
     
       
       
+      
+
+
   <li class="md-nav__item md-nav__item--nested">
     
       <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
@@ -237,7 +259,7 @@
     <label class="md-nav__link" for="nav-3">
       User Guide
     </label>
-    <nav class="md-nav" data-md-component="collapsible">
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
       <label class="md-nav__title" for="nav-3">
         User Guide
       </label>
@@ -246,34 +268,37 @@
         
           
           
+          
+
+
   <li class="md-nav__item">
-    
-      <a href="../../user-guide/install/" title="Installation Guide" class="md-nav__link">
-        Installation Guide
-      </a>
-    
+    <a href="../../user-guide/install/" title="Installation Guide" class="md-nav__link">
+      Installation Guide
+    </a>
   </li>
 
         
           
           
+          
+
+
   <li class="md-nav__item">
-    
-      <a href="../../user-guide/overview/" title="Overview" class="md-nav__link">
-        Overview
-      </a>
-    
+    <a href="../../user-guide/overview/" title="Overview" class="md-nav__link">
+      Overview
+    </a>
   </li>
 
         
           
           
+          
+
+
   <li class="md-nav__item">
-    
-      <a href="../../user-guide/faq/" title="FAQ" class="md-nav__link">
-        FAQ
-      </a>
-    
+    <a href="../../user-guide/faq/" title="FAQ" class="md-nav__link">
+      FAQ
+    </a>
   </li>
 
         
@@ -284,14 +309,19 @@
     
       
       
-  <li class="md-nav__item md-nav__item--nested">
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
     
       <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4" checked>
     
     <label class="md-nav__link" for="nav-4">
       API Documentation
     </label>
-    <nav class="md-nav" data-md-component="collapsible">
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
       <label class="md-nav__title" for="nav-4">
         API Documentation
       </label>
@@ -300,73 +330,84 @@
         
           
           
+          
+
+
   <li class="md-nav__item">
-    
-      <a href="../context/" title="Context" class="md-nav__link">
-        Context
-      </a>
-    
+    <a href="../context/" title="Context" class="md-nav__link">
+      Context
+    </a>
   </li>
 
         
           
           
+          
+
+
   <li class="md-nav__item">
-    
-      <a href="../model/" title="Models" class="md-nav__link">
-        Models
-      </a>
-    
+    <a href="../model/" title="Models" class="md-nav__link">
+      Models
+    </a>
   </li>
 
         
           
           
+          
+
+
   <li class="md-nav__item">
-    
-      <a href="../initializer/" title="Initializers" class="md-nav__link">
-        Initializers
-      </a>
-    
+    <a href="../initializer/" title="Initializers" class="md-nav__link">
+      Initializers
+    </a>
   </li>
 
         
           
           
+          
+
+
   <li class="md-nav__item">
-    
-      <a href="../optimizer/" title="Optimizers" class="md-nav__link">
-        Optimizers
-      </a>
-    
+    <a href="../optimizer/" title="Optimizers" class="md-nav__link">
+      Optimizers
+    </a>
   </li>
 
         
           
           
+          
+
+
   <li class="md-nav__item">
-    
-      <a href="../callback/" title="Callbacks in training" class="md-nav__link">
-        Callbacks in training
-      </a>
-    
+    <a href="../callback/" title="Callbacks in training" class="md-nav__link">
+      Callbacks in training
+    </a>
   </li>
 
         
           
           
+          
+
+
   <li class="md-nav__item">
-    
-      <a href="../metric/" title="Evaluation Metrics" class="md-nav__link">
-        Evaluation Metrics
-      </a>
-    
+    <a href="../metric/" title="Evaluation Metrics" class="md-nav__link">
+      Evaluation Metrics
+    </a>
   </li>
 
         
           
           
-  <li class="md-nav__item">
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
     
     <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="toc">
     
@@ -412,6 +453,8 @@
   
 </li>
       
+      
+      
     </ul>
   
 </nav>
@@ -421,56 +464,61 @@
         
           
           
+          
+
+
   <li class="md-nav__item">
-    
-      <a href="../ndarray/" title="NDArray API" class="md-nav__link">
-        NDArray API
-      </a>
-    
+    <a href="../ndarray/" title="NDArray API" class="md-nav__link">
+      NDArray API
+    </a>
   </li>
 
         
           
           
+          
+
+
   <li class="md-nav__item">
-    
-      <a href="../symbolic-node/" title="Symbolic API" class="md-nav__link">
-        Symbolic API
-      </a>
-    
+    <a href="../symbolic-node/" title="Symbolic API" class="md-nav__link">
+      Symbolic API
+    </a>
   </li>
 
         
           
           
+          
+
+
   <li class="md-nav__item">
-    
-      <a href="../nn-factory/" title="Neural Networks Factory" class="md-nav__link">
-        Neural Networks Factory
-      </a>
-    
+    <a href="../nn-factory/" title="Neural Networks Factory" class="md-nav__link">
+      Neural Networks Factory
+    </a>
   </li>
 
         
           
           
+          
+
+
   <li class="md-nav__item">
-    
-      <a href="../executor/" title="Executor" class="md-nav__link">
-        Executor
-      </a>
-    
+    <a href="../executor/" title="Executor" class="md-nav__link">
+      Executor
+    </a>
   </li>
 
         
           
           
+          
+
+
   <li class="md-nav__item">
-    
-      <a href="../visualize/" title="Network Visualization" class="md-nav__link">
-        Network Visualization
-      </a>
-    
+    <a href="../visualize/" title="Network Visualization" class="md-nav__link">
+      Network Visualization
+    </a>
   </li>
 
         
@@ -520,6 +568,8 @@
   
 </li>
       
+      
+      
     </ul>
   
 </nav>
@@ -530,10 +580,10 @@
           
           <div class="md-content">
             <article class="md-content__inner md-typeset">
-               
-                 <a href="https://github.com/dmlc/MXNet.jl/edit/master/docs/api/io.md" title="Edit this page" class="md-icon md-content__edit">edit</a>
-               
               
+                
+                  <a href="https://github.com/dmlc/MXNet.jl/edit/master/docs/api/io.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                
                 
                 <p><a id='Data-Providers-1'></a></p>
 <h1 id="data-providers">Data Providers</h1>
@@ -558,7 +608,7 @@
 <li><code>Base.done(provider, state) -&gt; Bool</code></li>
 <li><code>Base.next(provider, state) -&gt; (AbstractDataBatch, AbstractDataProvider)</code></li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/79d80b6e3f2e66cf42a5e59d0f383ade8e1b4e95/src/io.jl#L1-L17' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/io.jl#L1-L17' class='documenter-source'>source</a><br></p>
 <p>The difference between <em>data</em> and <em>label</em> is that during training stage, both <em>data</em> and <em>label</em> will be feeded into the model, while during prediction stage, only <em>data</em> is loaded. Otherwise, they could be anything, with any names, and of any shapes. The provided data and label names here should match the input names in a target <code>SymbolicNode</code>.</p>
 <p>A data provider should also implement the Julia iteration interface, in order to allow iterating through the data set. The provider will be called in the following way:</p>
 <pre><code class="julia">for batch in eachbatch(provider)
@@ -637,7 +687,7 @@ end
 <li><code>provider::AbstractDataProvider</code>: the data provider.</li>
 </ul>
 <p>Returns the mini-batch size of the provided data. All the provided data should have the same mini-batch size (i.e. the last dimension).</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/79d80b6e3f2e66cf42a5e59d0f383ade8e1b4e95/src/io.jl#L20-L27' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/io.jl#L20-L27' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.provide_data' href='#MXNet.mx.provide_data'>#</a>
 <strong><code>MXNet.mx.provide_data</code></strong> &mdash; <em>Function</em>.</p>
 <pre><code>provide_data(provider) -&gt; Vector{Tuple{Base.Symbol, Tuple}}
@@ -648,7 +698,7 @@ end
 <li><code>provider::AbstractDataProvider</code>: the data provider.</li>
 </ul>
 <p>Returns a vector of (name, shape) pairs describing the names of the data it provides, and the corresponding shapes.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/79d80b6e3f2e66cf42a5e59d0f383ade8e1b4e95/src/io.jl#L30-L38' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/io.jl#L30-L38' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.provide_label' href='#MXNet.mx.provide_label'>#</a>
 <strong><code>MXNet.mx.provide_label</code></strong> &mdash; <em>Function</em>.</p>
 <pre><code>provide_label(provider) -&gt; Vector{Tuple{Base.Symbol, Tuple}}
@@ -659,7 +709,7 @@ end
 <li><code>provider::AbstractDataProvider</code>: the data provider.</li>
 </ul>
 <p>Returns a vector of (name, shape) pairs describing the names of the labels it provides, and the corresponding shapes.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/79d80b6e3f2e66cf42a5e59d0f383ade8e1b4e95/src/io.jl#L41-L48' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/io.jl#L41-L48' class='documenter-source'>source</a><br></p>
 <p><a id='AbstractDataBatch-interface-1'></a></p>
 <h2 id="abstractdatabatch-interface">AbstractDataBatch interface</h2>
 <p><a id='MXNet.mx.AbstractDataProviderState' href='#MXNet.mx.AbstractDataProviderState'>#</a>
@@ -668,7 +718,7 @@ end
 </code></pre>
 
 <p>Base type for data provider states.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/79d80b6e3f2e66cf42a5e59d0f383ade8e1b4e95/src/io.jl#L51-L55' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/io.jl#L51-L55' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.count_samples' href='#MXNet.mx.count_samples'>#</a>
 <strong><code>MXNet.mx.count_samples</code></strong> &mdash; <em>Function</em>.</p>
 <pre><code>count_samples(provider, batch) -&gt; Int
@@ -679,7 +729,7 @@ end
 <li><code>batch::AbstractDataBatch</code>: the data batch object.</li>
 </ul>
 <p>Returns the number of samples in this batch. This number should be greater than 0, but less than or equal to the batch size. This is used to indicate at the end of the data set, there might not be enough samples for a whole mini-batch.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/79d80b6e3f2e66cf42a5e59d0f383ade8e1b4e95/src/io.jl#L75-L83' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/io.jl#L75-L83' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.get_data' href='#MXNet.mx.get_data'>#</a>
 <strong><code>MXNet.mx.get_data</code></strong> &mdash; <em>Function</em>.</p>
 <pre><code>get_data(provider, batch) -&gt; Vector{NDArray}
@@ -692,7 +742,7 @@ end
 </ul>
 <p>Returns a vector of data in this batch, should be in the same order as declared in <code>provide_data() &lt;AbstractDataProvider.provide_data&gt;</code>.</p>
 <p>The last dimension of each <code>NDArray</code> should always match the batch_size, even when <code>count_samples</code> returns a value less than the batch size. In this case,      the data provider is free to pad the remaining contents with any value.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/79d80b6e3f2e66cf42a5e59d0f383ade8e1b4e95/src/io.jl#L86-L96' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/io.jl#L86-L96' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.get_label' href='#MXNet.mx.get_label'>#</a>
 <strong><code>MXNet.mx.get_label</code></strong> &mdash; <em>Function</em>.</p>
 <pre><code>get_label(provider, batch) -&gt; Vector{NDArray}
@@ -704,7 +754,7 @@ end
 <li><code>batch::AbstractDataBatch</code>: the data batch object.</li>
 </ul>
 <p>Returns a vector of labels in this batch. Similar to <a href="./#MXNet.mx.get_data"><code>get_data</code></a>.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/79d80b6e3f2e66cf42a5e59d0f383ade8e1b4e95/src/io.jl#L99-L107' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/io.jl#L99-L107' class='documenter-source'>source</a><br></p>
 <p><a id='Base.get' href='#Base.get'>#</a>
 <strong><code>Base.get</code></strong> &mdash; <em>Function</em>.</p>
 <pre><code>get(metric)
@@ -712,7 +762,7 @@ end
 
 <p>Get the accumulated metrics.</p>
 <p>Returns <code>Vector{Tuple{Base.Symbol, Real}}</code>, a list of name-value pairs. For example, <code>[(:accuracy, 0.9)]</code>.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/79d80b6e3f2e66cf42a5e59d0f383ade8e1b4e95/src/metric.jl#L45-L52' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/metric.jl#L74-L81' class='documenter-source'>source</a><br></p>
 <pre><code>get(provider, batch, name) -&gt; NDArray
 </code></pre>
 
@@ -722,7 +772,7 @@ end
 <li><code>name::Symbol</code>: the name of the data to get, should be one of the names provided in either <code>provide_data() &lt;AbstractDataProvider.provide_data&gt;</code> or <code>provide_label() &lt;AbstractDataProvider.provide_label&gt;</code>.</li>
 </ul>
 <p>Returns the corresponding data array corresponding to that name.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/79d80b6e3f2e66cf42a5e59d0f383ade8e1b4e95/src/io.jl#L190-L200' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/io.jl#L190-L200' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.load_data!' href='#MXNet.mx.load_data!'>#</a>
 <strong><code>MXNet.mx.load_data!</code></strong> &mdash; <em>Function</em>.</p>
 <pre><code>load_data!(provider, batch, targets)
@@ -736,7 +786,7 @@ end
 </ul>
 <p>The targets is a list of the same length as number of data provided by this provider. Each element in the list is a list of <code>SlicedNDArray</code>. This list described a spliting scheme of this data batch into different slices, each slice is specified by a slice-ndarray pair, where <em>slice</em> specify the range of samples in the mini-batch that should be loaded into the corresponding <em>ndarray</em>.</p>
 <p>This utility function is used in data parallelization, where a mini-batch is splited and computed on several different devices.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/79d80b6e3f2e66cf42a5e59d0f383ade8e1b4e95/src/io.jl#L142-L158' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/io.jl#L142-L158' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.load_label!' href='#MXNet.mx.load_label!'>#</a>
 <strong><code>MXNet.mx.load_label!</code></strong> &mdash; <em>Function</em>.</p>
 <pre><code>load_label!(provider, batch, targets)
@@ -748,7 +798,7 @@ end
 <li><code>targets::Vector{Vector{SlicedNDArray}}</code>: the targets to load label into.</li>
 </ul>
 <p>The same as <a href="./#MXNet.mx.load_data!"><code>load_data!</code></a>, except that this is for loading labels.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/79d80b6e3f2e66cf42a5e59d0f383ade8e1b4e95/src/io.jl#L164-L172' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/io.jl#L164-L172' class='documenter-source'>source</a><br></p>
 <p><a id='Implemented-providers-and-other-methods-1'></a></p>
 <h2 id="implemented-providers-and-other-methods">Implemented providers and other methods</h2>
 <p><a id='MXNet.mx.AbstractDataBatch' href='#MXNet.mx.AbstractDataBatch'>#</a>
@@ -768,7 +818,7 @@ end
 <li><a href="./#MXNet.mx.load_data!"><code>load_data!</code></a></li>
 <li><a href="./#MXNet.mx.load_label!"><code>load_label!</code></a></li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/79d80b6e3f2e66cf42a5e59d0f383ade8e1b4e95/src/io.jl#L58-L72' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/io.jl#L58-L72' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.ArrayDataProvider' href='#MXNet.mx.ArrayDataProvider'>#</a>
 <strong><code>MXNet.mx.ArrayDataProvider</code></strong> &mdash; <em>Type</em>.</p>
 <pre><code>ArrayDataProvider
@@ -797,28 +847,28 @@ end
 </li>
 </ul>
 <p>TODO: remove <code>data_padding</code> and <code>label_padding</code>, and implement rollover that copies the last or first several training samples to feed the padding.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/79d80b6e3f2e66cf42a5e59d0f383ade8e1b4e95/src/io.jl#L228-L254' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/io.jl#L228-L254' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.DataBatch' href='#MXNet.mx.DataBatch'>#</a>
 <strong><code>MXNet.mx.DataBatch</code></strong> &mdash; <em>Type</em>.</p>
 <pre><code>DataBatch
 </code></pre>
 
 <p>A basic subclass of <code>AbstractDataBatch</code>, that implement the interface by accessing member fields.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/79d80b6e3f2e66cf42a5e59d0f383ade8e1b4e95/src/io.jl#L110-L115' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/io.jl#L110-L115' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.MXDataProvider' href='#MXNet.mx.MXDataProvider'>#</a>
 <strong><code>MXNet.mx.MXDataProvider</code></strong> &mdash; <em>Type</em>.</p>
 <pre><code>MXDataProvider
 </code></pre>
 
 <p>A data provider that wrap built-in data iterators from libmxnet. See below for a list of built-in data iterators.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/79d80b6e3f2e66cf42a5e59d0f383ade8e1b4e95/src/io.jl#L420-L425' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/io.jl#L420-L425' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.SlicedNDArray' href='#MXNet.mx.SlicedNDArray'>#</a>
 <strong><code>MXNet.mx.SlicedNDArray</code></strong> &mdash; <em>Type</em>.</p>
 <pre><code>SlicedNDArray
 </code></pre>
 
 <p>A alias type of <code>Tuple{UnitRange{Int},NDArray}</code>.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/79d80b6e3f2e66cf42a5e59d0f383ade8e1b4e95/src/io.jl#L125-L129' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/io.jl#L125-L129' class='documenter-source'>source</a><br></p>
 <p><a id='Base.get-Tuple{MXNet.mx.AbstractDataProvider,MXNet.mx.AbstractDataBatch,Symbol}' href='#Base.get-Tuple{MXNet.mx.AbstractDataProvider,MXNet.mx.AbstractDataBatch,Symbol}'>#</a>
 <strong><code>Base.get</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>get(provider, batch, name) -&gt; NDArray
@@ -830,38 +880,59 @@ end
 <li><code>name::Symbol</code>: the name of the data to get, should be one of the names provided in either <code>provide_data() &lt;AbstractDataProvider.provide_data&gt;</code> or <code>provide_label() &lt;AbstractDataProvider.provide_label&gt;</code>.</li>
 </ul>
 <p>Returns the corresponding data array corresponding to that name.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/79d80b6e3f2e66cf42a5e59d0f383ade8e1b4e95/src/io.jl#L190-L200' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/io.jl#L190-L200' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.CSVIter-Tuple{}' href='#MXNet.mx.CSVIter-Tuple{}'>#</a>
 <strong><code>MXNet.mx.CSVIter</code></strong> &mdash; <em>Method</em>.</p>
-<pre><code>CSVIter(data_csv, data_shape, label_csv, label_shape)
+<pre><code>CSVIter(data_csv, data_shape, label_csv, label_shape, batch_size, round_batch, prefetch_buffer, dtype)
 </code></pre>
 
-<p>Can also be called with the alias <code>CSVProvider</code>. Create iterator for dataset in csv.</p>
+<p>Can also be called with the alias <code>CSVProvider</code>. Returns the CSV file iterator.</p>
+<p>In this function, the <code>data_shape</code> parameter is used to set the shape of each line of the input data. If a row in an input file is <code>1,2,3,4,5,6``and</code>data_shape` is (3,2), that row will be reshaped, yielding the array [[1,2],[3,4],[5,6]] of shape (3,2).</p>
+<p>By default, the <code>CSVIter</code> has <code>round_batch</code> parameter set to $True$. So, if <code>batch_size</code> is 3 and there are 4 total rows in CSV file, 2 more examples are consumed at the first round. If <code>reset</code> function is called after first round, the call is ignored and remaining examples are returned in the second round.</p>
+<p>If one wants all the instances in the second round after calling <code>reset</code>, make sure to set <code>round_batch</code> to False.</p>
+<p>If $data_csv = 'data/'$ is set, then all the files in this directory will be read.</p>
+<p>Examples::</p>
+<p>// Contents of CSV file $data/data.csv$.   1,2,3   2,3,4   3,4,5   4,5,6</p>
+<p>// Creates a <code>CSVIter</code> with <code>batch_size</code>=2 and default <code>round_batch</code>=True.   CSVIter = mx.io.CSVIter(data_csv = 'data/data.csv', data_shape = (3,),   batch_size = 2)</p>
+<p>// Two batches read from the above iterator are as follows:   [[ 1.  2.  3.]   [ 2.  3.  4.]]   [[ 3.  4.  5.]   [ 4.  5.  6.]]</p>
+<p>// Creates a <code>CSVIter</code> with default <code>round_batch</code> set to True.   CSVIter = mx.io.CSVIter(data_csv = 'data/data.csv', data_shape = (3,),   batch_size = 3)</p>
+<p>// Two batches read from the above iterator in the first pass are as follows:   [[1.  2.  3.]   [2.  3.  4.]   [3.  4.  5.]]</p>
+<p>[[4.  5.  6.]   [1.  2.  3.]   [2.  3.  4.]]</p>
+<p>// Now, <code>reset</code> method is called.   CSVIter.reset()</p>
+<p>// Batch read from the above iterator in the second pass is as follows:   [[ 3.  4.  5.]   [ 4.  5.  6.]   [ 1.  2.  3.]]</p>
+<p>// Creates a <code>CSVIter</code> with <code>round_batch</code>=False.   CSVIter = mx.io.CSVIter(data_csv = 'data/data.csv', data_shape = (3,),   batch_size = 3, round_batch=False)</p>
+<p>// Contents of two batches read from the above iterator in both passes, after calling   // <code>reset</code> method before second pass, is as follows:   [[1.  2.  3.]   [2.  3.  4.]   [3.  4.  5.]]</p>
+<p>[[4.  5.  6.]   [2.  3.  4.]   [3.  4.  5.]]</p>
+<p>Defined in src/io/iter_csv.cc:L220</p>
 <p><strong>Arguments:</strong></p>
 <ul>
 <li><code>data_name::Symbol</code>: keyword argument, default <code>:data</code>. The name of the data.</li>
 <li><code>label_name::Symbol</code>: keyword argument, default <code>:softmax_label</code>. The name of the label. Could be <code>nothing</code> if no label is presented in this dataset.</li>
-<li><code>data_csv::string, required</code>: Dataset Param: Data csv path.</li>
-<li><code>data_shape::Shape(tuple), required</code>: Dataset Param: Shape of the data.</li>
-<li><code>label_csv::string, optional, default='NULL'</code>: Dataset Param: Label csv path. If is NULL, all labels will be returned as 0</li>
-<li><code>label_shape::Shape(tuple), optional, default=(1,)</code>: Dataset Param: Shape of the label.</li>
+<li><code>data_csv::string, required</code>: The input CSV file or a directory path.</li>
+<li><code>data_shape::Shape(tuple), required</code>: The shape of one example.</li>
+<li><code>label_csv::string, optional, default='NULL'</code>: The input CSV file or a directory path. If NULL, all labels will be returned as 0.</li>
+<li><code>label_shape::Shape(tuple), optional, default=(1,)</code>: The shape of one label.</li>
+<li><code>batch_size::int (non-negative), required</code>: Batch size.</li>
+<li><code>round_batch::boolean, optional, default=True</code>: Whether to use round robin to handle overflow batch or not.</li>
+<li><code>prefetch_buffer::long (non-negative), optional, default=4</code>: Maximum number of batches to prefetch.</li>
+<li><code>dtype::{None, 'float16', 'float32', 'float64', 'int32', 'uint8'},optional, default='None'</code>: Output data type. $None$ means no change.</li>
 </ul>
 <p>Returns the constructed <code>MXDataProvider</code>.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/79d80b6e3f2e66cf42a5e59d0f383ade8e1b4e95/src/io.jl#L619-L637' class='documenter-source'>source</a><br></p>
-<p><a id='MXNet.mx.ImageRecordIter-Tuple{}' href='#MXNet.mx.ImageRecordIter-Tuple{}'>#</a>
-<strong><code>MXNet.mx.ImageRecordIter</code></strong> &mdash; <em>Method</em>.</p>
-<pre><code>ImageRecordIter(path_imglist, path_imgrec, aug_seq, label_width, data_shape, preprocess_threads, verbose, num_parts, part_index, shuffle_chunk_size, shuffle_chunk_seed, shuffle, seed, verbose, batch_size, round_batch, prefetch_buffer, dtype, resize, rand_crop, crop_y_start, crop_x_start, max_rotate_angle, max_aspect_ratio, max_shear_ratio, max_crop_size, min_crop_size, max_random_scale, min_random_scale, max_img_size, min_img_size, random_h, random_s, random_l, rotate, fill_value, data_shape, inter_method, pad, seed, mirror, rand_mirror, mean_img, mean_r, mean_g, mean_b, mean_a, scale, max_random_contrast, max_random_illumination, verbose)
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/io.jl#L619-L716' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.ImageDetRecordIter-Tuple{}' href='#MXNet.mx.ImageDetRecordIter-Tuple{}'>#</a>
+<strong><code>MXNet.mx.ImageDetRecordIter</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>ImageDetRecordIter(path_imglist, path_imgrec, aug_seq, label_width, data_shape, preprocess_threads, verbose, num_parts, part_index, shuffle_chunk_size, shuffle_chunk_seed, label_pad_width, label_pad_value, shuffle, seed, verbose, batch_size, round_batch, prefetch_buffer, dtype, resize, rand_crop_prob, min_crop_scales, max_crop_scales, min_crop_aspect_ratios, max_crop_aspect_ratios, min_crop_overlaps, max_crop_overlaps, min_crop_sample_coverages, max_crop_sample_coverages, min_crop_object_coverages, max_crop_object_coverages, num_crop_sampler, crop_emit_mode, emit_overlap_thresh, max_crop_trials, rand_pad_prob, max_pad_scale, max_random_hue, random_hue_prob, max_random_saturation, random_saturation_prob, max_random_illumination, random_illumination_prob, max_random_contrast, random_contrast_prob, rand_mirror_prob, fill_value, inter_method, data_shape, resize_mode, seed, mean_img, mean_r, mean_g, mean_b, mean_a, std_r, std_g, std_b, std_a, scale, verbose)
 </code></pre>
 
-<p>Can also be called with the alias <code>ImageRecordProvider</code>. Create iterator for dataset packed in recordio.</p>
+<p>Can also be called with the alias <code>ImageDetRecordProvider</code>. Create iterator for image detection dataset packed in recordio.</p>
 <p><strong>Arguments:</strong></p>
 <ul>
 <li><code>data_name::Symbol</code>: keyword argument, default <code>:data</code>. The name of the data.</li>
 <li><code>label_name::Symbol</code>: keyword argument, default <code>:softmax_label</code>. The name of the label. Could be <code>nothing</code> if no label is presented in this dataset.</li>
 <li><code>path_imglist::string, optional, default=''</code>: Dataset Param: Path to image list.</li>
 <li><code>path_imgrec::string, optional, default='./data/imgrec.rec'</code>: Dataset Param: Path to image record file.</li>
-<li><code>aug_seq::string, optional, default='aug_default'</code>: Augmentation Param: the augmenter names to represent sequence of augmenters to be applied, seperated by comma. Additional keyword parameters will be seen by these augmenters.</li>
-<li><code>label_width::int, optional, default='1'</code>: Dataset Param: How many labels for an image.</li>
+<li><code>aug_seq::string, optional, default='det_aug_default'</code>: Augmentation Param: the augmenter names to represent sequence of augmenters to be applied, seperated by comma. Additional keyword parameters will be seen by these augmenters. Make sure you don't use normal augmenters for detection tasks.</li>
+<li><code>label_width::int, optional, default='-1'</code>: Dataset Param: How many labels for an image, -1 for variable label size.</li>
 <li><code>data_shape::Shape(tuple), required</code>: Dataset Param: Shape of each instance generated by the DataIter.</li>
 <li><code>preprocess_threads::int, optional, default='4'</code>: Backend Param: Number of thread to do preprocessing.</li>
 <li><code>verbose::boolean, optional, default=True</code>: Auxiliary Param: Whether to output parser information.</li>
@@ -869,101 +940,437 @@ end
 <li><code>part_index::int, optional, default='0'</code>: the index of the part will read</li>
 <li><code>shuffle_chunk_size::long (non-negative), optional, default=0</code>: the size(MB) of the shuffle chunk, used with shuffle=True, it can enable global shuffling</li>
 <li><code>shuffle_chunk_seed::int, optional, default='0'</code>: the seed for chunk shuffling</li>
+<li><code>label_pad_width::int, optional, default='0'</code>: pad output label width if set larger than 0, -1 for auto estimate</li>
+<li><code>label_pad_value::float, optional, default=-1</code>: label padding value if enabled</li>
 <li><code>shuffle::boolean, optional, default=False</code>: Augmentation Param: Whether to shuffle data.</li>
 <li><code>seed::int, optional, default='0'</code>: Augmentation Param: Random Seed.</li>
-<li><code>batch_size::int (non-negative), required</code>: Batch Param: Batch size.</li>
-<li><code>round_batch::boolean, optional, default=True</code>: Batch Param: Use round robin to handle overflow batch.</li>
-<li><code>prefetch_buffer::long (non-negative), optional, default=4</code>: Backend Param: Number of prefetched parameters</li>
-<li><code>dtype::{None, 'float16', 'float32', 'float64', 'int32', 'uint8'},optional, default='None'</code>: Output data type. Leave as None to useinternal data iterator's output type</li>
-<li><code>resize::int, optional, default='-1'</code>: Augmentation Param: scale shorter edge to size before applying other augmentations.</li>
-<li><code>rand_crop::boolean, optional, default=False</code>: Augmentation Param: Whether to random crop on the image</li>
-<li><code>crop_y_start::int, optional, default='-1'</code>: Augmentation Param: Where to nonrandom crop on y.</li>
-<li><code>crop_x_start::int, optional, default='-1'</code>: Augmentation Param: Where to nonrandom crop on x.</li>
-<li><code>max_rotate_angle::int, optional, default='0'</code>: Augmentation Param: rotated randomly in [-max_rotate_angle, max_rotate_angle].</li>
-<li><code>max_aspect_ratio::float, optional, default=0</code>: Augmentation Param: denotes the max ratio of random aspect ratio augmentation.</li>
-<li><code>max_shear_ratio::float, optional, default=0</code>: Augmentation Param: denotes the max random shearing ratio.</li>
-<li><code>max_crop_size::int, optional, default='-1'</code>: Augmentation Param: Maximum crop size.</li>
-<li><code>min_crop_size::int, optional, default='-1'</code>: Augmentation Param: Minimum crop size.</li>
-<li><code>max_random_scale::float, optional, default=1</code>: Augmentation Param: Maximum scale ratio.</li>
-<li><code>min_random_scale::float, optional, default=1</code>: Augmentation Param: Minimum scale ratio.</li>
-<li><code>max_img_size::float, optional, default=1e+10</code>: Augmentation Param: Maximum image size after resizing.</li>
-<li><code>min_img_size::float, optional, default=0</code>: Augmentation Param: Minimum image size after resizing.</li>
-<li><code>random_h::int, optional, default='0'</code>: Augmentation Param: Maximum random value of H channel in HSL color space.</li>
-<li><code>random_s::int, optional, default='0'</code>: Augmentation Param: Maximum random value of S channel in HSL color space.</li>
-<li><code>random_l::int, optional, default='0'</code>: Augmentation Param: Maximum random value of L channel in HSL color space.</li>
-<li><code>rotate::int, optional, default='-1'</code>: Augmentation Param: Rotate angle.</li>
-<li><code>fill_value::int, optional, default='255'</code>: Augmentation Param: Filled color value while padding.</li>
+<li><code>batch_size::int (non-negative), required</code>: Batch size.</li>
+<li><code>round_batch::boolean, optional, default=True</code>: Whether to use round robin to handle overflow batch or not.</li>
+<li><code>prefetch_buffer::long (non-negative), optional, default=4</code>: Maximum number of batches to prefetch.</li>
+<li><code>dtype::{None, 'float16', 'float32', 'float64', 'int32', 'uint8'},optional, default='None'</code>: Output data type. $None$ means no change.</li>
+<li><code>resize::int, optional, default='-1'</code>: Augmentation Param: scale shorter edge to size before applying other augmentations, -1 to disable.</li>
+<li><code>rand_crop_prob::float, optional, default=0</code>: Augmentation Param: Probability of random cropping, &lt;= 0 to disable</li>
+<li><code>min_crop_scales::, optional, default=(0,)</code>: Augmentation Param: Min crop scales.</li>
+<li><code>max_crop_scales::, optional, default=(1,)</code>: Augmentation Param: Max crop scales.</li>
+<li><code>min_crop_aspect_ratios::, optional, default=(1,)</code>: Augmentation Param: Min crop aspect ratios.</li>
+<li><code>max_crop_aspect_ratios::, optional, default=(1,)</code>: Augmentation Param: Max crop aspect ratios.</li>
+<li><code>min_crop_overlaps::, optional, default=(0,)</code>: Augmentation Param: Minimum crop IOU between crop_box and ground-truths.</li>
+<li><code>max_crop_overlaps::, optional, default=(1,)</code>: Augmentation Param: Maximum crop IOU between crop_box and ground-truth.</li>
+<li><code>min_crop_sample_coverages::, optional, default=(0,)</code>: Augmentation Param: Minimum ratio of intersect/crop_area between crop box and ground-truths.</li>
+<li><code>max_crop_sample_coverages::, optional, default=(1,)</code>: Augmentation Param: Maximum ratio of intersect/crop_area between crop box and ground-truths.</li>
+<li><code>min_crop_object_coverages::, optional, default=(0,)</code>: Augmentation Param: Minimum ratio of intersect/gt_area between crop box and ground-truths.</li>
+<li><code>max_crop_object_coverages::, optional, default=(1,)</code>: Augmentation Param: Maximum ratio of intersect/gt_area between crop box and ground-truths.</li>
+<li><code>num_crop_sampler::int, optional, default='1'</code>: Augmentation Param: Number of crop samplers.</li>
+<li><code>crop_emit_mode::{'center', 'overlap'},optional, default='center'</code>: Augmentation Param: Emition mode for invalid ground-truths after crop. center: emit if centroid of object is out of crop region; overlap: emit if overlap is less than emit_overlap_thresh.</li>
+<li><code>emit_overlap_thresh::float, optional, default=0.3</code>: Augmentation Param: Emit overlap thresh for emit mode overlap only.</li>
+<li><code>max_crop_trials::Shape(tuple), optional, default=(25,)</code>: Augmentation Param: Skip cropping if fail crop trail count exceeds this number.</li>
+<li><code>rand_pad_prob::float, optional, default=0</code>: Augmentation Param: Probability for random padding.</li>
+<li><code>max_pad_scale::float, optional, default=1</code>: Augmentation Param: Maximum padding scale.</li>
+<li><code>max_random_hue::int, optional, default='0'</code>: Augmentation Param: Maximum random value of H channel in HSL color space.</li>
+<li><code>random_hue_prob::float, optional, default=0</code>: Augmentation Param: Probability to apply random hue.</li>
+<li><code>max_random_saturation::int, optional, default='0'</code>: Augmentation Param: Maximum random value of S channel in HSL color space.</li>
+<li><code>random_saturation_prob::float, optional, default=0</code>: Augmentation Param: Probability to apply random saturation.</li>
+<li><code>max_random_illumination::int, optional, default='0'</code>: Augmentation Param: Maximum random value of L channel in HSL color space.</li>
+<li><code>random_illumination_prob::float, optional, default=0</code>: Augmentation Param: Probability to apply random illumination.</li>
+<li><code>max_random_contrast::float, optional, default=0</code>: Augmentation Param: Maximum random value of delta contrast.</li>
+<li><code>random_contrast_prob::float, optional, default=0</code>: Augmentation Param: Probability to apply random contrast.</li>
+<li><code>rand_mirror_prob::float, optional, default=0</code>: Augmentation Param: Probability to apply horizontal flip aka. mirror.</li>
+<li><code>fill_value::int, optional, default='127'</code>: Augmentation Param: Filled color value while padding.</li>
 <li><code>inter_method::int, optional, default='1'</code>: Augmentation Param: 0-NN 1-bilinear 2-cubic 3-area 4-lanczos4 9-auto 10-rand.</li>
-<li><code>pad::int, optional, default='0'</code>: Augmentation Param: Padding size.</li>
-<li><code>mirror::boolean, optional, default=False</code>: Augmentation Param: Whether to mirror the image.</li>
-<li><code>rand_mirror::boolean, optional, default=False</code>: Augmentation Param: Whether to mirror the image randomly.</li>
+<li><code>resize_mode::{'fit', 'force', 'shrink'},optional, default='force'</code>: Augmentation Param: How image data fit in data_shape. force: force reshape to data_shape regardless of aspect ratio; shrink: ensure each side fit in data_shape, preserve aspect ratio; fit: fit image to data_shape, preserve ratio, will upscale if applicable.</li>
 <li><code>mean_img::string, optional, default=''</code>: Augmentation Param: Mean Image to be subtracted.</li>
 <li><code>mean_r::float, optional, default=0</code>: Augmentation Param: Mean value on R channel.</li>
 <li><code>mean_g::float, optional, default=0</code>: Augmentation Param: Mean value on G channel.</li>
 <li><code>mean_b::float, optional, default=0</code>: Augmentation Param: Mean value on B channel.</li>
 <li><code>mean_a::float, optional, default=0</code>: Augmentation Param: Mean value on Alpha channel.</li>
+<li><code>std_r::float, optional, default=0</code>: Augmentation Param: Standard deviation on R channel.</li>
+<li><code>std_g::float, optional, default=0</code>: Augmentation Param: Standard deviation on G channel.</li>
+<li><code>std_b::float, optional, default=0</code>: Augmentation Param: Standard deviation on B channel.</li>
+<li><code>std_a::float, optional, default=0</code>: Augmentation Param: Standard deviation on Alpha channel.</li>
 <li><code>scale::float, optional, default=1</code>: Augmentation Param: Scale in color space.</li>
-<li><code>max_random_contrast::float, optional, default=0</code>: Augmentation Param: Maximum ratio of contrast variation.</li>
-<li><code>max_random_illumination::float, optional, default=0</code>: Augmentation Param: Maximum value of illumination variation.</li>
 </ul>
 <p>Returns the constructed <code>MXDataProvider</code>.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/79d80b6e3f2e66cf42a5e59d0f383ade8e1b4e95/src/io.jl#L619-L723' class='documenter-source'>source</a><br></p>
-<p><a id='MXNet.mx.ImageRecordUInt8Iter-Tuple{}' href='#MXNet.mx.ImageRecordUInt8Iter-Tuple{}'>#</a>
-<strong><code>MXNet.mx.ImageRecordUInt8Iter</code></strong> &mdash; <em>Method</em>.</p>
-<pre><code>ImageRecordUInt8Iter(path_imglist, path_imgrec, aug_seq, label_width, data_shape, preprocess_threads, verbose, num_parts, part_index, shuffle_chunk_size, shuffle_chunk_seed, shuffle, seed, verbose, batch_size, round_batch, prefetch_buffer, dtype, resize, rand_crop, crop_y_start, crop_x_start, max_rotate_angle, max_aspect_ratio, max_shear_ratio, max_crop_size, min_crop_size, max_random_scale, min_random_scale, max_img_size, min_img_size, random_h, random_s, random_l, rotate, fill_value, data_shape, inter_method, pad)
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/io.jl#L619-L747' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.ImageRecordIter-Tuple{}' href='#MXNet.mx.ImageRecordIter-Tuple{}'>#</a>
+<strong><code>MXNet.mx.ImageRecordIter</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>ImageRecordIter(path_imglist, path_imgrec, aug_seq, label_width, data_shape, preprocess_threads, verbose, num_parts, part_index, shuffle_chunk_size, shuffle_chunk_seed, shuffle, seed, verbose, batch_size, round_batch, prefetch_buffer, dtype, resize, rand_crop, max_rotate_angle, max_aspect_ratio, max_shear_ratio, max_crop_size, min_crop_size, max_random_scale, min_random_scale, max_img_size, min_img_size, random_h, random_s, random_l, rotate, fill_value, data_shape, inter_method, pad, seed, mirror, rand_mirror, mean_img, mean_r, mean_g, mean_b, mean_a, std_r, std_g, std_b, std_a, scale, max_random_contrast, max_random_illumination, verbose)
 </code></pre>
 
-<p>Can also be called with the alias <code>ImageRecordUInt8Provider</code>. Create iterator for dataset packed in recordio.</p>
+<p>Can also be called with the alias <code>ImageRecordProvider</code>. Iterates on image RecordIO files</p>
+<p>Reads batches of images from .rec RecordIO files. One can use $im2rec.py$ tool (in tools/) to pack raw image files into RecordIO files. This iterator is less flexible to customization but is fast and has lot of language bindings. To iterate over raw images directly use $ImageIter$ instead (in Python).</p>
+<p>Example::</p>
+<p>data_iter = mx.io.ImageRecordIter(     path_imgrec="./sample.rec", # The target record file.     data_shape=(3, 227, 227), # Output data shape; 227x227 region will be cropped from the original image.     batch_size=4, # Number of items per batch.     resize=256 # Resize the shorter edge to 256 before cropping.     # You can specify more augmentation options. Use help(mx.io.ImageRecordIter) to see all the options.     )</p>
+<p><strong>You can now use the data_iter to access batches of images.</strong></p>
+<p>batch = data_iter.next() # first batch.   images = batch.data[0] # This will contain 4 (=batch_size) images each of 3x227x227.</p>
+<p><strong>process the images</strong></p>
+<p>...   data_iter.reset() # To restart the iterator from the beginning.</p>
+<p>Defined in src/io/iter_image_recordio_2.cc:L594</p>
 <p><strong>Arguments:</strong></p>
 <ul>
 <li><code>data_name::Symbol</code>: keyword argument, default <code>:data</code>. The name of the data.</li>
 <li><code>label_name::Symbol</code>: keyword argument, default <code>:softmax_label</code>. The name of the label. Could be <code>nothing</code> if no label is presented in this dataset.</li>
-<li><code>path_imglist::string, optional, default=''</code>: Dataset Param: Path to image list.</li>
-<li><code>path_imgrec::string, optional, default='./data/imgrec.rec'</code>: Dataset Param: Path to image record file.</li>
-<li><code>aug_seq::string, optional, default='aug_default'</code>: Augmentation Param: the augmenter names to represent sequence of augmenters to be applied, seperated by comma. Additional keyword parameters will be seen by these augmenters.</li>
-<li><code>label_width::int, optional, default='1'</code>: Dataset Param: How many labels for an image.</li>
-<li><code>data_shape::Shape(tuple), required</code>: Dataset Param: Shape of each instance generated by the DataIter.</li>
-<li><code>preprocess_threads::int, optional, default='4'</code>: Backend Param: Number of thread to do preprocessing.</li>
-<li><code>verbose::boolean, optional, default=True</code>: Auxiliary Param: Whether to output parser information.</li>
-<li><code>num_parts::int, optional, default='1'</code>: partition the data into multiple parts</li>
-<li><code>part_index::int, optional, default='0'</code>: the index of the part will read</li>
-<li><code>shuffle_chunk_size::long (non-negative), optional, default=0</code>: the size(MB) of the shuffle chunk, used with shuffle=True, it can enable global shuffling</li>
-<li><code>shuffle_chunk_seed::int, optional, default='0'</code>: the seed for chunk shuffling</li>
-<li><code>shuffle::boolean, optional, default=False</code>: Augmentation Param: Whether to shuffle data.</li>
-<li><code>seed::int, optional, default='0'</code>: Augmentation Param: Random Seed.</li>
-<li><code>batch_size::int (non-negative), required</code>: Batch Param: Batch size.</li>
-<li><code>round_batch::boolean, optional, default=True</code>: Batch Param: Use round robin to handle overflow batch.</li>
-<li><code>prefetch_buffer::long (non-negative), optional, default=4</code>: Backend Param: Number of prefetched parameters</li>
-<li><code>dtype::{None, 'float16', 'float32', 'float64', 'int32', 'uint8'},optional, default='None'</code>: Output data type. Leave as None to useinternal data iterator's output type</li>
-<li><code>resize::int, optional, default='-1'</code>: Augmentation Param: scale shorter edge to size before applying other augmentations.</li>
-<li><code>rand_crop::boolean, optional, default=False</code>: Augmentation Param: Whether to random crop on the image</li>
-<li><code>crop_y_start::int, optional, default='-1'</code>: Augmentation Param: Where to nonrandom crop on y.</li>
-<li><code>crop_x_start::int, optional, default='-1'</code>: Augmentation Param: Where to nonrandom crop on x.</li>
-<li><code>max_rotate_angle::int, optional, default='0'</code>: Augmentation Param: rotated randomly in [-max_rotate_angle, max_rotate_angle].</li>
-<li><code>max_aspect_ratio::float, optional, default=0</code>: Augmentation Param: denotes the max ratio of random aspect ratio augmentation.</li>
-<li><code>max_shear_ratio::float, optional, default=0</code>: Augmentation Param: denotes the max random shearing ratio.</li>
-<li><code>max_crop_size::int, optional, default='-1'</code>: Augmentation Param: Maximum crop size.</li>
-<li><code>min_crop_size::int, optional, default='-1'</code>: Augmentation Param: Minimum crop size.</li>
-<li><code>max_random_scale::float, optional, default=1</code>: Augmentation Param: Maximum scale ratio.</li>
-<li><code>min_random_scale::float, optional, default=1</code>: Augmentation Param: Minimum scale ratio.</li>
-<li><code>max_img_size::float, optional, default=1e+10</code>: Augmentation Param: Maximum image size after resizing.</li>
-<li><code>min_img_size::float, optional, default=0</code>: Augmentation Param: Minimum image size after resizing.</li>
-<li><code>random_h::int, optional, default='0'</code>: Augmentation Param: Maximum random value of H channel in HSL color space.</li>
-<li><code>random_s::int, optional, default='0'</code>: Augmentation Param: Maximum random value of S channel in HSL color space.</li>
-<li><code>random_l::int, optional, default='0'</code>: Augmentation Param: Maximum random value of L channel in HSL color space.</li>
-<li><code>rotate::int, optional, default='-1'</code>: Augmentation Param: Rotate angle.</li>
-<li><code>fill_value::int, optional, default='255'</code>: Augmentation Param: Filled color value while padding.</li>
-<li><code>inter_method::int, optional, default='1'</code>: Augmentation Param: 0-NN 1-bilinear 2-cubic 3-area 4-lanczos4 9-auto 10-rand.</li>
-<li><code>pad::int, optional, default='0'</code>: Augmentation Param: Padding size.</li>
+<li><code>path_imglist::string, optional, default=''</code>: Path to the image list (.lst) file. Generally created with tools/im2rec.py. Format (Tab separated): <index of record> <one or more labels>    <relative path from root folder>.</li>
+<li><code>path_imgrec::string, optional, default=''</code>: Path to the image RecordIO (.rec) file or a directory path. Created with tools/im2rec.py.</li>
+<li><code>aug_seq::string, optional, default='aug_default'</code>: The augmenter names to represent sequence of augmenters to be applied, seperated by comma. Additional keyword parameters will be seen by these augmenters.</li>
+<li><code>label_width::int, optional, default='1'</code>: The number of labels per image.</li>
+<li><code>data_shape::Shape(tuple), required</code>: The shape of one output image in (channels, height, width) format.</li>
+<li><code>preprocess_threads::int, optional, default='4'</code>: The number of threads to do preprocessing.</li>
+<li><code>verbose::boolean, optional, default=True</code>: If or not output verbose information.</li>
+<li><code>num_parts::int, optional, default='1'</code>: Virtually partition the data into these many parts.</li>
+<li><code>part_index::int, optional, default='0'</code>: The <em>i</em>-th virtual partition to be read.</li>
+<li><code>shuffle_chunk_size::long (non-negative), optional, default=0</code>: The data shuffle buffer size in MB. Only valid if shuffle is true.</li>
+<li><code>shuffle_chunk_seed::int, optional, default='0'</code>: The random seed for shuffling</li>
+<li><code>shuffle::boolean, optional, default=False</code>: Whether to shuffle data randomly or not.</li>
+<li><code>seed::int, optional, default='0'</code>: The random seed.</li>
+<li><code>batch_size::int (non-negative), required</code>: Batch size.</li>
+<li><code>round_batch::boolean, optional, default=True</code>: Whether to use round robin to handle overflow batch or not.</li>
+<li><code>prefetch_buffer::long (non-negative), optional, default=4</code>: Maximum number of batches to prefetch.</li>
+<li><code>dtype::{None, 'float16', 'float32', 'float64', 'int32', 'uint8'},optional, default='None'</code>: Output data type. $None$ means no change.</li>
+<li><code>resize::int, optional, default='-1'</code>: Down scale the shorter edge to a new size  before applying other augmentations.</li>
+<li><code>rand_crop::boolean, optional, default=False</code>: If or not randomly crop the image</li>
+<li><code>max_rotate_angle::int, optional, default='0'</code>: Rotate by a random degree in $[-v, v]$</li>
+<li><code>max_aspect_ratio::float, optional, default=0</code>: Change the aspect (namely width/height) to a random value in $[1 - max_aspect_ratio, 1 + max_aspect_ratio]$</li>
+<li><code>max_shear_ratio::float, optional, default=0</code>: Apply a shear transformation (namely $(x,y)-&gt;(x+my,y)$) with $m$ randomly chose from $[-max_shear_ratio, max_shear_ratio]$</li>
+<li><code>max_crop_size::int, optional, default='-1'</code>: Crop both width and height into a random size in $[min_crop_size, max_crop_size]$</li>
+<li><code>min_crop_size::int, optional, default='-1'</code>: Crop both width and height into a random size in $[min_crop_size, max_crop_size]$</li>
+<li><code>max_random_scale::float, optional, default=1</code>: Resize into $[width<em>s, height</em>s]$ with $s$ randomly chosen from $[min_random_scale, max_random_scale]$</li>
+<li><code>min_random_scale::float, optional, default=1</code>: Resize into $[width<em>s, height</em>s]$ with $s$ randomly chosen from $[min_random_scale, max_random_scale]$</li>
+<li><code>max_img_size::float, optional, default=1e+10</code>: Set the maximal width and height after all resize and rotate argumentation  are applied</li>
+<li><code>min_img_size::float, optional, default=0</code>: Set the minimal width and height after all resize and rotate argumentation  are applied</li>
+<li><code>random_h::int, optional, default='0'</code>: Add a random value in $[-random_h, random_h]$ to the H channel in HSL color space.</li>
+<li><code>random_s::int, optional, default='0'</code>: Add a random value in $[-random_s, random_s]$ to the S channel in HSL color space.</li>
+<li><code>random_l::int, optional, default='0'</code>: Add a random value in $[-random_l, random_l]$ to the L channel in HSL color space.</li>
+<li><code>rotate::int, optional, default='-1'</code>: Rotate by an angle. If set, it overwrites the $max_rotate_angle$ option.</li>
+<li><code>fill_value::int, optional, default='255'</code>: Set the padding pixes value into $fill_value$.</li>
+<li><code>inter_method::int, optional, default='1'</code>: The interpolation method: 0-NN 1-bilinear 2-cubic 3-area 4-lanczos4 9-auto 10-rand.</li>
+<li><code>pad::int, optional, default='0'</code>: Change size from $[width, height]$ into $[pad + width + pad, pad + height + pad]$ by padding pixes</li>
+<li><code>mirror::boolean, optional, default=False</code>: Whether to mirror the image or not. If true, images are flipped along the horizontal axis.</li>
+<li><code>rand_mirror::boolean, optional, default=False</code>: Whether to randomly mirror images or not. If true, 50% of the images will be randomly mirrored (flipped along the horizontal axis)</li>
+<li><code>mean_img::string, optional, default=''</code>: Filename of the mean image.</li>
+<li><code>mean_r::float, optional, default=0</code>: The mean value to be subtracted on the R channel</li>
+<li><code>mean_g::float, optional, default=0</code>: The mean value to be subtracted on the G channel</li>
+<li><code>mean_b::float, optional, default=0</code>: The mean value to be subtracted on the B channel</li>
+<li><code>mean_a::float, optional, default=0</code>: The mean value to be subtracted on the alpha channel</li>
+<li><code>std_r::float, optional, default=1</code>: Augmentation Param: Standard deviation on R channel.</li>
+<li><code>std_g::float, optional, default=1</code>: Augmentation Param: Standard deviation on G channel.</li>
+<li><code>std_b::float, optional, default=1</code>: Augmentation Param: Standard deviation on B channel.</li>
+<li><code>std_a::float, optional, default=1</code>: Augmentation Param: Standard deviation on Alpha channel.</li>
+<li><code>scale::float, optional, default=1</code>: Multiply the image with a scale value.</li>
+<li><code>max_random_contrast::float, optional, default=0</code>: Change the contrast with a value randomly chosen from $[-max_random_contrast, max_random_contrast]$</li>
+<li><code>max_random_illumination::float, optional, default=0</code>: Change the illumination with a value randomly chosen from $[-max_random_illumination, max_random_illumination]$</li>
 </ul>
 <p>Returns the constructed <code>MXDataProvider</code>.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/79d80b6e3f2e66cf42a5e59d0f383ade8e1b4e95/src/io.jl#L619-L703' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/io.jl#L619-L752' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.ImageRecordIter_v1-Tuple{}' href='#MXNet.mx.ImageRecordIter_v1-Tuple{}'>#</a>
+<strong><code>MXNet.mx.ImageRecordIter_v1</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>ImageRecordIter_v1(path_imglist, path_imgrec, aug_seq, label_width, data_shape, preprocess_threads, verbose, num_parts, part_index, shuffle_chunk_size, shuffle_chunk_seed, shuffle, seed, verbose, batch_size, round_batch, prefetch_buffer, dtype, resize, rand_crop, max_rotate_angle, max_aspect_ratio, max_shear_ratio, max_crop_size, min_crop_size, max_random_scale, min_random_scale, max_img_size, min_img_size, random_h, random_s, random_l, rotate, fill_value, data_shape, inter_method, pad, seed, mirror, rand_mirror, mean_img, mean_r, mean_g, mean_b, mean_a, std_r, std_g, std_b, std_a, scale, max_random_contrast, max_random_illumination, verbose)
+</code></pre>
+
+<p>Iterating on image RecordIO files</p>
+<p>Read images batches from RecordIO files with a rich of data augmentation options.</p>
+<p>One can use $tools/im2rec.py$ to pack individual image files into RecordIO files.</p>
+<p>Defined in src/io/iter_image_recordio.cc:L346</p>
+<p><strong>Arguments:</strong></p>
+<ul>
+<li><code>data_name::Symbol</code>: keyword argument, default <code>:data</code>. The name of the data.</li>
+<li><code>label_name::Symbol</code>: keyword argument, default <code>:softmax_label</code>. The name of the label. Could be <code>nothing</code> if no label is presented in this dataset.</li>
+<li><code>path_imglist::string, optional, default=''</code>: Path to the image list (.lst) file. Generally created with tools/im2rec.py. Format (Tab separated): <index of record> <one or more labels>    <relative path from root folder>.</li>
+<li><code>path_imgrec::string, optional, default=''</code>: Path to the image RecordIO (.rec) file or a directory path. Created with tools/im2rec.py.</li>
+<li><code>aug_seq::string, optional, default='aug_default'</code>: The augmenter names to represent sequence of augmenters to be applied, seperated by comma. Additional keyword parameters will be seen by these augmenters.</li>
+<li><code>label_width::int, optional, default='1'</code>: The number of labels per image.</li>
+<li><code>data_shape::Shape(tuple), required</code>: The shape of one output image in (channels, height, width) format.</li>
+<li><code>preprocess_threads::int, optional, default='4'</code>: The number of threads to do preprocessing.</li>
+<li><code>verbose::boolean, optional, default=True</code>: If or not output verbose information.</li>
+<li><code>num_parts::int, optional, default='1'</code>: Virtually partition the data into these many parts.</li>
+<li><code>part_index::int, optional, default='0'</code>: The <em>i</em>-th virtual partition to be read.</li>
+<li><code>shuffle_chunk_size::long (non-negative), optional, default=0</code>: The data shuffle buffer size in MB. Only valid if shuffle is true.</li>
+<li><code>shuffle_chunk_seed::int, optional, default='0'</code>: The random seed for shuffling</li>
+<li><code>shuffle::boolean, optional, default=False</code>: Whether to shuffle data randomly or not.</li>
+<li><code>seed::int, optional, default='0'</code>: The random seed.</li>
+<li><code>batch_size::int (non-negative), required</code>: Batch size.</li>
+<li><code>round_batch::boolean, optional, default=True</code>: Whether to use round robin to handle overflow batch or not.</li>
+<li><code>prefetch_buffer::long (non-negative), optional, default=4</code>: Maximum number of batches to prefetch.</li>
+<li><code>dtype::{None, 'float16', 'float32', 'float64', 'int32', 'uint8'},optional, default='None'</code>: Output data type. $None$ means no change.</li>
+<li><code>resize::int, optional, default='-1'</code>: Down scale the shorter edge to a new size  before applying other augmentations.</li>
+<li><code>rand_crop::boolean, optional, default=False</code>: If or not randomly crop the image</li>
+<li><code>max_rotate_angle::int, optional, default='0'</code>: Rotate by a random degree in $[-v, v]$</li>
+<li><code>max_aspect_ratio::float, optional, default=0</code>: Change the aspect (namely width/height) to a random value in $[1 - max_aspect_ratio, 1 + max_aspect_ratio]$</li>
+<li><code>max_shear_ratio::float, optional, default=0</code>: Apply a shear transformation (namely $(x,y)-&gt;(x+my,y)$) with $m$ randomly chose from $[-max_shear_ratio, max_shear_ratio]$</li>
+<li><code>max_crop_size::int, optional, default='-1'</code>: Crop both width and height into a random size in $[min_crop_size, max_crop_size]$</li>
+<li><code>min_crop_size::int, optional, default='-1'</code>: Crop both width and height into a random size in $[min_crop_size, max_crop_size]$</li>
+<li><code>max_random_scale::float, optional, default=1</code>: Resize into $[width<em>s, height</em>s]$ with $s$ randomly chosen from $[min_random_scale, max_random_scale]$</li>
+<li><code>min_random_scale::float, optional, default=1</code>: Resize into $[width<em>s, height</em>s]$ with $s$ randomly chosen from $[min_random_scale, max_random_scale]$</li>
+<li><code>max_img_size::float, optional, default=1e+10</code>: Set the maximal width and height after all resize and rotate argumentation  are applied</li>
+<li><code>min_img_size::float, optional, default=0</code>: Set the minimal width and height after all resize and rotate argumentation  are applied</li>
+<li><code>random_h::int, optional, default='0'</code>: Add a random value in $[-random_h, random_h]$ to the H channel in HSL color space.</li>
+<li><code>random_s::int, optional, default='0'</code>: Add a random value in $[-random_s, random_s]$ to the S channel in HSL color space.</li>
+<li><code>random_l::int, optional, default='0'</code>: Add a random value in $[-random_l, random_l]$ to the L channel in HSL color space.</li>
+<li><code>rotate::int, optional, default='-1'</code>: Rotate by an angle. If set, it overwrites the $max_rotate_angle$ option.</li>
+<li><code>fill_value::int, optional, default='255'</code>: Set the padding pixes value into $fill_value$.</li>
+<li><code>inter_method::int, optional, default='1'</code>: The interpolation method: 0-NN 1-bilinear 2-cubic 3-area 4-lanczos4 9-auto 10-rand.</li>
+<li><code>pad::int, optional, default='0'</code>: Change size from $[width, height]$ into $[pad + width + pad, pad + height + pad]$ by padding pixes</li>
+<li><code>mirror::boolean, optional, default=False</code>: Whether to mirror the image or not. If true, images are flipped along the horizontal axis.</li>
+<li><code>rand_mirror::boolean, optional, default=False</code>: Whether to randomly mirror images or not. If true, 50% of the images will be randomly mirrored (flipped along the horizontal axis)</li>
+<li><code>mean_img::string, optional, default=''</code>: Filename of the mean image.</li>
+<li><code>mean_r::float, optional, default=0</code>: The mean value to be subtracted on the R channel</li>
+<li><code>mean_g::float, optional, default=0</code>: The mean value to be subtracted on the G channel</li>
+<li><code>mean_b::float, optional, default=0</code>: The mean value to be subtracted on the B channel</li>
+<li><code>mean_a::float, optional, default=0</code>: The mean value to be subtracted on the alpha channel</li>
+<li><code>std_r::float, optional, default=1</code>: Augmentation Param: Standard deviation on R channel.</li>
+<li><code>std_g::float, optional, default=1</code>: Augmentation Param: Standard deviation on G channel.</li>
+<li><code>std_b::float, optional, default=1</code>: Augmentation Param: Standard deviation on B channel.</li>
+<li><code>std_a::float, optional, default=1</code>: Augmentation Param: Standard deviation on Alpha channel.</li>
+<li><code>scale::float, optional, default=1</code>: Multiply the image with a scale value.</li>
+<li><code>max_random_contrast::float, optional, default=0</code>: Change the contrast with a value randomly chosen from $[-max_random_contrast, max_random_contrast]$</li>
+<li><code>max_random_illumination::float, optional, default=0</code>: Change the illumination with a value randomly chosen from $[-max_random_illumination, max_random_illumination]$</li>
+</ul>
+<p>Returns the constructed <code>MXDataProvider</code>.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/io.jl#L619-L736' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.ImageRecordUInt8Iter-Tuple{}' href='#MXNet.mx.ImageRecordUInt8Iter-Tuple{}'>#</a>
+<strong><code>MXNet.mx.ImageRecordUInt8Iter</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>ImageRecordUInt8Iter(path_imglist, path_imgrec, aug_seq, label_width, data_shape, preprocess_threads, verbose, num_parts, part_index, shuffle_chunk_size, shuffle_chunk_seed, shuffle, seed, verbose, batch_size, round_batch, prefetch_buffer, dtype, resize, rand_crop, max_rotate_angle, max_aspect_ratio, max_shear_ratio, max_crop_size, min_crop_size, max_random_scale, min_random_scale, max_img_size, min_img_size, random_h, random_s, random_l, rotate, fill_value, data_shape, inter_method, pad)
+</code></pre>
+
+<p>Can also be called with the alias <code>ImageRecordUInt8Provider</code>. Iterating on image RecordIO files</p>
+<p>This iterator is identical to $ImageRecordIter$ except for using $uint8$ as the data type instead of $float$.</p>
+<p>Defined in src/io/iter_image_recordio_2.cc:L611</p>
+<p><strong>Arguments:</strong></p>
+<ul>
+<li><code>data_name::Symbol</code>: keyword argument, default <code>:data</code>. The name of the data.</li>
+<li><code>label_name::Symbol</code>: keyword argument, default <code>:softmax_label</code>. The name of the label. Could be <code>nothing</code> if no label is presented in this dataset.</li>
+<li><code>path_imglist::string, optional, default=''</code>: Path to the image list (.lst) file. Generally created with tools/im2rec.py. Format (Tab separated): <index of record> <one or more labels>    <relative path from root folder>.</li>
+<li><code>path_imgrec::string, optional, default=''</code>: Path to the image RecordIO (.rec) file or a directory path. Created with tools/im2rec.py.</li>
+<li><code>aug_seq::string, optional, default='aug_default'</code>: The augmenter names to represent sequence of augmenters to be applied, seperated by comma. Additional keyword parameters will be seen by these augmenters.</li>
+<li><code>label_width::int, optional, default='1'</code>: The number of labels per image.</li>
+<li><code>data_shape::Shape(tuple), required</code>: The shape of one output image in (channels, height, width) format.</li>
+<li><code>preprocess_threads::int, optional, default='4'</code>: The number of threads to do preprocessing.</li>
+<li><code>verbose::boolean, optional, default=True</code>: If or not output verbose information.</li>
+<li><code>num_parts::int, optional, default='1'</code>: Virtually partition the data into these many parts.</li>
+<li><code>part_index::int, optional, default='0'</code>: The <em>i</em>-th virtual partition to be read.</li>
+<li><code>shuffle_chunk_size::long (non-negative), optional, default=0</code>: The data shuffle buffer size in MB. Only valid if shuffle is true.</li>
+<li><code>shuffle_chunk_seed::int, optional, default='0'</code>: The random seed for shuffling</li>
+<li><code>shuffle::boolean, optional, default=False</code>: Whether to shuffle data randomly or not.</li>
+<li><code>seed::int, optional, default='0'</code>: The random seed.</li>
+<li><code>batch_size::int (non-negative), required</code>: Batch size.</li>
+<li><code>round_batch::boolean, optional, default=True</code>: Whether to use round robin to handle overflow batch or not.</li>
+<li><code>prefetch_buffer::long (non-negative), optional, default=4</code>: Maximum number of batches to prefetch.</li>
+<li><code>dtype::{None, 'float16', 'float32', 'float64', 'int32', 'uint8'},optional, default='None'</code>: Output data type. $None$ means no change.</li>
+<li><code>resize::int, optional, default='-1'</code>: Down scale the shorter edge to a new size  before applying other augmentations.</li>
+<li><code>rand_crop::boolean, optional, default=False</code>: If or not randomly crop the image</li>
+<li><code>max_rotate_angle::int, optional, default='0'</code>: Rotate by a random degree in $[-v, v]$</li>
+<li><code>max_aspect_ratio::float, optional, default=0</code>: Change the aspect (namely width/height) to a random value in $[1 - max_aspect_ratio, 1 + max_aspect_ratio]$</li>
+<li><code>max_shear_ratio::float, optional, default=0</code>: Apply a shear transformation (namely $(x,y)-&gt;(x+my,y)$) with $m$ randomly chose from $[-max_shear_ratio, max_shear_ratio]$</li>
+<li><code>max_crop_size::int, optional, default='-1'</code>: Crop both width and height into a random size in $[min_crop_size, max_crop_size]$</li>
+<li><code>min_crop_size::int, optional, default='-1'</code>: Crop both width and height into a random size in $[min_crop_size, max_crop_size]$</li>
+<li><code>max_random_scale::float, optional, default=1</code>: Resize into $[width<em>s, height</em>s]$ with $s$ randomly chosen from $[min_random_scale, max_random_scale]$</li>
+<li><code>min_random_scale::float, optional, default=1</code>: Resize into $[width<em>s, height</em>s]$ with $s$ randomly chosen from $[min_random_scale, max_random_scale]$</li>
+<li><code>max_img_size::float, optional, default=1e+10</code>: Set the maximal width and height after all resize and rotate argumentation  are applied</li>
+<li><code>min_img_size::float, optional, default=0</code>: Set the minimal width and height after all resize and rotate argumentation  are applied</li>
+<li><code>random_h::int, optional, default='0'</code>: Add a random value in $[-random_h, random_h]$ to the H channel in HSL color space.</li>
+<li><code>random_s::int, optional, default='0'</code>: Add a random value in $[-random_s, random_s]$ to the S channel in HSL color space.</li>
+<li><code>random_l::int, optional, default='0'</code>: Add a random value in $[-random_l, random_l]$ to the L channel in HSL color space.</li>
+<li><code>rotate::int, optional, default='-1'</code>: Rotate by an angle. If set, it overwrites the $max_rotate_angle$ option.</li>
+<li><code>fill_value::int, optional, default='255'</code>: Set the padding pixes value into $fill_value$.</li>
+<li><code>inter_method::int, optional, default='1'</code>: The interpolation method: 0-NN 1-bilinear 2-cubic 3-area 4-lanczos4 9-auto 10-rand.</li>
+<li><code>pad::int, optional, default='0'</code>: Change size from $[width, height]$ into $[pad + width + pad, pad + height + pad]$ by padding pixes</li>
+</ul>
+<p>Returns the constructed <code>MXDataProvider</code>.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/io.jl#L619-L706' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.ImageRecordUInt8Iter_v1-Tuple{}' href='#MXNet.mx.ImageRecordUInt8Iter_v1-Tuple{}'>#</a>
+<strong><code>MXNet.mx.ImageRecordUInt8Iter_v1</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>ImageRecordUInt8Iter_v1(path_imglist, path_imgrec, aug_seq, label_width, data_shape, preprocess_threads, verbose, num_parts, part_index, shuffle_chunk_size, shuffle_chunk_seed, shuffle, seed, verbose, batch_size, round_batch, prefetch_buffer, dtype, resize, rand_crop, max_rotate_angle, max_aspect_ratio, max_shear_ratio, max_crop_size, min_crop_size, max_random_scale, min_random_scale, max_img_size, min_img_size, random_h, random_s, random_l, rotate, fill_value, data_shape, inter_method, pad)
+</code></pre>
+
+<p>Iterating on image RecordIO files</p>
+<p>This iterator is identical to $ImageRecordIter$ except for using $uint8$ as the data type instead of $float$.</p>
+<p>Defined in src/io/iter_image_recordio.cc:L367</p>
+<p><strong>Arguments:</strong></p>
+<ul>
+<li><code>data_name::Symbol</code>: keyword argument, default <code>:data</code>. The name of the data.</li>
+<li><code>label_name::Symbol</code>: keyword argument, default <code>:softmax_label</code>. The name of the label. Could be <code>nothing</code> if no label is presented in this dataset.</li>
+<li><code>path_imglist::string, optional, default=''</code>: Path to the image list (.lst) file. Generally created with tools/im2rec.py. Format (Tab separated): <index of record> <one or more labels>    <relative path from root folder>.</li>
+<li><code>path_imgrec::string, optional, default=''</code>: Path to the image RecordIO (.rec) file or a directory path. Created with tools/im2rec.py.</li>
+<li><code>aug_seq::string, optional, default='aug_default'</code>: The augmenter names to represent sequence of augmenters to be applied, seperated by comma. Additional keyword parameters will be seen by these augmenters.</li>
+<li><code>label_width::int, optional, default='1'</code>: The number of labels per image.</li>
+<li><code>data_shape::Shape(tuple), required</code>: The shape of one output image in (channels, height, width) format.</li>
+<li><code>preprocess_threads::int, optional, default='4'</code>: The number of threads to do preprocessing.</li>
+<li><code>verbose::boolean, optional, default=True</code>: If or not output verbose information.</li>
+<li><code>num_parts::int, optional, default='1'</code>: Virtually partition the data into these many parts.</li>
+<li><code>part_index::int, optional, default='0'</code>: The <em>i</em>-th virtual partition to be read.</li>
+<li><code>shuffle_chunk_size::long (non-negative), optional, default=0</code>: The data shuffle buffer size in MB. Only valid if shuffle is true.</li>
+<li><code>shuffle_chunk_seed::int, optional, default='0'</code>: The random seed for shuffling</li>
+<li><code>shuffle::boolean, optional, default=False</code>: Whether to shuffle data randomly or not.</li>
+<li><code>seed::int, optional, default='0'</code>: The random seed.</li>
+<li><code>batch_size::int (non-negative), required</code>: Batch size.</li>
+<li><code>round_batch::boolean, optional, default=True</code>: Whether to use round robin to handle overflow batch or not.</li>
+<li><code>prefetch_buffer::long (non-negative), optional, default=4</code>: Maximum number of batches to prefetch.</li>
+<li><code>dtype::{None, 'float16', 'float32', 'float64', 'int32', 'uint8'},optional, default='None'</code>: Output data type. $None$ means no change.</li>
+<li><code>resize::int, optional, default='-1'</code>: Down scale the shorter edge to a new size  before applying other augmentations.</li>
+<li><code>rand_crop::boolean, optional, default=False</code>: If or not randomly crop the image</li>
+<li><code>max_rotate_angle::int, optional, default='0'</code>: Rotate by a random degree in $[-v, v]$</li>
+<li><code>max_aspect_ratio::float, optional, default=0</code>: Change the aspect (namely width/height) to a random value in $[1 - max_aspect_ratio, 1 + max_aspect_ratio]$</li>
+<li><code>max_shear_ratio::float, optional, default=0</code>: Apply a shear transformation (namely $(x,y)-&gt;(x+my,y)$) with $m$ randomly chose from $[-max_shear_ratio, max_shear_ratio]$</li>
+<li><code>max_crop_size::int, optional, default='-1'</code>: Crop both width and height into a random size in $[min_crop_size, max_crop_size]$</li>
+<li><code>min_crop_size::int, optional, default='-1'</code>: Crop both width and height into a random size in $[min_crop_size, max_crop_size]$</li>
+<li><code>max_random_scale::float, optional, default=1</code>: Resize into $[width<em>s, height</em>s]$ with $s$ randomly chosen from $[min_random_scale, max_random_scale]$</li>
+<li><code>min_random_scale::float, optional, default=1</code>: Resize into $[width<em>s, height</em>s]$ with $s$ randomly chosen from $[min_random_scale, max_random_scale]$</li>
+<li><code>max_img_size::float, optional, default=1e+10</code>: Set the maximal width and height after all resize and rotate argumentation  are applied</li>
+<li><code>min_img_size::float, optional, default=0</code>: Set the minimal width and height after all resize and rotate argumentation  are applied</li>
+<li><code>random_h::int, optional, default='0'</code>: Add a random value in $[-random_h, random_h]$ to the H channel in HSL color space.</li>
+<li><code>random_s::int, optional, default='0'</code>: Add a random value in $[-random_s, random_s]$ to the S channel in HSL color space.</li>
+<li><code>random_l::int, optional, default='0'</code>: Add a random value in $[-random_l, random_l]$ to the L channel in HSL color space.</li>
+<li><code>rotate::int, optional, default='-1'</code>: Rotate by an angle. If set, it overwrites the $max_rotate_angle$ option.</li>
+<li><code>fill_value::int, optional, default='255'</code>: Set the padding pixes value into $fill_value$.</li>
+<li><code>inter_method::int, optional, default='1'</code>: The interpolation method: 0-NN 1-bilinear 2-cubic 3-area 4-lanczos4 9-auto 10-rand.</li>
+<li><code>pad::int, optional, default='0'</code>: Change size from $[width, height]$ into $[pad + width + pad, pad + height + pad]$ by padding pixes</li>
+</ul>
+<p>Returns the constructed <code>MXDataProvider</code>.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/io.jl#L619-L705' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.LibSVMIter-Tuple{}' href='#MXNet.mx.LibSVMIter-Tuple{}'>#</a>
+<strong><code>MXNet.mx.LibSVMIter</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>LibSVMIter(data_libsvm, data_shape, label_libsvm, label_shape, num_parts, part_index, batch_size, round_batch, prefetch_buffer, dtype)
+</code></pre>
+
+<p>Can also be called with the alias <code>LibSVMProvider</code>. Returns the libsvm file iterator which returns sparse data with <code>csr</code> storage type. This iterator is experimental and should be used with care.</p>
+<p>The input data is stored in a format similar to libsvm file format, except that the indices are expected to be zero-based instead of one-based. Details of the libsvm format are available at <code>https://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/</code></p>
+<p>In this function, the <code>data_shape</code> parameter is used to set the shape of each line of the data. The dimension of both <code>data_shape</code> and <code>label_shape</code> are expected to be 1.</p>
+<p>When <code>label_libsvm</code> is set to $NULL$, both data and label are read from the same file specified by <code>data_libsvm</code>. In this case, the data is stored in <code>csr</code> storage type, while the label is a 1D dense array. Otherwise, data is read from <code>data_libsvm</code> and label from <code>label_libsvm</code>, in this case, both data and label are stored in csr storage type. If <code>data_libsvm</code> contains label, it will ignored.</p>
+<p>The <code>LibSVMIter</code> only support <code>round_batch</code> parameter set to $True$ for now. So, if <code>batch_size</code> is 3 and there are 4 total rows in libsvm file, 2 more examples are consumed at the first round. If <code>reset</code> function is called after first round, the call is ignored and remaining examples are returned in the second round.</p>
+<p>If $data_libsvm = 'data/'$ is set, then all the files in this directory will be read.</p>
+<p>Examples::</p>
+<p><strong>Contents of libsvm file $data.t$.</strong></p>
+<p>1.0 0:0.5 2:1.2   -2.0   -3.0 0:0.6 1:2.4 2:1.2   4 2:-1.2</p>
+<p><strong>Creates a <code>LibSVMIter</code> with <code>batch_size</code>=3.</strong></p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>data_iter = mx.io.LibSVMIter(data_libsvm = 'data.t', data_shape = (3,), batch_size = 3)</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<p><strong>The data of the first batch is stored in csr storage type</strong></p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>batch = data_iter.next() csr = batch.data[0]</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<p><CSRNDArray 3x3 @cpu(0)></p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>csr.asnumpy()</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>[[ 0.5        0.          1.2 ]   [ 0.          0.          0.  ]   [ 0.6         2.4         1.2]]</p>
+<p><strong>The label of first batch</strong></p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>label = batch.label[0] label</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>[ 1. -2. -3.]   <NDArray 3 @cpu(0)></p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>second_batch = data_iter.next()</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<p><strong>The data of the second batch</strong></p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>second_batch.data[0].asnumpy()</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>[[ 0.          0.         -1.2 ]    [ 0.5         0.          1.2 ]    [ 0.          0.          0. ]]</p>
+<p><strong>The label of the second batch</strong></p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>second_batch.label[0].asnumpy()</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>[ 4.  1. -2.]</p>
+<p><strong>Contents of libsvm file $label.t$</strong></p>
+<p>1.0   -2.0 0:0.125   -3.0 2:1.2   4 1:1.0 2:-1.2</p>
+<p><strong>Creates a <code>LibSVMIter</code> with specified label file</strong></p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>data_iter = mx.io.LibSVMIter(data_libsvm = 'data.t', data_shape = (3,),</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<pre><code>               label_libsvm = 'label.t', label_shape = (3,), batch_size = 3)
+</code></pre>
+
+<p><strong>Both data and label are in csr storage type</strong></p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>batch = data_iter.next() csr_data = batch.data[0]</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<p><CSRNDArray 3x3 @cpu(0)></p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>csr_data.asnumpy()</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>[[ 0.5         0.          1.2  ]    [ 0.          0.          0.   ]    [ 0.6         2.4         1.2 ]]</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>csr_label = batch.label[0]</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<p><CSRNDArray 3x3 @cpu(0)></p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>csr_label.asnumpy()</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>[[ 0.          0.          0.   ]    [ 0.125       0.          0.   ]    [ 0.          0.          1.2 ]]</p>
+<p>Defined in src/io/iter_libsvm.cc:L283</p>
+<p><strong>Arguments:</strong></p>
+<ul>
+<li><code>data_name::Symbol</code>: keyword argument, default <code>:data</code>. The name of the data.</li>
+<li><code>label_name::Symbol</code>: keyword argument, default <code>:softmax_label</code>. The name of the label. Could be <code>nothing</code> if no label is presented in this dataset.</li>
+<li><code>data_libsvm::string, required</code>: The input LibSVM file or a directory path.</li>
+<li><code>data_shape::Shape(tuple), required</code>: The shape of one example.</li>
+<li><code>label_libsvm::string, optional, default='NULL'</code>: The input LibSVM file or a directory path. If NULL, all labels will be read from $data_libsvm$.</li>
+<li><code>label_shape::Shape(tuple), optional, default=(1,)</code>: The shape of one label.</li>
+<li><code>num_parts::int, optional, default='1'</code>: partition the data into multiple parts</li>
+<li><code>part_index::int, optional, default='0'</code>: the index of the part will read</li>
+<li><code>batch_size::int (non-negative), required</code>: Batch size.</li>
+<li><code>round_batch::boolean, optional, default=True</code>: Whether to use round robin to handle overflow batch or not.</li>
+<li><code>prefetch_buffer::long (non-negative), optional, default=4</code>: Maximum number of batches to prefetch.</li>
+<li><code>dtype::{None, 'float16', 'float32', 'float64', 'int32', 'uint8'},optional, default='None'</code>: Output data type. $None$ means no change.</li>
+</ul>
+<p>Returns the constructed <code>MXDataProvider</code>.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/io.jl#L619-L733' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.MNISTIter-Tuple{}' href='#MXNet.mx.MNISTIter-Tuple{}'>#</a>
 <strong><code>MXNet.mx.MNISTIter</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>MNISTIter(image, label, batch_size, shuffle, flat, seed, silent, num_parts, part_index, prefetch_buffer, dtype)
 </code></pre>
 
-<p>Can also be called with the alias <code>MNISTProvider</code>. Create iterator for MNIST hand-written digit number recognition dataset.</p>
+<p>Can also be called with the alias <code>MNISTProvider</code>. Iterating on the MNIST dataset.</p>
+<p>One can download the dataset from http://yann.lecun.com/exdb/mnist/</p>
+<p>Defined in src/io/iter_mnist.cc:L264</p>
 <p><strong>Arguments:</strong></p>
 <ul>
 <li><code>data_name::Symbol</code>: keyword argument, default <code>:data</code>. The name of the data.</li>
@@ -977,11 +1384,11 @@ end
 <li><code>silent::boolean, optional, default=False</code>: Auxiliary Param: Whether to print out data info.</li>
 <li><code>num_parts::int, optional, default='1'</code>: partition the data into multiple parts</li>
 <li><code>part_index::int, optional, default='0'</code>: the index of the part will read</li>
-<li><code>prefetch_buffer::long (non-negative), optional, default=4</code>: Backend Param: Number of prefetched parameters</li>
-<li><code>dtype::{None, 'float16', 'float32', 'float64', 'int32', 'uint8'},optional, default='None'</code>: Output data type. Leave as None to useinternal data iterator's output type</li>
+<li><code>prefetch_buffer::long (non-negative), optional, default=4</code>: Maximum number of batches to prefetch.</li>
+<li><code>dtype::{None, 'float16', 'float32', 'float64', 'int32', 'uint8'},optional, default='None'</code>: Output data type. $None$ means no change.</li>
 </ul>
 <p>Returns the constructed <code>MXDataProvider</code>.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/79d80b6e3f2e66cf42a5e59d0f383ade8e1b4e95/src/io.jl#L619-L651' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/io.jl#L619-L657' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.eachbatch-Tuple{MXNet.mx.AbstractDataProvider}' href='#MXNet.mx.eachbatch-Tuple{MXNet.mx.AbstractDataProvider}'>#</a>
 <strong><code>MXNet.mx.eachbatch</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>eachbatch(provider::AbstractDataProvider)
@@ -993,7 +1400,7 @@ end
 <li><code>provider</code>: an instance of the custom DataProvider type. You must return this</li>
 </ul>
 <p>instance after modifying its fields.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/79d80b6e3f2e66cf42a5e59d0f383ade8e1b4e95/src/io.jl#L215-L225' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/io.jl#L215-L225' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.load_data!-Tuple{MXNet.mx.AbstractDataProvider,MXNet.mx.AbstractDataBatch,Array{Array{Tuple{UnitRange{Int64},MXNet.mx.NDArray},1},1}}' href='#MXNet.mx.load_data!-Tuple{MXNet.mx.AbstractDataProvider,MXNet.mx.AbstractDataBatch,Array{Array{Tuple{UnitRange{Int64},MXNet.mx.NDArray},1},1}}'>#</a>
 <strong><code>MXNet.mx.load_data!</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>load_data!(provider, batch, targets)
@@ -1007,7 +1414,7 @@ end
 </ul>
 <p>The targets is a list of the same length as number of data provided by this provider. Each element in the list is a list of <code>SlicedNDArray</code>. This list described a spliting scheme of this data batch into different slices, each slice is specified by a slice-ndarray pair, where <em>slice</em> specify the range of samples in the mini-batch that should be loaded into the corresponding <em>ndarray</em>.</p>
 <p>This utility function is used in data parallelization, where a mini-batch is splited and computed on several different devices.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/79d80b6e3f2e66cf42a5e59d0f383ade8e1b4e95/src/io.jl#L142-L158' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/io.jl#L142-L158' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.load_label!-Tuple{MXNet.mx.AbstractDataProvider,MXNet.mx.AbstractDataBatch,Array{Array{Tuple{UnitRange{Int64},MXNet.mx.NDArray},1},1}}' href='#MXNet.mx.load_label!-Tuple{MXNet.mx.AbstractDataProvider,MXNet.mx.AbstractDataBatch,Array{Array{Tuple{UnitRange{Int64},MXNet.mx.NDArray},1},1}}'>#</a>
 <strong><code>MXNet.mx.load_label!</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>load_label!(provider, batch, targets)
@@ -1019,7 +1426,13 @@ end
 <li><code>targets::Vector{Vector{SlicedNDArray}}</code>: the targets to load label into.</li>
 </ul>
 <p>The same as <a href="./#MXNet.mx.load_data!"><code>load_data!</code></a>, except that this is for loading labels.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/79d80b6e3f2e66cf42a5e59d0f383ade8e1b4e95/src/io.jl#L164-L172' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/io.jl#L164-L172' class='documenter-source'>source</a><br></p>
+                
+                  
+                
+              
+              
+                
               
             </article>
           </div>
@@ -1083,10 +1496,12 @@ end
       
     </div>
     
-      <script src="../../assets/javascripts/application-2afe21e0b2.js"></script>
-      <script>var config={url:{base:"../.."}},app=new Application(config);app.initialize()</script>
+      <script src="../../assets/javascripts/application-f3ab9e5ff8.js"></script>
       
-        <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.jl?config=TeX-AMS-MML_HTMLorMML"></script>
+      
+      <script>app.initialize({url:{base:"../.."}})</script>
+      
+        <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
       
         <script src="../../assets/mathjaxhelper.js"></script>
       

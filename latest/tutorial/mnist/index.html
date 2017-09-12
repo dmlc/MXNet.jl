@@ -1,17 +1,18 @@
 
 <!DOCTYPE html>
-<html class="no-js">
+<html lang="en" class="no-js">
   <head>
     
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
       
       
       
       
-        <link rel="shortcut icon" href="../../assets/images/favicon.ico">
+        <link rel="shortcut icon" href="../../assets/images/favicon.png">
       
-      <meta name="generator" content="mkdocs+mkdocs-material#1.0.3">
+      <meta name="generator" content="mkdocs-0.16.3, mkdocs-material-1.10.0">
     
     
       
@@ -19,7 +20,13 @@
       
     
     
-      <script src="../../assets/javascripts/modernizr-facb31f4a3.js"></script>
+      <script src="../../assets/javascripts/modernizr-e826f8942a.js"></script>
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/application-b6a6d08807.css">
+      
+        <link rel="stylesheet" href="../../assets/stylesheets/application-23f75ab9c7.palette.css">
+      
     
     
       
@@ -32,13 +39,7 @@
       <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/application-f3ab63f78a.css">
-      
-        <link rel="stylesheet" href="../../assets/stylesheets/application-02ce7adcc2.palette.css">
-      
-      
-        <link rel="stylesheet" href="../../assets/Documenter.css">
-      
+      <link rel="stylesheet" href="../../assets/Documenter.css">
     
     
   </head>
@@ -60,11 +61,13 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="search">
     <label class="md-overlay" data-md-component="overlay" for="drawer"></label>
     
-      <header class="md-header">
+      <header class="md-header" data-md-component="header">
   <nav class="md-header-nav md-grid">
     <div class="md-flex">
       <div class="md-flex__cell md-flex__cell--shrink">
-        <a href="../.." title="MXNet.jl" class=" md-icon md-icon--home  md-header-nav__button">
+        <a href="../.." title="MXNet.jl" class="md-header-nav__button md-logo">
+          
+            <i class="md-icon md-icon--home"></i>
           
         </a>
       </div>
@@ -89,26 +92,32 @@
         
           <label class="md-icon md-icon--search md-header-nav__button" for="search"></label>
           
-<div class="md-search" data-md-component="search">
-  <div class="md-search__overlay"></div>
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="search"></label>
   <div class="md-search__inner">
     <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" placeholder="Search" accesskey="s" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false">
+      <input type="text" class="md-search__input" name="query" required placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query">
       <label class="md-icon md-search__icon" for="search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset">&#xE5CD;</button>
     </form>
     <div class="md-search__output">
       <div class="md-search__scrollwrap" data-md-scrollfix>
-        <div class="md-search-result" data-md-component="result"></div>
+        <div class="md-search-result" data-md-component="result" data-md-lang-search="" data-md-lang-tokenizer="[\s\-]+">
+          <div class="md-search-result__meta" data-md-lang-result-none="No matching documents" data-md-lang-result-one="1 matching document" data-md-lang-result-other="# matching documents">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
       </div>
     </div>
   </div>
 </div>
         
       </div>
-      <div class="md-flex__cell md-flex__cell--shrink">
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
           <div class="md-header-nav__source">
             
-              
 
 
   
@@ -127,14 +136,16 @@
     </div>
   </a>
 
-            
           </div>
-      </div>
+        </div>
+      
     </div>
   </nav>
 </header>
     
     <div class="md-container">
+      
+      
       <main class="md-main">
         <div class="md-main__inner md-grid" data-md-component="container">
           
@@ -142,11 +153,13 @@
               <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
-                    <nav class="md-nav md-nav--primary">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
   <label class="md-nav__title md-nav__title--site" for="drawer">
-    <i class=" md-icon md-icon--home  md-nav__button">
+    <div class="md-nav__button md-logo">
       
-    </i>
+        <i class="md-icon md-icon--home"></i>
+      
+    </div>
     MXNet.jl
   </label>
   
@@ -176,25 +189,31 @@
     
       
       
+      
+
+
   <li class="md-nav__item">
-    
-      <a href="../.." title="Home" class="md-nav__link">
-        Home
-      </a>
-    
+    <a href="../.." title="Home" class="md-nav__link">
+      Home
+    </a>
   </li>
 
     
       
       
-  <li class="md-nav__item md-nav__item--nested">
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
     
       <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2" checked>
     
     <label class="md-nav__link" for="nav-2">
       Tutorial
     </label>
-    <nav class="md-nav" data-md-component="collapsible">
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
       <label class="md-nav__title" for="nav-2">
         Tutorial
       </label>
@@ -203,7 +222,12 @@
         
           
           
-  <li class="md-nav__item">
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
     
     <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="toc">
     
@@ -249,6 +273,8 @@
   
 </li>
       
+      
+      
     </ul>
   
 </nav>
@@ -258,12 +284,13 @@
         
           
           
+          
+
+
   <li class="md-nav__item">
-    
-      <a href="../char-lstm/" title="Generating Random Sentence with LSTM RNN" class="md-nav__link">
-        Generating Random Sentence with LSTM RNN
-      </a>
-    
+    <a href="../char-lstm/" title="Generating Random Sentence with LSTM RNN" class="md-nav__link">
+      Generating Random Sentence with LSTM RNN
+    </a>
   </li>
 
         
@@ -274,6 +301,9 @@
     
       
       
+      
+
+
   <li class="md-nav__item md-nav__item--nested">
     
       <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
@@ -281,7 +311,7 @@
     <label class="md-nav__link" for="nav-3">
       User Guide
     </label>
-    <nav class="md-nav" data-md-component="collapsible">
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
       <label class="md-nav__title" for="nav-3">
         User Guide
       </label>
@@ -290,34 +320,37 @@
         
           
           
+          
+
+
   <li class="md-nav__item">
-    
-      <a href="../../user-guide/install/" title="Installation Guide" class="md-nav__link">
-        Installation Guide
-      </a>
-    
+    <a href="../../user-guide/install/" title="Installation Guide" class="md-nav__link">
+      Installation Guide
+    </a>
   </li>
 
         
           
           
+          
+
+
   <li class="md-nav__item">
-    
-      <a href="../../user-guide/overview/" title="Overview" class="md-nav__link">
-        Overview
-      </a>
-    
+    <a href="../../user-guide/overview/" title="Overview" class="md-nav__link">
+      Overview
+    </a>
   </li>
 
         
           
           
+          
+
+
   <li class="md-nav__item">
-    
-      <a href="../../user-guide/faq/" title="FAQ" class="md-nav__link">
-        FAQ
-      </a>
-    
+    <a href="../../user-guide/faq/" title="FAQ" class="md-nav__link">
+      FAQ
+    </a>
   </li>
 
         
@@ -328,6 +361,9 @@
     
       
       
+      
+
+
   <li class="md-nav__item md-nav__item--nested">
     
       <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
@@ -335,7 +371,7 @@
     <label class="md-nav__link" for="nav-4">
       API Documentation
     </label>
-    <nav class="md-nav" data-md-component="collapsible">
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
       <label class="md-nav__title" for="nav-4">
         API Documentation
       </label>
@@ -344,133 +380,145 @@
         
           
           
+          
+
+
   <li class="md-nav__item">
-    
-      <a href="../../api/context/" title="Context" class="md-nav__link">
-        Context
-      </a>
-    
+    <a href="../../api/context/" title="Context" class="md-nav__link">
+      Context
+    </a>
   </li>
 
         
           
           
+          
+
+
   <li class="md-nav__item">
-    
-      <a href="../../api/model/" title="Models" class="md-nav__link">
-        Models
-      </a>
-    
+    <a href="../../api/model/" title="Models" class="md-nav__link">
+      Models
+    </a>
   </li>
 
         
           
           
+          
+
+
   <li class="md-nav__item">
-    
-      <a href="../../api/initializer/" title="Initializers" class="md-nav__link">
-        Initializers
-      </a>
-    
+    <a href="../../api/initializer/" title="Initializers" class="md-nav__link">
+      Initializers
+    </a>
   </li>
 
         
           
           
+          
+
+
   <li class="md-nav__item">
-    
-      <a href="../../api/optimizer/" title="Optimizers" class="md-nav__link">
-        Optimizers
-      </a>
-    
+    <a href="../../api/optimizer/" title="Optimizers" class="md-nav__link">
+      Optimizers
+    </a>
   </li>
 
         
           
           
+          
+
+
   <li class="md-nav__item">
-    
-      <a href="../../api/callback/" title="Callbacks in training" class="md-nav__link">
-        Callbacks in training
-      </a>
-    
+    <a href="../../api/callback/" title="Callbacks in training" class="md-nav__link">
+      Callbacks in training
+    </a>
   </li>
 
         
           
           
+          
+
+
   <li class="md-nav__item">
-    
-      <a href="../../api/metric/" title="Evaluation Metrics" class="md-nav__link">
-        Evaluation Metrics
-      </a>
-    
+    <a href="../../api/metric/" title="Evaluation Metrics" class="md-nav__link">
+      Evaluation Metrics
+    </a>
   </li>
 
         
           
           
+          
+
+
   <li class="md-nav__item">
-    
-      <a href="../../api/io/" title="Data Providers" class="md-nav__link">
-        Data Providers
-      </a>
-    
+    <a href="../../api/io/" title="Data Providers" class="md-nav__link">
+      Data Providers
+    </a>
   </li>
 
         
           
           
+          
+
+
   <li class="md-nav__item">
-    
-      <a href="../../api/ndarray/" title="NDArray API" class="md-nav__link">
-        NDArray API
-      </a>
-    
+    <a href="../../api/ndarray/" title="NDArray API" class="md-nav__link">
+      NDArray API
+    </a>
   </li>
 
         
           
           
+          
+
+
   <li class="md-nav__item">
-    
-      <a href="../../api/symbolic-node/" title="Symbolic API" class="md-nav__link">
-        Symbolic API
-      </a>
-    
+    <a href="../../api/symbolic-node/" title="Symbolic API" class="md-nav__link">
+      Symbolic API
+    </a>
   </li>
 
         
           
           
+          
+
+
   <li class="md-nav__item">
-    
-      <a href="../../api/nn-factory/" title="Neural Networks Factory" class="md-nav__link">
-        Neural Networks Factory
-      </a>
-    
+    <a href="../../api/nn-factory/" title="Neural Networks Factory" class="md-nav__link">
+      Neural Networks Factory
+    </a>
   </li>
 
         
           
           
+          
+
+
   <li class="md-nav__item">
-    
-      <a href="../../api/executor/" title="Executor" class="md-nav__link">
-        Executor
-      </a>
-    
+    <a href="../../api/executor/" title="Executor" class="md-nav__link">
+      Executor
+    </a>
   </li>
 
         
           
           
+          
+
+
   <li class="md-nav__item">
-    
-      <a href="../../api/visualize/" title="Network Visualization" class="md-nav__link">
-        Network Visualization
-      </a>
-    
+    <a href="../../api/visualize/" title="Network Visualization" class="md-nav__link">
+      Network Visualization
+    </a>
   </li>
 
         
@@ -520,6 +568,8 @@
   
 </li>
       
+      
+      
     </ul>
   
 </nav>
@@ -530,14 +580,14 @@
           
           <div class="md-content">
             <article class="md-content__inner md-typeset">
-               
-                 <a href="https://github.com/dmlc/MXNet.jl/edit/master/docs/tutorial/mnist.md" title="Edit this page" class="md-icon md-content__edit">edit</a>
-               
               
+                
+                  <a href="https://github.com/dmlc/MXNet.jl/edit/master/docs/tutorial/mnist.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                
                 
                 <p><a id='Digit-Recognition-on-MNIST-1'></a></p>
 <h1 id="digit-recognition-on-mnist">Digit Recognition on MNIST</h1>
-<p>In this tutorial, we will work through examples of training a simple multi-layer perceptron and then a convolutional neural network (the LeNet architecture) on the <a href="http://yann.lecun.com/exdb/mnist/">MNIST handwritten digit dataset</a>. The code for this tutorial could be found in <a href="https://github.com/dmlc/MXNet.jl/tree/master/examples/mnist">examples/mnist</a>.</p>
+<p>In this tutorial, we will work through examples of training a simple multi-layer perceptron and then a convolutional neural network (the LeNet architecture) on the <a href="http://yann.lecun.com/exdb/mnist/">MNIST handwritten digit dataset</a>. The code for this tutorial could be found in <a href="https://github.com/dmlc/MXNet.jl/tree/master/examples/mnist">examples/mnist</a>.  There are also two Jupyter notebooks that expand a little more on the <a href="https://github.com/ultradian/julia_notebooks/blob/master/mxnet/mnistMLP.ipynb">MLP</a> and the <a href="https://github.com/ultradian/julia_notebooks/blob/master/mxnet/mnistLenet.ipynb">LeNet</a>, using the more general <code>ArrayDataProvider</code>. </p>
 <p><a id='Simple-3-layer-MLP-1'></a></p>
 <h2 id="simple-3-layer-mlp">Simple 3-layer MLP</h2>
 <p>This is a tiny 3-layer MLP that could be easily trained on CPU. The script starts with</p>
@@ -549,19 +599,19 @@
 </code></pre>
 
 <p>and then cascading fully-connected layers and activation functions:</p>
-<pre><code class="julia">fc1  = mx.FullyConnected(data = data, name=:fc1, num_hidden=128)
-act1 = mx.Activation(data = fc1, name=:relu1, act_type=:relu)
-fc2  = mx.FullyConnected(data = act1, name=:fc2, num_hidden=64)
-act2 = mx.Activation(data = fc2, name=:relu2, act_type=:relu)
-fc3  = mx.FullyConnected(data = act2, name=:fc3, num_hidden=10)
+<pre><code class="julia">fc1  = mx.FullyConnected(data, name=:fc1, num_hidden=128)
+act1 = mx.Activation(fc1, name=:relu1, act_type=:relu)
+fc2  = mx.FullyConnected(act1, name=:fc2, num_hidden=64)
+act2 = mx.Activation(fc2, name=:relu2, act_type=:relu)
+fc3  = mx.FullyConnected(act2, name=:fc3, num_hidden=10)
 </code></pre>
 
-<p>Note each composition we take the previous symbol as the data argument, forming a feedforward chain. The architecture looks like</p>
+<p>Note each composition we take the previous symbol as the first argument, forming a feedforward chain. The architecture looks like</p>
 <pre><code>Input --&gt; 128 units (ReLU) --&gt; 64 units (ReLU) --&gt; 10 units
 </code></pre>
 
 <p>where the last 10 units correspond to the 10 output classes (digits 0,...,9). We then add a final <code>SoftmaxOutput</code> operation to turn the 10-dimensional prediction to proper probability values for the 10 classes:</p>
-<pre><code class="julia">mlp  = mx.SoftmaxOutput(data = fc3, name=:softmax)
+<pre><code class="julia">mlp  = mx.SoftmaxOutput(fc3, name=:softmax)
 </code></pre>
 
 <p>As we can see, the MLP is just a chain of layers. For this case, we can also use the <code>mx.chain</code> macro. The same architecture above can be defined as</p>
@@ -620,28 +670,28 @@ INFO:       :accuracy = 0.9775
 data = mx.Variable(:data)
 
 # first conv
-conv1 = @mx.chain mx.Convolution(data=data, kernel=(5,5), num_filter=20)  =&gt;
+conv1 = @mx.chain mx.Convolution(data, kernel=(5,5), num_filter=20)  =&gt;
                   mx.Activation(act_type=:tanh) =&gt;
                   mx.Pooling(pool_type=:max, kernel=(2,2), stride=(2,2))
 
 # second conv
-conv2 = @mx.chain mx.Convolution(data=conv1, kernel=(5,5), num_filter=50) =&gt;
+conv2 = @mx.chain mx.Convolution(conv1, kernel=(5,5), num_filter=50) =&gt;
                   mx.Activation(act_type=:tanh) =&gt;
                   mx.Pooling(pool_type=:max, kernel=(2,2), stride=(2,2))
 </code></pre>
 
 <p>We basically defined two convolution modules. Each convolution module is actually a chain of <code>Convolution</code>, <code>tanh</code> activation and then max <code>Pooling</code> operations.</p>
 <p>Each sample in the MNIST dataset is a 28x28 single-channel grayscale image. In the tensor format used by <code>NDArray</code>, a batch of 100 samples is a tensor of shape <code>(28,28,1,100)</code>. The convolution and pooling operates in the spatial axis, so <code>kernel=(5,5)</code> indicate a square region of 5-width and 5-height. The rest of the architecture follows as:</p>
-<pre><code class="ulia"># first fully-connected
-fc1   = @mx.chain mx.Flatten(data=conv2) =&gt;
+<pre><code class="julia"># first fully-connected
+fc1   = @mx.chain mx.Flatten(conv2) =&gt;
                   mx.FullyConnected(num_hidden=500) =&gt;
                   mx.Activation(act_type=:tanh)
 
 # second fully-connected
-fc2   = mx.FullyConnected(data=fc1, num_hidden=10)
+fc2   = mx.FullyConnected(fc1, num_hidden=10)
 
 # softmax loss
-lenet = mx.Softmax(data=fc2, name=:softmax)
+lenet = mx.Softmax(fc2, name=:softmax)
 </code></pre>
 
 <p>Note a fully-connected operator expects the input to be a matrix. However, the results from spatial convolution and pooling are 4D tensors. So we explicitly used a <code>Flatten</code> operator to flat the tensor, before connecting it to the <code>FullyConnected</code> operator.</p>
@@ -704,6 +754,12 @@ println(mx.format(&quot;Accuracy on eval set: {1:.2f}%&quot;, 100correct/length(
 </code></pre>
 
 <p>Alternatively, when the dataset is huge, one can provide a callback to <code>mx.predict</code>, then the callback function will be invoked with the outputs of each mini-batch. The callback could, for example, write the data to disk for future inspection. In this case, no value is returned from <code>mx.predict</code>. See also predict.</p>
+                
+                  
+                
+              
+              
+                
               
             </article>
           </div>
@@ -767,10 +823,12 @@ println(mx.format(&quot;Accuracy on eval set: {1:.2f}%&quot;, 100correct/length(
       
     </div>
     
-      <script src="../../assets/javascripts/application-2afe21e0b2.js"></script>
-      <script>var config={url:{base:"../.."}},app=new Application(config);app.initialize()</script>
+      <script src="../../assets/javascripts/application-f3ab9e5ff8.js"></script>
       
-        <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.jl?config=TeX-AMS-MML_HTMLorMML"></script>
+      
+      <script>app.initialize({url:{base:"../.."}})</script>
+      
+        <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
       
         <script src="../../assets/mathjaxhelper.js"></script>
       
