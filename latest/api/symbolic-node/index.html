@@ -12,7 +12,7 @@
       
         <link rel="shortcut icon" href="../../assets/images/favicon.png">
       
-      <meta name="generator" content="mkdocs-0.16.3, mkdocs-material-1.10.0">
+      <meta name="generator" content="mkdocs-0.16.3, mkdocs-material-1.10.1">
     
     
       
@@ -23,7 +23,7 @@
       <script src="../../assets/javascripts/modernizr-e826f8942a.js"></script>
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/application-b6a6d08807.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/application-a20f419c8e.css">
       
         <link rel="stylesheet" href="../../assets/stylesheets/application-23f75ab9c7.palette.css">
       
@@ -692,7 +692,7 @@ flatten(x) = [[ 1.,  2.,  3.,  4.,  5.,  6.,  7.,  8.,  9.],
 <p>.. math::    cbrt(x) = \sqrt[3]{x}</p>
 <p>Example::</p>
 <p>cbrt([1, 8, -125]) = [1, 2, -5]</p>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L427</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L514</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -705,20 +705,24 @@ flatten(x) = [[ 1.,  2.,  3.,  4.,  5.,  6.,  7.,  8.,  9.],
 <pre><code>gamma(data)
 </code></pre>
 
-<p>Returns the gamma function (extension of the factorial function to the reals) , computed element-wise on the input array.</p>
-<p>From:src/operator/tensor/elemwise_unary_op.cc:729</p>
+<p>Returns the gamma function (extension of the factorial function 
+to the reals), computed element-wise on the input array.</p>
+<p>The storage type of $gamma$ output is always dense</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
 <li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
 <li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L762' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L765' class='documenter-source'>source</a><br></p>
 <p><a id='Base._div-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#Base._div-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
 <strong><code>Base._div</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>_div(lhs, rhs)
 </code></pre>
 
+<p>_div is an alias of elemwise_div.</p>
+<p>Divides arguments element-wise.</p>
+<p>The storage type of $elemwise_dev$ output is always dense</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>lhs::NDArray-or-SymbolicNode</code>: first input</li>
@@ -726,12 +730,20 @@ flatten(x) = [[ 1.,  2.,  3.,  4.,  5.,  6.,  7.,  8.,  9.],
 <li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
 <li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L762' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L768' class='documenter-source'>source</a><br></p>
 <p><a id='Base._sub-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#Base._sub-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
 <strong><code>Base._sub</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>_sub(lhs, rhs)
 </code></pre>
 
+<p>_sub is an alias of elemwise_sub.</p>
+<p>Subtracts arguments element-wise.</p>
+<p>The storage type of $elemwise_sub$ output depends on storage types of inputs</p>
+<ul>
+<li>elemwise_sub(row_sparse, row_sparse) = row_sparse</li>
+<li>elemwise_sub(csr, csr) = csr</li>
+<li>otherwise, $elemwise_add$ generates output with default storage</li>
+</ul>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>lhs::NDArray-or-SymbolicNode</code>: first input</li>
@@ -739,7 +751,7 @@ flatten(x) = [[ 1.,  2.,  3.,  4.,  5.,  6.,  7.,  8.,  9.],
 <li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
 <li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L762' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L772' class='documenter-source'>source</a><br></p>
 <p><a id='Base.abs-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#Base.abs-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
 <strong><code>Base.abs</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>abs(data)
@@ -748,14 +760,19 @@ flatten(x) = [[ 1.,  2.,  3.,  4.,  5.,  6.,  7.,  8.,  9.],
 <p>Returns element-wise absolute value of the input.</p>
 <p>Example::</p>
 <p>abs([-2, 0, 3]) = [2, 0, 3]</p>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L261</p>
+<p>The storage type of $abs$ output depends upon the input storage type:</p>
+<ul>
+<li>abs(default) = default</li>
+<li>abs(row_sparse) = row_sparse</li>
+</ul>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L303</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
 <li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
 <li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L768' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L773' class='documenter-source'>source</a><br></p>
 <p><a id='Base.ceil-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#Base.ceil-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
 <strong><code>Base.ceil</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>ceil(data)
@@ -765,14 +782,19 @@ flatten(x) = [[ 1.,  2.,  3.,  4.,  5.,  6.,  7.,  8.,  9.],
 <p>The ceil of the scalar x is the smallest integer i, such that i &gt;= x.</p>
 <p>Example::</p>
 <p>ceil([-2.1, -1.9, 1.5, 1.9, 2.1]) = [-2., -1.,  2.,  2.,  3.]</p>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L320</p>
+<p>The storage type of $ceil$ output depends upon the input storage type:</p>
+<ul>
+<li>ceil(default) = default</li>
+<li>ceil(row_sparse) = row_sparse</li>
+</ul>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L380</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
 <li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
 <li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L770' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L775' class='documenter-source'>source</a><br></p>
 <p><a id='Base.copy-Tuple{MXNet.mx.SymbolicNode}' href='#Base.copy-Tuple{MXNet.mx.SymbolicNode}'>#</a>
 <strong><code>Base.copy</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>copy(self :: SymbolicNode)
@@ -788,14 +810,15 @@ flatten(x) = [[ 1.,  2.,  3.,  4.,  5.,  6.,  7.,  8.,  9.],
 <p>Computes the element-wise cosine of the input array.</p>
 <p>The input should be in radians (:math:<code>2\pi</code> rad equals 360 degrees).</p>
 <p>.. math::    cos([0, \pi/4, \pi/2]) = [1, 0.707, 0]</p>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L553</p>
+<p>The storage type of $cos$ output is always dense</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L662</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
 <li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
 <li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L769' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L771' class='documenter-source'>source</a><br></p>
 <p><a id='Base.cosh-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#Base.cosh-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
 <strong><code>Base.cosh</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>cosh(data)
@@ -803,14 +826,15 @@ flatten(x) = [[ 1.,  2.,  3.,  4.,  5.,  6.,  7.,  8.,  9.],
 
 <p>Returns the hyperbolic cosine  of the input array, computed element-wise.</p>
 <p>.. math::    cosh(x) = 0.5\times(exp(x) + exp(-x))</p>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L675</p>
+<p>The storage type of $cosh$ output is always dense</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L815</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
 <li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
 <li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L767' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L769' class='documenter-source'>source</a><br></p>
 <p><a id='Base.deepcopy-Tuple{MXNet.mx.SymbolicNode}' href='#Base.deepcopy-Tuple{MXNet.mx.SymbolicNode}'>#</a>
 <strong><code>Base.deepcopy</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>deepcopy(self :: SymbolicNode)
@@ -827,14 +851,15 @@ flatten(x) = [[ 1.,  2.,  3.,  4.,  5.,  6.,  7.,  8.,  9.],
 <p>.. math::    exp(x) = e^x \approx 2.718^x</p>
 <p>Example::</p>
 <p>exp([0, 1, 2]) = [1., 2.71828175, 7.38905621]</p>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L464</p>
+<p>The storage type of $exp$ output is always dense</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L553</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
 <li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
 <li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L771' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L773' class='documenter-source'>source</a><br></p>
 <p><a id='Base.expm1-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#Base.expm1-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
 <strong><code>Base.expm1</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>expm1(data)
@@ -842,14 +867,19 @@ flatten(x) = [[ 1.,  2.,  3.,  4.,  5.,  6.,  7.,  8.,  9.],
 
 <p>Returns $exp(x) - 1$ computed element-wise on the input.</p>
 <p>This function provides greater precision than $exp(x) - 1$ for small values of $x$.</p>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L537</p>
+<p>The storage type of $expm1$ output depends upon the input storage type:</p>
+<ul>
+<li>expm1(default) = default</li>
+<li>expm1(row_sparse) = row_sparse</li>
+</ul>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L645</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
 <li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
 <li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L766' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L771' class='documenter-source'>source</a><br></p>
 <p><a id='Base.flatten-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#Base.flatten-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
 <strong><code>Base.flatten</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>flatten(data)
@@ -891,14 +921,19 @@ flatten(x) = [[ 1.,  2.,  3.,  4.,  5.,  6.,  7.,  8.,  9.],
 <p>The floor of the scalar x is the largest integer i, such that i &lt;= x.</p>
 <p>Example::</p>
 <p>floor([-2.1, -1.9, 1.5, 1.9, 2.1]) = [-3., -2.,  1.,  1.,  2.]</p>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L333</p>
+<p>The storage type of $floor$ output depends upon the input storage type:</p>
+<ul>
+<li>floor(default) = default</li>
+<li>floor(row_sparse) = row_sparse</li>
+</ul>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L398</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
 <li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
 <li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L770' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L775' class='documenter-source'>source</a><br></p>
 <p><a id='Base.getindex-Tuple{MXNet.mx.SymbolicNode,Union{AbstractString,Symbol}}' href='#Base.getindex-Tuple{MXNet.mx.SymbolicNode,Union{AbstractString,Symbol}}'>#</a>
 <strong><code>Base.getindex</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>getindex(self :: SymbolicNode, idx :: Union{Int, Base.Symbol, AbstractString})
@@ -913,7 +948,7 @@ flatten(x) = [[ 1.,  2.,  3.,  4.,  5.,  6.,  7.,  8.,  9.],
 
 <p>identity is an alias of _copy.</p>
 <p>Returns a copy of the input.</p>
-<p>From:src/operator/tensor/elemwise_unary_op.cc:67</p>
+<p>From:src/operator/tensor/elemwise_unary_op.cc:72</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -928,14 +963,15 @@ flatten(x) = [[ 1.,  2.,  3.,  4.,  5.,  6.,  7.,  8.,  9.],
 
 <p>Returns element-wise Natural logarithmic value of the input.</p>
 <p>The natural logarithm is logarithm in base <em>e</em>, so that $log(exp(x)) = x$</p>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L474</p>
+<p>The storage type of $log$ output is always dense</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L565</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
 <li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
 <li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L766' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L768' class='documenter-source'>source</a><br></p>
 <p><a id='Base.log10-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#Base.log10-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
 <strong><code>Base.log10</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>log10(data)
@@ -943,14 +979,15 @@ flatten(x) = [[ 1.,  2.,  3.,  4.,  5.,  6.,  7.,  8.,  9.],
 
 <p>Returns element-wise Base-10 logarithmic value of the input.</p>
 <p>$10**log10(x) = x$</p>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L484</p>
+<p>The storage type of $log10$ output is always dense</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L577</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
 <li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
 <li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L766' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L768' class='documenter-source'>source</a><br></p>
 <p><a id='Base.log1p-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#Base.log1p-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
 <strong><code>Base.log1p</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>log1p(data)
@@ -958,14 +995,19 @@ flatten(x) = [[ 1.,  2.,  3.,  4.,  5.,  6.,  7.,  8.,  9.],
 
 <p>Returns element-wise $log(1 + x)$ value of the input.</p>
 <p>This function is more accurate than $log(1 + x)$  for small $x$ so that :math:<code>1+x\approx 1</code></p>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L524</p>
+<p>The storage type of $log1p$ output depends upon the input storage type:</p>
+<ul>
+<li>log1p(default) = default</li>
+<li>log1p(row_sparse) = row_sparse</li>
+</ul>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L627</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
 <li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
 <li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L767' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L772' class='documenter-source'>source</a><br></p>
 <p><a id='Base.log2-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#Base.log2-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
 <strong><code>Base.log2</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>log2(data)
@@ -973,14 +1015,15 @@ flatten(x) = [[ 1.,  2.,  3.,  4.,  5.,  6.,  7.,  8.,  9.],
 
 <p>Returns element-wise Base-2 logarithmic value of the input.</p>
 <p>$2**log2(x) = x$</p>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L494</p>
+<p>The storage type of $log2$ output is always dense</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L589</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
 <li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
 <li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L766' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L768' class='documenter-source'>source</a><br></p>
 <p><a id='Base.max-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#Base.max-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
 <strong><code>Base.max</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>max(data, axis, keepdims, exclude)
@@ -1216,14 +1259,19 @@ NOT in axis instead.</p>
 <p>Returns element-wise rounded value to the nearest integer of the input.</p>
 <p>Example::</p>
 <p>round([-1.5, 1.5, -1.9, 1.9, 2.1]) = [-2.,  2., -2.,  2.,  2.]</p>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L291</p>
+<p>The storage type of $round$ output depends upon the input storage type:</p>
+<ul>
+<li>round(default) = default</li>
+<li>round(row_sparse) = row_sparse</li>
+</ul>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L341</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
 <li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
 <li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L768' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L773' class='documenter-source'>source</a><br></p>
 <p><a id='Base.sign-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#Base.sign-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
 <strong><code>Base.sign</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>sign(data)
@@ -1232,14 +1280,19 @@ NOT in axis instead.</p>
 <p>Returns element-wise sign of the input.</p>
 <p>Example::</p>
 <p>sign([-2, 0, 3]) = [-1, 0, 1]</p>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L276</p>
+<p>The storage type of $sign$ output depends upon the input storage type:</p>
+<ul>
+<li>sign(default) = default</li>
+<li>sign(row_sparse) = row_sparse</li>
+</ul>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L322</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
 <li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
 <li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L768' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L773' class='documenter-source'>source</a><br></p>
 <p><a id='Base.sin-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#Base.sin-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
 <strong><code>Base.sin</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>sin(data)
@@ -1248,14 +1301,19 @@ NOT in axis instead.</p>
 <p>Computes the element-wise sine of the input array.</p>
 <p>The input should be in radians (:math:<code>2\pi</code> rad equals 360 degrees).</p>
 <p>.. math::    sin([0, \pi/4, \pi/2]) = [0, 0.707, 1]</p>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L510</p>
+<p>The storage type of $sin$ output depends upon the input storage type:</p>
+<ul>
+<li>sin(default) = default</li>
+<li>sin(row_sparse) = row_sparse</li>
+</ul>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L609</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
 <li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
 <li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L769' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L774' class='documenter-source'>source</a><br></p>
 <p><a id='Base.sinh-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#Base.sinh-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
 <strong><code>Base.sinh</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>sinh(data)
@@ -1263,14 +1321,19 @@ NOT in axis instead.</p>
 
 <p>Returns the hyperbolic sine of the input array, computed element-wise.</p>
 <p>.. math::    sinh(x) = 0.5\times(exp(x) - exp(-x))</p>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L661</p>
+<p>The storage type of $sinh$ output depends upon the input storage type:</p>
+<ul>
+<li>sinh(default) = default</li>
+<li>sinh(row_sparse) = row_sparse</li>
+</ul>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L800</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
 <li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
 <li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L767' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L772' class='documenter-source'>source</a><br></p>
 <p><a id='Base.sort-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#Base.sort-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
 <strong><code>Base.sort</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>sort(data, axis, is_ascend)
@@ -1351,14 +1414,19 @@ NOT in axis instead.</p>
 <p>.. math::    \textrm{sqrt}(x) = \sqrt{x}</p>
 <p>Example::</p>
 <p>sqrt([4, 9, 16]) = [2, 3, 4]</p>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L390</p>
+<p>The storage type of $sqrt$ output depends upon the input storage type:</p>
+<ul>
+<li>sqrt(default) = default</li>
+<li>sqrt(row_sparse) = row_sparse</li>
+</ul>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L477</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
 <li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
 <li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L771' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L776' class='documenter-source'>source</a><br></p>
 <p><a id='Base.sum-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#Base.sum-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
 <strong><code>Base.sum</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>sum(data, axis, keepdims, exclude)
@@ -1402,14 +1470,19 @@ NOT in axis instead.</p>
 <p>Computes the element-wise tangent of the input array.</p>
 <p>The input should be in radians (:math:<code>2\pi</code> rad equals 360 degrees).</p>
 <p>.. math::    tan([0, \pi/4, \pi/2]) = [0, 1, -inf]</p>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L569</p>
+<p>The storage type of $tan$ output depends upon the input storage type:</p>
+<ul>
+<li>tan(default) = default</li>
+<li>tan(row_sparse) = row_sparse</li>
+</ul>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L682</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
 <li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
 <li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L769' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L774' class='documenter-source'>source</a><br></p>
 <p><a id='Base.tanh-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#Base.tanh-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
 <strong><code>Base.tanh</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>tanh(data)
@@ -1417,14 +1490,19 @@ NOT in axis instead.</p>
 
 <p>Returns the hyperbolic tangent of the input array, computed element-wise.</p>
 <p>.. math::    tanh(x) = sinh(x) / cosh(x)</p>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L689</p>
+<p>The storage type of $tanh$ output depends upon the input storage type:</p>
+<ul>
+<li>tanh(default) = default</li>
+<li>tanh(row_sparse) = row_sparse</li>
+</ul>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L833</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
 <li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
 <li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L767' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L772' class='documenter-source'>source</a><br></p>
 <p><a id='Base.transpose-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#Base.transpose-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
 <strong><code>Base.transpose</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>transpose(data, axes)
@@ -1467,14 +1545,19 @@ NOT in axis instead.</p>
 <p>The truncated value of the scalar x is the nearest integer i which is closer to zero than x is. In short, the fractional part of the signed number x is discarded.</p>
 <p>Example::</p>
 <p>trunc([-2.1, -1.9, 1.5, 1.9, 2.1]) = [-2., -1.,  1.,  1.,  2.]</p>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L347</p>
+<p>The storage type of $trunc$ output depends upon the input storage type:</p>
+<ul>
+<li>trunc(default) = default</li>
+<li>trunc(row_sparse) = row_sparse</li>
+</ul>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L417</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
 <li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
 <li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L771' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L776' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.Activation-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx.Activation-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
 <strong><code>MXNet.mx.Activation</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>Activation(data, act_type)
@@ -1620,7 +1703,7 @@ NOT in axis instead.</p>
 <p>v1 = [1, 2]   v2 = [0, 1]   a = Variable('a')   b = Variable('b')   b_stop_grad = stop_gradient(3 * b)   loss = MakeLoss(b_stop_grad + a)</p>
 <p>executor = loss.simple_bind(ctx=cpu(), a=(1,2), b=(1,2))   executor.forward(is_train=True, a=v1, b=v2)   executor.outputs   [ 1.  5.]</p>
 <p>executor.backward()   executor.grad_arrays   [ 0.  0.]   [ 1.  1.]</p>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L121</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L126</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -1637,7 +1720,7 @@ NOT in axis instead.</p>
 <p>.. note:: $Cast$ is deprecated. Use $cast$ instead.</p>
 <p>Example::</p>
 <p>cast([0.9, 1.3], dtype='int32') = [0, 1]    cast([1e20, 11.1], dtype='float16') = [inf, 11.09375]    cast([300, 11.1, 10.9, -1, -3], dtype='uint8') = [44, 11, 10, 255, 253]</p>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L199</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L226</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input.</li>
@@ -2928,7 +3011,9 @@ NOT in axis instead.</p>
 <pre><code>_Div(lhs, rhs)
 </code></pre>
 
-<p>_Div is an alias of _div.</p>
+<p>_Div is an alias of elemwise_div.</p>
+<p>Divides arguments element-wise.</p>
+<p>The storage type of $elemwise_dev$ output is always dense</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>lhs::NDArray-or-SymbolicNode</code>: first input</li>
@@ -2936,7 +3021,7 @@ NOT in axis instead.</p>
 <li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
 <li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L764' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L768' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx._DivScalar-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx._DivScalar-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
 <strong><code>MXNet.mx._DivScalar</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>_DivScalar(data, scalar)
@@ -3182,7 +3267,14 @@ NOT in axis instead.</p>
 <pre><code>_Minus(lhs, rhs)
 </code></pre>
 
-<p>_Minus is an alias of _sub.</p>
+<p>_Minus is an alias of elemwise_sub.</p>
+<p>Subtracts arguments element-wise.</p>
+<p>The storage type of $elemwise_sub$ output depends on storage types of inputs</p>
+<ul>
+<li>elemwise_sub(row_sparse, row_sparse) = row_sparse</li>
+<li>elemwise_sub(csr, csr) = csr</li>
+<li>otherwise, $elemwise_add$ generates output with default storage</li>
+</ul>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>lhs::NDArray-or-SymbolicNode</code>: first input</li>
@@ -3190,7 +3282,7 @@ NOT in axis instead.</p>
 <li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
 <li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L764' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L772' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx._MinusScalar-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx._MinusScalar-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
 <strong><code>MXNet.mx._MinusScalar</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>_MinusScalar(data, scalar)
@@ -3238,7 +3330,17 @@ NOT in axis instead.</p>
 <pre><code>_Mul(lhs, rhs)
 </code></pre>
 
-<p>_Mul is an alias of _mul.</p>
+<p>_Mul is an alias of elemwise_mul.</p>
+<p>Multiplies arguments element-wise.</p>
+<p>The storage type of $elemwise_mul$ output depends on storage types of inputs</p>
+<ul>
+<li>elemwise_mul(default, default) = default</li>
+<li>elemwise_mul(row_sparse, row_sparse) = row_sparse</li>
+<li>elemwise_mul(default, row_sparse) = row_sparse</li>
+<li>elemwise_mul(row_sparse, default) = row_sparse</li>
+<li>elemwise_mul(csr, csr) = csr</li>
+<li>otherwise, $elemwise_mul$ generates output with default storage</li>
+</ul>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>lhs::NDArray-or-SymbolicNode</code>: first input</li>
@@ -3246,7 +3348,7 @@ NOT in axis instead.</p>
 <li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
 <li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L764' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L775' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx._MulScalar-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx._MulScalar-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
 <strong><code>MXNet.mx._MulScalar</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>_MulScalar(data, scalar)
@@ -3340,6 +3442,7 @@ NOT in axis instead.</p>
 <p>The storage type of $elemwise_add$ output depends on storage types of inputs</p>
 <ul>
 <li>elemwise_add(row_sparse, row_sparse) = row_sparse</li>
+<li>elemwise_add(csr, csr) = csr</li>
 <li>otherwise, $elemwise_add$ generates output with default storage</li>
 </ul>
 <p><strong>Arguments</strong></p>
@@ -3349,7 +3452,7 @@ NOT in axis instead.</p>
 <li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
 <li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L771' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L772' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx._PlusScalar-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx._PlusScalar-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
 <strong><code>MXNet.mx._PlusScalar</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>_PlusScalar(data, scalar)
@@ -3458,6 +3561,7 @@ NOT in axis instead.</p>
 <p>The storage type of $elemwise_add$ output depends on storage types of inputs</p>
 <ul>
 <li>elemwise_add(row_sparse, row_sparse) = row_sparse</li>
+<li>elemwise_add(csr, csr) = csr</li>
 <li>otherwise, $elemwise_add$ generates output with default storage</li>
 </ul>
 <p><strong>Arguments</strong></p>
@@ -3467,7 +3571,7 @@ NOT in axis instead.</p>
 <li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
 <li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L771' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L772' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx._arange-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx._arange-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
 <strong><code>MXNet.mx._arange</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>_arange(start, stop, step, repeat, ctx, dtype)
@@ -4744,6 +4848,19 @@ NOT in axis instead.</p>
 <li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
 </ul>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L759' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx._backward_mul_scalar-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx._backward_mul_scalar-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
+<strong><code>MXNet.mx._backward_mul_scalar</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>_backward_mul_scalar(data, scalar)
+</code></pre>
+
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>data::NDArray-or-SymbolicNode</code>: source input</li>
+<li><code>scalar::float</code>: scalar input</li>
+<li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
+<li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
+</ul>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L762' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx._backward_nanprod-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx._backward_nanprod-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
 <strong><code>MXNet.mx._backward_nanprod</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>_backward_nanprod()
@@ -5599,7 +5716,7 @@ NOT in axis instead.</p>
 </code></pre>
 
 <p>Returns a copy of the input.</p>
-<p>From:src/operator/tensor/elemwise_unary_op.cc:67</p>
+<p>From:src/operator/tensor/elemwise_unary_op.cc:72</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -6229,7 +6346,14 @@ NOT in axis instead.</p>
 <pre><code>_minus(lhs, rhs)
 </code></pre>
 
-<p>_minus is an alias of _sub.</p>
+<p>_minus is an alias of elemwise_sub.</p>
+<p>Subtracts arguments element-wise.</p>
+<p>The storage type of $elemwise_sub$ output depends on storage types of inputs</p>
+<ul>
+<li>elemwise_sub(row_sparse, row_sparse) = row_sparse</li>
+<li>elemwise_sub(csr, csr) = csr</li>
+<li>otherwise, $elemwise_add$ generates output with default storage</li>
+</ul>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>lhs::NDArray-or-SymbolicNode</code>: first input</li>
@@ -6237,7 +6361,7 @@ NOT in axis instead.</p>
 <li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
 <li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L764' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L772' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx._minus_scalar-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx._minus_scalar-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
 <strong><code>MXNet.mx._minus_scalar</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>_minus_scalar(data, scalar)
@@ -6282,6 +6406,17 @@ NOT in axis instead.</p>
 <pre><code>_mul(lhs, rhs)
 </code></pre>
 
+<p>_mul is an alias of elemwise_mul.</p>
+<p>Multiplies arguments element-wise.</p>
+<p>The storage type of $elemwise_mul$ output depends on storage types of inputs</p>
+<ul>
+<li>elemwise_mul(default, default) = default</li>
+<li>elemwise_mul(row_sparse, row_sparse) = row_sparse</li>
+<li>elemwise_mul(default, row_sparse) = row_sparse</li>
+<li>elemwise_mul(row_sparse, default) = row_sparse</li>
+<li>elemwise_mul(csr, csr) = csr</li>
+<li>otherwise, $elemwise_mul$ generates output with default storage</li>
+</ul>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>lhs::NDArray-or-SymbolicNode</code>: first input</li>
@@ -6289,7 +6424,7 @@ NOT in axis instead.</p>
 <li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
 <li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L762' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L775' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx._mul_scalar-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx._mul_scalar-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
 <strong><code>MXNet.mx._mul_scalar</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>_mul_scalar(data, scalar)
@@ -6367,6 +6502,7 @@ NOT in axis instead.</p>
 <p>The storage type of $elemwise_add$ output depends on storage types of inputs</p>
 <ul>
 <li>elemwise_add(row_sparse, row_sparse) = row_sparse</li>
+<li>elemwise_add(csr, csr) = csr</li>
 <li>otherwise, $elemwise_add$ generates output with default storage</li>
 </ul>
 <p><strong>Arguments</strong></p>
@@ -6376,7 +6512,7 @@ NOT in axis instead.</p>
 <li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
 <li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L771' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L772' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx._plus_scalar-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx._plus_scalar-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
 <strong><code>MXNet.mx._plus_scalar</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>_plus_scalar(data, scalar)
@@ -6814,6 +6950,28 @@ NOT in axis instead.</p>
 <li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
 </ul>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L778' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx._sparse_abs-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx._sparse_abs-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
+<strong><code>MXNet.mx._sparse_abs</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>_sparse_abs(data)
+</code></pre>
+
+<p>_sparse_abs is an alias of abs.</p>
+<p>Returns element-wise absolute value of the input.</p>
+<p>Example::</p>
+<p>abs([-2, 0, 3]) = [2, 0, 3]</p>
+<p>The storage type of $abs$ output depends upon the input storage type:</p>
+<ul>
+<li>abs(default) = default</li>
+<li>abs(row_sparse) = row_sparse</li>
+</ul>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L303</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
+<li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
+<li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
+</ul>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L775' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx._sparse_add_n-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx._sparse_add_n-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
 <strong><code>MXNet.mx._sparse_add_n</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>_sparse_add_n(args)
@@ -6837,6 +6995,127 @@ NOT in axis instead.</p>
 <li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
 </ul>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L778' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx._sparse_arccos-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx._sparse_arccos-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
+<strong><code>MXNet.mx._sparse_arccos</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>_sparse_arccos(data)
+</code></pre>
+
+<p>_sparse_arccos is an alias of arccos.</p>
+<p>Returns element-wise inverse cosine of the input array.</p>
+<p>The input should be in range <code>[-1, 1]</code>. The output is in the closed interval :math:<code>[0, \pi]</code></p>
+<p>.. math::    arccos([-1, -.707, 0, .707, 1]) = [\pi, 3\pi/4, \pi/2, \pi/4, 0]</p>
+<p>The storage type of $arccos$ output is always dense</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L722</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
+<li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
+<li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
+</ul>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L774' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx._sparse_arccosh-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx._sparse_arccosh-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
+<strong><code>MXNet.mx._sparse_arccosh</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>_sparse_arccosh(data)
+</code></pre>
+
+<p>_sparse_arccosh is an alias of arccosh.</p>
+<p>Returns the element-wise inverse hyperbolic cosine of the input array, 
+computed element-wise.</p>
+<p>The storage type of $arccosh$ output is always dense</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L863</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
+<li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
+<li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
+</ul>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L769' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx._sparse_arcsin-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx._sparse_arcsin-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
+<strong><code>MXNet.mx._sparse_arcsin</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>_sparse_arcsin(data)
+</code></pre>
+
+<p>_sparse_arcsin is an alias of arcsin.</p>
+<p>Returns element-wise inverse sine of the input array.</p>
+<p>The input should be in the range <code>[-1, 1]</code>. The output is in the closed interval of [:math:<code>-\pi/2</code>, :math:<code>\pi/2</code>].</p>
+<p>.. math::    arcsin([-1, -.707, 0, .707, 1]) = [-\pi/2, -\pi/4, 0, \pi/4, \pi/2]</p>
+<p>The storage type of $arcsin$ output depends upon the input storage type:</p>
+<ul>
+<li>arcsin(default) = default</li>
+<li>arcsin(row_sparse) = row_sparse</li>
+</ul>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L703</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
+<li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
+<li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
+</ul>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L777' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx._sparse_arcsinh-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx._sparse_arcsinh-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
+<strong><code>MXNet.mx._sparse_arcsinh</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>_sparse_arcsinh(data)
+</code></pre>
+
+<p>_sparse_arcsinh is an alias of arcsinh.</p>
+<p>Returns the element-wise inverse hyperbolic sine of the input array, 
+computed element-wise.</p>
+<p>The storage type of $arcsinh$ output depends upon the input storage type:</p>
+<ul>
+<li>arcsinh(default) = default</li>
+<li>arcsinh(row_sparse) = row_sparse</li>
+</ul>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L849</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
+<li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
+<li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
+</ul>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L772' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx._sparse_arctan-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx._sparse_arctan-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
+<strong><code>MXNet.mx._sparse_arctan</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>_sparse_arctan(data)
+</code></pre>
+
+<p>_sparse_arctan is an alias of arctan.</p>
+<p>Returns element-wise inverse tangent of the input array.</p>
+<p>The output is in the closed interval :math:<code>[-\pi/2, \pi/2]</code></p>
+<p>.. math::    arctan([-1, 0, 1]) = [-\pi/4, 0, \pi/4]</p>
+<p>The storage type of $arctan$ output depends upon the input storage type:</p>
+<ul>
+<li>arctan(default) = default</li>
+<li>arctan(row_sparse) = row_sparse</li>
+</ul>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L743</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
+<li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
+<li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
+</ul>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L776' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx._sparse_arctanh-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx._sparse_arctanh-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
+<strong><code>MXNet.mx._sparse_arctanh</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>_sparse_arctanh(data)
+</code></pre>
+
+<p>_sparse_arctanh is an alias of arctanh.</p>
+<p>Returns the element-wise inverse hyperbolic tangent of the input array, 
+computed element-wise.</p>
+<p>The storage type of $arctanh$ output depends upon the input storage type:</p>
+<ul>
+<li>arctanh(default) = default</li>
+<li>arctanh(row_sparse) = row_sparse</li>
+</ul>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L880</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
+<li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
+<li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
+</ul>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L772' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx._sparse_cast_storage-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx._sparse_cast_storage-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
 <strong><code>MXNet.mx._sparse_cast_storage</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>_sparse_cast_storage(data, stype)
@@ -6884,6 +7163,85 @@ csr.indptr = [0, 1, 3, 3, 3]
 <li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
 </ul>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L800' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx._sparse_ceil-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx._sparse_ceil-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
+<strong><code>MXNet.mx._sparse_ceil</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>_sparse_ceil(data)
+</code></pre>
+
+<p>_sparse_ceil is an alias of ceil.</p>
+<p>Returns element-wise ceiling of the input.</p>
+<p>The ceil of the scalar x is the smallest integer i, such that i &gt;= x.</p>
+<p>Example::</p>
+<p>ceil([-2.1, -1.9, 1.5, 1.9, 2.1]) = [-2., -1.,  2.,  2.,  3.]</p>
+<p>The storage type of $ceil$ output depends upon the input storage type:</p>
+<ul>
+<li>ceil(default) = default</li>
+<li>ceil(row_sparse) = row_sparse</li>
+</ul>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L380</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
+<li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
+<li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
+</ul>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L777' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx._sparse_cos-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx._sparse_cos-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
+<strong><code>MXNet.mx._sparse_cos</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>_sparse_cos(data)
+</code></pre>
+
+<p>_sparse_cos is an alias of cos.</p>
+<p>Computes the element-wise cosine of the input array.</p>
+<p>The input should be in radians (:math:<code>2\pi</code> rad equals 360 degrees).</p>
+<p>.. math::    cos([0, \pi/4, \pi/2]) = [1, 0.707, 0]</p>
+<p>The storage type of $cos$ output is always dense</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L662</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
+<li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
+<li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
+</ul>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L773' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx._sparse_cosh-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx._sparse_cosh-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
+<strong><code>MXNet.mx._sparse_cosh</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>_sparse_cosh(data)
+</code></pre>
+
+<p>_sparse_cosh is an alias of cosh.</p>
+<p>Returns the hyperbolic cosine  of the input array, computed element-wise.</p>
+<p>.. math::    cosh(x) = 0.5\times(exp(x) + exp(-x))</p>
+<p>The storage type of $cosh$ output is always dense</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L815</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
+<li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
+<li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
+</ul>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L771' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx._sparse_degrees-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx._sparse_degrees-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
+<strong><code>MXNet.mx._sparse_degrees</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>_sparse_degrees(data)
+</code></pre>
+
+<p>_sparse_degrees is an alias of degrees.</p>
+<p>Converts each element of the input array from radians to degrees.</p>
+<p>.. math::    degrees([0, \pi/2, \pi, 3\pi/2, 2\pi]) = [0, 90, 180, 270, 360]</p>
+<p>The storage type of $degrees$ output depends upon the input storage type:</p>
+<ul>
+<li>degrees(default) = default</li>
+<li>degrees(row_sparse) = row_sparse</li>
+</ul>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L762</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
+<li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
+<li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
+</ul>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L774' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx._sparse_dot-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx._sparse_dot-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
 <strong><code>MXNet.mx._sparse_dot</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>_sparse_dot(lhs, rhs, transpose_a, transpose_b)
@@ -6931,6 +7289,7 @@ csr.indptr = [0, 1, 3, 3, 3]
 <p>The storage type of $elemwise_add$ output depends on storage types of inputs</p>
 <ul>
 <li>elemwise_add(row_sparse, row_sparse) = row_sparse</li>
+<li>elemwise_add(csr, csr) = csr</li>
 <li>otherwise, $elemwise_add$ generates output with default storage</li>
 </ul>
 <p><strong>Arguments</strong></p>
@@ -6940,7 +7299,361 @@ csr.indptr = [0, 1, 3, 3, 3]
 <li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
 <li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L771' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L772' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx._sparse_elemwise_div-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx._sparse_elemwise_div-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
+<strong><code>MXNet.mx._sparse_elemwise_div</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>_sparse_elemwise_div(lhs, rhs)
+</code></pre>
+
+<p>_sparse_elemwise_div is an alias of elemwise_div.</p>
+<p>Divides arguments element-wise.</p>
+<p>The storage type of $elemwise_dev$ output is always dense</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>lhs::NDArray-or-SymbolicNode</code>: first input</li>
+<li><code>rhs::NDArray-or-SymbolicNode</code>: second input</li>
+<li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
+<li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
+</ul>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L768' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx._sparse_elemwise_mul-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx._sparse_elemwise_mul-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
+<strong><code>MXNet.mx._sparse_elemwise_mul</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>_sparse_elemwise_mul(lhs, rhs)
+</code></pre>
+
+<p>_sparse_elemwise_mul is an alias of elemwise_mul.</p>
+<p>Multiplies arguments element-wise.</p>
+<p>The storage type of $elemwise_mul$ output depends on storage types of inputs</p>
+<ul>
+<li>elemwise_mul(default, default) = default</li>
+<li>elemwise_mul(row_sparse, row_sparse) = row_sparse</li>
+<li>elemwise_mul(default, row_sparse) = row_sparse</li>
+<li>elemwise_mul(row_sparse, default) = row_sparse</li>
+<li>elemwise_mul(csr, csr) = csr</li>
+<li>otherwise, $elemwise_mul$ generates output with default storage</li>
+</ul>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>lhs::NDArray-or-SymbolicNode</code>: first input</li>
+<li><code>rhs::NDArray-or-SymbolicNode</code>: second input</li>
+<li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
+<li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
+</ul>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L775' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx._sparse_elemwise_sub-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx._sparse_elemwise_sub-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
+<strong><code>MXNet.mx._sparse_elemwise_sub</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>_sparse_elemwise_sub(lhs, rhs)
+</code></pre>
+
+<p>_sparse_elemwise_sub is an alias of elemwise_sub.</p>
+<p>Subtracts arguments element-wise.</p>
+<p>The storage type of $elemwise_sub$ output depends on storage types of inputs</p>
+<ul>
+<li>elemwise_sub(row_sparse, row_sparse) = row_sparse</li>
+<li>elemwise_sub(csr, csr) = csr</li>
+<li>otherwise, $elemwise_add$ generates output with default storage</li>
+</ul>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>lhs::NDArray-or-SymbolicNode</code>: first input</li>
+<li><code>rhs::NDArray-or-SymbolicNode</code>: second input</li>
+<li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
+<li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
+</ul>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L772' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx._sparse_exp-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx._sparse_exp-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
+<strong><code>MXNet.mx._sparse_exp</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>_sparse_exp(data)
+</code></pre>
+
+<p>_sparse_exp is an alias of exp.</p>
+<p>Returns element-wise exponential value of the input.</p>
+<p>.. math::    exp(x) = e^x \approx 2.718^x</p>
+<p>Example::</p>
+<p>exp([0, 1, 2]) = [1., 2.71828175, 7.38905621]</p>
+<p>The storage type of $exp$ output is always dense</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L553</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
+<li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
+<li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
+</ul>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L775' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx._sparse_expm1-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx._sparse_expm1-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
+<strong><code>MXNet.mx._sparse_expm1</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>_sparse_expm1(data)
+</code></pre>
+
+<p>_sparse_expm1 is an alias of expm1.</p>
+<p>Returns $exp(x) - 1$ computed element-wise on the input.</p>
+<p>This function provides greater precision than $exp(x) - 1$ for small values of $x$.</p>
+<p>The storage type of $expm1$ output depends upon the input storage type:</p>
+<ul>
+<li>expm1(default) = default</li>
+<li>expm1(row_sparse) = row_sparse</li>
+</ul>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L645</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
+<li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
+<li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
+</ul>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L773' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx._sparse_fix-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx._sparse_fix-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
+<strong><code>MXNet.mx._sparse_fix</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>_sparse_fix(data)
+</code></pre>
+
+<p>_sparse_fix is an alias of fix.</p>
+<p>Returns element-wise rounded value to the nearest 
+integer towards zero of the input.</p>
+<p>Example::</p>
+<p>fix([-2.1, -1.9, 1.9, 2.1]) = [-2., -1.,  1., 2.]</p>
+<p>The storage type of $fix$ output depends upon the input storage type:</p>
+<ul>
+<li>fix(default) = default</li>
+<li>fix(row_sparse) = row_sparse</li>
+</ul>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L434</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
+<li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
+<li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
+</ul>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L776' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx._sparse_floor-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx._sparse_floor-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
+<strong><code>MXNet.mx._sparse_floor</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>_sparse_floor(data)
+</code></pre>
+
+<p>_sparse_floor is an alias of floor.</p>
+<p>Returns element-wise floor of the input.</p>
+<p>The floor of the scalar x is the largest integer i, such that i &lt;= x.</p>
+<p>Example::</p>
+<p>floor([-2.1, -1.9, 1.5, 1.9, 2.1]) = [-3., -2.,  1.,  1.,  2.]</p>
+<p>The storage type of $floor$ output depends upon the input storage type:</p>
+<ul>
+<li>floor(default) = default</li>
+<li>floor(row_sparse) = row_sparse</li>
+</ul>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L398</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
+<li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
+<li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
+</ul>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L777' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx._sparse_gamma-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx._sparse_gamma-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
+<strong><code>MXNet.mx._sparse_gamma</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>_sparse_gamma(data)
+</code></pre>
+
+<p>_sparse_gamma is an alias of gamma.</p>
+<p>Returns the gamma function (extension of the factorial function 
+to the reals), computed element-wise on the input array.</p>
+<p>The storage type of $gamma$ output is always dense</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
+<li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
+<li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
+</ul>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L767' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx._sparse_gammaln-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx._sparse_gammaln-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
+<strong><code>MXNet.mx._sparse_gammaln</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>_sparse_gammaln(data)
+</code></pre>
+
+<p>_sparse_gammaln is an alias of gammaln.</p>
+<p>Returns element-wise log of the absolute value of the gamma function 
+of the input.</p>
+<p>The storage type of $gammaln$ output is always dense</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
+<li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
+<li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
+</ul>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L767' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx._sparse_log-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx._sparse_log-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
+<strong><code>MXNet.mx._sparse_log</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>_sparse_log(data)
+</code></pre>
+
+<p>_sparse_log is an alias of log.</p>
+<p>Returns element-wise Natural logarithmic value of the input.</p>
+<p>The natural logarithm is logarithm in base <em>e</em>, so that $log(exp(x)) = x$</p>
+<p>The storage type of $log$ output is always dense</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L565</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
+<li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
+<li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
+</ul>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L770' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx._sparse_log10-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx._sparse_log10-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
+<strong><code>MXNet.mx._sparse_log10</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>_sparse_log10(data)
+</code></pre>
+
+<p>_sparse_log10 is an alias of log10.</p>
+<p>Returns element-wise Base-10 logarithmic value of the input.</p>
+<p>$10**log10(x) = x$</p>
+<p>The storage type of $log10$ output is always dense</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L577</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
+<li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
+<li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
+</ul>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L770' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx._sparse_log1p-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx._sparse_log1p-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
+<strong><code>MXNet.mx._sparse_log1p</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>_sparse_log1p(data)
+</code></pre>
+
+<p>_sparse_log1p is an alias of log1p.</p>
+<p>Returns element-wise $log(1 + x)$ value of the input.</p>
+<p>This function is more accurate than $log(1 + x)$  for small $x$ so that :math:<code>1+x\approx 1</code></p>
+<p>The storage type of $log1p$ output depends upon the input storage type:</p>
+<ul>
+<li>log1p(default) = default</li>
+<li>log1p(row_sparse) = row_sparse</li>
+</ul>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L627</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
+<li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
+<li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
+</ul>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L774' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx._sparse_log2-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx._sparse_log2-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
+<strong><code>MXNet.mx._sparse_log2</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>_sparse_log2(data)
+</code></pre>
+
+<p>_sparse_log2 is an alias of log2.</p>
+<p>Returns element-wise Base-2 logarithmic value of the input.</p>
+<p>$2**log2(x) = x$</p>
+<p>The storage type of $log2$ output is always dense</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L589</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
+<li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
+<li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
+</ul>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L770' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx._sparse_make_loss-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx._sparse_make_loss-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
+<strong><code>MXNet.mx._sparse_make_loss</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>_sparse_make_loss(data)
+</code></pre>
+
+<p>_sparse_make_loss is an alias of make_loss.</p>
+<p>Stops gradient computation. .. note:: $make_loss$ is deprecated, use $MakeLoss$.</p>
+<p>The storage type of $make_loss$ output depends upon the input storage type:</p>
+<ul>
+<li>make_loss(default) = default</li>
+<li>make_loss(row_sparse) = row_sparse</li>
+</ul>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L145</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
+<li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
+<li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
+</ul>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L772' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx._sparse_negative-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx._sparse_negative-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
+<strong><code>MXNet.mx._sparse_negative</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>_sparse_negative(data)
+</code></pre>
+
+<p>_sparse_negative is an alias of negative.</p>
+<p>Numerical negative of the argument, element-wise.</p>
+<p>The storage type of $negative$ output depends upon the input storage type:</p>
+<ul>
+<li>negative(default) = default</li>
+<li>negative(row_sparse) = row_sparse</li>
+<li>negative(csr) = csr</li>
+</ul>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
+<li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
+<li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
+</ul>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L770' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx._sparse_radians-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx._sparse_radians-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
+<strong><code>MXNet.mx._sparse_radians</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>_sparse_radians(data)
+</code></pre>
+
+<p>_sparse_radians is an alias of radians.</p>
+<p>Converts each element of the input array from degrees to radians.</p>
+<p>.. math::    radians([0, 90, 180, 270, 360]) = [0, \pi/2, \pi, 3\pi/2, 2\pi]</p>
+<p>The storage type of $radians$ output depends upon the input storage type:</p>
+<ul>
+<li>radians(default) = default</li>
+<li>radians(row_sparse) = row_sparse</li>
+</ul>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L781</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
+<li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
+<li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
+</ul>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L774' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx._sparse_reciprocal-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx._sparse_reciprocal-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
+<strong><code>MXNet.mx._sparse_reciprocal</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>_sparse_reciprocal(data)
+</code></pre>
+
+<p>_sparse_reciprocal is an alias of reciprocal.</p>
+<p>Returns the reciprocal of the argument, element-wise.</p>
+<p>Calculates 1/x.</p>
+<p>Example::</p>
+<pre><code>reciprocal([-2, 1, 3, 1.6, 0.2]) = [-0.5, 1.0, 0.33333334, 0.625, 5.0]
+</code></pre>
+
+<p>The storage type of $reciprocal$ output is always dense</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L282</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
+<li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
+<li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
+</ul>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L774' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx._sparse_relu-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx._sparse_relu-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
+<strong><code>MXNet.mx._sparse_relu</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>_sparse_relu(data)
+</code></pre>
+
+<p>_sparse_relu is an alias of relu.</p>
+<p>Computes rectified linear.</p>
+<p>.. math::    max(features, 0)</p>
+<p>The storage type of $relu$ output depends upon the input storage type:</p>
+<ul>
+<li>relu(default) = default</li>
+<li>relu(row_sparse) = row_sparse</li>
+</ul>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L44</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
+<li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
+<li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
+</ul>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L774' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx._sparse_retain-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx._sparse_retain-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
 <strong><code>MXNet.mx._sparse_retain</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>_sparse_retain(data, indices)
@@ -6963,6 +7676,156 @@ csr.indptr = [0, 1, 3, 3, 3]
 <li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
 </ul>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L783' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx._sparse_rint-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx._sparse_rint-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
+<strong><code>MXNet.mx._sparse_rint</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>_sparse_rint(data)
+</code></pre>
+
+<p>_sparse_rint is an alias of rint.</p>
+<p>Returns element-wise rounded value to the nearest integer of the input.</p>
+<p>.. note::</p>
+<ul>
+<li>For input $n.5$ $rint$ returns $n$ while $round$ returns $n+1$.</li>
+<li>For input $-n.5$ both $rint$ and $round$ returns $-n-1$.</li>
+</ul>
+<p>Example::</p>
+<p>rint([-1.5, 1.5, -1.9, 1.9, 2.1]) = [-2.,  1., -2.,  2.,  2.]</p>
+<p>The storage type of $rint$ output depends upon the input storage type:</p>
+<ul>
+<li>rint(default) = default</li>
+<li>rint(row_sparse) = row_sparse</li>
+</ul>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L362</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
+<li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
+<li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
+</ul>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L779' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx._sparse_round-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx._sparse_round-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
+<strong><code>MXNet.mx._sparse_round</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>_sparse_round(data)
+</code></pre>
+
+<p>_sparse_round is an alias of round.</p>
+<p>Returns element-wise rounded value to the nearest integer of the input.</p>
+<p>Example::</p>
+<p>round([-1.5, 1.5, -1.9, 1.9, 2.1]) = [-2.,  2., -2.,  2.,  2.]</p>
+<p>The storage type of $round$ output depends upon the input storage type:</p>
+<ul>
+<li>round(default) = default</li>
+<li>round(row_sparse) = row_sparse</li>
+</ul>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L341</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
+<li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
+<li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
+</ul>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L775' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx._sparse_rsqrt-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx._sparse_rsqrt-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
+<strong><code>MXNet.mx._sparse_rsqrt</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>_sparse_rsqrt(data)
+</code></pre>
+
+<p>_sparse_rsqrt is an alias of rsqrt.</p>
+<p>Returns element-wise inverse square-root value of the input.</p>
+<p>.. math::    rsqrt(x) = 1/\sqrt{x}</p>
+<p>Example::</p>
+<p>rsqrt([4,9,16]) = [0.5, 0.33333334, 0.25]</p>
+<p>The storage type of $rsqrt$ output is always dense</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L497</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
+<li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
+<li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
+</ul>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L775' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx._sparse_sigmoid-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx._sparse_sigmoid-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
+<strong><code>MXNet.mx._sparse_sigmoid</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>_sparse_sigmoid(data)
+</code></pre>
+
+<p>_sparse_sigmoid is an alias of sigmoid.</p>
+<p>Computes sigmoid of x element-wise.</p>
+<p>.. math::    y = 1 / (1 + exp(-x))</p>
+<p>The storage type of $sigmoid$ output is always dense</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L63</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
+<li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
+<li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
+</ul>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L771' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx._sparse_sign-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx._sparse_sign-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
+<strong><code>MXNet.mx._sparse_sign</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>_sparse_sign(data)
+</code></pre>
+
+<p>_sparse_sign is an alias of sign.</p>
+<p>Returns element-wise sign of the input.</p>
+<p>Example::</p>
+<p>sign([-2, 0, 3]) = [-1, 0, 1]</p>
+<p>The storage type of $sign$ output depends upon the input storage type:</p>
+<ul>
+<li>sign(default) = default</li>
+<li>sign(row_sparse) = row_sparse</li>
+</ul>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L322</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
+<li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
+<li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
+</ul>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L775' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx._sparse_sin-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx._sparse_sin-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
+<strong><code>MXNet.mx._sparse_sin</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>_sparse_sin(data)
+</code></pre>
+
+<p>_sparse_sin is an alias of sin.</p>
+<p>Computes the element-wise sine of the input array.</p>
+<p>The input should be in radians (:math:<code>2\pi</code> rad equals 360 degrees).</p>
+<p>.. math::    sin([0, \pi/4, \pi/2]) = [0, 0.707, 1]</p>
+<p>The storage type of $sin$ output depends upon the input storage type:</p>
+<ul>
+<li>sin(default) = default</li>
+<li>sin(row_sparse) = row_sparse</li>
+</ul>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L609</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
+<li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
+<li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
+</ul>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L776' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx._sparse_sinh-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx._sparse_sinh-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
+<strong><code>MXNet.mx._sparse_sinh</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>_sparse_sinh(data)
+</code></pre>
+
+<p>_sparse_sinh is an alias of sinh.</p>
+<p>Returns the hyperbolic sine of the input array, computed element-wise.</p>
+<p>.. math::    sinh(x) = 0.5\times(exp(x) - exp(-x))</p>
+<p>The storage type of $sinh$ output depends upon the input storage type:</p>
+<ul>
+<li>sinh(default) = default</li>
+<li>sinh(row_sparse) = row_sparse</li>
+</ul>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L800</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
+<li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
+<li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
+</ul>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L774' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx._sparse_slice-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx._sparse_slice-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
 <strong><code>MXNet.mx._sparse_slice</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>_sparse_slice(data, begin, end)
@@ -6988,6 +7851,139 @@ csr.indptr = [0, 1, 3, 3, 3]
 <li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
 </ul>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L794' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx._sparse_sqrt-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx._sparse_sqrt-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
+<strong><code>MXNet.mx._sparse_sqrt</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>_sparse_sqrt(data)
+</code></pre>
+
+<p>_sparse_sqrt is an alias of sqrt.</p>
+<p>Returns element-wise square-root value of the input.</p>
+<p>.. math::    \textrm{sqrt}(x) = \sqrt{x}</p>
+<p>Example::</p>
+<p>sqrt([4, 9, 16]) = [2, 3, 4]</p>
+<p>The storage type of $sqrt$ output depends upon the input storage type:</p>
+<ul>
+<li>sqrt(default) = default</li>
+<li>sqrt(row_sparse) = row_sparse</li>
+</ul>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L477</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
+<li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
+<li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
+</ul>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L778' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx._sparse_square-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx._sparse_square-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
+<strong><code>MXNet.mx._sparse_square</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>_sparse_square(data)
+</code></pre>
+
+<p>_sparse_square is an alias of square.</p>
+<p>Returns element-wise squared value of the input.</p>
+<p>.. math::    square(x) = x^2</p>
+<p>Example::</p>
+<p>square([2, 3, 4]) = [4, 9, 16]</p>
+<p>The storage type of $square$ output depends upon the input storage type:</p>
+<ul>
+<li>square(default) = default</li>
+<li>square(row_sparse) = row_sparse</li>
+<li>square(csr) = csr</li>
+</ul>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L454</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
+<li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
+<li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
+</ul>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L779' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx._sparse_stop_gradient-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx._sparse_stop_gradient-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
+<strong><code>MXNet.mx._sparse_stop_gradient</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>_sparse_stop_gradient(data)
+</code></pre>
+
+<p>_sparse_stop_gradient is an alias of BlockGrad.</p>
+<p>Stops gradient computation.</p>
+<p>Stops the accumulated gradient of the inputs from flowing through this operator in the backward direction. In other words, this operator prevents the contribution of its inputs to be taken into account for computing gradients.</p>
+<p>Example::</p>
+<p>v1 = [1, 2]   v2 = [0, 1]   a = Variable('a')   b = Variable('b')   b_stop_grad = stop_gradient(3 * b)   loss = MakeLoss(b_stop_grad + a)</p>
+<p>executor = loss.simple_bind(ctx=cpu(), a=(1,2), b=(1,2))   executor.forward(is_train=True, a=v1, b=v2)   executor.outputs   [ 1.  5.]</p>
+<p>executor.backward()   executor.grad_arrays   [ 0.  0.]   [ 1.  1.]</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L126</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
+<li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
+<li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
+</ul>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L789' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx._sparse_tan-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx._sparse_tan-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
+<strong><code>MXNet.mx._sparse_tan</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>_sparse_tan(data)
+</code></pre>
+
+<p>_sparse_tan is an alias of tan.</p>
+<p>Computes the element-wise tangent of the input array.</p>
+<p>The input should be in radians (:math:<code>2\pi</code> rad equals 360 degrees).</p>
+<p>.. math::    tan([0, \pi/4, \pi/2]) = [0, 1, -inf]</p>
+<p>The storage type of $tan$ output depends upon the input storage type:</p>
+<ul>
+<li>tan(default) = default</li>
+<li>tan(row_sparse) = row_sparse</li>
+</ul>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L682</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
+<li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
+<li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
+</ul>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L776' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx._sparse_tanh-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx._sparse_tanh-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
+<strong><code>MXNet.mx._sparse_tanh</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>_sparse_tanh(data)
+</code></pre>
+
+<p>_sparse_tanh is an alias of tanh.</p>
+<p>Returns the hyperbolic tangent of the input array, computed element-wise.</p>
+<p>.. math::    tanh(x) = sinh(x) / cosh(x)</p>
+<p>The storage type of $tanh$ output depends upon the input storage type:</p>
+<ul>
+<li>tanh(default) = default</li>
+<li>tanh(row_sparse) = row_sparse</li>
+</ul>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L833</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
+<li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
+<li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
+</ul>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L774' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx._sparse_trunc-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx._sparse_trunc-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
+<strong><code>MXNet.mx._sparse_trunc</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>_sparse_trunc(data)
+</code></pre>
+
+<p>_sparse_trunc is an alias of trunc.</p>
+<p>Return the element-wise truncated value of the input.</p>
+<p>The truncated value of the scalar x is the nearest integer i which is closer to zero than x is. In short, the fractional part of the signed number x is discarded.</p>
+<p>Example::</p>
+<p>trunc([-2.1, -1.9, 1.5, 1.9, 2.1]) = [-2., -1.,  1.,  1.,  2.]</p>
+<p>The storage type of $trunc$ output depends upon the input storage type:</p>
+<ul>
+<li>trunc(default) = default</li>
+<li>trunc(row_sparse) = row_sparse</li>
+</ul>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L417</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
+<li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
+<li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
+</ul>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L778' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx._sparse_zeros_like-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx._sparse_zeros_like-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
 <strong><code>MXNet.mx._sparse_zeros_like</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>_sparse_zeros_like(data)
@@ -7121,28 +8117,31 @@ NOT in axis instead.</p>
 <p>Returns element-wise inverse cosine of the input array.</p>
 <p>The input should be in range <code>[-1, 1]</code>. The output is in the closed interval :math:<code>[0, \pi]</code></p>
 <p>.. math::    arccos([-1, -.707, 0, .707, 1]) = [\pi, 3\pi/4, \pi/2, \pi/4, 0]</p>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L603</p>
+<p>The storage type of $arccos$ output is always dense</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L722</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
 <li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
 <li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L770' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L772' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.arccosh-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx.arccosh-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
 <strong><code>MXNet.mx.arccosh</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>arccosh(data)
 </code></pre>
 
-<p>Returns the element-wise inverse hyperbolic cosine of the input array, computed element-wise.</p>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L709</p>
+<p>Returns the element-wise inverse hyperbolic cosine of the input array, 
+computed element-wise.</p>
+<p>The storage type of $arccosh$ output is always dense</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L863</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
 <li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
 <li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L763' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L767' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.arcsin-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx.arcsin-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
 <strong><code>MXNet.mx.arcsin</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>arcsin(data)
@@ -7151,7 +8150,32 @@ NOT in axis instead.</p>
 <p>Returns element-wise inverse sine of the input array.</p>
 <p>The input should be in the range <code>[-1, 1]</code>. The output is in the closed interval of [:math:<code>-\pi/2</code>, :math:<code>\pi/2</code>].</p>
 <p>.. math::    arcsin([-1, -.707, 0, .707, 1]) = [-\pi/2, -\pi/4, 0, \pi/4, \pi/2]</p>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L586</p>
+<p>The storage type of $arcsin$ output depends upon the input storage type:</p>
+<ul>
+<li>arcsin(default) = default</li>
+<li>arcsin(row_sparse) = row_sparse</li>
+</ul>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L703</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
+<li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
+<li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
+</ul>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L775' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.arcsinh-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx.arcsinh-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
+<strong><code>MXNet.mx.arcsinh</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>arcsinh(data)
+</code></pre>
+
+<p>Returns the element-wise inverse hyperbolic sine of the input array, 
+computed element-wise.</p>
+<p>The storage type of $arcsinh$ output depends upon the input storage type:</p>
+<ul>
+<li>arcsinh(default) = default</li>
+<li>arcsinh(row_sparse) = row_sparse</li>
+</ul>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L849</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -7159,20 +8183,6 @@ NOT in axis instead.</p>
 <li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
 </ul>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L770' class='documenter-source'>source</a><br></p>
-<p><a id='MXNet.mx.arcsinh-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx.arcsinh-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
-<strong><code>MXNet.mx.arcsinh</code></strong> &mdash; <em>Method</em>.</p>
-<pre><code>arcsinh(data)
-</code></pre>
-
-<p>Returns the element-wise inverse hyperbolic sine of the input array, computed element-wise.</p>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L699</p>
-<p><strong>Arguments</strong></p>
-<ul>
-<li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
-<li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
-<li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
-</ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L763' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.arctan-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx.arctan-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
 <strong><code>MXNet.mx.arctan</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>arctan(data)
@@ -7181,28 +8191,39 @@ NOT in axis instead.</p>
 <p>Returns element-wise inverse tangent of the input array.</p>
 <p>The output is in the closed interval :math:<code>[-\pi/2, \pi/2]</code></p>
 <p>.. math::    arctan([-1, 0, 1]) = [-\pi/4, 0, \pi/4]</p>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L619</p>
+<p>The storage type of $arctan$ output depends upon the input storage type:</p>
+<ul>
+<li>arctan(default) = default</li>
+<li>arctan(row_sparse) = row_sparse</li>
+</ul>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L743</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
 <li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
 <li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L769' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L774' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.arctanh-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx.arctanh-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
 <strong><code>MXNet.mx.arctanh</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>arctanh(data)
 </code></pre>
 
-<p>Returns the element-wise inverse hyperbolic tangent of the input array, computed element-wise.</p>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L719</p>
+<p>Returns the element-wise inverse hyperbolic tangent of the input array, 
+computed element-wise.</p>
+<p>The storage type of $arctanh$ output depends upon the input storage type:</p>
+<ul>
+<li>arctanh(default) = default</li>
+<li>arctanh(row_sparse) = row_sparse</li>
+</ul>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L880</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
 <li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
 <li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L763' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L770' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.argmax-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx.argmax-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
 <strong><code>MXNet.mx.argmax</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>argmax(data, axis, keepdims)
@@ -7738,7 +8759,7 @@ NOT in axis instead.</p>
 <p>.. note:: $Cast$ is deprecated. Use $cast$ instead.</p>
 <p>Example::</p>
 <p>cast([0.9, 1.3], dtype='int32') = [0, 1]    cast([1e20, 11.1], dtype='float16') = [inf, 11.09375]    cast([300, 11.1, 10.9, -1, -3], dtype='uint8') = [44, 11, 10, 255, 253]</p>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L199</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L226</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input.</li>
@@ -7888,14 +8909,19 @@ clip(x,1,8) = [ 1.,  1.,  2.,  3.,  4.,  5.,  6.,  7.,  8.,  8.]
 
 <p>Converts each element of the input array from radians to degrees.</p>
 <p>.. math::    degrees([0, \pi/2, \pi, 3\pi/2, 2\pi]) = [0, 90, 180, 270, 360]</p>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L633</p>
+<p>The storage type of $degrees$ output depends upon the input storage type:</p>
+<ul>
+<li>degrees(default) = default</li>
+<li>degrees(row_sparse) = row_sparse</li>
+</ul>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L762</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
 <li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
 <li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L767' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L772' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.elemwise_add-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx.elemwise_add-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
 <strong><code>MXNet.mx.elemwise_add</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>elemwise_add(lhs, rhs)
@@ -7905,6 +8931,7 @@ clip(x,1,8) = [ 1.,  1.,  2.,  3.,  4.,  5.,  6.,  7.,  8.,  8.]
 <p>The storage type of $elemwise_add$ output depends on storage types of inputs</p>
 <ul>
 <li>elemwise_add(row_sparse, row_sparse) = row_sparse</li>
+<li>elemwise_add(csr, csr) = csr</li>
 <li>otherwise, $elemwise_add$ generates output with default storage</li>
 </ul>
 <p><strong>Arguments</strong></p>
@@ -7914,7 +8941,65 @@ clip(x,1,8) = [ 1.,  1.,  2.,  3.,  4.,  5.,  6.,  7.,  8.,  8.]
 <li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
 <li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L769' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L770' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.elemwise_div-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx.elemwise_div-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
+<strong><code>MXNet.mx.elemwise_div</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>elemwise_div(lhs, rhs)
+</code></pre>
+
+<p>Divides arguments element-wise.</p>
+<p>The storage type of $elemwise_dev$ output is always dense</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>lhs::NDArray-or-SymbolicNode</code>: first input</li>
+<li><code>rhs::NDArray-or-SymbolicNode</code>: second input</li>
+<li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
+<li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
+</ul>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L766' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.elemwise_mul-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx.elemwise_mul-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
+<strong><code>MXNet.mx.elemwise_mul</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>elemwise_mul(lhs, rhs)
+</code></pre>
+
+<p>Multiplies arguments element-wise.</p>
+<p>The storage type of $elemwise_mul$ output depends on storage types of inputs</p>
+<ul>
+<li>elemwise_mul(default, default) = default</li>
+<li>elemwise_mul(row_sparse, row_sparse) = row_sparse</li>
+<li>elemwise_mul(default, row_sparse) = row_sparse</li>
+<li>elemwise_mul(row_sparse, default) = row_sparse</li>
+<li>elemwise_mul(csr, csr) = csr</li>
+<li>otherwise, $elemwise_mul$ generates output with default storage</li>
+</ul>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>lhs::NDArray-or-SymbolicNode</code>: first input</li>
+<li><code>rhs::NDArray-or-SymbolicNode</code>: second input</li>
+<li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
+<li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
+</ul>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L773' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.elemwise_sub-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx.elemwise_sub-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
+<strong><code>MXNet.mx.elemwise_sub</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>elemwise_sub(lhs, rhs)
+</code></pre>
+
+<p>Subtracts arguments element-wise.</p>
+<p>The storage type of $elemwise_sub$ output depends on storage types of inputs</p>
+<ul>
+<li>elemwise_sub(row_sparse, row_sparse) = row_sparse</li>
+<li>elemwise_sub(csr, csr) = csr</li>
+<li>otherwise, $elemwise_add$ generates output with default storage</li>
+</ul>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>lhs::NDArray-or-SymbolicNode</code>: first input</li>
+<li><code>rhs::NDArray-or-SymbolicNode</code>: second input</li>
+<li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
+<li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
+</ul>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L770' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.expand_dims-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx.expand_dims-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
 <strong><code>MXNet.mx.expand_dims</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>expand_dims(data, axis)
@@ -7951,17 +9036,23 @@ clip(x,1,8) = [ 1.,  1.,  2.,  3.,  4.,  5.,  6.,  7.,  8.,  8.]
 <pre><code>fix(data)
 </code></pre>
 
-<p>Returns element-wise rounded value to the nearest integer towards zero of the input.</p>
+<p>Returns element-wise rounded value to the nearest 
+integer towards zero of the input.</p>
 <p>Example::</p>
 <p>fix([-2.1, -1.9, 1.9, 2.1]) = [-2., -1.,  1., 2.]</p>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L358</p>
+<p>The storage type of $fix$ output depends upon the input storage type:</p>
+<ul>
+<li>fix(default) = default</li>
+<li>fix(row_sparse) = row_sparse</li>
+</ul>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L434</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
 <li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
 <li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L768' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L774' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.flip-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx.flip-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
 <strong><code>MXNet.mx.flip</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>flip(data, axis)
@@ -7995,15 +9086,16 @@ clip(x,1,8) = [ 1.,  1.,  2.,  3.,  4.,  5.,  6.,  7.,  8.,  8.]
 <pre><code>gammaln(data)
 </code></pre>
 
-<p>Returns element-wise log of the absolute value of the gamma function of the input.</p>
-<p>From:src/operator/tensor/elemwise_unary_op.cc:739</p>
+<p>Returns element-wise log of the absolute value of the gamma function 
+of the input.</p>
+<p>The storage type of $gammaln$ output is always dense</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
 <li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
 <li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L762' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L765' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.get_attr-Tuple{MXNet.mx.SymbolicNode,Symbol}' href='#MXNet.mx.get_attr-Tuple{MXNet.mx.SymbolicNode,Symbol}'>#</a>
 <strong><code>MXNet.mx.get_attr</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>get_attr(self :: SymbolicNode, key :: Symbol)
@@ -8385,14 +9477,19 @@ infer_type(self :: SymbolicNode, args...)
 </code></pre>
 
 <p>Stops gradient computation. .. note:: $make_loss$ is deprecated, use $MakeLoss$.</p>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L132</p>
+<p>The storage type of $make_loss$ output depends upon the input storage type:</p>
+<ul>
+<li>make_loss(default) = default</li>
+<li>make_loss(row_sparse) = row_sparse</li>
+</ul>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L145</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
 <li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
 <li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L764' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L770' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.max_axis-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx.max_axis-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
 <strong><code>MXNet.mx.max_axis</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>max_axis(data, axis, keepdims, exclude)
@@ -8557,14 +9654,19 @@ NOT in axis instead.</p>
 </code></pre>
 
 <p>Numerical negative of the argument, element-wise.</p>
-<p>From:src/operator/tensor/elemwise_unary_op.cc:231</p>
+<p>The storage type of $negative$ output depends upon the input storage type:</p>
+<ul>
+<li>negative(default) = default</li>
+<li>negative(row_sparse) = row_sparse</li>
+<li>negative(csr) = csr</li>
+</ul>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
 <li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
 <li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L762' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L768' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.normal-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx.normal-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
 <strong><code>MXNet.mx.normal</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>normal(loc, scale, shape, ctx, dtype)
@@ -8752,14 +9854,19 @@ NOT in axis instead.</p>
 
 <p>Converts each element of the input array from degrees to radians.</p>
 <p>.. math::    radians([0, 90, 180, 270, 360]) = [0, \pi/2, \pi, 3\pi/2, 2\pi]</p>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L647</p>
+<p>The storage type of $radians$ output depends upon the input storage type:</p>
+<ul>
+<li>radians(default) = default</li>
+<li>radians(row_sparse) = row_sparse</li>
+</ul>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L781</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
 <li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
 <li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L767' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L772' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.random_exponential-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx.random_exponential-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
 <strong><code>MXNet.mx.random_exponential</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>random_exponential(lam, shape, ctx, dtype)
@@ -8923,7 +10030,7 @@ NOT in axis instead.</p>
 <p>.. math::    rcbrt(x) = 1/\sqrt[3]{x}</p>
 <p>Example::</p>
 <p>rcbrt([1,8,-125]) = [1.0, 0.5, -0.2]</p>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L445</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L531</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -8942,14 +10049,15 @@ NOT in axis instead.</p>
 <pre><code>reciprocal([-2, 1, 3, 1.6, 0.2]) = [-0.5, 1.0, 0.33333334, 0.625, 5.0]
 </code></pre>
 
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L245</p>
+<p>The storage type of $reciprocal$ output is always dense</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L282</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
 <li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
 <li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L770' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L772' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.relu-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx.relu-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
 <strong><code>MXNet.mx.relu</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>relu(data)
@@ -8957,14 +10065,19 @@ NOT in axis instead.</p>
 
 <p>Computes rectified linear.</p>
 <p>.. math::    max(features, 0)</p>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L36</p>
+<p>The storage type of $relu$ output depends upon the input storage type:</p>
+<ul>
+<li>relu(default) = default</li>
+<li>relu(row_sparse) = row_sparse</li>
+</ul>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L44</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
 <li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
 <li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L767' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L772' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.rint-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx.rint-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
 <strong><code>MXNet.mx.rint</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>rint(data)
@@ -8978,14 +10091,19 @@ NOT in axis instead.</p>
 </ul>
 <p>Example::</p>
 <p>rint([-1.5, 1.5, -1.9, 1.9, 2.1]) = [-2.,  1., -2.,  2.,  2.]</p>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L307</p>
+<p>The storage type of $rint$ output depends upon the input storage type:</p>
+<ul>
+<li>rint(default) = default</li>
+<li>rint(row_sparse) = row_sparse</li>
+</ul>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L362</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
 <li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
 <li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L772' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L777' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.rmsprop_update-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx.rmsprop_update-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
 <strong><code>MXNet.mx.rmsprop_update</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>rmsprop_update(weight, grad, n, lr, gamma1, epsilon, wd, rescale_grad, clip_gradient, clip_weights)
@@ -9062,14 +10180,15 @@ NOT in axis instead.</p>
 <p>.. math::    rsqrt(x) = 1/\sqrt{x}</p>
 <p>Example::</p>
 <p>rsqrt([4,9,16]) = [0.5, 0.33333334, 0.25]</p>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L408</p>
+<p>The storage type of $rsqrt$ output is always dense</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L497</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
 <li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
 <li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L771' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L773' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.sample_exponential-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx.sample_exponential-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
 <strong><code>MXNet.mx.sample_exponential</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>sample_exponential(lam, shape, dtype)
@@ -9335,14 +10454,15 @@ NOT in axis instead.</p>
 
 <p>Computes sigmoid of x element-wise.</p>
 <p>.. math::    y = 1 / (1 + exp(-x))</p>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L54</p>
+<p>The storage type of $sigmoid$ output is always dense</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L63</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
 <li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
 <li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L767' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L769' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.slice-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx.slice-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
 <strong><code>MXNet.mx.slice</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>slice(data, begin, end)
@@ -9407,7 +10527,7 @@ NOT in axis instead.</p>
 <p>where :math:<code>x</code> is an element of the tensor <em>lhs</em> and :math:<code>\sigma</code> is the scalar.</p>
 <p>Example::</p>
 <p>smooth_l1([1, 2, 3, 4], sigma=1) = [0.5, 1.5, 2.5, 3.5]</p>
-<p>Defined in src/operator/tensor/elemwise_binary_scalar_op_extended.cc:L97</p>
+<p>Defined in src/operator/tensor/elemwise_binary_scalar_op_extended.cc:L102</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: source input</li>
@@ -9487,14 +10607,20 @@ NOT in axis instead.</p>
 <p>.. math::    square(x) = x^2</p>
 <p>Example::</p>
 <p>square([2, 3, 4]) = [4, 9, 16]</p>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L372</p>
+<p>The storage type of $square$ output depends upon the input storage type:</p>
+<ul>
+<li>square(default) = default</li>
+<li>square(row_sparse) = row_sparse</li>
+<li>square(csr) = csr</li>
+</ul>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L454</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
 <li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
 <li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L771' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/symbolic-node.jl#L750-L777' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.stack-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}' href='#MXNet.mx.stack-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}'>#</a>
 <strong><code>MXNet.mx.stack</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>stack(data, axis, num_args)
@@ -9527,7 +10653,7 @@ NOT in axis instead.</p>
 <p>v1 = [1, 2]   v2 = [0, 1]   a = Variable('a')   b = Variable('b')   b_stop_grad = stop_gradient(3 * b)   loss = MakeLoss(b_stop_grad + a)</p>
 <p>executor = loss.simple_bind(ctx=cpu(), a=(1,2), b=(1,2))   executor.forward(is_train=True, a=v1, b=v2)   executor.outputs   [ 1.  5.]</p>
 <p>executor.backward()   executor.grad_arrays   [ 0.  0.]   [ 1.  1.]</p>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L121</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L126</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
