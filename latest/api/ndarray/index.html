@@ -2002,7 +2002,7 @@ NOT in axis instead.</p>
 <li>add_n(row_sparse, row_sparse, ..) = row_sparse</li>
 <li>otherwise, $add_n$ generates output with default storage</li>
 </ul>
-<p>Defined in src/operator/tensor/elemwise_sum.cc:L121</p>
+<p>Defined in src/operator/tensor/elemwise_sum.cc:L122</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>args::NDArray-or-SymbolicNode[]</code>: Positional input arguments</li>
@@ -6126,7 +6126,7 @@ NOT in axis instead.</p>
 <li>add_n(row_sparse, row_sparse, ..) = row_sparse</li>
 <li>otherwise, $add_n$ generates output with default storage</li>
 </ul>
-<p>Defined in src/operator/tensor/elemwise_sum.cc:L121</p>
+<p>Defined in src/operator/tensor/elemwise_sum.cc:L122</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>args::NDArray-or-SymbolicNode[]</code>: Positional input arguments</li>
@@ -6167,7 +6167,7 @@ NOT in axis instead.</p>
 <li>add_n(row_sparse, row_sparse, ..) = row_sparse</li>
 <li>otherwise, $add_n$ generates output with default storage</li>
 </ul>
-<p>Defined in src/operator/tensor/elemwise_sum.cc:L121</p>
+<p>Defined in src/operator/tensor/elemwise_sum.cc:L122</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>args::NDArray-or-SymbolicNode[]</code>: Positional input arguments</li>
@@ -7149,7 +7149,7 @@ NOT in axis instead.</p>
 <p>m = beta1<em>m + (1-beta1)</em>grad  v = beta2<em>v + (1-beta2)</em>(grad**2)  w += - learning_rate * m / (sqrt(v) + epsilon)</p>
 <p>If w, m and v are all of $row_sparse$ storage type, only the row slices whose indices appear in grad.indices are updated (for w, m and v)::</p>
 <p>for row in grad.indices:      m[row] = beta1<em>m[row] + (1-beta1)</em>grad[row]      v[row] = beta2<em>v[row] + (1-beta2)</em>(grad[row]**2)      w[row] += - learning_rate * m[row] / (sqrt(v[row]) + epsilon)</p>
-<p>Defined in src/operator/optimizer_op.cc:L167</p>
+<p>Defined in src/operator/optimizer_op.cc:L168</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>weight::NDArray-or-SymbolicNode</code>: Weight</li>
@@ -7179,7 +7179,7 @@ NOT in axis instead.</p>
 <li>add_n(row_sparse, row_sparse, ..) = row_sparse</li>
 <li>otherwise, $add_n$ generates output with default storage</li>
 </ul>
-<p>Defined in src/operator/tensor/elemwise_sum.cc:L121</p>
+<p>Defined in src/operator/tensor/elemwise_sum.cc:L122</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>args::NDArray-or-SymbolicNode[]</code>: Positional input arguments</li>
@@ -8095,6 +8095,31 @@ integer towards zero of the input.</p>
 <li><code>axis::Shape(tuple), required</code>: The axis which to reverse elements.</li>
 </ul>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/ndarray.jl#L1088-L1115' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.ftrl_update-Tuple{Vararg{MXNet.mx.NDArray,N}}' href='#MXNet.mx.ftrl_update-Tuple{Vararg{MXNet.mx.NDArray,N}}'>#</a>
+<strong><code>MXNet.mx.ftrl_update</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>ftrl_update(weight, grad, z, n, lr, lamda1, beta, wd, rescale_grad, clip_gradient)
+</code></pre>
+
+<p>Update function for Ftrl optimizer. Referenced from <em>Ad Click Prediction: a View from the Trenches</em>, available at http://dl.acm.org/citation.cfm?id=2488200.</p>
+<p>It updates the weights using::</p>
+<p>rescaled_grad = clip(grad * rescale_grad, clip_gradient)  z += rescaled_grad - (sqrt(n + rescaled_grad<strong>2) - sqrt(n)) * weight / learning_rate  n += rescaled_grad</strong>2  w = (sign(z) * lamda1 - z) / ((beta + sqrt(n)) / learning_rate + wd) * (abs(z) &gt; lamda1)</p>
+<p>If w, z and n are all of $row_sparse$ storage type, only the row slices whose indices appear in grad.indices are updated (for w, z and n)::</p>
+<p>for row in grad.indices:      rescaled_grad[row] = clip(grad[row] * rescale_grad, clip_gradient)      z[row] += rescaled_grad[row] - (sqrt(n[row] + rescaled_grad[row]<strong>2) - sqrt(n[row])) * weight[row] / learning_rate      n[row] += rescaled_grad[row]</strong>2      w[row] = (sign(z[row]) * lamda1 - z[row]) / ((beta + sqrt(n[row])) / learning_rate + wd) * (abs(z[row]) &gt; lamda1)</p>
+<p>Defined in src/operator/optimizer_op.cc:L299</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>weight::NDArray-or-SymbolicNode</code>: Weight</li>
+<li><code>grad::NDArray-or-SymbolicNode</code>: Gradient</li>
+<li><code>z::NDArray-or-SymbolicNode</code>: z</li>
+<li><code>n::NDArray-or-SymbolicNode</code>: Square of grad</li>
+<li><code>lr::float, required</code>: Learning rate</li>
+<li><code>lamda1::float, optional, default=0.01</code>: The L1 regularization coefficient.</li>
+<li><code>beta::float, optional, default=1</code>: Per-Coordinate Learning Rate beta.</li>
+<li><code>wd::float, optional, default=0</code>: Weight decay augments the objective function with a regularization term that penalizes large weights. The penalty scales with the square of the magnitude of each weight.</li>
+<li><code>rescale_grad::float, optional, default=1</code>: Rescale gradient to grad = rescale_grad*grad.</li>
+<li><code>clip_gradient::float, optional, default=-1</code>: Clip gradient to the range of [-clip_gradient, clip_gradient] If clip_gradient &lt;= 0, gradient clipping is turned off. grad = max(min(grad, clip_gradient), -clip_gradient).</li>
+</ul>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/2c5120d139fdd259f2d1b161ec94eea323d0fc20/src/ndarray.jl#L1088-L1135' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.gammaln-Tuple{Vararg{MXNet.mx.NDArray,N}}' href='#MXNet.mx.gammaln-Tuple{Vararg{MXNet.mx.NDArray,N}}'>#</a>
 <strong><code>MXNet.mx.gammaln</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>gammaln(data)
@@ -9006,7 +9031,7 @@ ones(DType, dim1, dim2, ...)
 <p>.. math::   \theta_{t+1} = \theta_t - \frac{\eta}{RMS[g]_t} g_t</p>
 <p>The RMSProp code follows the version in http://www.cs.toronto.edu/~tijmen/csc321/slides/lecture_slides_lec6.pdf Tieleman &amp; Hinton, 2012.</p>
 <p>Hinton suggests the momentum term :math:<code>\gamma</code> to be 0.9 and the learning rate :math:<code>\eta</code> to be 0.001.</p>
-<p>Defined in src/operator/optimizer_op.cc:L220</p>
+<p>Defined in src/operator/optimizer_op.cc:L221</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>weight::NDArray-or-SymbolicNode</code>: Weight</li>
@@ -9036,7 +9061,7 @@ ones(DType, dim1, dim2, ...)
 <p>.. math::   \theta_{t+1} = \theta_t + \Delta_t</p>
 <p>The RMSPropAlex code follows the version in http://arxiv.org/pdf/1308.0850v5.pdf Eq(38) - Eq(45) by Alex Graves, 2013.</p>
 <p>Graves suggests the momentum term :math:<code>\gamma_1</code> to be 0.95, :math:<code>\gamma_2</code> to be 0.9 and the learning rate :math:<code>\eta</code> to be 0.0001.</p>
-<p>Defined in src/operator/optimizer_op.cc:L259</p>
+<p>Defined in src/operator/optimizer_op.cc:L260</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>weight::NDArray-or-SymbolicNode</code>: Weight</li>
@@ -9267,7 +9292,7 @@ ones(DType, dim1, dim2, ...)
 <p>Where the parameter $momentum$ is the decay rate of momentum estimates at each epoch.</p>
 <p>If weight and momentum are both of $row_sparse$ storage type, only the row slices whose indices appear in grad.indices are updated (for both weight and momentum)::</p>
 <p>for row in gradient.indices:       v[row] = momentum[row] * v[row] - learning_rate * gradient[row]       weight[row] += v[row]</p>
-<p>Defined in src/operator/optimizer_op.cc:L87</p>
+<p>Defined in src/operator/optimizer_op.cc:L88</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>weight::NDArray-or-SymbolicNode</code>: Weight</li>
@@ -9290,7 +9315,7 @@ ones(DType, dim1, dim2, ...)
 <p>weight = weight - learning_rate * gradient</p>
 <p>If weight is of $row_sparse$ storage type, only the row slices whose indices appear in grad.indices are updated::</p>
 <p>for row in gradient.indices:      weight[row] = weight[row] - learning_rate * gradient[row]</p>
-<p>Defined in src/operator/optimizer_op.cc:L49</p>
+<p>Defined in src/operator/optimizer_op.cc:L50</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>weight::NDArray-or-SymbolicNode</code>: Weight</li>
