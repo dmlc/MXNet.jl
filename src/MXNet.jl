@@ -110,6 +110,8 @@ include("name.jl")
 include("symbolic-node.jl")
 include("executor.jl")
 
+include("autograd.jl")
+
 include("metric.jl")
 include("optimizer.jl")
 include("initializer.jl")
