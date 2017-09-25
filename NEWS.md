@@ -199,6 +199,7 @@
     * `e.^x`
     * `x.^e`
     * `π.^x`
+* A port of Python's `autograd` for `NDArray` (#274)
 
 ## API Changes
 
