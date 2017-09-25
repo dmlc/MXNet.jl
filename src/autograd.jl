@@ -18,7 +18,7 @@ for gradient computation.
 
 ## Returns
 
-* previous state before this set.
+Previous state before this set
 """
 function _set_recording(state::Bool)::Bool
   prev = Ref{Cint}(C_NULL)
@@ -80,7 +80,6 @@ end
   # __enter__
   prev_is_record = _set_recording(is_record)
   prev_train_mode = _set_training(train_mode)
-  #= println("$is_record $train_mode $prev_is_record $prev_train_mode") =#
 
   try
     f()
@@ -304,27 +303,39 @@ mark_variables(var::Vector{NDArray}, grads::Vector{NDArray}, grad_reqs=:write) =
 
 @inline function _mark_variables(vars::Vector{NDArray}, grads::Vector{NDArray},
                                  grad_reqs::Union{Vector{Symbol}, Symbol}=:write)
-  # TODO: leverage grad reqs map from #283
   if length(vars) != length(grads)
     throw(ArgumentError("number of variables and gradients not matched"))
   end
+
 
   var_hdls = map(arr -> arr.handle, vars)
   grad_hdls = map(arr -> arr.handle, grads)
 
   if isa(grad_reqs, Symbol)
-    grad_reqs = MX_uint[GRAD_WRITE for i ∈ 1:length(vars)]  # FIXME
+    val = get(grad_req_map, grad_reqs, false)
+    if val == false
+      throw(ArgumentError("invalid grad_reqs $grad_reqs"))
+    end
+
+    grad_reqs = MX_uint[val for i ∈ 1:length(vars)]
   else
     if length(vars) != length(grad_reqs)
       throw(ArgumentError("number of variables and gradients not matched"))
     end
-    grad_reqs = MX_uint[GRAD_WRITE for i ∈ 1:length(vars)]  # FIXME
+
+    grad_reqs = map(grad_reqs) do k
+      val = get(grad_req_map, k, false)
+      if val == false
+        throw(ArgumentError("invalid grad_reqs $k"))
+      end
+
+      MX_uint(val)
+    end
   end
 
   @mxcall(:MXAutogradMarkVariables,
           (MX_uint, Ref{MX_handle}, Ptr{MX_uint}, Ref{MX_handle}),
-          length(vars), var_hdls, MX_uint[GRAD_WRITE],
-          grad_hdls)
+          length(vars), var_hdls, grad_reqs, grad_hdls)
 end
 
 """
