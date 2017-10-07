@@ -283,12 +283,12 @@ function backward(heads::Vector{NDArray}, head_grads=Union{Vector, Void};
 end
 
 """
-    grad(arr::NDArray)
+    getgrad(arr::NDArray)
 
-Returns gradient buffer attached to this `NDArray`.
+Returns the gradient buffer attached to this `NDArray`.
 If the gradient buffer isn't attached yet, return `nothing`.
 """
-function grad(arr::NDArray)
+function getgrad(arr::NDArray)
   out = Ref{mx.MX_handle}(C_NULL)
   @mxcall(:MXNDArrayGetGrad, (MX_handle, Ref{MX_handle}), arr.handle, out)
   (out[] == C_NULL) ? nothing: NDArray(MX_NDArrayHandle(out[]))
@@ -311,7 +311,7 @@ The attached gradient buffer
 
 ## See also
 
-- [`grad`](@ref)
+- [`getgrad`](@ref)
 """
 function attach_grad(arr::NDArray, grad_req::Symbol=:write)
   # TODO: support storage type (stype in Python)
@@ -380,7 +380,7 @@ mark_variables(var::Vector{NDArray}, grads::Vector{NDArray}, grad_reqs=:write) =
 end
 
 """
-    get_symbol(arr)
+    getsymbol(arr)
 
 Retrieve recorded computation history as `SymbolicNode`.
 
@@ -392,7 +392,7 @@ Retrieve recorded computation history as `SymbolicNode`.
 
 The retrieved `Symbol`.
  """
-function get_symbol(arr::NDArray)
+function getsymbol(arr::NDArray)
   ref = Ref{MX_handle}(C_NULL)
   @mxcall(:MXAutogradGetSymbol, (MX_handle, Ref{MX_handle}), arr, ref)
   SymbolicNode(MX_SymbolHandle(ref[]))
