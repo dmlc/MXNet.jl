@@ -223,10 +223,28 @@ function backward(heads::Vector{NDArray}, head_grads=Union{Vector, Void};
   output_handles = map(arr -> arr.handle, heads)
 
   if head_grads == nothing
-    @mxcall(:MXAutogradBackwardEx,
-            (MX_uint, Ptr{MX_handle}, Ptr{MX_handle}, Cint, Cint),
-            length(output_handles), output_handles, C_NULL,
-            retain_graph, train_mode)
+    @mxcall(
+      :MXAutogradBackwardEx,
+      (MX_uint,
+       Ptr{MX_handle},
+       Ptr{MX_handle},
+       MX_uint,
+       Ptr{MX_handle},
+       Cint,
+       Cint,
+       Cint,
+       Ptr{MX_handle},
+       Ptr{MX_handle}),
+      length(output_handles),
+      output_handles,
+      C_NULL,
+      0,
+      C_NULL,
+      retain_graph,
+      false,  # create_graph
+      train_mode,
+      C_NULL,
+      C_NULL)
     return
   end
 
@@ -240,10 +258,28 @@ function backward(heads::Vector{NDArray}, head_grads=Union{Vector, Void};
     end
   end
   @assert length(output_handles) == length(ograd_handles)
-  @mxcall(:MXAutogradBackwardEx,
-          (MX_uint, Ptr{MX_handle}, Ptr{MX_handle}, Cint, Cint),
-          length(output_handles), output_handles, ograd_handles,
-          retain_graph, train_mode)
+  @mxcall(
+    :MXAutogradBackwardEx,
+    (MX_uint,
+     Ptr{MX_handle},
+     Ptr{MX_handle},
+     MX_uint,
+     Ptr{MX_handle},
+     Cint,
+     Cint,
+     Cint,
+     Ptr{MX_handle},
+     Ptr{MX_handle}),
+    length(output_handles),
+    output_handles,
+    ograd_handles,
+    0,
+    C_NULL,
+    retain_graph,
+    false,  # create_graph
+    train_mode,
+    C_NULL,
+    C_NULL)
 end
 
 """

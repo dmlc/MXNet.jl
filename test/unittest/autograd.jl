@@ -49,6 +49,54 @@ function test_mark_variables()
 end
 
 
+function test_record()
+  let x = mx.NDArray([1 2; 3 4])
+    info("AutoGrad::record::backward")
+
+    mx.attach_grad(x)
+    y = mx.record() do
+      mx.square(x)
+    end
+
+    @test copy(y) == [1 4; 9 16]
+
+    mx.backward(y)
+    # gradient is 2x
+    @test copy(mx.grad(x)) == [2 4; 6 8]
+  end
+
+  let x = mx.NDArray([1 2; 3 4])
+    info("AutoGrad::record::get_symbol")
+
+    mx.attach_grad(x)
+    y = mx.record() do
+      mx.square(x)
+    end
+
+    @test copy(y) == [1 4; 9 16]
+
+    @test isa(mx.get_symbol(y), mx.SymbolicNode)
+  end
+
+  let x = mx.NDArray([1 2; 3 4])
+    info("AutoGrad::record::backward(retain_graph=true)")
+
+    mx.attach_grad(x)
+    y = mx.record() do
+      mx.square(x)
+    end
+
+    @test copy(y) == [1 4; 9 16]
+
+    mx.backward(y, retain_graph=true)
+    # gradient is 2x
+    @test copy(mx.grad(x)) == [2 4; 6 8]
+
+    @test isa(mx.get_symbol(y), mx.SymbolicNode)
+  end
+end  # function test_record()
+
+
 function test_get_symbol()
   info("AutoGrad::get_symbol")
 
@@ -62,6 +110,7 @@ end
 @testset "AutoGrad Test" begin
   test_grad()
   test_mark_variables()
+  test_record()
   test_get_symbol()
 end
 
