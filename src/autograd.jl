@@ -189,6 +189,29 @@ end
 """
 predict_mode(f::Function) = _record(f, nothing, false)
 
+"""
+    backward(head,  head_grad;  retain_graph=false, train_mode=true)
+    backward(heads, head_grads; retain_graph=false, train_mode=true)
+
+Compute the gradients of heads w.r.t previously marked variables.
+
+## Parameters
+
+- `head::NDArray`: output NDArray
+
+- `head_grad::NDArray` or `Void`: gradient with respect to head.
+
+- `heads::Vector{NDArray}`: a list of output NDArray
+
+- `head_grads::Vector`: a list of gradient with respect ot heads.
+  the element should be `NDArray` or `Void`
+
+- `retain_graph::Bool`: whether to keep the graph after backward. e.g:
+  If you want to differentiate the same graph twice,
+  you need to pass `retain_graph=true`.
+
+- `train_mode::Bool`: whether to do backward for training or predicting.
+"""
 backward(head::NDArray, head_grad::NDArray; kwargs...) =
   backward([head], [head_grad]; kwargs...)
 
@@ -222,29 +245,6 @@ function backward(heads::Vector{NDArray}, head_grads=Union{Vector, Void};
           length(output_handles), output_handles, ograd_handles,
           retain_graph, train_mode)
 end
-
-"""
-    backward(head,  head_grad;  retain_graph=false, train_mode=true)
-    backward(heads, head_grads; retain_graph=false, train_mode=true)
-
-Compute the gradients of heads w.r.t previously marked variables.
-
-## Parameters
-
-- `head::NDArray`: output NDArray
-
-- `heads::Vector{NDArray}`: a list of output NDArray
-
-- `head_grad::NDArray` or `Void`: gradient with respect to head.
-
-- `head_grads::Vector`: a list of gradient with respect ot heads.
-  the element should be `NDArray` or `Void`
-retain_graph: whether to keep the graph after backward. e.g:
-  If you want to differentiate the same graph twice, you need to pass retain_graph=true.
-train_mode: bool, optional
-    Whether to do backward for training or predicting.
-"""
-backward
 
 """
     grad(arr::NDArray)
@@ -286,14 +286,19 @@ function attach_grad(arr::NDArray, grad_req::Symbol=:write)
 end
 
 """
-    mark_variables(vars, grads)
-Mark NDArrays as variables to compute gradient for autograd.
+    mark_variables(var,  grad,  grad_req)
+    mark_variables(vars, grads, grad_reqs)
+
+Mark `NDArrays` as variables to compute gradient for autograd.
 
 ## Parameters
 
-variables: NDArray or list of NDArray
-gradients: NDArray or list of NDArray
-grad_reqs: str or list of str
+- `var::NDArray`
+- `grad::NDArray`
+- `grad_req::Symbol`: `:nop`, `:write`, `:inplace` or `:add`
+- `vars::Vector{NDArray}`
+- `grads::Vector{NDArray}`
+- `grad_req::Vector{Symbol}`
 """
 mark_variables(var::NDArray, grad::NDArray, grad_reqs::Symbol=:write) =
   _mark_variables([var], [grad], grad_reqs)
