@@ -49,9 +49,20 @@ function test_mark_variables()
 end
 
 
+function test_get_symbol()
+  info("AutoGrad::get_symbol")
+
+  let x = mx.zeros(4)
+    mx.attach_grad(x)
+    @test isa(mx.get_symbol(x), mx.SymbolicNode)
+  end
+end
+
+
 @testset "AutoGrad Test" begin
   test_grad()
   test_mark_variables()
+  test_get_symbol()
 end
 
 
