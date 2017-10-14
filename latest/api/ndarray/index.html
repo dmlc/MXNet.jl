@@ -723,7 +723,7 @@ flatten(x) = [[ 1.,  2.,  3.,  4.,  5.,  6.,  7.,  8.,  9.],
 <p>Examples::</p>
 <p>x = [[1, 2],        [3, 4]]</p>
 <p>norm(x) = [5.47722578]</p>
-<p>Defined in src/operator/tensor/broadcast_reduce_op_value.cc:L236</p>
+<p>Defined in src/operator/tensor/broadcast_reduce_op_value.cc:L253</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: Source input</li>
@@ -738,7 +738,7 @@ flatten(x) = [[ 1.,  2.,  3.,  4.,  5.,  6.,  7.,  8.,  9.],
 <p>.. math::    cbrt(x) = \sqrt[3]{x}</p>
 <p>Example::</p>
 <p>cbrt([1, 8, -125]) = [1, 2, -5]</p>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L545</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op_basic.cc:L558</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -802,7 +802,7 @@ to the reals), computed element-wise on the input array.</p>
 <li>abs(default) = default</li>
 <li>abs(row_sparse) = row_sparse</li>
 </ul>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L334</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op_basic.cc:L347</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -822,7 +822,7 @@ to the reals), computed element-wise on the input array.</p>
 <li>ceil(default) = default</li>
 <li>ceil(row_sparse) = row_sparse</li>
 </ul>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L411</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op_basic.cc:L424</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -860,7 +860,7 @@ copy(arr :: Array, ctx :: Context)
 <p>The input should be in radians (:math:<code>2\pi</code> rad equals 360 degrees).</p>
 <p>.. math::    cos([0, \pi/4, \pi/2]) = [1, 0.707, 0]</p>
 <p>The storage type of $cos$ output is always dense</p>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L693</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op_trig.cc:L63</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -874,7 +874,7 @@ copy(arr :: Array, ctx :: Context)
 <p>Returns the hyperbolic cosine  of the input array, computed element-wise.</p>
 <p>.. math::    cosh(x) = 0.5\times(exp(x) + exp(-x))</p>
 <p>The storage type of $cosh$ output is always dense</p>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L846</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op_trig.cc:L216</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -904,7 +904,7 @@ copy(arr :: Array, ctx :: Context)
 <p>Example::</p>
 <p>exp([0, 1, 2]) = [1., 2.71828175, 7.38905621]</p>
 <p>The storage type of $exp$ output is always dense</p>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L584</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op_basic.cc:L598</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -922,7 +922,7 @@ copy(arr :: Array, ctx :: Context)
 <li>expm1(default) = default</li>
 <li>expm1(row_sparse) = row_sparse</li>
 </ul>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L676</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op_basic.cc:L670</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -972,7 +972,7 @@ flatten(x) = [[ 1.,  2.,  3.,  4.,  5.,  6.,  7.,  8.,  9.],
 <li>floor(default) = default</li>
 <li>floor(row_sparse) = row_sparse</li>
 </ul>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L429</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op_basic.cc:L442</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -1011,7 +1011,7 @@ flatten(x) = [[ 1.,  2.,  3.,  4.,  5.,  6.,  7.,  8.,  9.],
 
 <p>identity is an alias of _copy.</p>
 <p>Returns a copy of the input.</p>
-<p>From:src/operator/tensor/elemwise_unary_op.cc:73</p>
+<p>From:src/operator/tensor/elemwise_unary_op_basic.cc:73</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -1032,7 +1032,7 @@ flatten(x) = [[ 1.,  2.,  3.,  4.,  5.,  6.,  7.,  8.,  9.],
 <p>Returns element-wise Natural logarithmic value of the input.</p>
 <p>The natural logarithm is logarithm in base <em>e</em>, so that $log(exp(x)) = x$</p>
 <p>The storage type of $log$ output is always dense</p>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L596</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op_basic.cc:L610</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -1046,7 +1046,7 @@ flatten(x) = [[ 1.,  2.,  3.,  4.,  5.,  6.,  7.,  8.,  9.],
 <p>Returns element-wise Base-10 logarithmic value of the input.</p>
 <p>$10**log10(x) = x$</p>
 <p>The storage type of $log10$ output is always dense</p>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L608</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op_basic.cc:L622</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -1064,7 +1064,7 @@ flatten(x) = [[ 1.,  2.,  3.,  4.,  5.,  6.,  7.,  8.,  9.],
 <li>log1p(default) = default</li>
 <li>log1p(row_sparse) = row_sparse</li>
 </ul>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L658</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op_basic.cc:L652</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -1078,7 +1078,7 @@ flatten(x) = [[ 1.,  2.,  3.,  4.,  5.,  6.,  7.,  8.,  9.],
 <p>Returns element-wise Base-2 logarithmic value of the input.</p>
 <p>$2**log2(x) = x$</p>
 <p>The storage type of $log2$ output is always dense</p>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L620</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op_basic.cc:L634</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -1090,7 +1090,7 @@ flatten(x) = [[ 1.,  2.,  3.,  4.,  5.,  6.,  7.,  8.,  9.],
 </code></pre>
 
 <p>Computes the max of array elements over given axes.</p>
-<p>Defined in src/operator/tensor/broadcast_reduce_op_value.cc:L139</p>
+<p>Defined in src/operator/tensor/broadcast_reduce_op_value.cc:L156</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input</li>
@@ -1117,7 +1117,7 @@ NOT in axis instead.</p>
 </code></pre>
 
 <p>Computes the mean of array elements over given axes.</p>
-<p>Defined in src/operator/tensor/broadcast_reduce_op_value.cc:L82</p>
+<p>Defined in src/operator/tensor/broadcast_reduce_op_value.cc:L99</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input</li>
@@ -1144,7 +1144,7 @@ NOT in axis instead.</p>
 </code></pre>
 
 <p>Computes the min of array elements over given axes.</p>
-<p>Defined in src/operator/tensor/broadcast_reduce_op_value.cc:L153</p>
+<p>Defined in src/operator/tensor/broadcast_reduce_op_value.cc:L170</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input</li>
@@ -1178,7 +1178,7 @@ NOT in axis instead.</p>
 </code></pre>
 
 <p>Computes the product of array elements over given axes.</p>
-<p>Defined in src/operator/tensor/broadcast_reduce_op_value.cc:L95</p>
+<p>Defined in src/operator/tensor/broadcast_reduce_op_value.cc:L112</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input</li>
@@ -1251,7 +1251,7 @@ NOT in axis instead.</p>
 <li>round(default) = default</li>
 <li>round(row_sparse) = row_sparse</li>
 </ul>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L372</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op_basic.cc:L385</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -1281,7 +1281,7 @@ NOT in axis instead.</p>
 <li>sign(default) = default</li>
 <li>sign(row_sparse) = row_sparse</li>
 </ul>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L353</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op_basic.cc:L366</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -1307,7 +1307,7 @@ NOT in axis instead.</p>
 <li>sin(default) = default</li>
 <li>sin(row_sparse) = row_sparse</li>
 </ul>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L640</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op_trig.cc:L46</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -1325,7 +1325,7 @@ NOT in axis instead.</p>
 <li>sinh(default) = default</li>
 <li>sinh(row_sparse) = row_sparse</li>
 </ul>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L831</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op_trig.cc:L201</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -1420,7 +1420,7 @@ size(arr :: NDArray, dim :: Int)
 <li>sqrt(default) = default</li>
 <li>sqrt(row_sparse) = row_sparse</li>
 </ul>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L508</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op_basic.cc:L521</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -1433,12 +1433,16 @@ size(arr :: NDArray, dim :: Int)
 
 <p>Computes the sum of array elements over given axes.</p>
 <p>.. Note::</p>
-<p><code>sum</code> and <code>sum_axis</code> are equivalent.</p>
+<p><code>sum</code> and <code>sum_axis</code> are equivalent.   For ndarray of csr storage type summation along axis 0 and axis 1 is supported.   Setting keepdims or exclude to True will cause a fallback to dense operator.</p>
 <p>Example::</p>
 <p>data = [[[1,2],[2,3],[1,3]],           [[1,4],[4,3],[5,2]],           [[7,1],[7,2],[7,3]]]</p>
 <p>sum(data, axis=1)   [[  4.   8.]    [ 10.   9.]    [ 21.   6.]]</p>
 <p>sum(data, axis=[1,2])   [ 12.  19.  27.]</p>
-<p>Defined in src/operator/tensor/broadcast_reduce_op_value.cc:L69</p>
+<p>data = [[1,2,0],           [3,0,1],           [4,1,0]]</p>
+<p>csr = cast_storage(data, 'csr')</p>
+<p>sum(csr, axis=0)   [ 8.  2.  2.]</p>
+<p>sum(csr, axis=1)   [ 3.  4.  5.]</p>
+<p>Defined in src/operator/tensor/broadcast_reduce_op_value.cc:L84</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input</li>
@@ -1458,7 +1462,7 @@ NOT in axis instead.</p>
   *</code>exclude::boolean, optional, default=False`: Whether to perform reduction on axis that are NOT in axis instead.</p>
 </li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/15def2c2f7f846cbe560286a62be33e641ef3972/src/ndarray.jl#L1139-L1187' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/15def2c2f7f846cbe560286a62be33e641ef3972/src/ndarray.jl#L1139-L1201' class='documenter-source'>source</a><br></p>
 <p><a id='Base.tan-Tuple{Vararg{MXNet.mx.NDArray,N}}' href='#Base.tan-Tuple{Vararg{MXNet.mx.NDArray,N}}'>#</a>
 <strong><code>Base.tan</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>tan(data)
@@ -1472,7 +1476,7 @@ NOT in axis instead.</p>
 <li>tan(default) = default</li>
 <li>tan(row_sparse) = row_sparse</li>
 </ul>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L713</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op_trig.cc:L83</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -1490,7 +1494,7 @@ NOT in axis instead.</p>
 <li>tanh(default) = default</li>
 <li>tanh(row_sparse) = row_sparse</li>
 </ul>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L864</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op_trig.cc:L234</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -1541,7 +1545,7 @@ NOT in axis instead.</p>
 <li>trunc(default) = default</li>
 <li>trunc(row_sparse) = row_sparse</li>
 </ul>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L448</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op_basic.cc:L461</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -1684,7 +1688,7 @@ NOT in axis instead.</p>
 <p>v1 = [1, 2]   v2 = [0, 1]   a = Variable('a')   b = Variable('b')   b_stop_grad = stop_gradient(3 * b)   loss = MakeLoss(b_stop_grad + a)</p>
 <p>executor = loss.simple_bind(ctx=cpu(), a=(1,2), b=(1,2))   executor.forward(is_train=True, a=v1, b=v2)   executor.outputs   [ 1.  5.]</p>
 <p>executor.backward()   executor.grad_arrays   [ 0.  0.]   [ 1.  1.]</p>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L128</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op_basic.cc:L128</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -1699,7 +1703,7 @@ NOT in axis instead.</p>
 <p>.. note:: $Cast$ is deprecated. Use $cast$ instead.</p>
 <p>Example::</p>
 <p>cast([0.9, 1.3], dtype='int32') = [0, 1]    cast([1e20, 11.1], dtype='float16') = [inf, 11.09375]    cast([300, 11.1, 10.9, -1, -3], dtype='uint8') = [44, 11, 10, 255, 253]</p>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L259</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op_basic.cc:L272</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input.</li>
@@ -4920,7 +4924,7 @@ NOT in axis instead.</p>
 </code></pre>
 
 <p>Returns a copy of the input.</p>
-<p>From:src/operator/tensor/elemwise_unary_op.cc:73</p>
+<p>From:src/operator/tensor/elemwise_unary_op_basic.cc:73</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -6104,7 +6108,7 @@ NOT in axis instead.</p>
 <li>abs(default) = default</li>
 <li>abs(row_sparse) = row_sparse</li>
 </ul>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L334</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op_basic.cc:L347</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -6141,7 +6145,7 @@ NOT in axis instead.</p>
 <p>The input should be in range <code>[-1, 1]</code>. The output is in the closed interval :math:<code>[0, \pi]</code></p>
 <p>.. math::    arccos([-1, -.707, 0, .707, 1]) = [\pi, 3\pi/4, \pi/2, \pi/4, 0]</p>
 <p>The storage type of $arccos$ output is always dense</p>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L753</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op_trig.cc:L123</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -6156,7 +6160,7 @@ NOT in axis instead.</p>
 <p>Returns the element-wise inverse hyperbolic cosine of the input array, 
 computed element-wise.</p>
 <p>The storage type of $arccosh$ output is always dense</p>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L894</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op_trig.cc:L264</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -6176,7 +6180,7 @@ computed element-wise.</p>
 <li>arcsin(default) = default</li>
 <li>arcsin(row_sparse) = row_sparse</li>
 </ul>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L734</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op_trig.cc:L104</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -6195,7 +6199,7 @@ computed element-wise.</p>
 <li>arcsinh(default) = default</li>
 <li>arcsinh(row_sparse) = row_sparse</li>
 </ul>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L880</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op_trig.cc:L250</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -6215,7 +6219,7 @@ computed element-wise.</p>
 <li>arctan(default) = default</li>
 <li>arctan(row_sparse) = row_sparse</li>
 </ul>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L774</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op_trig.cc:L144</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -6234,7 +6238,7 @@ computed element-wise.</p>
 <li>arctanh(default) = default</li>
 <li>arctanh(row_sparse) = row_sparse</li>
 </ul>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L911</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op_trig.cc:L281</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -6266,13 +6270,13 @@ computed element-wise.</p>
          [ 0.,  0.,  0.]]
 
 # cast to row_sparse storage type
-rsp = cast_storage(default, 'row_sparse')
+rsp = cast_storage(dense, 'row_sparse')
 rsp.indices = [0, 1]
 rsp.values = [[ 0.,  1.,  0.],
               [ 2.,  0.,  3.]]
 
 # cast to csr storage type
-csr = cast_storage(default, 'csr')
+csr = cast_storage(dense, 'csr')
 csr.indices = [1, 0, 2]
 csr.values = [ 1.,  2.,  3.]
 csr.indptr = [0, 1, 3, 3, 3]
@@ -6300,7 +6304,7 @@ csr.indptr = [0, 1, 3, 3, 3]
 <li>ceil(default) = default</li>
 <li>ceil(row_sparse) = row_sparse</li>
 </ul>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L411</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op_basic.cc:L424</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -6316,7 +6320,7 @@ csr.indptr = [0, 1, 3, 3, 3]
 <p>The input should be in radians (:math:<code>2\pi</code> rad equals 360 degrees).</p>
 <p>.. math::    cos([0, \pi/4, \pi/2]) = [1, 0.707, 0]</p>
 <p>The storage type of $cos$ output is always dense</p>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L693</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op_trig.cc:L63</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -6331,7 +6335,7 @@ csr.indptr = [0, 1, 3, 3, 3]
 <p>Returns the hyperbolic cosine  of the input array, computed element-wise.</p>
 <p>.. math::    cosh(x) = 0.5\times(exp(x) + exp(-x))</p>
 <p>The storage type of $cosh$ output is always dense</p>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L846</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op_trig.cc:L216</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -6350,7 +6354,7 @@ csr.indptr = [0, 1, 3, 3, 3]
 <li>degrees(default) = default</li>
 <li>degrees(row_sparse) = row_sparse</li>
 </ul>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L793</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op_trig.cc:L163</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -6473,7 +6477,7 @@ csr.indptr = [0, 1, 3, 3, 3]
 <p>Example::</p>
 <p>exp([0, 1, 2]) = [1., 2.71828175, 7.38905621]</p>
 <p>The storage type of $exp$ output is always dense</p>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L584</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op_basic.cc:L598</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -6492,7 +6496,7 @@ csr.indptr = [0, 1, 3, 3, 3]
 <li>expm1(default) = default</li>
 <li>expm1(row_sparse) = row_sparse</li>
 </ul>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L676</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op_basic.cc:L670</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -6513,7 +6517,7 @@ integer towards zero of the input.</p>
 <li>fix(default) = default</li>
 <li>fix(row_sparse) = row_sparse</li>
 </ul>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L465</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op_basic.cc:L478</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -6534,7 +6538,7 @@ integer towards zero of the input.</p>
 <li>floor(default) = default</li>
 <li>floor(row_sparse) = row_sparse</li>
 </ul>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L429</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op_basic.cc:L442</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -6577,7 +6581,7 @@ of the input.</p>
 <p>Returns element-wise Natural logarithmic value of the input.</p>
 <p>The natural logarithm is logarithm in base <em>e</em>, so that $log(exp(x)) = x$</p>
 <p>The storage type of $log$ output is always dense</p>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L596</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op_basic.cc:L610</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -6592,7 +6596,7 @@ of the input.</p>
 <p>Returns element-wise Base-10 logarithmic value of the input.</p>
 <p>$10**log10(x) = x$</p>
 <p>The storage type of $log10$ output is always dense</p>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L608</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op_basic.cc:L622</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -6611,7 +6615,7 @@ of the input.</p>
 <li>log1p(default) = default</li>
 <li>log1p(row_sparse) = row_sparse</li>
 </ul>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L658</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op_basic.cc:L652</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -6626,7 +6630,7 @@ of the input.</p>
 <p>Returns element-wise Base-2 logarithmic value of the input.</p>
 <p>$2**log2(x) = x$</p>
 <p>The storage type of $log2$ output is always dense</p>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L620</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op_basic.cc:L634</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -6638,18 +6642,22 @@ of the input.</p>
 </code></pre>
 
 <p>_sparse_make_loss is an alias of make_loss.</p>
-<p>Stops gradient computation. .. note:: $make_loss$ is deprecated, use $MakeLoss$.</p>
+<p>Make your own loss function in network construction.</p>
+<p>This operator accepts a customized loss function symbol as a terminal loss and the symbol should be an operator with no backward dependency. The output of this function is the gradient of loss with respect to the input data.</p>
+<p>For example, if you are a making a cross entropy loss function. Assume $out$ is the predicted output and $label$ is the true label, then the cross entropy can be defined as::</p>
+<p>cross_entropy = label * log(out) + (1 - label) * log(1 - out)   loss = make_loss(cross_entropy)</p>
+<p>We will need to use $make_loss$ when we are creating our own loss function or we want to combine multiple loss functions. Also we may want to stop some variables' gradients from backpropagation. See more detail in $BlockGrad$ or $stop_gradient$.</p>
 <p>The storage type of $make_loss$ output depends upon the input storage type:</p>
 <ul>
 <li>make_loss(default) = default</li>
 <li>make_loss(row_sparse) = row_sparse</li>
 </ul>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L148</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op_basic.cc:L161</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/15def2c2f7f846cbe560286a62be33e641ef3972/src/ndarray.jl#L1139-L1158' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/15def2c2f7f846cbe560286a62be33e641ef3972/src/ndarray.jl#L1139-L1171' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx._sparse_negative-Tuple{Vararg{MXNet.mx.NDArray,N}}' href='#MXNet.mx._sparse_negative-Tuple{Vararg{MXNet.mx.NDArray,N}}'>#</a>
 <strong><code>MXNet.mx._sparse_negative</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>_sparse_negative(data)
@@ -6681,7 +6689,7 @@ of the input.</p>
 <li>radians(default) = default</li>
 <li>radians(row_sparse) = row_sparse</li>
 </ul>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L812</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op_trig.cc:L182</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -6700,7 +6708,7 @@ of the input.</p>
 <li>relu(default) = default</li>
 <li>relu(row_sparse) = row_sparse</li>
 </ul>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L44</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op_basic.cc:L44</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -6745,7 +6753,7 @@ of the input.</p>
 <li>rint(default) = default</li>
 <li>rint(row_sparse) = row_sparse</li>
 </ul>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L393</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op_basic.cc:L406</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -6765,7 +6773,7 @@ of the input.</p>
 <li>round(default) = default</li>
 <li>round(row_sparse) = row_sparse</li>
 </ul>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L372</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op_basic.cc:L385</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -6782,7 +6790,7 @@ of the input.</p>
 <p>Example::</p>
 <p>rsqrt([4,9,16]) = [0.5, 0.33333334, 0.25]</p>
 <p>The storage type of $rsqrt$ output is always dense</p>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L528</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op_basic.cc:L541</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -6797,7 +6805,7 @@ of the input.</p>
 <p>Computes sigmoid of x element-wise.</p>
 <p>.. math::    y = 1 / (1 + exp(-x))</p>
 <p>The storage type of $sigmoid$ output is always dense</p>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L64</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op_basic.cc:L64</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -6817,7 +6825,7 @@ of the input.</p>
 <li>sign(default) = default</li>
 <li>sign(row_sparse) = row_sparse</li>
 </ul>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L353</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op_basic.cc:L366</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -6837,7 +6845,7 @@ of the input.</p>
 <li>sin(default) = default</li>
 <li>sin(row_sparse) = row_sparse</li>
 </ul>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L640</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op_trig.cc:L46</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -6856,7 +6864,7 @@ of the input.</p>
 <li>sinh(default) = default</li>
 <li>sinh(row_sparse) = row_sparse</li>
 </ul>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L831</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op_trig.cc:L201</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -6900,7 +6908,7 @@ of the input.</p>
 <li>sqrt(default) = default</li>
 <li>sqrt(row_sparse) = row_sparse</li>
 </ul>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L508</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op_basic.cc:L521</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -6922,7 +6930,7 @@ of the input.</p>
 <li>square(row_sparse) = row_sparse</li>
 <li>square(csr) = csr</li>
 </ul>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L485</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op_basic.cc:L498</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -6940,12 +6948,50 @@ of the input.</p>
 <p>v1 = [1, 2]   v2 = [0, 1]   a = Variable('a')   b = Variable('b')   b_stop_grad = stop_gradient(3 * b)   loss = MakeLoss(b_stop_grad + a)</p>
 <p>executor = loss.simple_bind(ctx=cpu(), a=(1,2), b=(1,2))   executor.forward(is_train=True, a=v1, b=v2)   executor.outputs   [ 1.  5.]</p>
 <p>executor.backward()   executor.grad_arrays   [ 0.  0.]   [ 1.  1.]</p>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L128</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op_basic.cc:L128</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
 </ul>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/15def2c2f7f846cbe560286a62be33e641ef3972/src/ndarray.jl#L1139-L1175' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx._sparse_sum-Tuple{Vararg{MXNet.mx.NDArray,N}}' href='#MXNet.mx._sparse_sum-Tuple{Vararg{MXNet.mx.NDArray,N}}'>#</a>
+<strong><code>MXNet.mx._sparse_sum</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>_sparse_sum(data, axis, keepdims, exclude)
+</code></pre>
+
+<p>_sparse_sum is an alias of sum.</p>
+<p>Computes the sum of array elements over given axes.</p>
+<p>.. Note::</p>
+<p><code>sum</code> and <code>sum_axis</code> are equivalent.   For ndarray of csr storage type summation along axis 0 and axis 1 is supported.   Setting keepdims or exclude to True will cause a fallback to dense operator.</p>
+<p>Example::</p>
+<p>data = [[[1,2],[2,3],[1,3]],           [[1,4],[4,3],[5,2]],           [[7,1],[7,2],[7,3]]]</p>
+<p>sum(data, axis=1)   [[  4.   8.]    [ 10.   9.]    [ 21.   6.]]</p>
+<p>sum(data, axis=[1,2])   [ 12.  19.  27.]</p>
+<p>data = [[1,2,0],           [3,0,1],           [4,1,0]]</p>
+<p>csr = cast_storage(data, 'csr')</p>
+<p>sum(csr, axis=0)   [ 8.  2.  2.]</p>
+<p>sum(csr, axis=1)   [ 3.  4.  5.]</p>
+<p>Defined in src/operator/tensor/broadcast_reduce_op_value.cc:L84</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>data::NDArray-or-SymbolicNode</code>: The input</li>
+<li>
+<p><code>axis::Shape(tuple), optional, default=()</code>: The axis or axes along which to perform the reduction.</p>
+<p><code>``
+The default,</code>axis=()<code>, will compute over all elements into a
+scalar array with shape</code>(1,)`.</p>
+<p>If <code>axis</code> is int, a reduction is performed on a particular axis.</p>
+<p>If <code>axis</code> is a tuple of ints, a reduction is performed on all the axes
+specified in the tuple.</p>
+<p>If <code>exclude</code> is true, reduction will be performed on the axes that are
+NOT in axis instead.</p>
+<p>Negative values means indexing from right to left.
+<code>``
+  *</code>keepdims::boolean, optional, default=False<code>: If this is set to</code>True<code>, the reduced axes are left in the result as dimension with size one.
+  *</code>exclude::boolean, optional, default=False`: Whether to perform reduction on axis that are NOT in axis instead.</p>
+</li>
+</ul>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/15def2c2f7f846cbe560286a62be33e641ef3972/src/ndarray.jl#L1139-L1203' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx._sparse_tan-Tuple{Vararg{MXNet.mx.NDArray,N}}' href='#MXNet.mx._sparse_tan-Tuple{Vararg{MXNet.mx.NDArray,N}}'>#</a>
 <strong><code>MXNet.mx._sparse_tan</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>_sparse_tan(data)
@@ -6960,7 +7006,7 @@ of the input.</p>
 <li>tan(default) = default</li>
 <li>tan(row_sparse) = row_sparse</li>
 </ul>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L713</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op_trig.cc:L83</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -6979,7 +7025,7 @@ of the input.</p>
 <li>tanh(default) = default</li>
 <li>tanh(row_sparse) = row_sparse</li>
 </ul>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L864</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op_trig.cc:L234</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -7000,7 +7046,7 @@ of the input.</p>
 <li>trunc(default) = default</li>
 <li>trunc(row_sparse) = row_sparse</li>
 </ul>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L448</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op_basic.cc:L461</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -7137,7 +7183,7 @@ NOT in axis instead.</p>
 <p>The input should be in range <code>[-1, 1]</code>. The output is in the closed interval :math:<code>[0, \pi]</code></p>
 <p>.. math::    arccos([-1, -.707, 0, .707, 1]) = [\pi, 3\pi/4, \pi/2, \pi/4, 0]</p>
 <p>The storage type of $arccos$ output is always dense</p>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L753</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op_trig.cc:L123</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -7151,7 +7197,7 @@ NOT in axis instead.</p>
 <p>Returns the element-wise inverse hyperbolic cosine of the input array, 
 computed element-wise.</p>
 <p>The storage type of $arccosh$ output is always dense</p>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L894</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op_trig.cc:L264</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -7170,7 +7216,7 @@ computed element-wise.</p>
 <li>arcsin(default) = default</li>
 <li>arcsin(row_sparse) = row_sparse</li>
 </ul>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L734</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op_trig.cc:L104</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -7188,7 +7234,7 @@ computed element-wise.</p>
 <li>arcsinh(default) = default</li>
 <li>arcsinh(row_sparse) = row_sparse</li>
 </ul>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L880</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op_trig.cc:L250</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -7207,7 +7253,7 @@ computed element-wise.</p>
 <li>arctan(default) = default</li>
 <li>arctan(row_sparse) = row_sparse</li>
 </ul>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L774</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op_trig.cc:L144</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -7225,7 +7271,7 @@ computed element-wise.</p>
 <li>arctanh(default) = default</li>
 <li>arctanh(row_sparse) = row_sparse</li>
 </ul>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L911</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op_trig.cc:L281</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -7375,7 +7421,7 @@ computed element-wise.</p>
 <p>Example::</p>
 <p>// given x of shape (1,2,1)    x = [[[ 1.],          [ 2.]]]</p>
 <p>// broadcast x on on axis 2    broadcast_axis(x, axis=2, size=3) = [[[ 1.,  1.,  1.],                                          [ 2.,  2.,  2.]]]    // broadcast x on on axes 0 and 2    broadcast_axis(x, axis=(0,2), size=(2,3)) = [[[ 1.,  1.,  1.],                                                  [ 2.,  2.,  2.]],                                                 [[ 1.,  1.,  1.],                                                  [ 2.,  2.,  2.]]]</p>
-<p>Defined in src/operator/tensor/broadcast_reduce_op_value.cc:L186</p>
+<p>Defined in src/operator/tensor/broadcast_reduce_op_value.cc:L203</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input</li>
@@ -7393,7 +7439,7 @@ computed element-wise.</p>
 <p>Example::</p>
 <p>// given x of shape (1,2,1)    x = [[[ 1.],          [ 2.]]]</p>
 <p>// broadcast x on on axis 2    broadcast_axis(x, axis=2, size=3) = [[[ 1.,  1.,  1.],                                          [ 2.,  2.,  2.]]]    // broadcast x on on axes 0 and 2    broadcast_axis(x, axis=(0,2), size=(2,3)) = [[[ 1.,  1.,  1.],                                                  [ 2.,  2.,  2.]],                                                 [[ 1.,  1.,  1.],                                                  [ 2.,  2.,  2.]]]</p>
-<p>Defined in src/operator/tensor/broadcast_reduce_op_value.cc:L186</p>
+<p>Defined in src/operator/tensor/broadcast_reduce_op_value.cc:L203</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input</li>
@@ -7697,7 +7743,7 @@ computed element-wise.</p>
 <p>For example::</p>
 <p>broadcast_to([[1,2,3]], shape=(2,3)) = [[ 1.,  2.,  3.],                                            [ 1.,  2.,  3.]])</p>
 <p>The dimension which you do not want to change can also be kept as <code>0</code> which means copy the original value. So with <code>shape=(2,0)</code>, we will obtain the same result as in the above example.</p>
-<p>Defined in src/operator/tensor/broadcast_reduce_op_value.cc:L210</p>
+<p>Defined in src/operator/tensor/broadcast_reduce_op_value.cc:L227</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input</li>
@@ -7714,7 +7760,7 @@ computed element-wise.</p>
 <p>.. note:: $Cast$ is deprecated. Use $cast$ instead.</p>
 <p>Example::</p>
 <p>cast([0.9, 1.3], dtype='int32') = [0, 1]    cast([1e20, 11.1], dtype='float16') = [inf, 11.09375]    cast([300, 11.1, 10.9, -1, -3], dtype='uint8') = [44, 11, 10, 255, 253]</p>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L259</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op_basic.cc:L272</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input.</li>
@@ -7746,13 +7792,13 @@ computed element-wise.</p>
          [ 0.,  0.,  0.]]
 
 # cast to row_sparse storage type
-rsp = cast_storage(default, 'row_sparse')
+rsp = cast_storage(dense, 'row_sparse')
 rsp.indices = [0, 1]
 rsp.values = [[ 0.,  1.,  0.],
               [ 2.,  0.,  3.]]
 
 # cast to csr storage type
-csr = cast_storage(default, 'csr')
+csr = cast_storage(dense, 'csr')
 csr.indices = [1, 0, 2]
 csr.values = [ 1.,  2.,  3.]
 csr.indptr = [0, 1, 3, 3, 3]
@@ -7864,7 +7910,7 @@ clip(x,1,8) = [ 1.,  1.,  2.,  3.,  4.,  5.,  6.,  7.,  8.,  8.]
 <li>degrees(default) = default</li>
 <li>degrees(row_sparse) = row_sparse</li>
 </ul>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L793</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op_trig.cc:L163</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -8003,7 +8049,7 @@ integer towards zero of the input.</p>
 <li>fix(default) = default</li>
 <li>fix(row_sparse) = row_sparse</li>
 </ul>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L465</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op_basic.cc:L478</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -8363,18 +8409,22 @@ of the input.</p>
 <pre><code>make_loss(data)
 </code></pre>
 
-<p>Stops gradient computation. .. note:: $make_loss$ is deprecated, use $MakeLoss$.</p>
+<p>Make your own loss function in network construction.</p>
+<p>This operator accepts a customized loss function symbol as a terminal loss and the symbol should be an operator with no backward dependency. The output of this function is the gradient of loss with respect to the input data.</p>
+<p>For example, if you are a making a cross entropy loss function. Assume $out$ is the predicted output and $label$ is the true label, then the cross entropy can be defined as::</p>
+<p>cross_entropy = label * log(out) + (1 - label) * log(1 - out)   loss = make_loss(cross_entropy)</p>
+<p>We will need to use $make_loss$ when we are creating our own loss function or we want to combine multiple loss functions. Also we may want to stop some variables' gradients from backpropagation. See more detail in $BlockGrad$ or $stop_gradient$.</p>
 <p>The storage type of $make_loss$ output depends upon the input storage type:</p>
 <ul>
 <li>make_loss(default) = default</li>
 <li>make_loss(row_sparse) = row_sparse</li>
 </ul>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L148</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op_basic.cc:L161</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/15def2c2f7f846cbe560286a62be33e641ef3972/src/ndarray.jl#L1139-L1156' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/15def2c2f7f846cbe560286a62be33e641ef3972/src/ndarray.jl#L1139-L1169' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.max_axis-Tuple{Vararg{MXNet.mx.NDArray,N}}' href='#MXNet.mx.max_axis-Tuple{Vararg{MXNet.mx.NDArray,N}}'>#</a>
 <strong><code>MXNet.mx.max_axis</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>max_axis(data, axis, keepdims, exclude)
@@ -8382,7 +8432,7 @@ of the input.</p>
 
 <p>max_axis is an alias of max.</p>
 <p>Computes the max of array elements over given axes.</p>
-<p>Defined in src/operator/tensor/broadcast_reduce_op_value.cc:L139</p>
+<p>Defined in src/operator/tensor/broadcast_reduce_op_value.cc:L156</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input</li>
@@ -8410,7 +8460,7 @@ NOT in axis instead.</p>
 
 <p>min_axis is an alias of min.</p>
 <p>Computes the min of array elements over given axes.</p>
-<p>Defined in src/operator/tensor/broadcast_reduce_op_value.cc:L153</p>
+<p>Defined in src/operator/tensor/broadcast_reduce_op_value.cc:L170</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input</li>
@@ -8480,7 +8530,7 @@ NOT in axis instead.</p>
 </code></pre>
 
 <p>Computes the product of array elements over given axes treating Not a Numbers ($NaN$) as one.</p>
-<p>Defined in src/operator/tensor/broadcast_reduce_op_value.cc:L125</p>
+<p>Defined in src/operator/tensor/broadcast_reduce_op_value.cc:L142</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input</li>
@@ -8507,7 +8557,7 @@ NOT in axis instead.</p>
 </code></pre>
 
 <p>Computes the sum of array elements over given axes treating Not a Numbers ($NaN$) as zero.</p>
-<p>Defined in src/operator/tensor/broadcast_reduce_op_value.cc:L110</p>
+<p>Defined in src/operator/tensor/broadcast_reduce_op_value.cc:L127</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input</li>
@@ -8745,7 +8795,7 @@ ones(DType, dim1, dim2, ...)
 <li>radians(default) = default</li>
 <li>radians(row_sparse) = row_sparse</li>
 </ul>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L812</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op_trig.cc:L182</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -8900,7 +8950,7 @@ ones(DType, dim1, dim2, ...)
 <p>.. math::    rcbrt(x) = 1/\sqrt[3]{x}</p>
 <p>Example::</p>
 <p>rcbrt([1,8,-125]) = [1.0, 0.5, -0.2]</p>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L562</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op_basic.cc:L575</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -8917,7 +8967,7 @@ ones(DType, dim1, dim2, ...)
 <pre><code>reciprocal([-2, 1, 3, 1.6, 0.2]) = [-0.5, 1.0, 0.33333334, 0.625, 5.0]
 </code></pre>
 
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L312</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op_basic.cc:L325</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -8935,7 +8985,7 @@ ones(DType, dim1, dim2, ...)
 <li>relu(default) = default</li>
 <li>relu(row_sparse) = row_sparse</li>
 </ul>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L44</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op_basic.cc:L44</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -8971,7 +9021,7 @@ ones(DType, dim1, dim2, ...)
 <li>rint(default) = default</li>
 <li>rint(row_sparse) = row_sparse</li>
 </ul>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L393</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op_basic.cc:L406</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -9050,7 +9100,7 @@ ones(DType, dim1, dim2, ...)
 <p>Example::</p>
 <p>rsqrt([4,9,16]) = [0.5, 0.33333334, 0.25]</p>
 <p>The storage type of $rsqrt$ output is always dense</p>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L528</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op_basic.cc:L541</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -9322,7 +9372,7 @@ ones(DType, dim1, dim2, ...)
 <p>Computes sigmoid of x element-wise.</p>
 <p>.. math::    y = 1 / (1 + exp(-x))</p>
 <p>The storage type of $sigmoid$ output is always dense</p>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L64</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op_basic.cc:L64</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -9475,7 +9525,7 @@ ones(DType, dim1, dim2, ...)
 <li>square(row_sparse) = row_sparse</li>
 <li>square(csr) = csr</li>
 </ul>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L485</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op_basic.cc:L498</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -9511,7 +9561,7 @@ ones(DType, dim1, dim2, ...)
 <p>v1 = [1, 2]   v2 = [0, 1]   a = Variable('a')   b = Variable('b')   b_stop_grad = stop_gradient(3 * b)   loss = MakeLoss(b_stop_grad + a)</p>
 <p>executor = loss.simple_bind(ctx=cpu(), a=(1,2), b=(1,2))   executor.forward(is_train=True, a=v1, b=v2)   executor.outputs   [ 1.  5.]</p>
 <p>executor.backward()   executor.grad_arrays   [ 0.  0.]   [ 1.  1.]</p>
-<p>Defined in src/operator/tensor/elemwise_unary_op.cc:L128</p>
+<p>Defined in src/operator/tensor/elemwise_unary_op_basic.cc:L128</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -9532,12 +9582,16 @@ ones(DType, dim1, dim2, ...)
 <p>sum_axis is an alias of sum.</p>
 <p>Computes the sum of array elements over given axes.</p>
 <p>.. Note::</p>
-<p><code>sum</code> and <code>sum_axis</code> are equivalent.</p>
+<p><code>sum</code> and <code>sum_axis</code> are equivalent.   For ndarray of csr storage type summation along axis 0 and axis 1 is supported.   Setting keepdims or exclude to True will cause a fallback to dense operator.</p>
 <p>Example::</p>
 <p>data = [[[1,2],[2,3],[1,3]],           [[1,4],[4,3],[5,2]],           [[7,1],[7,2],[7,3]]]</p>
 <p>sum(data, axis=1)   [[  4.   8.]    [ 10.   9.]    [ 21.   6.]]</p>
 <p>sum(data, axis=[1,2])   [ 12.  19.  27.]</p>
-<p>Defined in src/operator/tensor/broadcast_reduce_op_value.cc:L69</p>
+<p>data = [[1,2,0],           [3,0,1],           [4,1,0]]</p>
+<p>csr = cast_storage(data, 'csr')</p>
+<p>sum(csr, axis=0)   [ 8.  2.  2.]</p>
+<p>sum(csr, axis=1)   [ 3.  4.  5.]</p>
+<p>Defined in src/operator/tensor/broadcast_reduce_op_value.cc:L84</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input</li>
@@ -9557,7 +9611,7 @@ NOT in axis instead.</p>
   *</code>exclude::boolean, optional, default=False`: Whether to perform reduction on axis that are NOT in axis instead.</p>
 </li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/15def2c2f7f846cbe560286a62be33e641ef3972/src/ndarray.jl#L1139-L1189' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/15def2c2f7f846cbe560286a62be33e641ef3972/src/ndarray.jl#L1139-L1203' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.swapaxes-Tuple{Vararg{MXNet.mx.NDArray,N}}' href='#MXNet.mx.swapaxes-Tuple{Vararg{MXNet.mx.NDArray,N}}'>#</a>
 <strong><code>MXNet.mx.swapaxes</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>swapaxes(data, dim1, dim2)
