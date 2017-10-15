@@ -710,8 +710,8 @@ flatten(x) = [[ 1.,  2.,  3.,  4.,  5.,  6.,  7.,  8.,  9.],
 <ul>
 <li><code>lhs::NDArray-or-SymbolicNode</code>: The first input</li>
 <li><code>rhs::NDArray-or-SymbolicNode</code>: The second input</li>
-<li><code>transpose_a::boolean, optional, default=False</code>: If true then transpose the first input before dot.</li>
-<li><code>transpose_b::boolean, optional, default=False</code>: If true then transpose the second input before dot.</li>
+<li><code>transpose_a::boolean, optional, default=0</code>: If true then transpose the first input before dot.</li>
+<li><code>transpose_b::boolean, optional, default=0</code>: If true then transpose the second input before dot.</li>
 </ul>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/15def2c2f7f846cbe560286a62be33e641ef3972/src/ndarray.jl#L1139-L1182' class='documenter-source'>source</a><br></p>
 <p><a id='Base.LinAlg.norm-Tuple{Vararg{MXNet.mx.NDArray,N}}' href='#Base.LinAlg.norm-Tuple{Vararg{MXNet.mx.NDArray,N}}'>#</a>
@@ -1106,8 +1106,8 @@ specified in the tuple.</p>
 NOT in axis instead.</p>
 <p>Negative values means indexing from right to left.
 <code>``
-  *</code>keepdims::boolean, optional, default=False<code>: If this is set to</code>True<code>, the reduced axes are left in the result as dimension with size one.
-  *</code>exclude::boolean, optional, default=False`: Whether to perform reduction on axis that are NOT in axis instead.</p>
+  *</code>keepdims::boolean, optional, default=0<code>: If this is set to</code>True<code>, the reduced axes are left in the result as dimension with size one.
+  *</code>exclude::boolean, optional, default=0`: Whether to perform reduction on axis that are NOT in axis instead.</p>
 </li>
 </ul>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/15def2c2f7f846cbe560286a62be33e641ef3972/src/ndarray.jl#L1139-L1167' class='documenter-source'>source</a><br></p>
@@ -1133,8 +1133,8 @@ specified in the tuple.</p>
 NOT in axis instead.</p>
 <p>Negative values means indexing from right to left.
 <code>``
-  *</code>keepdims::boolean, optional, default=False<code>: If this is set to</code>True<code>, the reduced axes are left in the result as dimension with size one.
-  *</code>exclude::boolean, optional, default=False`: Whether to perform reduction on axis that are NOT in axis instead.</p>
+  *</code>keepdims::boolean, optional, default=0<code>: If this is set to</code>True<code>, the reduced axes are left in the result as dimension with size one.
+  *</code>exclude::boolean, optional, default=0`: Whether to perform reduction on axis that are NOT in axis instead.</p>
 </li>
 </ul>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/15def2c2f7f846cbe560286a62be33e641ef3972/src/ndarray.jl#L1139-L1167' class='documenter-source'>source</a><br></p>
@@ -1160,8 +1160,8 @@ specified in the tuple.</p>
 NOT in axis instead.</p>
 <p>Negative values means indexing from right to left.
 <code>``
-  *</code>keepdims::boolean, optional, default=False<code>: If this is set to</code>True<code>, the reduced axes are left in the result as dimension with size one.
-  *</code>exclude::boolean, optional, default=False`: Whether to perform reduction on axis that are NOT in axis instead.</p>
+  *</code>keepdims::boolean, optional, default=0<code>: If this is set to</code>True<code>, the reduced axes are left in the result as dimension with size one.
+  *</code>exclude::boolean, optional, default=0`: Whether to perform reduction on axis that are NOT in axis instead.</p>
 </li>
 </ul>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/15def2c2f7f846cbe560286a62be33e641ef3972/src/ndarray.jl#L1139-L1167' class='documenter-source'>source</a><br></p>
@@ -1194,8 +1194,8 @@ specified in the tuple.</p>
 NOT in axis instead.</p>
 <p>Negative values means indexing from right to left.
 <code>``
-  *</code>keepdims::boolean, optional, default=False<code>: If this is set to</code>True<code>, the reduced axes are left in the result as dimension with size one.
-  *</code>exclude::boolean, optional, default=False`: Whether to perform reduction on axis that are NOT in axis instead.</p>
+  *</code>keepdims::boolean, optional, default=0<code>: If this is set to</code>True<code>, the reduced axes are left in the result as dimension with size one.
+  *</code>exclude::boolean, optional, default=0`: Whether to perform reduction on axis that are NOT in axis instead.</p>
 </li>
 </ul>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/15def2c2f7f846cbe560286a62be33e641ef3972/src/ndarray.jl#L1139-L1167' class='documenter-source'>source</a><br></p>
@@ -1356,7 +1356,7 @@ size(arr :: NDArray, dim :: Int)
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array</li>
 <li><code>axis::int or None, optional, default='-1'</code>: Axis along which to choose sort the input tensor. If not given, the flattened array is used. Default is -1.</li>
-<li><code>is_ascend::boolean, optional, default=True</code>: Whether to sort in ascending or descending order.</li>
+<li><code>is_ascend::boolean, optional, default=1</code>: Whether to sort in ascending or descending order.</li>
 </ul>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/15def2c2f7f846cbe560286a62be33e641ef3972/src/ndarray.jl#L1139-L1174' class='documenter-source'>source</a><br></p>
 <p><a id='Base.split-Tuple{Vararg{MXNet.mx.NDArray,N}}' href='#Base.split-Tuple{Vararg{MXNet.mx.NDArray,N}}'>#</a>
@@ -1403,7 +1403,7 @@ size(arr :: NDArray, dim :: Int)
 <li><code>data::NDArray-or-SymbolicNode</code>: The input</li>
 <li><code>num_outputs::int, required</code>: Number of splits. Note that this should evenly divide the length of the <code>axis</code>.</li>
 <li><code>axis::int, optional, default='1'</code>: Axis along which to split.</li>
-<li><code>squeeze_axis::boolean, optional, default=False</code>: If true, Removes the axis with length 1 from the shapes of the output arrays. <strong>Note</strong> that setting <code>squeeze_axis</code> to $true$ removes axis with length 1 only along the <code>axis</code> which it is split. Also <code>squeeze_axis</code> can be set to $true$ only if $input.shape[axis] == num_outputs$.</li>
+<li><code>squeeze_axis::boolean, optional, default=0</code>: If true, Removes the axis with length 1 from the shapes of the output arrays. <strong>Note</strong> that setting <code>squeeze_axis</code> to $true$ removes axis with length 1 only along the <code>axis</code> which it is split. Also <code>squeeze_axis</code> can be set to $true$ only if $input.shape[axis] == num_outputs$.</li>
 </ul>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/15def2c2f7f846cbe560286a62be33e641ef3972/src/ndarray.jl#L1139-L1214' class='documenter-source'>source</a><br></p>
 <p><a id='Base.sqrt-Tuple{Vararg{MXNet.mx.NDArray,N}}' href='#Base.sqrt-Tuple{Vararg{MXNet.mx.NDArray,N}}'>#</a>
@@ -1458,8 +1458,8 @@ specified in the tuple.</p>
 NOT in axis instead.</p>
 <p>Negative values means indexing from right to left.
 <code>``
-  *</code>keepdims::boolean, optional, default=False<code>: If this is set to</code>True<code>, the reduced axes are left in the result as dimension with size one.
-  *</code>exclude::boolean, optional, default=False`: Whether to perform reduction on axis that are NOT in axis instead.</p>
+  *</code>keepdims::boolean, optional, default=0<code>: If this is set to</code>True<code>, the reduced axes are left in the result as dimension with size one.
+  *</code>exclude::boolean, optional, default=0`: Whether to perform reduction on axis that are NOT in axis instead.</p>
 </li>
 </ul>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/15def2c2f7f846cbe560286a62be33e641ef3972/src/ndarray.jl#L1139-L1201' class='documenter-source'>source</a><br></p>
@@ -1602,11 +1602,11 @@ NOT in axis instead.</p>
 <li><code>moving_var::NDArray-or-SymbolicNode</code>: running variance of input</li>
 <li><code>eps::double, optional, default=0.001</code>: Epsilon to prevent div 0. Must be no less than CUDNN_BN_MIN_EPSILON defined in cudnn.h when using cudnn (usually 1e-5)</li>
 <li><code>momentum::float, optional, default=0.9</code>: Momentum for moving average</li>
-<li><code>fix_gamma::boolean, optional, default=True</code>: Fix gamma while training</li>
-<li><code>use_global_stats::boolean, optional, default=False</code>: Whether use global moving statistics instead of local batch-norm. This will force change batch-norm into a scale shift operator.</li>
-<li><code>output_mean_var::boolean, optional, default=False</code>: Output All,normal mean and var</li>
+<li><code>fix_gamma::boolean, optional, default=1</code>: Fix gamma while training</li>
+<li><code>use_global_stats::boolean, optional, default=0</code>: Whether use global moving statistics instead of local batch-norm. This will force change batch-norm into a scale shift operator.</li>
+<li><code>output_mean_var::boolean, optional, default=0</code>: Output All,normal mean and var</li>
 <li><code>axis::int, optional, default='1'</code>: Specify which shape axis the channel is specified</li>
-<li><code>cudnn_off::boolean, optional, default=False</code>: Do not select CUDNN operator, if available</li>
+<li><code>cudnn_off::boolean, optional, default=0</code>: Do not select CUDNN operator, if available</li>
 </ul>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/15def2c2f7f846cbe560286a62be33e641ef3972/src/ndarray.jl#L1139-L1214' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.BatchNorm_v1-Tuple{Vararg{MXNet.mx.NDArray,N}}' href='#MXNet.mx.BatchNorm_v1-Tuple{Vararg{MXNet.mx.NDArray,N}}'>#</a>
@@ -1637,9 +1637,9 @@ NOT in axis instead.</p>
 <li><code>beta::NDArray-or-SymbolicNode</code>: beta array</li>
 <li><code>eps::float, optional, default=0.001</code>: Epsilon to prevent div 0</li>
 <li><code>momentum::float, optional, default=0.9</code>: Momentum for moving average</li>
-<li><code>fix_gamma::boolean, optional, default=True</code>: Fix gamma while training</li>
-<li><code>use_global_stats::boolean, optional, default=False</code>: Whether use global moving statistics instead of local batch-norm. This will force change batch-norm into a scale shift operator.</li>
-<li><code>output_mean_var::boolean, optional, default=False</code>: Output All,normal mean and var</li>
+<li><code>fix_gamma::boolean, optional, default=1</code>: Fix gamma while training</li>
+<li><code>use_global_stats::boolean, optional, default=0</code>: Whether use global moving statistics instead of local batch-norm. This will force change batch-norm into a scale shift operator.</li>
+<li><code>output_mean_var::boolean, optional, default=0</code>: Output All,normal mean and var</li>
 </ul>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/15def2c2f7f846cbe560286a62be33e641ef3972/src/ndarray.jl#L1139-L1202' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.BilinearSampler-Tuple{Vararg{MXNet.mx.NDArray,N}}' href='#MXNet.mx.BilinearSampler-Tuple{Vararg{MXNet.mx.NDArray,N}}'>#</a>
@@ -1797,9 +1797,9 @@ NOT in axis instead.</p>
 <li><code>num_filter::int (non-negative), required</code>: convolution filter(channel) number</li>
 <li><code>num_group::int (non-negative), optional, default=1</code>: Number of group partitions.</li>
 <li><code>workspace::long (non-negative), optional, default=1024</code>: Maximum temporary workspace allowed for convolution (MB).</li>
-<li><code>no_bias::boolean, optional, default=False</code>: Whether to disable bias parameter.</li>
+<li><code>no_bias::boolean, optional, default=0</code>: Whether to disable bias parameter.</li>
 <li><code>cudnn_tune::{None, 'fastest', 'limited_workspace', 'off'},optional, default='None'</code>: Whether to pick convolution algo by running performance test.</li>
-<li><code>cudnn_off::boolean, optional, default=False</code>: Turn off cudnn for this layer.</li>
+<li><code>cudnn_off::boolean, optional, default=0</code>: Turn off cudnn for this layer.</li>
 <li><code>layout::{None, 'NCDHW', 'NCHW', 'NCW', 'NDHWC', 'NHWC'},optional, default='None'</code>: Set layout for input, output and weight. Empty for   default layout: NCW for 1d, NCHW for 2d and NCDHW for 3d.</li>
 </ul>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/15def2c2f7f846cbe560286a62be33e641ef3972/src/ndarray.jl#L1139-L1247' class='documenter-source'>source</a><br></p>
@@ -1821,9 +1821,9 @@ NOT in axis instead.</p>
 <li><code>num_filter::int (non-negative), required</code>: convolution filter(channel) number</li>
 <li><code>num_group::int (non-negative), optional, default=1</code>: Number of group partitions. Equivalent to slicing input into num_group   partitions, apply convolution on each, then concatenate the results</li>
 <li><code>workspace::long (non-negative), optional, default=1024</code>: Maximum tmp workspace allowed for convolution (MB).</li>
-<li><code>no_bias::boolean, optional, default=False</code>: Whether to disable bias parameter.</li>
+<li><code>no_bias::boolean, optional, default=0</code>: Whether to disable bias parameter.</li>
 <li><code>cudnn_tune::{None, 'fastest', 'limited_workspace', 'off'},optional, default='None'</code>: Whether to pick convolution algo by running performance test.   Leads to higher startup time but may give faster speed. Options are:   'off': no tuning   'limited_workspace': run test and pick the fastest algorithm that doesn't exceed workspace limit.   'fastest': pick the fastest algorithm and ignore workspace limit.   If set to None (default), behavior is determined by environment   variable MXNET_CUDNN_AUTOTUNE_DEFAULT: 0 for off,   1 for limited workspace (default), 2 for fastest.</li>
-<li><code>cudnn_off::boolean, optional, default=False</code>: Turn off cudnn for this layer.</li>
+<li><code>cudnn_off::boolean, optional, default=0</code>: Turn off cudnn for this layer.</li>
 <li><code>layout::{None, 'NCDHW', 'NCHW', 'NDHWC', 'NHWC'},optional, default='None'</code>: Set layout for input, output and weight. Empty for   default layout: NCHW for 2d and NCDHW for 3d.</li>
 </ul>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/15def2c2f7f846cbe560286a62be33e641ef3972/src/ndarray.jl#L1139-L1181' class='documenter-source'>source</a><br></p>
@@ -1854,7 +1854,7 @@ NOT in axis instead.</p>
 <li><code>stride1::int (non-negative), optional, default=1</code>: stride1 quantize data1 globally</li>
 <li><code>stride2::int (non-negative), optional, default=1</code>: stride2 quantize data2 within the neighborhood centered around data1</li>
 <li><code>pad_size::int (non-negative), optional, default=0</code>: pad for Correlation</li>
-<li><code>is_multiply::boolean, optional, default=True</code>: operation type is either multiplication or subduction</li>
+<li><code>is_multiply::boolean, optional, default=1</code>: operation type is either multiplication or subduction</li>
 </ul>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/15def2c2f7f846cbe560286a62be33e641ef3972/src/ndarray.jl#L1139-L1192' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.Crop-Tuple{Vararg{MXNet.mx.NDArray,N}}' href='#MXNet.mx.Crop-Tuple{Vararg{MXNet.mx.NDArray,N}}'>#</a>
@@ -1872,7 +1872,7 @@ NOT in axis instead.</p>
 <li><code>num_args::int, required</code>: Number of inputs for crop, if equals one, then we will use the h_wfor crop height and width, else if equals two, then we will use the heightand width of the second input symbol, we name crop_like here</li>
 <li><code>offset::Shape(tuple), optional, default=(0,0)</code>: crop offset coordinate: (y, x)</li>
 <li><code>h_w::Shape(tuple), optional, default=(0,0)</code>: crop height and width: (h, w)</li>
-<li><code>center_crop::boolean, optional, default=False</code>: If set to true, then it will use be the center_crop,or it will crop using the shape of crop_like</li>
+<li><code>center_crop::boolean, optional, default=0</code>: If set to true, then it will use be the center_crop,or it will crop using the shape of crop_like</li>
 </ul>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/15def2c2f7f846cbe560286a62be33e641ef3972/src/ndarray.jl#L1139-L1165' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.Custom-Tuple{Vararg{MXNet.mx.NDArray,N}}' href='#MXNet.mx.Custom-Tuple{Vararg{MXNet.mx.NDArray,N}}'>#</a>
@@ -1909,9 +1909,9 @@ NOT in axis instead.</p>
 <li><code>num_filter::int (non-negative), required</code>: Number of output filters.</li>
 <li><code>num_group::int (non-negative), optional, default=1</code>: Number of groups partition.</li>
 <li><code>workspace::long (non-negative), optional, default=512</code>: Maximum temporal workspace allowed for deconvolution (MB).</li>
-<li><code>no_bias::boolean, optional, default=True</code>: Whether to disable bias parameter.</li>
+<li><code>no_bias::boolean, optional, default=1</code>: Whether to disable bias parameter.</li>
 <li><code>cudnn_tune::{None, 'fastest', 'limited_workspace', 'off'},optional, default='None'</code>: Whether to pick convolution algorithm by running performance test.</li>
-<li><code>cudnn_off::boolean, optional, default=False</code>: Turn off cudnn for this layer.</li>
+<li><code>cudnn_off::boolean, optional, default=0</code>: Turn off cudnn for this layer.</li>
 <li><code>layout::{None, 'NCDHW', 'NCHW', 'NCW', 'NDHWC', 'NHWC'},optional, default='None'</code>: Set layout for input, output and weight. Empty for default layout, NCW for 1d, NCHW for 2d and NCDHW for 3d.</li>
 </ul>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/15def2c2f7f846cbe560286a62be33e641ef3972/src/ndarray.jl#L1139-L1176' class='documenter-source'>source</a><br></p>
@@ -2018,8 +2018,8 @@ NOT in axis instead.</p>
 <li><code>weight::NDArray-or-SymbolicNode</code>: Weight matrix.</li>
 <li><code>bias::NDArray-or-SymbolicNode</code>: Bias parameter.</li>
 <li><code>num_hidden::int, required</code>: Number of hidden nodes of the output.</li>
-<li><code>no_bias::boolean, optional, default=False</code>: Whether to disable bias parameter.</li>
-<li><code>flatten::boolean, optional, default=True</code>: Whether to collapse all but the first axis of the input data tensor.</li>
+<li><code>no_bias::boolean, optional, default=0</code>: Whether to disable bias parameter.</li>
+<li><code>flatten::boolean, optional, default=1</code>: Whether to collapse all but the first axis of the input data tensor.</li>
 </ul>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/15def2c2f7f846cbe560286a62be33e641ef3972/src/ndarray.jl#L1139-L1178' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.GridGenerator-Tuple{Vararg{MXNet.mx.NDArray,N}}' href='#MXNet.mx.GridGenerator-Tuple{Vararg{MXNet.mx.NDArray,N}}'>#</a>
@@ -2343,8 +2343,8 @@ NOT in axis instead.</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: Input data to the pooling operator.</li>
-<li><code>global_pool::boolean, optional, default=False</code>: Ignore kernel size, do global pooling based on current input feature map.</li>
-<li><code>cudnn_off::boolean, optional, default=False</code>: Turn off cudnn pooling and use MXNet pooling operator.</li>
+<li><code>global_pool::boolean, optional, default=0</code>: Ignore kernel size, do global pooling based on current input feature map.</li>
+<li><code>cudnn_off::boolean, optional, default=0</code>: Turn off cudnn pooling and use MXNet pooling operator.</li>
 <li><code>kernel::Shape(tuple), required</code>: pooling kernel size: (y, x) or (d, y, x)</li>
 <li><code>pool_type::{'avg', 'max', 'sum'}, required</code>: Pooling type to be applied.</li>
 <li><code>pooling_convention::{'full', 'valid'},optional, default='valid'</code>: Pooling convention to be applied.</li>
@@ -2388,7 +2388,7 @@ NOT in axis instead.</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: Input data to the pooling operator.</li>
-<li><code>global_pool::boolean, optional, default=False</code>: Ignore kernel size, do global pooling based on current input feature map.</li>
+<li><code>global_pool::boolean, optional, default=0</code>: Ignore kernel size, do global pooling based on current input feature map.</li>
 <li><code>kernel::Shape(tuple), required</code>: pooling kernel size: (y, x) or (d, y, x)</li>
 <li><code>pool_type::{'avg', 'max', 'sum'}, required</code>: Pooling type to be applied.</li>
 <li><code>pooling_convention::{'full', 'valid'},optional, default='valid'</code>: Pooling convention to be applied.</li>
@@ -2410,10 +2410,10 @@ NOT in axis instead.</p>
 <li><code>state_cell::NDArray-or-SymbolicNode</code>: initial cell state for LSTM networks (only for LSTM)</li>
 <li><code>state_size::int (non-negative), required</code>: size of the state for each layer</li>
 <li><code>num_layers::int (non-negative), required</code>: number of stacked layers</li>
-<li><code>bidirectional::boolean, optional, default=False</code>: whether to use bidirectional recurrent layers</li>
+<li><code>bidirectional::boolean, optional, default=0</code>: whether to use bidirectional recurrent layers</li>
 <li><code>mode::{'gru', 'lstm', 'rnn_relu', 'rnn_tanh'}, required</code>: the type of RNN to compute</li>
 <li><code>p::float, optional, default=0</code>: Dropout probability, fraction of the input that gets dropped out at training time</li>
-<li><code>state_outputs::boolean, optional, default=False</code>: Whether to have the states as symbol outputs.</li>
+<li><code>state_outputs::boolean, optional, default=0</code>: Whether to have the states as symbol outputs.</li>
 </ul>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/15def2c2f7f846cbe560286a62be33e641ef3972/src/ndarray.jl#L1139-L1164' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.ROIPooling-Tuple{Vararg{MXNet.mx.NDArray,N}}' href='#MXNet.mx.ROIPooling-Tuple{Vararg{MXNet.mx.NDArray,N}}'>#</a>
@@ -2454,7 +2454,7 @@ NOT in axis instead.</p>
 <li><code>label::NDArray-or-SymbolicNode</code>: Class label for the input data.</li>
 <li><code>margin::float, optional, default=1</code>: The loss function penalizes outputs that lie outside this margin. Default margin is 1.</li>
 <li><code>regularization_coefficient::float, optional, default=1</code>: Regularization parameter for the SVM. This balances the tradeoff between coefficient size and error.</li>
-<li><code>use_linear::boolean, optional, default=False</code>: Whether to use L1-SVM objective. L2-SVM objective is used by default.</li>
+<li><code>use_linear::boolean, optional, default=0</code>: Whether to use L1-SVM objective. L2-SVM objective is used by default.</li>
 </ul>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/15def2c2f7f846cbe560286a62be33e641ef3972/src/ndarray.jl#L1139-L1159' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.SequenceLast-Tuple{Vararg{MXNet.mx.NDArray,N}}' href='#MXNet.mx.SequenceLast-Tuple{Vararg{MXNet.mx.NDArray,N}}'>#</a>
@@ -2485,7 +2485,7 @@ NOT in axis instead.</p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: n-dimensional input array of the form [max_sequence_length, batch_size, other_feature_dims] where n&gt;2</li>
 <li><code>sequence_length::NDArray-or-SymbolicNode</code>: vector of sequence lengths of the form [batch_size]</li>
-<li><code>use_sequence_length::boolean, optional, default=False</code>: If set to true, this layer takes in an extra input parameter <code>sequence_length</code> to specify variable length sequence</li>
+<li><code>use_sequence_length::boolean, optional, default=0</code>: If set to true, this layer takes in an extra input parameter <code>sequence_length</code> to specify variable length sequence</li>
 </ul>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/15def2c2f7f846cbe560286a62be33e641ef3972/src/ndarray.jl#L1139-L1196' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.SequenceMask-Tuple{Vararg{MXNet.mx.NDArray,N}}' href='#MXNet.mx.SequenceMask-Tuple{Vararg{MXNet.mx.NDArray,N}}'>#</a>
@@ -2536,7 +2536,7 @@ NOT in axis instead.</p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: n-dimensional input array of the form [max_sequence_length, batch_size, other_feature_dims] where n&gt;2</li>
 <li><code>sequence_length::NDArray-or-SymbolicNode</code>: vector of sequence lengths of the form [batch_size]</li>
-<li><code>use_sequence_length::boolean, optional, default=False</code>: If set to true, this layer takes in an extra input parameter <code>sequence_length</code> to specify variable length sequence</li>
+<li><code>use_sequence_length::boolean, optional, default=0</code>: If set to true, this layer takes in an extra input parameter <code>sequence_length</code> to specify variable length sequence</li>
 <li><code>value::float, optional, default=0</code>: The value to be used as a mask.</li>
 </ul>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/15def2c2f7f846cbe560286a62be33e641ef3972/src/ndarray.jl#L1139-L1220' class='documenter-source'>source</a><br></p>
@@ -2588,7 +2588,7 @@ NOT in axis instead.</p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: n-dimensional input array of the form [max_sequence_length, batch_size, other dims] where n&gt;2</li>
 <li><code>sequence_length::NDArray-or-SymbolicNode</code>: vector of sequence lengths of the form [batch_size]</li>
-<li><code>use_sequence_length::boolean, optional, default=False</code>: If set to true, this layer takes in an extra input parameter <code>sequence_length</code> to specify variable length sequence</li>
+<li><code>use_sequence_length::boolean, optional, default=0</code>: If set to true, this layer takes in an extra input parameter <code>sequence_length</code> to specify variable length sequence</li>
 </ul>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/15def2c2f7f846cbe560286a62be33e641ef3972/src/ndarray.jl#L1139-L1217' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.SliceChannel-Tuple{Vararg{MXNet.mx.NDArray,N}}' href='#MXNet.mx.SliceChannel-Tuple{Vararg{MXNet.mx.NDArray,N}}'>#</a>
@@ -2634,7 +2634,7 @@ NOT in axis instead.</p>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input</li>
 <li><code>num_outputs::int, required</code>: Number of splits. Note that this should evenly divide the length of the <code>axis</code>.</li>
 <li><code>axis::int, optional, default='1'</code>: Axis along which to split.</li>
-<li><code>squeeze_axis::boolean, optional, default=False</code>: If true, Removes the axis with length 1 from the shapes of the output arrays. <strong>Note</strong> that setting <code>squeeze_axis</code> to $true$ removes axis with length 1 only along the <code>axis</code> which it is split. Also <code>squeeze_axis</code> can be set to $true$ only if $input.shape[axis] == num_outputs$.</li>
+<li><code>squeeze_axis::boolean, optional, default=0</code>: If true, Removes the axis with length 1 from the shapes of the output arrays. <strong>Note</strong> that setting <code>squeeze_axis</code> to $true$ removes axis with length 1 only along the <code>axis</code> which it is split. Also <code>squeeze_axis</code> can be set to $true$ only if $input.shape[axis] == num_outputs$.</li>
 </ul>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/15def2c2f7f846cbe560286a62be33e641ef3972/src/ndarray.jl#L1139-L1212' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.Softmax-Tuple{Vararg{MXNet.mx.NDArray,N}}' href='#MXNet.mx.Softmax-Tuple{Vararg{MXNet.mx.NDArray,N}}'>#</a>
@@ -2651,11 +2651,11 @@ NOT in axis instead.</p>
 <li><code>data::NDArray-or-SymbolicNode</code>: Input array.</li>
 <li><code>grad_scale::float, optional, default=1</code>: Scales the gradient by a float factor.</li>
 <li><code>ignore_label::float, optional, default=-1</code>: The instances whose <code>labels</code> == <code>ignore_label</code> will be ignored during backward, if <code>use_ignore</code> is set to $true$).</li>
-<li><code>multi_output::boolean, optional, default=False</code>: If set to $true$, the softmax function will be computed along axis $1$. This is applied when the shape of input array differs from the shape of label array.</li>
-<li><code>use_ignore::boolean, optional, default=False</code>: If set to $true$, the <code>ignore_label</code> value will not contribute to the backward gradient.</li>
-<li><code>preserve_shape::boolean, optional, default=False</code>: If set to $true$, the softmax function will be computed along the last axis ($-1$).</li>
+<li><code>multi_output::boolean, optional, default=0</code>: If set to $true$, the softmax function will be computed along axis $1$. This is applied when the shape of input array differs from the shape of label array.</li>
+<li><code>use_ignore::boolean, optional, default=0</code>: If set to $true$, the <code>ignore_label</code> value will not contribute to the backward gradient.</li>
+<li><code>preserve_shape::boolean, optional, default=0</code>: If set to $true$, the softmax function will be computed along the last axis ($-1$).</li>
 <li><code>normalization::{'batch', 'null', 'valid'},optional, default='null'</code>: Normalizes the gradient.</li>
-<li><code>out_grad::boolean, optional, default=False</code>: Multiplies gradient with output gradient element-wise.</li>
+<li><code>out_grad::boolean, optional, default=0</code>: Multiplies gradient with output gradient element-wise.</li>
 </ul>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/15def2c2f7f846cbe560286a62be33e641ef3972/src/ndarray.jl#L1139-L1170' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.SoftmaxActivation-Tuple{Vararg{MXNet.mx.NDArray,N}}' href='#MXNet.mx.SoftmaxActivation-Tuple{Vararg{MXNet.mx.NDArray,N}}'>#</a>
@@ -2747,11 +2747,11 @@ NOT in axis instead.</p>
 <li><code>label::NDArray-or-SymbolicNode</code>: Ground truth label.</li>
 <li><code>grad_scale::float, optional, default=1</code>: Scales the gradient by a float factor.</li>
 <li><code>ignore_label::float, optional, default=-1</code>: The instances whose <code>labels</code> == <code>ignore_label</code> will be ignored during backward, if <code>use_ignore</code> is set to $true$).</li>
-<li><code>multi_output::boolean, optional, default=False</code>: If set to $true$, the softmax function will be computed along axis $1$. This is applied when the shape of input array differs from the shape of label array.</li>
-<li><code>use_ignore::boolean, optional, default=False</code>: If set to $true$, the <code>ignore_label</code> value will not contribute to the backward gradient.</li>
-<li><code>preserve_shape::boolean, optional, default=False</code>: If set to $true$, the softmax function will be computed along the last axis ($-1$).</li>
+<li><code>multi_output::boolean, optional, default=0</code>: If set to $true$, the softmax function will be computed along axis $1$. This is applied when the shape of input array differs from the shape of label array.</li>
+<li><code>use_ignore::boolean, optional, default=0</code>: If set to $true$, the <code>ignore_label</code> value will not contribute to the backward gradient.</li>
+<li><code>preserve_shape::boolean, optional, default=0</code>: If set to $true$, the softmax function will be computed along the last axis ($-1$).</li>
 <li><code>normalization::{'batch', 'null', 'valid'},optional, default='null'</code>: Normalizes the gradient.</li>
-<li><code>out_grad::boolean, optional, default=False</code>: Multiplies gradient with output gradient element-wise.</li>
+<li><code>out_grad::boolean, optional, default=0</code>: Multiplies gradient with output gradient element-wise.</li>
 </ul>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/15def2c2f7f846cbe560286a62be33e641ef3972/src/ndarray.jl#L1139-L1239' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.SpatialTransformer-Tuple{Vararg{MXNet.mx.NDArray,N}}' href='#MXNet.mx.SpatialTransformer-Tuple{Vararg{MXNet.mx.NDArray,N}}'>#</a>
@@ -3150,7 +3150,7 @@ NOT in axis instead.</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode[]</code>: Input data for the custom operator.</li>
-<li><code>info::, required</code>:</li>
+<li><code>info::ptr, required</code>:</li>
 </ul>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/15def2c2f7f846cbe560286a62be33e641ef3972/src/ndarray.jl#L1139-L1148' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx._Native-Tuple{Vararg{MXNet.mx.NDArray,N}}' href='#MXNet.mx._Native-Tuple{Vararg{MXNet.mx.NDArray,N}}'>#</a>
@@ -3162,8 +3162,8 @@ NOT in axis instead.</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode[]</code>: Input data for the custom operator.</li>
-<li><code>info::, required</code>:</li>
-<li><code>need_top_grad::boolean, optional, default=True</code>: Whether this layer needs out grad for backward. Should be false for loss layers.</li>
+<li><code>info::ptr, required</code>:</li>
+<li><code>need_top_grad::boolean, optional, default=1</code>: Whether this layer needs out grad for backward. Should be false for loss layers.</li>
 </ul>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/15def2c2f7f846cbe560286a62be33e641ef3972/src/ndarray.jl#L1139-L1150' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx._NoGradient-Tuple{Vararg{MXNet.mx.NDArray,N}}' href='#MXNet.mx._NoGradient-Tuple{Vararg{MXNet.mx.NDArray,N}}'>#</a>
@@ -3326,9 +3326,9 @@ NOT in axis instead.</p>
 <p>Return evenly spaced values within a given interval. Similar to Numpy</p>
 <p><strong>Arguments</strong></p>
 <ul>
-<li><code>start::float, required</code>: Start of interval. The interval includes this value. The default start value is 0.</li>
-<li><code>stop::, optional, default=None</code>: End of interval. The interval does not include this value, except in some cases where step is not an integer and floating point round-off affects the length of out.</li>
-<li><code>step::float, optional, default=1</code>: Spacing between values.</li>
+<li><code>start::double, required</code>: Start of interval. The interval includes this value. The default start value is 0.</li>
+<li><code>stop::double or None, optional, default=None</code>: End of interval. The interval does not include this value, except in some cases where step is not an integer and floating point round-off affects the length of out.</li>
+<li><code>step::double, optional, default=1</code>: Spacing between values.</li>
 <li><code>repeat::int, optional, default='1'</code>: The repeating time of all elements. E.g repeat=3, the element a will be repeated three times –&gt; a, a, a.</li>
 <li><code>ctx::string, optional, default=''</code>: Context of output, in format <a href="../n">cpu|gpu|cpu_pinned</a>.Only used for imperative calls.</li>
 <li><code>dtype::{'float16', 'float32', 'float64', 'int32', 'uint8'},optional, default='float32'</code>: Target data type.</li>
@@ -3966,8 +3966,8 @@ NOT in axis instead.</p>
 
 <p><strong>Arguments</strong></p>
 <ul>
-<li><code>transpose_a::boolean, optional, default=False</code>: If true then transpose the first input before dot.</li>
-<li><code>transpose_b::boolean, optional, default=False</code>: If true then transpose the second input before dot.</li>
+<li><code>transpose_a::boolean, optional, default=0</code>: If true then transpose the first input before dot.</li>
+<li><code>transpose_b::boolean, optional, default=0</code>: If true then transpose the second input before dot.</li>
 </ul>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/15def2c2f7f846cbe560286a62be33e641ef3972/src/ndarray.jl#L1139-L1148' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx._backward_expm1-Tuple{Vararg{MXNet.mx.NDArray,N}}' href='#MXNet.mx._backward_expm1-Tuple{Vararg{MXNet.mx.NDArray,N}}'>#</a>
@@ -4609,8 +4609,8 @@ NOT in axis instead.</p>
 <li><code>label::NDArray-or-SymbolicNode</code>: Ground-truth labels for the loss.</li>
 <li><code>data_lengths::NDArray-or-SymbolicNode</code>: Lengths of data for each of the samples. Only required when use_data_lengths is true.</li>
 <li><code>label_lengths::NDArray-or-SymbolicNode</code>: Lengths of labels for each of the samples. Only required when use_label_lengths is true.</li>
-<li><code>use_data_lengths::boolean, optional, default=False</code>: Whether the data lenghts are decided by <code>data_lengths</code>. If false, the lengths are equal to the max sequence length.</li>
-<li><code>use_label_lengths::boolean, optional, default=False</code>: Whether the label lenghts are decided by <code>label_lengths</code>, or derived from <code>padding_mask</code>. If false, the lengths are derived from the first occurrence of the value of <code>padding_mask</code>. The value of <code>padding_mask</code> is $0$ when first CTC label is reserved for blank, and $-1$ when last label is reserved for blank. See <code>blank_label</code>.</li>
+<li><code>use_data_lengths::boolean, optional, default=0</code>: Whether the data lenghts are decided by <code>data_lengths</code>. If false, the lengths are equal to the max sequence length.</li>
+<li><code>use_label_lengths::boolean, optional, default=0</code>: Whether the label lenghts are decided by <code>label_lengths</code>, or derived from <code>padding_mask</code>. If false, the lengths are derived from the first occurrence of the value of <code>padding_mask</code>. The value of <code>padding_mask</code> is $0$ when first CTC label is reserved for blank, and $-1$ when last label is reserved for blank. See <code>blank_label</code>.</li>
 <li><code>blank_label::{'first', 'last'},optional, default='first'</code>: Set the label that is reserved for blank label.If "first", 0-th label is reserved, and label values for tokens in the vocabulary are between $1$ and $alphabet_size-1$, and the padding mask is $-1$. If "last", last label value $alphabet_size-1$ is reserved for blank label instead, and label values for tokens in the vocabulary are between $0$ and $alphabet_size-2$, and the padding mask is $0$.</li>
 </ul>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/15def2c2f7f846cbe560286a62be33e641ef3972/src/ndarray.jl#L1139-L1203' class='documenter-source'>source</a><br></p>
@@ -4653,7 +4653,7 @@ NOT in axis instead.</p>
 <li><code>num_group::int (non-negative), optional, default=1</code>: Number of group partitions.</li>
 <li><code>num_deformable_group::int (non-negative), optional, default=1</code>: Number of deformable group partitions.</li>
 <li><code>workspace::long (non-negative), optional, default=1024</code>: Maximum temperal workspace allowed for convolution (MB).</li>
-<li><code>no_bias::boolean, optional, default=False</code>: Whether to disable bias parameter.</li>
+<li><code>no_bias::boolean, optional, default=0</code>: Whether to disable bias parameter.</li>
 <li><code>layout::{None, 'NCDHW', 'NCHW', 'NCW'},optional, default='None'</code>: Set layout for input, output and weight. Empty for   default layout: NCW for 1d, NCHW for 2d and NCDHW for 3d.</li>
 </ul>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/15def2c2f7f846cbe560286a62be33e641ef3972/src/ndarray.jl#L1139-L1217' class='documenter-source'>source</a><br></p>
@@ -4675,7 +4675,7 @@ NOT in axis instead.</p>
 <li><code>part_size::int, optional, default='0'</code>: fix part size</li>
 <li><code>sample_per_part::int, optional, default='1'</code>: fix samples per part</li>
 <li><code>trans_std::float, optional, default=0</code>: fix transition std</li>
-<li><code>no_trans::boolean, optional, default=False</code>: Whether to disable trans parameter.</li>
+<li><code>no_trans::boolean, optional, default=0</code>: Whether to disable trans parameter.</li>
 </ul>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/15def2c2f7f846cbe560286a62be33e641ef3972/src/ndarray.jl#L1139-L1167' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx._contrib_MultiBoxDetection-Tuple{Vararg{MXNet.mx.NDArray,N}}' href='#MXNet.mx._contrib_MultiBoxDetection-Tuple{Vararg{MXNet.mx.NDArray,N}}'>#</a>
@@ -4689,11 +4689,11 @@ NOT in axis instead.</p>
 <li><code>cls_prob::NDArray-or-SymbolicNode</code>: Class probabilities.</li>
 <li><code>loc_pred::NDArray-or-SymbolicNode</code>: Location regression predictions.</li>
 <li><code>anchor::NDArray-or-SymbolicNode</code>: Multibox prior anchor boxes</li>
-<li><code>clip::boolean, optional, default=True</code>: Clip out-of-boundary boxes.</li>
+<li><code>clip::boolean, optional, default=1</code>: Clip out-of-boundary boxes.</li>
 <li><code>threshold::float, optional, default=0.01</code>: Threshold to be a positive prediction.</li>
 <li><code>background_id::int, optional, default='0'</code>: Background id.</li>
 <li><code>nms_threshold::float, optional, default=0.5</code>: Non-maximum suppression threshold.</li>
-<li><code>force_suppress::boolean, optional, default=False</code>: Suppress all detections regardless of class_id.</li>
+<li><code>force_suppress::boolean, optional, default=0</code>: Suppress all detections regardless of class_id.</li>
 <li><code>variances::, optional, default=(0.1,0.1,0.2,0.2)</code>: Variances to be decoded from box regression output.</li>
 <li><code>nms_topk::int, optional, default='-1'</code>: Keep maximum top k detections before nms, -1 for no limit.</li>
 </ul>
@@ -4709,7 +4709,7 @@ NOT in axis instead.</p>
 <li><code>data::NDArray-or-SymbolicNode</code>: Input data.</li>
 <li><code>sizes::, optional, default=(1,)</code>: List of sizes of generated MultiBoxPriores.</li>
 <li><code>ratios::, optional, default=(1,)</code>: List of aspect ratios of generated MultiBoxPriores.</li>
-<li><code>clip::boolean, optional, default=False</code>: Whether to clip out-of-boundary boxes.</li>
+<li><code>clip::boolean, optional, default=0</code>: Whether to clip out-of-boundary boxes.</li>
 <li><code>steps::, optional, default=(-1,-1)</code>: Priorbox step across y and x, -1 for auto calculation.</li>
 <li><code>offsets::, optional, default=(0.5,0.5)</code>: Priorbox center offsets, y and x respectively</li>
 </ul>
@@ -4751,8 +4751,8 @@ NOT in axis instead.</p>
 <li><code>scales::, optional, default=(4,8,16,32)</code>: Used to generate anchor windows by enumerating scales</li>
 <li><code>ratios::, optional, default=(0.5,1,2)</code>: Used to generate anchor windows by enumerating ratios</li>
 <li><code>feature_stride::int, optional, default='16'</code>: The size of the receptive field each unit in the convolution layer of the rpn,for example the product of all stride's prior to this layer.</li>
-<li><code>output_score::boolean, optional, default=False</code>: Add score to outputs</li>
-<li><code>iou_loss::boolean, optional, default=False</code>: Usage of IoU Loss</li>
+<li><code>output_score::boolean, optional, default=0</code>: Add score to outputs</li>
+<li><code>iou_loss::boolean, optional, default=0</code>: Usage of IoU Loss</li>
 </ul>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/15def2c2f7f846cbe560286a62be33e641ef3972/src/ndarray.jl#L1139-L1168' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx._contrib_PSROIPooling-Tuple{Vararg{MXNet.mx.NDArray,N}}' href='#MXNet.mx._contrib_PSROIPooling-Tuple{Vararg{MXNet.mx.NDArray,N}}'>#</a>
@@ -4789,8 +4789,8 @@ NOT in axis instead.</p>
 <li><code>scales::, optional, default=(4,8,16,32)</code>: Used to generate anchor windows by enumerating scales</li>
 <li><code>ratios::, optional, default=(0.5,1,2)</code>: Used to generate anchor windows by enumerating ratios</li>
 <li><code>feature_stride::int, optional, default='16'</code>: The size of the receptive field each unit in the convolution layer of the rpn,for example the product of all stride's prior to this layer.</li>
-<li><code>output_score::boolean, optional, default=False</code>: Add score to outputs</li>
-<li><code>iou_loss::boolean, optional, default=False</code>: Usage of IoU Loss</li>
+<li><code>output_score::boolean, optional, default=0</code>: Add score to outputs</li>
+<li><code>iou_loss::boolean, optional, default=0</code>: Usage of IoU Loss</li>
 </ul>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/15def2c2f7f846cbe560286a62be33e641ef3972/src/ndarray.jl#L1139-L1168' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx._contrib_count_sketch-Tuple{Vararg{MXNet.mx.NDArray,N}}' href='#MXNet.mx._contrib_count_sketch-Tuple{Vararg{MXNet.mx.NDArray,N}}'>#</a>
@@ -4843,8 +4843,8 @@ NOT in axis instead.</p>
 <li><code>label::NDArray-or-SymbolicNode</code>: Ground-truth labels for the loss.</li>
 <li><code>data_lengths::NDArray-or-SymbolicNode</code>: Lengths of data for each of the samples. Only required when use_data_lengths is true.</li>
 <li><code>label_lengths::NDArray-or-SymbolicNode</code>: Lengths of labels for each of the samples. Only required when use_label_lengths is true.</li>
-<li><code>use_data_lengths::boolean, optional, default=False</code>: Whether the data lenghts are decided by <code>data_lengths</code>. If false, the lengths are equal to the max sequence length.</li>
-<li><code>use_label_lengths::boolean, optional, default=False</code>: Whether the label lenghts are decided by <code>label_lengths</code>, or derived from <code>padding_mask</code>. If false, the lengths are derived from the first occurrence of the value of <code>padding_mask</code>. The value of <code>padding_mask</code> is $0$ when first CTC label is reserved for blank, and $-1$ when last label is reserved for blank. See <code>blank_label</code>.</li>
+<li><code>use_data_lengths::boolean, optional, default=0</code>: Whether the data lenghts are decided by <code>data_lengths</code>. If false, the lengths are equal to the max sequence length.</li>
+<li><code>use_label_lengths::boolean, optional, default=0</code>: Whether the label lenghts are decided by <code>label_lengths</code>, or derived from <code>padding_mask</code>. If false, the lengths are derived from the first occurrence of the value of <code>padding_mask</code>. The value of <code>padding_mask</code> is $0$ when first CTC label is reserved for blank, and $-1$ when last label is reserved for blank. See <code>blank_label</code>.</li>
 <li><code>blank_label::{'first', 'last'},optional, default='first'</code>: Set the label that is reserved for blank label.If "first", 0-th label is reserved, and label values for tokens in the vocabulary are between $1$ and $alphabet_size-1$, and the padding mask is $-1$. If "last", last label value $alphabet_size-1$ is reserved for blank label instead, and label values for tokens in the vocabulary are between $0$ and $alphabet_size-2$, and the padding mask is $0$.</li>
 </ul>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/15def2c2f7f846cbe560286a62be33e641ef3972/src/ndarray.jl#L1139-L1205' class='documenter-source'>source</a><br></p>
@@ -5009,7 +5009,7 @@ NOT in axis instead.</p>
 <ul>
 <li><code>buf::NDArray</code>: Buffer containing binary encoded image</li>
 <li><code>flag::int, optional, default='1'</code>: Convert decoded image to grayscale (0) or color (1).</li>
-<li><code>to_rgb::boolean, optional, default=True</code>: Whether to convert decoded image to mxnet's default RGB format (instead of opencv's default BGR).</li>
+<li><code>to_rgb::boolean, optional, default=1</code>: Whether to convert decoded image to mxnet's default RGB format (instead of opencv's default BGR).</li>
 </ul>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/15def2c2f7f846cbe560286a62be33e641ef3972/src/ndarray.jl#L1139-L1151' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx._cvimread-Tuple{Vararg{MXNet.mx.NDArray,N}}' href='#MXNet.mx._cvimread-Tuple{Vararg{MXNet.mx.NDArray,N}}'>#</a>
@@ -5022,7 +5022,7 @@ NOT in axis instead.</p>
 <ul>
 <li><code>filename::string, required</code>: Name of the image file to be loaded.</li>
 <li><code>flag::int, optional, default='1'</code>: Convert decoded image to grayscale (0) or color (1).</li>
-<li><code>to_rgb::boolean, optional, default=True</code>: Whether to convert decoded image to mxnet's default RGB format (instead of opencv's default BGR).</li>
+<li><code>to_rgb::boolean, optional, default=1</code>: Whether to convert decoded image to mxnet's default RGB format (instead of opencv's default BGR).</li>
 </ul>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/15def2c2f7f846cbe560286a62be33e641ef3972/src/ndarray.jl#L1139-L1151' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx._cvimresize-Tuple{Vararg{MXNet.mx.NDArray,N}}' href='#MXNet.mx._cvimresize-Tuple{Vararg{MXNet.mx.NDArray,N}}'>#</a>
@@ -5283,8 +5283,8 @@ NOT in axis instead.</p>
 <li><code>A::NDArray-or-SymbolicNode</code>: Tensor of input matrices</li>
 <li><code>B::NDArray-or-SymbolicNode</code>: Tensor of input matrices</li>
 <li><code>C::NDArray-or-SymbolicNode</code>: Tensor of input matrices</li>
-<li><code>transpose_a::boolean, optional, default=False</code>: Multiply with transposed of first input (A).</li>
-<li><code>transpose_b::boolean, optional, default=False</code>: Multiply with transposed of second input (B).</li>
+<li><code>transpose_a::boolean, optional, default=0</code>: Multiply with transposed of first input (A).</li>
+<li><code>transpose_b::boolean, optional, default=0</code>: Multiply with transposed of second input (B).</li>
 <li><code>alpha::double, optional, default=1</code>: Scalar factor multiplied with A*B.</li>
 <li><code>beta::double, optional, default=1</code>: Scalar factor multiplied with C.</li>
 </ul>
@@ -5308,8 +5308,8 @@ NOT in axis instead.</p>
 <ul>
 <li><code>A::NDArray-or-SymbolicNode</code>: Tensor of input matrices</li>
 <li><code>B::NDArray-or-SymbolicNode</code>: Tensor of input matrices</li>
-<li><code>transpose_a::boolean, optional, default=False</code>: Multiply with transposed of first input (A).</li>
-<li><code>transpose_b::boolean, optional, default=False</code>: Multiply with transposed of second input (B).</li>
+<li><code>transpose_a::boolean, optional, default=0</code>: Multiply with transposed of first input (A).</li>
+<li><code>transpose_b::boolean, optional, default=0</code>: Multiply with transposed of second input (B).</li>
 <li><code>alpha::double, optional, default=1</code>: Scalar factor multiplied with A*B.</li>
 </ul>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/15def2c2f7f846cbe560286a62be33e641ef3972/src/ndarray.jl#L1139-L1185' class='documenter-source'>source</a><br></p>
@@ -5416,7 +5416,7 @@ NOT in axis instead.</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>A::NDArray-or-SymbolicNode</code>: Tensor of input matrices</li>
-<li><code>transpose::boolean, optional, default=False</code>: Use transpose of input matrix.</li>
+<li><code>transpose::boolean, optional, default=0</code>: Use transpose of input matrix.</li>
 <li><code>alpha::double, optional, default=1</code>: Scalar factor to be applied to the result.</li>
 </ul>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/15def2c2f7f846cbe560286a62be33e641ef3972/src/ndarray.jl#L1139-L1185' class='documenter-source'>source</a><br></p>
@@ -5441,8 +5441,8 @@ NOT in axis instead.</p>
 <ul>
 <li><code>A::NDArray-or-SymbolicNode</code>: Tensor of lower triangular matrices</li>
 <li><code>B::NDArray-or-SymbolicNode</code>: Tensor of matrices</li>
-<li><code>transpose::boolean, optional, default=False</code>: Use transposed of the triangular matrix</li>
-<li><code>rightside::boolean, optional, default=False</code>: Multiply triangular matrix from the right to non-triangular one.</li>
+<li><code>transpose::boolean, optional, default=0</code>: Use transposed of the triangular matrix</li>
+<li><code>rightside::boolean, optional, default=0</code>: Multiply triangular matrix from the right to non-triangular one.</li>
 <li><code>alpha::double, optional, default=1</code>: Scalar factor to be applied to the result.</li>
 </ul>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/15def2c2f7f846cbe560286a62be33e641ef3972/src/ndarray.jl#L1139-L1190' class='documenter-source'>source</a><br></p>
@@ -5467,8 +5467,8 @@ NOT in axis instead.</p>
 <ul>
 <li><code>A::NDArray-or-SymbolicNode</code>: Tensor of lower triangular matrices</li>
 <li><code>B::NDArray-or-SymbolicNode</code>: Tensor of matrices</li>
-<li><code>transpose::boolean, optional, default=False</code>: Use transposed of the triangular matrix</li>
-<li><code>rightside::boolean, optional, default=False</code>: Multiply triangular matrix from the right to non-triangular one.</li>
+<li><code>transpose::boolean, optional, default=0</code>: Use transposed of the triangular matrix</li>
+<li><code>rightside::boolean, optional, default=0</code>: Multiply triangular matrix from the right to non-triangular one.</li>
 <li><code>alpha::double, optional, default=1</code>: Scalar factor to be applied to the result.</li>
 </ul>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/15def2c2f7f846cbe560286a62be33e641ef3972/src/ndarray.jl#L1139-L1190' class='documenter-source'>source</a><br></p>
@@ -5954,7 +5954,7 @@ NOT in axis instead.</p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: Distribution probabilities. Must sum to one on the last axis.</li>
 <li><code>shape::Shape(tuple), optional, default=()</code>: Shape to be sampled from each random distribution.</li>
-<li><code>get_prob::boolean, optional, default=False</code>: Whether to also return the log probability of sampled result. This is usually used for differentiating through stochastic variables, e.g. in reinforcement learning.</li>
+<li><code>get_prob::boolean, optional, default=0</code>: Whether to also return the log probability of sampled result. This is usually used for differentiating through stochastic variables, e.g. in reinforcement learning.</li>
 <li><code>dtype::{'int32'},optional, default='int32'</code>: DType of the output in case this can't be inferred. Only support int32 for now.</li>
 </ul>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/15def2c2f7f846cbe560286a62be33e641ef3972/src/ndarray.jl#L1139-L1180' class='documenter-source'>source</a><br></p>
@@ -6391,8 +6391,8 @@ csr.indptr = [0, 1, 3, 3, 3]
 <ul>
 <li><code>lhs::NDArray-or-SymbolicNode</code>: The first input</li>
 <li><code>rhs::NDArray-or-SymbolicNode</code>: The second input</li>
-<li><code>transpose_a::boolean, optional, default=False</code>: If true then transpose the first input before dot.</li>
-<li><code>transpose_b::boolean, optional, default=False</code>: If true then transpose the second input before dot.</li>
+<li><code>transpose_a::boolean, optional, default=0</code>: If true then transpose the first input before dot.</li>
+<li><code>transpose_b::boolean, optional, default=0</code>: If true then transpose the second input before dot.</li>
 </ul>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/15def2c2f7f846cbe560286a62be33e641ef3972/src/ndarray.jl#L1139-L1184' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx._sparse_elemwise_add-Tuple{Vararg{MXNet.mx.NDArray,N}}' href='#MXNet.mx._sparse_elemwise_add-Tuple{Vararg{MXNet.mx.NDArray,N}}'>#</a>
@@ -6987,8 +6987,8 @@ specified in the tuple.</p>
 NOT in axis instead.</p>
 <p>Negative values means indexing from right to left.
 <code>``
-  *</code>keepdims::boolean, optional, default=False<code>: If this is set to</code>True<code>, the reduced axes are left in the result as dimension with size one.
-  *</code>exclude::boolean, optional, default=False`: Whether to perform reduction on axis that are NOT in axis instead.</p>
+  *</code>keepdims::boolean, optional, default=0<code>: If this is set to</code>True<code>, the reduced axes are left in the result as dimension with size one.
+  *</code>exclude::boolean, optional, default=0`: Whether to perform reduction on axis that are NOT in axis instead.</p>
 </li>
 </ul>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/15def2c2f7f846cbe560286a62be33e641ef3972/src/ndarray.jl#L1139-L1203' class='documenter-source'>source</a><br></p>
@@ -7097,8 +7097,8 @@ specified in the tuple.</p>
 NOT in axis instead.</p>
 <p>Negative values means indexing from right to left.
 <code>``
-  *</code>keepdims::boolean, optional, default=False<code>: If this is set to</code>True<code>, the reduced axes are left in the result as dimension with size one.
-  *</code>exclude::boolean, optional, default=False`: Whether to perform reduction on axis that are NOT in axis instead.</p>
+  *</code>keepdims::boolean, optional, default=0<code>: If this is set to</code>True<code>, the reduced axes are left in the result as dimension with size one.
+  *</code>exclude::boolean, optional, default=0`: Whether to perform reduction on axis that are NOT in axis instead.</p>
 </li>
 </ul>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/15def2c2f7f846cbe560286a62be33e641ef3972/src/ndarray.jl#L1139-L1179' class='documenter-source'>source</a><br></p>
@@ -7294,7 +7294,7 @@ computed element-wise.</p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input</li>
 <li><code>axis::int or None, optional, default='None'</code>: The axis along which to perform the reduction. Negative values means indexing from right to left. $Requires axis to be set as int, because global reduction is not supported yet.$</li>
-<li><code>keepdims::boolean, optional, default=False</code>: If this is set to <code>True</code>, the reduced axis is left in the result as dimension with size one.</li>
+<li><code>keepdims::boolean, optional, default=0</code>: If this is set to <code>True</code>, the reduced axis is left in the result as dimension with size one.</li>
 </ul>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/15def2c2f7f846cbe560286a62be33e641ef3972/src/ndarray.jl#L1139-L1172' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.argmax_channel-Tuple{Vararg{MXNet.mx.NDArray,N}}' href='#MXNet.mx.argmax_channel-Tuple{Vararg{MXNet.mx.NDArray,N}}'>#</a>
@@ -7331,7 +7331,7 @@ computed element-wise.</p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input</li>
 <li><code>axis::int or None, optional, default='None'</code>: The axis along which to perform the reduction. Negative values means indexing from right to left. $Requires axis to be set as int, because global reduction is not supported yet.$</li>
-<li><code>keepdims::boolean, optional, default=False</code>: If this is set to <code>True</code>, the reduced axis is left in the result as dimension with size one.</li>
+<li><code>keepdims::boolean, optional, default=0</code>: If this is set to <code>True</code>, the reduced axis is left in the result as dimension with size one.</li>
 </ul>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/15def2c2f7f846cbe560286a62be33e641ef3972/src/ndarray.jl#L1139-L1172' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.argsort-Tuple{Vararg{MXNet.mx.NDArray,N}}' href='#MXNet.mx.argsort-Tuple{Vararg{MXNet.mx.NDArray,N}}'>#</a>
@@ -7351,7 +7351,7 @@ computed element-wise.</p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array</li>
 <li><code>axis::int or None, optional, default='-1'</code>: Axis along which to sort the input tensor. If not given, the flattened array is used. Default is -1.</li>
-<li><code>is_ascend::boolean, optional, default=True</code>: Whether to sort in ascending or descending order.</li>
+<li><code>is_ascend::boolean, optional, default=1</code>: Whether to sort in ascending or descending order.</li>
 </ul>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/15def2c2f7f846cbe560286a62be33e641ef3972/src/ndarray.jl#L1139-L1172' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.batch_dot-Tuple{Vararg{MXNet.mx.NDArray,N}}' href='#MXNet.mx.batch_dot-Tuple{Vararg{MXNet.mx.NDArray,N}}'>#</a>
@@ -7368,8 +7368,8 @@ computed element-wise.</p>
 <ul>
 <li><code>lhs::NDArray-or-SymbolicNode</code>: The first input</li>
 <li><code>rhs::NDArray-or-SymbolicNode</code>: The second input</li>
-<li><code>transpose_a::boolean, optional, default=False</code>: If true then transpose the first input before dot.</li>
-<li><code>transpose_b::boolean, optional, default=False</code>: If true then transpose the second input before dot.</li>
+<li><code>transpose_a::boolean, optional, default=0</code>: If true then transpose the first input before dot.</li>
+<li><code>transpose_b::boolean, optional, default=0</code>: If true then transpose the second input before dot.</li>
 </ul>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/15def2c2f7f846cbe560286a62be33e641ef3972/src/ndarray.jl#L1139-L1165' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.batch_take-Tuple{Vararg{MXNet.mx.NDArray,N}}' href='#MXNet.mx.batch_take-Tuple{Vararg{MXNet.mx.NDArray,N}}'>#</a>
@@ -8185,8 +8185,8 @@ of the input.</p>
 <li><code>A::NDArray-or-SymbolicNode</code>: Tensor of input matrices</li>
 <li><code>B::NDArray-or-SymbolicNode</code>: Tensor of input matrices</li>
 <li><code>C::NDArray-or-SymbolicNode</code>: Tensor of input matrices</li>
-<li><code>transpose_a::boolean, optional, default=False</code>: Multiply with transposed of first input (A).</li>
-<li><code>transpose_b::boolean, optional, default=False</code>: Multiply with transposed of second input (B).</li>
+<li><code>transpose_a::boolean, optional, default=0</code>: Multiply with transposed of first input (A).</li>
+<li><code>transpose_b::boolean, optional, default=0</code>: Multiply with transposed of second input (B).</li>
 <li><code>alpha::double, optional, default=1</code>: Scalar factor multiplied with A*B.</li>
 <li><code>beta::double, optional, default=1</code>: Scalar factor multiplied with C.</li>
 </ul>
@@ -8211,8 +8211,8 @@ of the input.</p>
 <ul>
 <li><code>A::NDArray-or-SymbolicNode</code>: Tensor of input matrices</li>
 <li><code>B::NDArray-or-SymbolicNode</code>: Tensor of input matrices</li>
-<li><code>transpose_a::boolean, optional, default=False</code>: Multiply with transposed of first input (A).</li>
-<li><code>transpose_b::boolean, optional, default=False</code>: Multiply with transposed of second input (B).</li>
+<li><code>transpose_a::boolean, optional, default=0</code>: Multiply with transposed of first input (A).</li>
+<li><code>transpose_b::boolean, optional, default=0</code>: Multiply with transposed of second input (B).</li>
 <li><code>alpha::double, optional, default=1</code>: Scalar factor multiplied with A*B.</li>
 </ul>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/15def2c2f7f846cbe560286a62be33e641ef3972/src/ndarray.jl#L1139-L1187' class='documenter-source'>source</a><br></p>
@@ -8299,7 +8299,7 @@ of the input.</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>A::NDArray-or-SymbolicNode</code>: Tensor of input matrices</li>
-<li><code>transpose::boolean, optional, default=False</code>: Use transpose of input matrix.</li>
+<li><code>transpose::boolean, optional, default=0</code>: Use transpose of input matrix.</li>
 <li><code>alpha::double, optional, default=1</code>: Scalar factor to be applied to the result.</li>
 </ul>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/15def2c2f7f846cbe560286a62be33e641ef3972/src/ndarray.jl#L1139-L1187' class='documenter-source'>source</a><br></p>
@@ -8325,8 +8325,8 @@ of the input.</p>
 <ul>
 <li><code>A::NDArray-or-SymbolicNode</code>: Tensor of lower triangular matrices</li>
 <li><code>B::NDArray-or-SymbolicNode</code>: Tensor of matrices</li>
-<li><code>transpose::boolean, optional, default=False</code>: Use transposed of the triangular matrix</li>
-<li><code>rightside::boolean, optional, default=False</code>: Multiply triangular matrix from the right to non-triangular one.</li>
+<li><code>transpose::boolean, optional, default=0</code>: Use transposed of the triangular matrix</li>
+<li><code>rightside::boolean, optional, default=0</code>: Multiply triangular matrix from the right to non-triangular one.</li>
 <li><code>alpha::double, optional, default=1</code>: Scalar factor to be applied to the result.</li>
 </ul>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/15def2c2f7f846cbe560286a62be33e641ef3972/src/ndarray.jl#L1139-L1192' class='documenter-source'>source</a><br></p>
@@ -8352,8 +8352,8 @@ of the input.</p>
 <ul>
 <li><code>A::NDArray-or-SymbolicNode</code>: Tensor of lower triangular matrices</li>
 <li><code>B::NDArray-or-SymbolicNode</code>: Tensor of matrices</li>
-<li><code>transpose::boolean, optional, default=False</code>: Use transposed of the triangular matrix</li>
-<li><code>rightside::boolean, optional, default=False</code>: Multiply triangular matrix from the right to non-triangular one.</li>
+<li><code>transpose::boolean, optional, default=0</code>: Use transposed of the triangular matrix</li>
+<li><code>rightside::boolean, optional, default=0</code>: Multiply triangular matrix from the right to non-triangular one.</li>
 <li><code>alpha::double, optional, default=1</code>: Scalar factor to be applied to the result.</li>
 </ul>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/15def2c2f7f846cbe560286a62be33e641ef3972/src/ndarray.jl#L1139-L1192' class='documenter-source'>source</a><br></p>
@@ -8448,8 +8448,8 @@ specified in the tuple.</p>
 NOT in axis instead.</p>
 <p>Negative values means indexing from right to left.
 <code>``
-  *</code>keepdims::boolean, optional, default=False<code>: If this is set to</code>True<code>, the reduced axes are left in the result as dimension with size one.
-  *</code>exclude::boolean, optional, default=False`: Whether to perform reduction on axis that are NOT in axis instead.</p>
+  *</code>keepdims::boolean, optional, default=0<code>: If this is set to</code>True<code>, the reduced axes are left in the result as dimension with size one.
+  *</code>exclude::boolean, optional, default=0`: Whether to perform reduction on axis that are NOT in axis instead.</p>
 </li>
 </ul>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/15def2c2f7f846cbe560286a62be33e641ef3972/src/ndarray.jl#L1139-L1169' class='documenter-source'>source</a><br></p>
@@ -8476,8 +8476,8 @@ specified in the tuple.</p>
 NOT in axis instead.</p>
 <p>Negative values means indexing from right to left.
 <code>``
-  *</code>keepdims::boolean, optional, default=False<code>: If this is set to</code>True<code>, the reduced axes are left in the result as dimension with size one.
-  *</code>exclude::boolean, optional, default=False`: Whether to perform reduction on axis that are NOT in axis instead.</p>
+  *</code>keepdims::boolean, optional, default=0<code>: If this is set to</code>True<code>, the reduced axes are left in the result as dimension with size one.
+  *</code>exclude::boolean, optional, default=0`: Whether to perform reduction on axis that are NOT in axis instead.</p>
 </li>
 </ul>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/15def2c2f7f846cbe560286a62be33e641ef3972/src/ndarray.jl#L1139-L1169' class='documenter-source'>source</a><br></p>
@@ -8546,8 +8546,8 @@ specified in the tuple.</p>
 NOT in axis instead.</p>
 <p>Negative values means indexing from right to left.
 <code>``
-  *</code>keepdims::boolean, optional, default=False<code>: If this is set to</code>True<code>, the reduced axes are left in the result as dimension with size one.
-  *</code>exclude::boolean, optional, default=False`: Whether to perform reduction on axis that are NOT in axis instead.</p>
+  *</code>keepdims::boolean, optional, default=0<code>: If this is set to</code>True<code>, the reduced axes are left in the result as dimension with size one.
+  *</code>exclude::boolean, optional, default=0`: Whether to perform reduction on axis that are NOT in axis instead.</p>
 </li>
 </ul>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/15def2c2f7f846cbe560286a62be33e641ef3972/src/ndarray.jl#L1139-L1169' class='documenter-source'>source</a><br></p>
@@ -8573,8 +8573,8 @@ specified in the tuple.</p>
 NOT in axis instead.</p>
 <p>Negative values means indexing from right to left.
 <code>``
-  *</code>keepdims::boolean, optional, default=False<code>: If this is set to</code>True<code>, the reduced axes are left in the result as dimension with size one.
-  *</code>exclude::boolean, optional, default=False`: Whether to perform reduction on axis that are NOT in axis instead.</p>
+  *</code>keepdims::boolean, optional, default=0<code>: If this is set to</code>True<code>, the reduced axes are left in the result as dimension with size one.
+  *</code>exclude::boolean, optional, default=0`: Whether to perform reduction on axis that are NOT in axis instead.</p>
 </li>
 </ul>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/15def2c2f7f846cbe560286a62be33e641ef3972/src/ndarray.jl#L1139-L1169' class='documenter-source'>source</a><br></p>
@@ -8780,7 +8780,7 @@ ones(DType, dim1, dim2, ...)
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array</li>
 <li><code>index::NDArray-or-SymbolicNode</code>: The index array</li>
 <li><code>axis::int or None, optional, default='None'</code>: The axis along which to perform the reduction. Negative values means indexing from right to left. $Requires axis to be set as int, because global reduction is not supported yet.$</li>
-<li><code>keepdims::boolean, optional, default=False</code>: If this is set to <code>True</code>, the reduced axis is left in the result as dimension with size one.</li>
+<li><code>keepdims::boolean, optional, default=0</code>: If this is set to <code>True</code>, the reduced axis is left in the result as dimension with size one.</li>
 </ul>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/15def2c2f7f846cbe560286a62be33e641ef3972/src/ndarray.jl#L1139-L1187' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.radians-Tuple{Vararg{MXNet.mx.NDArray,N}}' href='#MXNet.mx.radians-Tuple{Vararg{MXNet.mx.NDArray,N}}'>#</a>
@@ -9191,7 +9191,7 @@ ones(DType, dim1, dim2, ...)
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: Distribution probabilities. Must sum to one on the last axis.</li>
 <li><code>shape::Shape(tuple), optional, default=()</code>: Shape to be sampled from each random distribution.</li>
-<li><code>get_prob::boolean, optional, default=False</code>: Whether to also return the log probability of sampled result. This is usually used for differentiating through stochastic variables, e.g. in reinforcement learning.</li>
+<li><code>get_prob::boolean, optional, default=0</code>: Whether to also return the log probability of sampled result. This is usually used for differentiating through stochastic variables, e.g. in reinforcement learning.</li>
 <li><code>dtype::{'int32'},optional, default='int32'</code>: DType of the output in case this can't be inferred. Only support int32 for now.</li>
 </ul>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/15def2c2f7f846cbe560286a62be33e641ef3972/src/ndarray.jl#L1139-L1182' class='documenter-source'>source</a><br></p>
@@ -9607,8 +9607,8 @@ specified in the tuple.</p>
 NOT in axis instead.</p>
 <p>Negative values means indexing from right to left.
 <code>``
-  *</code>keepdims::boolean, optional, default=False<code>: If this is set to</code>True<code>, the reduced axes are left in the result as dimension with size one.
-  *</code>exclude::boolean, optional, default=False`: Whether to perform reduction on axis that are NOT in axis instead.</p>
+  *</code>keepdims::boolean, optional, default=0<code>: If this is set to</code>True<code>, the reduced axes are left in the result as dimension with size one.
+  *</code>exclude::boolean, optional, default=0`: Whether to perform reduction on axis that are NOT in axis instead.</p>
 </li>
 </ul>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/15def2c2f7f846cbe560286a62be33e641ef3972/src/ndarray.jl#L1139-L1203' class='documenter-source'>source</a><br></p>
@@ -9720,7 +9720,7 @@ NOT in axis instead.</p>
 </ul>
 <p>"value" means to return the top k values, "indices" means to return the indices of the top k values, "mask" means to return a mask array containing 0 and 1. 1 means the top k values. "both" means to return a list of both values and indices of top k elements.</p>
 <ul>
-<li><code>is_ascend::boolean, optional, default=False</code>: Whether to choose k largest or k smallest elements. Top K largest elements will be chosen if set to false.</li>
+<li><code>is_ascend::boolean, optional, default=0</code>: Whether to choose k largest or k smallest elements. Top K largest elements will be chosen if set to false.</li>
 </ul>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/15def2c2f7f846cbe560286a62be33e641ef3972/src/ndarray.jl#L1139-L1183' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.try_get_shared-Tuple{MXNet.mx.NDArray}' href='#MXNet.mx.try_get_shared-Tuple{MXNet.mx.NDArray}'>#</a>
