@@ -2639,7 +2639,7 @@ NOT in axis instead.</p>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/15def2c2f7f846cbe560286a62be33e641ef3972/src/ndarray.jl#L1139-L1212' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.Softmax-Tuple{Vararg{MXNet.mx.NDArray,N}}' href='#MXNet.mx.Softmax-Tuple{Vararg{MXNet.mx.NDArray,N}}'>#</a>
 <strong><code>MXNet.mx.Softmax</code></strong> &mdash; <em>Method</em>.</p>
-<pre><code>Softmax(data, grad_scale, ignore_label, multi_output, use_ignore, preserve_shape, normalization, out_grad)
+<pre><code>Softmax(data, grad_scale, ignore_label, multi_output, use_ignore, preserve_shape, normalization, out_grad, smooth_alpha)
 </code></pre>
 
 <p>Please use <code>SoftmaxOutput</code>.</p>
@@ -2656,8 +2656,9 @@ NOT in axis instead.</p>
 <li><code>preserve_shape::boolean, optional, default=0</code>: If set to $true$, the softmax function will be computed along the last axis ($-1$).</li>
 <li><code>normalization::{'batch', 'null', 'valid'},optional, default='null'</code>: Normalizes the gradient.</li>
 <li><code>out_grad::boolean, optional, default=0</code>: Multiplies gradient with output gradient element-wise.</li>
+<li><code>smooth_alpha::float, optional, default=0</code>: Constant for computing a label smoothed version of cross-entropyfor the backwards pass.  This constant gets subtracted from theone-hot encoding of the gold label and distributed uniformly toall other labels.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/15def2c2f7f846cbe560286a62be33e641ef3972/src/ndarray.jl#L1139-L1170' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/15def2c2f7f846cbe560286a62be33e641ef3972/src/ndarray.jl#L1139-L1172' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.SoftmaxActivation-Tuple{Vararg{MXNet.mx.NDArray,N}}' href='#MXNet.mx.SoftmaxActivation-Tuple{Vararg{MXNet.mx.NDArray,N}}'>#</a>
 <strong><code>MXNet.mx.SoftmaxActivation</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>SoftmaxActivation(data, mode)
@@ -2686,7 +2687,7 @@ NOT in axis instead.</p>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/15def2c2f7f846cbe560286a62be33e641ef3972/src/ndarray.jl#L1139-L1173' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.SoftmaxOutput-Tuple{Vararg{MXNet.mx.NDArray,N}}' href='#MXNet.mx.SoftmaxOutput-Tuple{Vararg{MXNet.mx.NDArray,N}}'>#</a>
 <strong><code>MXNet.mx.SoftmaxOutput</code></strong> &mdash; <em>Method</em>.</p>
-<pre><code>SoftmaxOutput(data, label, grad_scale, ignore_label, multi_output, use_ignore, preserve_shape, normalization, out_grad)
+<pre><code>SoftmaxOutput(data, label, grad_scale, ignore_label, multi_output, use_ignore, preserve_shape, normalization, out_grad, smooth_alpha)
 </code></pre>
 
 <p>Computes the gradient of cross entropy loss with respect to softmax output.</p>
@@ -2752,8 +2753,9 @@ NOT in axis instead.</p>
 <li><code>preserve_shape::boolean, optional, default=0</code>: If set to $true$, the softmax function will be computed along the last axis ($-1$).</li>
 <li><code>normalization::{'batch', 'null', 'valid'},optional, default='null'</code>: Normalizes the gradient.</li>
 <li><code>out_grad::boolean, optional, default=0</code>: Multiplies gradient with output gradient element-wise.</li>
+<li><code>smooth_alpha::float, optional, default=0</code>: Constant for computing a label smoothed version of cross-entropyfor the backwards pass.  This constant gets subtracted from theone-hot encoding of the gold label and distributed uniformly toall other labels.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/15def2c2f7f846cbe560286a62be33e641ef3972/src/ndarray.jl#L1139-L1239' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/15def2c2f7f846cbe560286a62be33e641ef3972/src/ndarray.jl#L1139-L1241' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.SpatialTransformer-Tuple{Vararg{MXNet.mx.NDArray,N}}' href='#MXNet.mx.SpatialTransformer-Tuple{Vararg{MXNet.mx.NDArray,N}}'>#</a>
 <strong><code>MXNet.mx.SpatialTransformer</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>SpatialTransformer(data, loc, target_shape, transform_type, sampler_type)
