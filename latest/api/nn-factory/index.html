@@ -538,11 +538,11 @@
 <ul>
 <li><code>input::SymbolicNode</code>: the input to the mlp.</li>
 <li><code>spec</code>: the mlp specification, a list of hidden dimensions. For example,         <code>[128, (512, :sigmoid), 10]</code>. The number in the list indicate the         number of hidden units in each layer. A tuple could be used to specify         the activation of each layer. Otherwise, the default activation will         be used (except for the last layer).</li>
-<li><code>hidden_activation::Symbol</code>: keyword argument, default <code>:relu</code>, indicating         the default activation for hidden layers. The specification here could be overwritten         by layer-wise specification in the <code>spec</code> argument. Also activation is not         applied to the last, i.e. the prediction layer. See <a href="../symbolic-node/#MXNet.mx.Activation-Tuple{Vararg{MXNet.mx.SymbolicNode,N}}"><code>Activation</code></a> for a         list of supported activation types.</li>
+<li><code>hidden_activation::Symbol</code>: keyword argument, default <code>:relu</code>, indicating         the default activation for hidden layers. The specification here could be overwritten         by layer-wise specification in the <code>spec</code> argument. Also activation is not         applied to the last, i.e. the prediction layer. See <a href="../symbolic-node/#MXNet.mx.Activation-Tuple{Vararg{MXNet.mx.SymbolicNode,N} where N}"><code>Activation</code></a> for a         list of supported activation types.</li>
 <li><code>prefix</code>: keyword argument, default <code>gensym()</code>, used as the prefix to         name the constructed layers.</li>
 </ul>
 <p>Returns the constructed MLP.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/tree/41f8f55129676b9eaf0fef76052c0369aa175b3b/src/nn-factory.jl#L1-L23' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/a488d7a564418bc1eae288d664fb16cc9f512226/src/nn-factory.jl#L1-L23' class='documenter-source'>source</a><br></p>
                 
                   
                 
