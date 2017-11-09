@@ -107,11 +107,151 @@ function test_getsymbol()
 end
 
 
+function test_add()
+  info("AutoGrad::add")
+
+  info("AutoGrad::add::+x")
+  let x = mx.NDArray([1 2; 3 4])
+    g = mx.attach_grad(x)
+    y = mx.record() do
+      +x
+    end
+
+    @test copy(g) == [0 0; 0 0]
+    @test copy(y) == [1 2; 3 4]
+
+    mx.backward(y)
+    # gradient is 0
+    @test copy(g) == [0 0; 0 0]
+  end
+
+  info("AutoGrad::add::x .+ 42")
+  let x = mx.NDArray([1 2; 3 4])
+    g = mx.attach_grad(x)
+    y = mx.record() do
+      x .+ 42
+    end
+
+    @test copy(g) == [0 0; 0 0]
+    @test copy(y) == [43 44; 45 46]
+
+    mx.backward(y)
+    # gradient is 1
+    @test copy(g) == [1 1; 1 1]
+  end
+
+  info("AutoGrad::add::42 .+ x")
+  let x = mx.NDArray([1 2; 3 4])
+    g = mx.attach_grad(x)
+    y = mx.record() do
+      42 .+ x
+    end
+
+    @test copy(g) == [0 0; 0 0]
+    @test copy(y) == [43 44; 45 46]
+
+    mx.backward(y)
+    # gradient is 1
+    @test copy(g) == [1 1; 1 1]
+  end
+
+  # TODO: info("AutoGrad::add::x .+ y")
+end  # function test_add
+
+
+function test_sub()
+  info("AutoGrad::sub")
+
+  info("AutoGrad::sub::-x")
+  let x = mx.NDArray([1 2; 3 4])
+    g = mx.attach_grad(x)
+    y = mx.record() do
+      -x
+    end
+
+    @test copy(g) == [0 0; 0 0]
+    @test copy(y) == [-1 -2; -3 -4]
+
+    mx.backward(y)
+    # gradient is -1
+    @test copy(g) == [-1 -1; -1 -1]
+  end
+
+  info("AutoGrad::sub::x .- 42")
+  let x = mx.NDArray([1 2; 3 4])
+    g = mx.attach_grad(x)
+    y = mx.record() do
+      x .- 42
+    end
+
+    @test copy(g) == [0 0; 0 0]
+    @test copy(y) == [-41 -40; -39 -38]
+
+    mx.backward(y)
+    # gradient is 1
+    @test copy(g) == [1 1; 1 1]
+  end
+
+  info("AutoGrad::sub::42 .- x")
+  let x = mx.NDArray([1 2; 3 4])
+    g = mx.attach_grad(x)
+    y = mx.record() do
+      42 .- x
+    end
+
+    @test copy(g) == [0 0; 0 0]
+    @test copy(y) == [41 40; 39 38]
+
+    mx.backward(y)
+    # gradient is -1
+    @test copy(g) == [-1 -1; -1 -1]
+  end
+
+  # TODO: info("AutoGrad::add::x .- y")
+end  # function test_sub
+
+
+function test_mul()
+  info("AutoGrad::mul")
+
+  let x = mx.NDArray([1 2; 3 4])
+    g = mx.attach_grad(x)
+    y = mx.record() do
+      2x .* x
+    end
+
+    @test copy(g) == [0 0; 0 0]
+    @test copy(y) == [2 8; 18 32]
+
+    mx.backward(y)
+    # gradient is 4x
+    @test copy(g) == [4 8; 12 16]
+  end
+
+  let x = mx.NDArray([1 2; 3 4])
+    g = mx.attach_grad(x)
+    y = mx.record() do
+      x * 2 .* x
+    end
+
+    @test copy(g) == [0 0; 0 0]
+    @test copy(y) == [2 8; 18 32]
+
+    mx.backward(y)
+    # gradient is 4x
+    @test copy(g) == [4 8; 12 16]
+  end
+end
+
+
 @testset "AutoGrad Test" begin
   test_getgrad()
   test_mark_variables()
   test_record()
   test_getsymbol()
+  test_add()
+  test_sub()
+  test_mul()
 end
 
 
