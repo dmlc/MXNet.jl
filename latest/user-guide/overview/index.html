@@ -754,13 +754,25 @@ julia&gt; mx.copy!(z, y)                 # Same as copy!(z, y)
 <li><code>mx.copy(jl_arr, context)</code>: copy the contents of a Julia <code>Array</code> to   a specific device.</li>
 </ul>
 <p>Most of the convenient functions like <code>size</code>, <code>length</code>, <code>ndims</code>, <code>eltype</code> on array objects should work out-of-the-box. Although indexing is not supported, it is possible to take <em>slices</em>:</p>
-<pre><code class="julia">a = mx.ones(2,3)
-b = mx.slice(a, 1:2)
-b[:] = 2
-println(copy(a))
-# =&gt;
-# Float32[2.0 2.0 1.0
-#         2.0 2.0 1.0]
+<pre><code class="julia-repl">julia&gt; using MXNet
+
+julia&gt; a = mx.ones(2,3)
+2×3 mx.NDArray{Float32} @ CPU0:
+ 1.0  1.0  1.0
+ 1.0  1.0  1.0
+
+julia&gt; b = mx.slice(a, 1:2)
+2×2 mx.NDArray{Float32} @ CPU0:
+ 1.0  1.0
+ 1.0  1.0
+
+julia&gt; b[:] = 2
+2
+
+julia&gt; a
+2×3 mx.NDArray{Float32} @ CPU0:
+ 2.0  2.0  1.0
+ 2.0  2.0  1.0
 </code></pre>
 
 <p>A slice is a sub-region sharing the same memory with the original <code>NDArray</code> object. A slice is always a contiguous piece of memory, so only slicing on the <em>last</em> dimension is supported. The example above also shows a way to set the contents of an <code>NDArray</code>.</p>
@@ -770,31 +782,31 @@ julia&gt; mx.srand(42)
 
 julia&gt; a = mx.empty(2,3)
 2×3 mx.NDArray{Float32} @ CPU0:
- 3.87993f-37  4.96644f28  1.5075f-36
- 0.0          4.23197f21  0.0
+ 5.36066f-36  1.79751f19  7.42688f-44
+ 0.0          4.27246f-5  0.0
 
 julia&gt; a[:] = 0.5              # set all elements to a scalar
 0.5
 
 julia&gt; a[:] = rand(size(a))    # set contents with a Julia Array
 2×3 Array{Float64,2}:
- 0.808225  0.294259   0.527633
- 0.349559  0.0203324  0.327175
+ 0.747822  0.174228  0.349176
+ 0.764121  0.627617  0.19588
 
 julia&gt; copy!(a, rand(size(a))) # set value by copying a Julia Array
 2×3 mx.NDArray{Float32} @ CPU0:
- 0.840171   0.154637  0.810309
- 0.0755703  0.48748   0.910451
+ 0.504944  0.168089  0.495421
+ 0.255693  0.370021  0.357787
 
 julia&gt; b = mx.empty(size(a))
 2×3 mx.NDArray{Float32} @ CPU0:
- 2.24214f-36  7.9325f34   1.94402f-41
+ 3.18516f-36  7.9325f34   1.80067f-41
  0.0          1.66905f-7  0.0
 
 julia&gt; b[:] = a                # copying and assignment between NDArrays
 2×3 mx.NDArray{Float32} @ CPU0:
- 0.840171   0.154637  0.810309
- 0.0755703  0.48748   0.910451
+ 0.504944  0.168089  0.495421
+ 0.255693  0.370021  0.357787
 </code></pre>
 
 <p>Note due to the intrinsic design of the Julia language, a normal assignment</p>
@@ -926,16 +938,18 @@ println(compare([inplace_op, normal_op], 100))
 <p>The type <code>KVStore</code> and related methods are used for data sharing across different devices or machines. It provides a simple and efficient integer - NDArray key-value storage system that each device can pull or push.</p>
 <p>The following example shows how to create a local <code>KVStore</code>, initialize a value and then pull it back.</p>
 <pre><code class="julia">kv    = mx.KVStore(:local)
-shape = (2,3)
+shape = (2, 3)
 key   = 3
 
-mx.init!(kv, key, mx.ones(shape)*2)
+mx.init!(kv, key, mx.ones(shape) * 2)
 a = mx.empty(shape)
 mx.pull!(kv, key, a) # pull value into a
-println(copy(a))
-# =&gt;
-# Float32[2.0 2.0 2.0
-#        2.0 2.0 2.0]
+a
+</code></pre>
+
+<pre><code>2×3 mx.NDArray{Float32} @ CPU0:
+ 2.0  2.0  2.0
+ 2.0  2.0  2.0
 </code></pre>
 
 <p><a id='Intermediate-Level-Interface-1'></a></p>
@@ -944,35 +958,67 @@ println(copy(a))
 <h3 id="symbols-and-composition">Symbols and Composition</h3>
 <p>The way we build deep learning models in MXNet.jl is to use the powerful symbolic composition system. It is like <a href="http://deeplearning.net/software/theano/">Theano</a>, except that we avoided long expression compilation time by providing <em>larger</em> neural network related building blocks to guarantee computation performance. See also <a href="http://mxnet.readthedocs.org/en/latest/program_model.html">this note</a> for the design and trade-off of the MXNet symbolic composition system.</p>
 <p>The basic type is <code>mx.SymbolicNode</code>. The following is a trivial example of composing two symbols with the <code>+</code> operation.</p>
-<pre><code class="julia-repl">julia&gt; using MXNet
-
-julia&gt; A = mx.Variable(:A)
-MXNet.mx.SymbolicNode A
-
-julia&gt; B = mx.Variable(:B)
-MXNet.mx.SymbolicNode B
-
-julia&gt; C = A + B
-MXNet.mx.SymbolicNode _plus0
+<pre><code class="julia">A = mx.Variable(:A)
+B = mx.Variable(:B)
+C = A + B
+print(C)  # debug printing
 </code></pre>
 
-<p>We get a new <em>symbol</em> by composing existing <em>symbols</em> by some <em>operations</em>. A hierarchical architecture of a deep neural network could be realized by recursive composition. For example, the following code snippet shows a simple 2-layer MLP construction, using a hidden layer of 128 units and a ReLU activation function.</p>
-<pre><code class="julia-repl">julia&gt; using MXNet
+<pre><code>Symbol Outputs:
+    output[0]=_plus0(0)
+Variable:A
+Variable:B
+--------------------
+Op:elemwise_add, Name=_plus0
+Inputs:
+    arg[0]=A(0) version=0
+    arg[1]=B(0) version=0
+</code></pre>
 
-julia&gt; net = mx.Variable(:data)
-MXNet.mx.SymbolicNode data
+<p>We get a new <code>SymbolicNode</code> by composing existing <code>SymbolicNode</code>s by some <em>operations</em>. A hierarchical architecture of a deep neural network could be realized by recursive composition. For example, the following code snippet shows a simple 2-layer MLP construction, using a hidden layer of 128 units and a <code>ReLU</code> activation function.</p>
+<pre><code class="julia">net = mx.Variable(:data)
+net = mx.FullyConnected(net, name=:fc1, num_hidden=128)
+net = mx.Activation(net, name=:relu1, act_type=:relu)
+net = mx.FullyConnected(net, name=:fc2, num_hidden=64)
+net = mx.SoftmaxOutput(net, name=:out)
+print(net)  # debug printing
+</code></pre>
 
-julia&gt; net = mx.FullyConnected(net, name=:fc1, num_hidden=128)
-MXNet.mx.SymbolicNode fc1
-
-julia&gt; net = mx.Activation(net, name=:relu1, act_type=:relu)
-MXNet.mx.SymbolicNode relu1
-
-julia&gt; net = mx.FullyConnected(net, name=:fc2, num_hidden=64)
-MXNet.mx.SymbolicNode fc2
-
-julia&gt; net = mx.SoftmaxOutput(net, name=:out)
-MXNet.mx.SymbolicNode out
+<pre><code>Symbol Outputs:
+    output[0]=out(0)
+Variable:data
+Variable:fc1_weight
+Variable:fc1_bias
+--------------------
+Op:FullyConnected, Name=fc1
+Inputs:
+    arg[0]=data(0) version=0
+    arg[1]=fc1_weight(0) version=0
+    arg[2]=fc1_bias(0) version=0
+Attrs:
+    num_hidden=128
+--------------------
+Op:Activation, Name=relu1
+Inputs:
+    arg[0]=fc1(0)
+Attrs:
+    act_type=relu
+Variable:fc2_weight
+Variable:fc2_bias
+--------------------
+Op:FullyConnected, Name=fc2
+Inputs:
+    arg[0]=relu1(0)
+    arg[1]=fc2_weight(0) version=0
+    arg[2]=fc2_bias(0) version=0
+Attrs:
+    num_hidden=64
+Variable:out_label
+--------------------
+Op:SoftmaxOutput, Name=out
+Inputs:
+    arg[0]=fc2(0)
+    arg[1]=out_label(0) version=0
 </code></pre>
 
 <p>Each time we take the previous symbol, and compose with an operation. Unlike the simple <code>+</code> example above, the <em>operations</em> here are "bigger" ones, that correspond to common computation layers in deep neural networks.</p>
@@ -980,8 +1026,10 @@ MXNet.mx.SymbolicNode out
 <p>When applying those operations, we can also specify a <code>name</code> for the result symbol. This is convenient if we want to refer to this symbol later on. If not supplied, a name will be automatically generated.</p>
 <p>Each symbol takes some arguments. For example, in the <code>+</code> case above, to compute the value of <code>C</code>, we will need to know the values of the two inputs <code>A</code> and <code>B</code>. For neural networks, the arguments are primarily two categories: <em>inputs</em> and <em>parameters</em>. <em>inputs</em> are data and labels for the networks, while <em>parameters</em> are typically trainable <em>weights</em>, <em>bias</em>, <em>filters</em>.</p>
 <p>When composing symbols, their arguments accumulates. We can list all the arguments by</p>
-<pre><code class="julia-repl">julia&gt; mx.list_arguments(net)
-6-element Array{Symbol,1}:
+<pre><code class="julia">mx.list_arguments(net)
+</code></pre>
+
+<pre><code>6-element Array{Symbol,1}:
  :data
  :fc1_weight
  :fc1_bias
@@ -999,12 +1047,14 @@ MXNet.mx.SymbolicNode data
 julia&gt; w   = mx.Variable(:myweight)
 MXNet.mx.SymbolicNode myweight
 
-julia&gt; net = mx.FullyConnected(data, weight=w, name=:fc1, num_hidden=128)
-ERROR: UndefVarError: data not defined
+julia&gt; net = mx.FullyConnected(net, weight=w, name=:fc1, num_hidden=128)
+MXNet.mx.SymbolicNode fc1
 
 julia&gt; mx.list_arguments(net)
-1-element Array{Symbol,1}:
+3-element Array{Symbol,1}:
  :data
+ :myweight
+ :fc1_bias
 </code></pre>
 
 <p>The simple fact is that a <code>Variable</code> is just a placeholder <code>mx.SymbolicNode</code>. In composition, we can use arbitrary symbols for arguments. For example:</p>
