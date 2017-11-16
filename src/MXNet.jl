@@ -11,17 +11,19 @@ using Compat
 import Compat.String
 import Compat.view
 
-if VERSION >= v"0.6.0-dev.1024"
-  import Base.Iterators: filter
-end
+import Base.Iterators: filter
 
 using Formatting
+using MacroTools
+using TakingBroadcastSeriously: @unfuse
+import TakingBroadcastSeriously: broadcast_
 
 # Functions from base that we can safely extend and that are defined by libmxnet.
 import Base: round, ceil, floor, cos, sin, abs, sign, exp, sqrt, exp, log, norm,
              transpose
 
 include("base.jl")
+
 include("context.jl")
 include("util.jl")
 
@@ -45,6 +47,8 @@ include("model.jl")
 include("visualize.jl")
 
 include("nn-factory.jl")
+
+include("deprecated.jl")
 
 end # mx
 

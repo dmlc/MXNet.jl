@@ -5,13 +5,14 @@ import JSON
 # First try to detect and load existing libmxnet
 ################################################################################
 libmxnet_detected = false
-libmxnet_curr_ver = "v0.10.0"
-curr_win = "20170527"
+libmxnet_curr_ver = get(ENV, "MXNET_COMMIT", "0.12.1")
+curr_win = "20171019"  # v0.12.0
 
 if haskey(ENV, "MXNET_HOME")
   info("MXNET_HOME environment detected: $(ENV["MXNET_HOME"])")
   info("Trying to load existing libmxnet...")
-  lib = Libdl.find_library(["libmxnet", "libmxnet.so"], ["$(ENV["MXNET_HOME"])/lib"])
+  lib = Libdl.find_library("libmxnet.$(Libdl.dlext)",
+                           ["$(ENV["MXNET_HOME"])/lib"])
   if !isempty(lib)
     info("Existing libmxnet detected at $lib, skip building...")
     libmxnet_detected = true
@@ -35,8 +36,9 @@ if is_unix()
 end
 
 HAS_CUDA = false
+HAS_CUDNN = false
 let cudalib = Libdl.find_library(["libcuda", "nvcuda.dll"], CUDAPATHS)
-  HAS_CUDA = Libdl.dlopen_e(cudalib) != C_NULL
+  HAS_CUDA = !isempty(cudalib) && Libdl.dlopen_e(cudalib) != C_NULL
 end
 
 if !HAS_CUDA && is_windows()
@@ -47,10 +49,31 @@ if !HAS_CUDA && is_windows()
   end
 end
 
+if HAS_CUDA  # then check cudnn
+  let cudnnlib = Libdl.find_library("libcudnn", CUDAPATHS)
+    HAS_CUDNN = !isempty(cudnnlib) && Libdl.dlopen_e(cudnnlib) != C_NULL
+    if HAS_CUDNN && !haskey(ENV, "CUDA_HOME")  # inference `CUDA_HOME`
+      ENV["CUDA_HOME"] = dirname(dirname(cudnnlib))
+    end
+  end
+end
+
 if HAS_CUDA
   info("Found a CUDA installation.")
+  if HAS_CUDNN
+    info("Found a CuDNN installation.")
+  end
+  info("CUDA_HOME -> $(get(ENV, "CUDA_HOME", nothing))")
 else
   info("Did not find a CUDA installation, using CPU-only version of MXNet.")
+end
+
+function get_cpucore()
+    if haskey(ENV, "TRAVIS")  # on travis-ci
+        4
+    else
+        min(Sys.CPU_CORES, 8)
+    end
 end
 
 using BinDeps
@@ -62,7 +85,7 @@ if !libmxnet_detected
       return
     end
     info("Downloading pre-built packages for Windows.")
-    base_url = "https://github.com/yajiedesign/mxnet/releases/download/weekly_binary_build/prebuildbase_win10_x64_vc14.7z"
+    base_url = "https://github.com/yajiedesign/mxnet/releases/download/weekly_binary_build_v2/prebuildbase_win10_x64_vc14_v2.7z"
 
     if libmxnet_curr_ver == "master"
       # download_cmd uses powershell 2, but we need powershell 3 to do this
@@ -76,15 +99,17 @@ if !libmxnet_detected
 
     exe7z = joinpath(JULIA_HOME, "7z.exe")
 
-    run(download_cmd(base_url, "mxnet_base.7z"))
-    run(`$exe7z x mxnet_base.7z -y -ousr`)
-    run(`cmd /c copy "usr\\3rdparty\\openblas\\bin\\*.dll" "usr\\lib"`)
-    run(`cmd /c copy "usr\\3rdparty\\opencv\\*.dll" "usr\\lib"`)
-
     run(download_cmd(package_url, "mxnet.7z"))
-    run(`$exe7z x mxnet.7z -y -ousr`)
+    # this command will create the dir "usr\\lib"
+    run(`$exe7z x mxnet.7z build lib -y -ousr`)
     run(`cmd /c copy "usr\\build\\*.dll" "usr\\lib"`)
 
+    run(download_cmd(base_url, "mxnet_base.7z"))
+    run(`$exe7z x mxnet_base.7z -y -ousr`)
+    run(`cmd /c copy "usr\\prebuildbase_win10_x64_vc14_v2\\3rdparty\\bin\\*.dll" "usr\\lib"`)
+
+    # testing
+    run(`cmd /c dir "usr\\lib"`)
     return
   end
 
@@ -94,17 +119,14 @@ if !libmxnet_detected
 
   blas_path = Libdl.dlpath(Libdl.dlopen(Base.libblas_name))
 
-  if VERSION >= v"0.5.0-dev+4338"
-    blas_vendor = Base.BLAS.vendor()
-  else
-    blas_vendor = Base.blas_vendor()
-  end
+  blas_vendor = Base.BLAS.vendor()
 
   ilp64 = ""
   if blas_vendor == :openblas64
     ilp64 = "-DINTERFACE64"
   end
 
+  FORCE_LAPACK = false
   if blas_vendor == :unknown
     info("Julia is built with an unkown blas library ($blas_path).")
     info("Attempting build without reusing the blas library")
@@ -115,7 +137,9 @@ if !libmxnet_detected
     USE_JULIA_BLAS = true
   else
     USE_JULIA_BLAS = true
+    FORCE_LAPACK = true
   end
+  info("USE_JULIA_BLAS -> $USE_JULIA_BLAS")
 
   blas_name = blas_vendor == :openblas64 ? "openblas" : string(blas_vendor)
   MSHADOW_LDFLAGS = "MSHADOW_LDFLAGS=-lm $blas_path"
@@ -130,7 +154,7 @@ if !libmxnet_detected
   _libdir = joinpath(_prefix, "lib")
   # We have do eagerly delete the installed libmxnet.so
   # Otherwise we won't rebuild on an update.
-  run(`rm -f $_libdir/libmxnet.so`)
+  run(`rm -f $_libdir/libmxnet.$(Libdl.dlext)`)
   provides(BuildProcess,
     (@build_steps begin
       CreateDirectory(_srcdir)
@@ -138,43 +162,73 @@ if !libmxnet_detected
       @build_steps begin
         BinDeps.DirectoryRule(_mxdir, @build_steps begin
           ChangeDirectory(_srcdir)
-          `git clone --recursive https://github.com/dmlc/mxnet`
+          `git clone https://github.com/dmlc/mxnet`
         end)
         @build_steps begin
           ChangeDirectory(_mxdir)
-          `git -C mshadow checkout -- make/mshadow.mk`
+          `git submodule deinit --force .`
           `git fetch`
-          `git checkout $libmxnet_curr_ver`
-          `git submodule update --init`
+          if libmxnet_curr_ver != "master"
+            `git checkout $libmxnet_curr_ver`
+          else
+            `git merge --ff origin/$libmxnet_curr_ver`
+          end
+          `git submodule update --init --recursive`
+          `git -C mshadow checkout -- make/mshadow.mk`
           `make clean`
+          `cp ../../cblas.h include/cblas.h`
+
           `sed -i -s "s/MSHADOW_CFLAGS = \(.*\)/MSHADOW_CFLAGS = \1 $ilp64/" mshadow/make/mshadow.mk`
-        end
-        FileRule(joinpath(_mxdir, "config.mk"), @build_steps begin
-          ChangeDirectory(_mxdir)
+
+          # Copy config.mk, always override the file
           if is_apple()
             `cp make/osx.mk config.mk`
           else
             `cp make/config.mk config.mk`
           end
+
+          # Configure OpenCV
           `sed -i -s 's/USE_OPENCV = 1/USE_OPENCV = 0/' config.mk`
+
+          # Configure CUDA
           if HAS_CUDA
-            `sed -i -s 's/USE_CUDA = 0/USE_CUDA = 1/' config.mk`
-            if haskey(ENV, "CUDA_HOME")
-              `sed -i -s 's/USE_CUDA_PATH = NULL/USE_CUDA_PATH = $(ENV["CUDA_HOME"])/' config.mk`
+            @build_steps begin
+              `sed -i -s 's/USE_CUDA = 0/USE_CUDA = 1/' config.mk`
+              # address https://github.com/apache/incubator-mxnet/pull/7856
+              `sed -i -s "s/ADD_LDFLAGS =\(.*\)/ADD_LDFLAGS =\1 -lcublas -lcusolver -lcurand -lcudart/" config.mk`
+              if haskey(ENV, "CUDA_HOME")
+                `sed -i -s "s@USE_CUDA_PATH = NONE@USE_CUDA_PATH = $(ENV["CUDA_HOME"])@" config.mk`
+              end
+              if haskey(ENV, "CUDA_HOME")
+                # address https://github.com/apache/incubator-mxnet/pull/7838
+                flag = "-L$(ENV["CUDA_HOME"])/lib64 -L$(ENV["CUDA_HOME"])/lib"
+                `sed -i -s "s@ADD_LDFLAGS =\(.*\)@ADD_LDFLAGS =\1 $flag@" config.mk`
+              end
+              if HAS_CUDNN
+                `sed -i -s 's/USE_CUDNN = 0/USE_CUDNN = 1/' config.mk`
+              end
             end
           end
-        end)
-        @build_steps begin
-          ChangeDirectory(_mxdir)
-          `cp ../../cblas.h include/cblas.h`
+
+          # Force enable LAPACK build
+          # Julia's OpenBLAS has LAPACK functionality already
+          if FORCE_LAPACK
+            if is_apple()
+              MSHADOW_LDFLAGS *= " -framework Accelerate"
+            end
+            `sed -i -s 's/ADD_CFLAGS =\(.*\)/ADD_CFLAGS =\1 -DMXNET_USE_LAPACK/' config.mk`
+          end
+
           if USE_JULIA_BLAS
-            `make -j$(min(Sys.CPU_CORES,8)) USE_BLAS=$blas_name $MSHADOW_LDFLAGS`
+            `make -j$(get_cpucore()) USE_BLAS=$blas_name $MSHADOW_LDFLAGS`
           else
-            `make -j$(min(Sys.CPU_CORES,8))`
+            `make -j$(get_cpucore())`
           end
         end
-        FileRule(joinpath(_libdir, "libmxnet.so"), @build_steps begin
-          `cp $_mxdir/lib/libmxnet.so $_libdir/`
+        FileRule(joinpath(_libdir, "libmxnet.$(Libdl.dlext)"), @build_steps begin
+          # the output file on macos is still in `.so` suffix
+          # so we rename it
+          `cp $_mxdir/lib/libmxnet.so $_libdir/libmxnet.$(Libdl.dlext)`
         end)
       end
     end), mxnet, installed_libpath=_libdir)

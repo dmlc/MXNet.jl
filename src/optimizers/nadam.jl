@@ -47,7 +47,7 @@ at their default values.
   [http://www.cs.toronto.edu/~fritz/absps/momentum.pdf]
   (http://www.cs.toronto.edu/~fritz/absps/momentum.pdf)
 """
-type Nadam <: AbstractOptimizer
+mutable struct Nadam <: AbstractOptimizer
   opts  :: NadamOptions
   state :: OptimizationState
 
@@ -61,7 +61,7 @@ type Nadam <: AbstractOptimizer
   end
 end
 
-type NadamState
+mutable struct NadamState
   mt         :: NDArray
   nt         :: NDArray
   momentum   :: Float64
@@ -91,7 +91,7 @@ function update(self :: Nadam, index :: Int, weight :: NDArray,
   mt = state.mt / (1.0 - momentum_next)
 
   @inplace state.nt .*= self.opts.beta2
-  @inplace state.nt .+= (1.0 - self.opts.beta2) * grad .* grad
+  @inplace state.nt .+= (1.0 - self.opts.beta2) .* grad .* grad
   nt = state.nt / (1.0 - state.beta2Power)
   state.beta2Power *= self.opts.beta2
 

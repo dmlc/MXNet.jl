@@ -2,12 +2,12 @@ module TestBind
 using MXNet
 using Base.Test
 
-using ..Main: rand_dims, reldiff
+using ..Main: rand_dims
 
 ################################################################################
 # Test Implementations
 ################################################################################
-function test_arithmetic{T <: mx.DType}(::Type{T}, uf, gf)
+function test_arithmetic(::Type{T}, uf, gf) where T <: mx.DType
   shape = rand_dims()
   info("Bind::arithmetic::$T::$uf::dims = $shape")
 
@@ -56,13 +56,13 @@ end
 
 function test_arithmetic()
   for T in [mx.fromTypeFlag(TF) for TF in instances(mx.TypeFlag)]
-    test_arithmetic(T, .+, (g,x,y) -> (g,g))
-    test_arithmetic(T, .-, (g,x,y) -> (g,-g))
-    test_arithmetic(T, .*, (g,x,y) -> (y.*g, x.*g))
+    test_arithmetic(T, (x,y) -> x .+ y, (g,x,y) -> (g,g))
+    test_arithmetic(T, (x,y) -> x .- y, (g,x,y) -> (g,-g))
+    test_arithmetic(T, (x,y) -> x .* y, (g,x,y) -> (y.*g, x.*g))
     if T <: Integer || T == Float16
       warn("Not running division test for $T")
     else
-      test_arithmetic(T, ./, (g,x,y) -> (g ./ y, -x .* g ./ (y.^2)))
+      test_arithmetic(T, (x,y) -> x ./ y, (g,x,y) -> (g ./ y, -x .* g ./ (y.^2)))
     end
   end
 end

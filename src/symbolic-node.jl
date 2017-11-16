@@ -9,12 +9,16 @@ SymbolicNode is the basic building block of the symbolic graph in MXNet.jl.
 Make a new node by composing `self` with `args`. Or the arguments
 can be specified using keyword arguments.
 """
-type SymbolicNode
-  handle :: MX_SymbolHandle
+mutable struct SymbolicNode
+  handle::MX_SymbolHandle
 end
-function Base.unsafe_convert(::Type{MX_handle}, obj::SymbolicNode)
+
+const SymbolicNodeOrReal = Union{SymbolicNode, Real}
+
+@unfuse SymbolicNode  # for broadcasting
+
+Base.unsafe_convert(::Type{MX_handle}, obj::SymbolicNode) =
   Base.unsafe_convert(MX_handle, obj.handle)
-end
 Base.convert(t::Type{MX_handle}, obj::SymbolicNode) = Base.unsafe_convert(t, obj)
 Base.cconvert(t::Type{MX_handle}, obj::SymbolicNode) = Base.unsafe_convert(t, obj)
 
@@ -38,11 +42,11 @@ function Base.copy(self :: SymbolicNode)
   Base.deepcopy(self)
 end
 
-@compat function (self::SymbolicNode)(args :: SymbolicNode...)
+function (self::SymbolicNode)(args :: SymbolicNode...)
   s = deepcopy(self)
   _compose!(s, args...)
 end
-@compat function (self::SymbolicNode)(;kwargs...)
+function (self::SymbolicNode)(;kwargs...)
   s = deepcopy(self)
   _compose!(s; kwargs...)
 end
@@ -217,8 +221,56 @@ function get_name(self :: mx.SymbolicNode)
     success = Ref(0)
     @mxcall(:MXSymbolGetName, (MX_handle, Ref{char_p}, Ref{Int}), self.handle.value, name, success)
     @assert success[] != -1
-    return Symbol(unsafe_wrap(String, name[]))
+    return Symbol(unsafe_string(name[]))
 end
+
+Base.show(io::IO, sym::SymbolicNode) =
+  print(io, "$(typeof(sym)) $(get_name(sym))")
+
+import Base: print
+
+function print(io :: IO, sym :: SymbolicNode)
+  out = Ref{mx.char_p}(C_NULL)
+  @mx.mxcall(:MXSymbolPrint, (mx.MX_SymbolHandle, Ref{mx.char_p}), sym.handle, out)
+  print(io, unsafe_string(out[]))
+end
+
+print(sym :: SymbolicNode) = print(STDOUT, sym)
+
+"""
+    print([io :: IO], sym :: SymbolicNode)
+
+Print the content of symbol, used for debug.
+
+```julia
+julia> layer = @mx.chain mx.Variable(:data)           =>
+         mx.FullyConnected(name=:fc1, num_hidden=128) =>
+         mx.Activation(name=:relu1, act_type=:relu)
+MXNet.mx.SymbolicNode(MXNet.mx.MX_SymbolHandle(Ptr{Void} @0x000055b29b9c3520))
+
+julia> print(layer)
+Symbol Outputs:
+        output[0]=relu1(0)
+Variable:data
+Variable:fc1_weight
+Variable:fc1_bias
+--------------------
+Op:FullyConnected, Name=fc1
+Inputs:
+        arg[0]=data(0) version=0
+        arg[1]=fc1_weight(0) version=0
+        arg[2]=fc1_bias(0) version=0
+Attrs:
+        num_hidden=128
+--------------------
+Op:Activation, Name=relu1
+Inputs:
+        arg[0]=fc1(0)
+Attrs:
+        act_type=relu
+```
+"""
+print
 
 """
     grad(self :: SymbolicNode, wrt :: Vector{SymbolicNode})
@@ -435,102 +487,112 @@ function Base.getindex(self :: SymbolicNode, idx :: Int)
   return SymbolicNode(MX_SymbolHandle(ref_hdr[]))
 end
 
-import Base: +, .+
-function +(self :: SymbolicNode, args :: Union{SymbolicNode,Real}...)
-  ret = self
-  for arg in args
-    if isa(arg, SymbolicNode)
-      ret = _Plus(ret, arg)
+import Base: +
+
+"""
+    +(args...)
+    .+(args...)
+
+Elementwise summation of `SymbolicNode`.
+"""
+function +(x::SymbolicNode, ys::SymbolicNodeOrReal...)
+  ret = x
+  for y ∈ ys
+    if y isa SymbolicNode
+      ret = _plus(ret, y)
     else
-      ret = _PlusScalar(ret, scalar=MX_float(arg))
+      ret = _plus_scalar(ret, scalar=MX_float(y))
     end
   end
   ret
 end
-function .+(self :: SymbolicNode, args :: Union{SymbolicNode,Real}...)
-  +(self, args...)
-end
-function +(s1 :: Real, self :: SymbolicNode, args :: Union{SymbolicNode,Real}...)
-  +(self, s1, args...)
-end
-function .+(s1 :: Real, self :: SymbolicNode, args :: Union{SymbolicNode,Real}...)
-  +(self, s1, args...)
-end
 
-import Base: -, .-
-function -(self :: SymbolicNode, arg :: SymbolicNode)
-  _Minus(self, arg)
-end
-function .-(self :: SymbolicNode, arg :: SymbolicNode)
-  -(self, arg)
-end
-function -(self :: SymbolicNode, arg :: Real)
-  _MinusScalar(self, scalar=MX_float(arg))
-end
-function .-(self :: SymbolicNode, arg :: Real)
-  -(self, arg)
-end
++(s::Real, x::SymbolicNode, ys::SymbolicNodeOrReal...) = +(x + s, ys...)
 
-function -(arg :: Real, self :: SymbolicNode)
-  _RMinusScalar(self, scalar=arg)
-end
-function .-(arg :: Real, self :: SymbolicNode)
-  -(arg, self)
-end
+broadcast_(::typeof(+), x::SymbolicNode, ys::SymbolicNodeOrReal...) = +(x, ys...)
+broadcast_(::typeof(+), s::Real, x::SymbolicNode, ys::SymbolicNodeOrReal...) = +(x + s, ys...)
 
-function -(self :: SymbolicNode)
-  -(0, self)
-end
+import Base: -
 
-import Base: .*, *
-function .*(self :: SymbolicNode, args :: Union{SymbolicNode,Real}...)
-  ret = self
-  for arg in args
-    if isa(arg, SymbolicNode)
-      ret = _Mul(ret, arg)
+"""
+    -(x, y)
+    .-(x, y)
+
+Elementwise substraction of `SymbolicNode`.
+Operating with `Real` is available.
+"""
+x::SymbolicNode - y::SymbolicNode = _minus(x, y)
+x::SymbolicNode - s::Real         = _minus_scalar(x,  scalar=MX_float(s))
+s::Real         - x::SymbolicNode = _rminus_scalar(x, scalar=MX_float(s))
+
+-(x::SymbolicNode) = 0 - x
+
+broadcast_(::typeof(-), x::SymbolicNode, y::SymbolicNodeOrReal) = x - y
+broadcast_(::typeof(-), s::Real, x::SymbolicNode) = s - x
+
+import Base: *
+
+"""
+    .*(x, y)
+
+Elementwise multiplication of `SymbolicNode`.
+"""
+x::SymbolicNode * s::Real = _mul_scalar(x, scalar=MX_float(s))
+s::Real * x::SymbolicNode = _mul_scalar(x, scalar=MX_float(s))
+
+function broadcast_(::typeof(*), x::SymbolicNode, ys::SymbolicNodeOrReal...)
+  ret = x
+  for y in ys
+    if y isa SymbolicNode
+      ret = _mul(ret, y)
     else
-      ret = _MulScalar(ret, scalar=MX_float(arg))
+      ret = _mul_scalar(ret, scalar=MX_float(y))
     end
   end
   ret
 end
-function .*(arg :: Real, self :: SymbolicNode, args :: Union{SymbolicNode,Real}...)
-  .*(self, arg, args...)
-end
-function *(arg :: Real, self :: SymbolicNode)
-  _MulScalar(self, scalar=arg)
-end
-function *(self :: SymbolicNode, arg :: Real)
-  *(arg, self)
-end
 
-import Base: ./, /
-function ./(self :: SymbolicNode, arg :: SymbolicNode)
-  _Div(self, arg)
-end
-function ./(self :: SymbolicNode, arg :: Real)
-  _DivScalar(self, scalar=MX_float(arg))
-end
-function /(self :: SymbolicNode, arg :: Real)
-  ./(self, arg)
-end
-function /(arg :: Real, self :: SymbolicNode)
-  _RDivScalar(self, scalar=arg)
-end
-function ./(arg :: Real, self :: SymbolicNode)
-  _RDivScalar(self, scalar=arg)
-end
+broadcast_(::typeof(*), s::Real, x::SymbolicNode, ys::SymbolicNodeOrReal...) =
+  broadcast_(*, x * s, ys...)
 
-import Base: .^, ^
-function .^(self :: SymbolicNode, pow :: SymbolicNode)
-  _Power(self, pow)
-end
-function .^(self :: SymbolicNode, pow :: AbstractFloat)
-  _PowerScalar(self, scalar=pow)
-end
-function ^(self :: SymbolicNode, pow :: AbstractFloat)
-  .^(self, pow)
-end
+import Base: /
+
+"""
+    ./(x, y)
+
+* Elementwise dividing a `SymbolicNode` by a scalar or another `SymbolicNode`
+of the same shape.
+
+* Elementwise divide a scalar by an `SymbolicNode`.
+
+* Matrix division (solving linear systems) is not implemented yet.
+"""
+x::SymbolicNode / s::Real = _DivScalar(x, scalar=MX_float(s))
+
+broadcast_(::typeof(/), x::SymbolicNode, y::SymbolicNode) = _div(x, y)
+broadcast_(::typeof(/), x::SymbolicNode, s::Real) = _div_scalar(x,  scalar=MX_float(s))
+broadcast_(::typeof(/), s::Real, x::SymbolicNode) = _rdiv_scalar(x, scalar=MX_float(s))
+
+
+import Base: ^
+
+"""
+    .^(x, y)
+
+Elementwise power of `SymbolicNode` and `NDArray`.
+Operating with `Real` is available.
+"""
+^
+
+broadcast_(::typeof(^), x::SymbolicNode, y::SymbolicNode) = _power(x, y)
+broadcast_(::typeof(^), x::SymbolicNode, s::Real) = _power_scalar(x,  scalar=MX_float(s))
+broadcast_(::typeof(^), s::Real, x::SymbolicNode) = _rpower_scalar(x, scalar=MX_float(s))
+
+broadcast_(::typeof(^), ::Irrational{:e}, x::SymbolicNode) = exp(x)
+broadcast_(::typeof(^), x::SymbolicNode, s::Irrational) =
+  _power_scalar(x, scalar=MX_float(s))
+broadcast_(::typeof(^), s::Irrational, x::SymbolicNode) =
+  _rpower_scalar(x, scalar=MX_float(s))
 
 function _compose!(node :: SymbolicNode; kwargs...)
   name     = char_p(0)
@@ -608,9 +670,107 @@ function save(filename :: AbstractString, node :: SymbolicNode)
   @mxcall(:MXSymbolSaveToFile, (MX_handle, char_p), node, filename)
 end
 
+import Base: reshape
+
+"""
+    reshape(sym::SymbolicNode, dim; reverse=false, name)
+    reshape(sym::SymbolicNode, dim...; reverse=false, name)
+
+Reshape SymbolicNode operator
+
+Some dimensions of the shape can take special values from the set
+{0, -1, -2, -3, -4}.
+The significance of each is explained below:
+
+- `0`  copy this dimension from the input to the output shape.
+
+  Example:
+
+  - input shape = (2,3,4), shape = (4,0,2), output shape = (4,3,2)
+  - input shape = (2,3,4), shape = (2,0,0), output shape = (2,3,4)
+
+- `-1` infers the dimension of the output shape by using the remainder of the
+  input dimensions keeping the size of the new array same as that of the input
+  array. At most one dimension of shape can be -1.
+
+  Example:
+
+  - input shape = (2,3,4), shape = (6,1,-1), output shape = (6,1,4)
+  - input shape = (2,3,4), shape = (3,-1,8), output shape = (3,1,8)
+  - input shape = (2,3,4), shape=(-1,), output shape = (24,)
+
+- `-2` copy all/remainder of the input dimensions to the output shape.
+
+  Example:
+
+  - input shape = (2,3,4), shape = (-2,), output shape = (2,3,4)
+  - input shape = (2,3,4), shape = (2,-2), output shape = (2,3,4)
+  - input shape = (2,3,4), shape = (-2,1,1), output shape = (2,3,4,1,1)
+
+- `-3` use the product of two consecutive dimensions of the input shape as the
+  output dimension.
+
+  Example:
+
+  - input shape = (2,3,4), shape = (-3,4), output shape = (6,4)
+  - input shape = (2,3,4,5), shape = (-3,-3), output shape = (6,20)
+  - input shape = (2,3,4), shape = (0,-3), output shape = (2,12)
+  - input shape = (2,3,4), shape = (-3,-2), output shape = (6,4)
+
+- `-4` split one dimension of the input into two dimensions passed subsequent
+  to -4 in shape (can contain -1).
+
+  Example:
+
+  - input shape = (2,3,4), shape = (-4,1,2,-2), output shape = (1,2,3,4)
+  - input shape = (2,3,4), shape = (2,-4,-1,3,-2), output shape = (2,1,3,4)
+
+If the argument `reverse` is set to `1`, then the special values are inferred
+from right to left.
+
+  Example:
+
+  - with `reverse=false`, for input shape = (10,5,4), shape = (-1,0),
+    output shape would be (40,5)
+  - with `reverse=true`, output shape will be (50,4).
+"""
+reshape(sym::SymbolicNode, dim::NTuple{N, Integer}; kwargs...) where {N} =
+  _reshape(sym, dim; kwargs...)
+reshape(sym::SymbolicNode, dim::Integer...; kwargs...) =
+  _reshape(sym, dim; kwargs...)
+
+@inline function _reshape(sym::SymbolicNode, dim::NTuple{N, Integer};
+                          reverse::Bool=false, name::String="") where N
+  op = _get_cached_libmx_op_handle("reshape")
+  node = _create_atomic_symbol(op.value, ["shape", "reverse"],
+                               [dump_mx_param(dim), dump_mx_param(!reverse)])
+  name = get!(DEFAULT_NAME_MANAGER, name, "reshape")
+  _compose!(node, name=name, data=sym)
+end
+
 ################################################################################
 # Atomic SymbolicNode functions dynamically imported from libmxnet
 ################################################################################
+@inline function _create_atomic_symbol(creator::MX_handle, keys::Vector{String},
+                                       vals::Vector{String})
+  ref_sym_hdr = Ref{MX_handle}(C_NULL)
+  @mxcall(:MXSymbolCreateAtomicSymbol,
+          (MX_handle, MX_uint, Ptr{char_p}, Ptr{char_p}, Ref{MX_handle}),
+          creator, length(keys), keys, vals, ref_sym_hdr)
+  SymbolicNode(MX_SymbolHandle(ref_sym_hdr[]))
+end
+
+@inline function _create_atomic_symbol(creator::MX_handle, keys::Vector{String},
+                                       vals::Vector{String},
+                                       attrs::Dict{Symbol, String})
+  node = _create_atomic_symbol(creator, keys, vals)
+  # set attrs
+  for (k, v) in attrs
+    set_attr(node, k, v)
+  end
+  node
+end
+
 function _define_atomic_symbol_creator(name :: String)
   handle = _get_libmx_op_handle(name)
   f_desc, key_narg = _get_libmx_op_description(name, handle)
@@ -661,7 +821,7 @@ function _define_atomic_symbol_creator(name :: String)
         symbol_kws[k] = v
       elseif k == :attrs
         if isa(v, Dict)
-          attrs = convert(Dict{Symbol, AbstractString}, v)
+          attrs = convert(Dict{Symbol, String}, v)
         else
           throw(ArgumentError("attrs needs to be a Dictionary"))
         end
@@ -683,23 +843,12 @@ function _define_atomic_symbol_creator(name :: String)
       end
     end)
 
-    local hdr = _get_cached_libmx_op_handle($name)
+    local op = _get_cached_libmx_op_handle($name)
+    node = _create_atomic_symbol(op.value, param_keys, param_vals, attrs)
 
-    # create the SymbolicNode
-    ref_sym_hdr = Ref{MX_handle}()
-    @mxcall(:MXSymbolCreateAtomicSymbol,
-            (MX_handle, MX_uint, Ptr{char_p}, Ptr{char_p}, Ref{MX_handle}),
-            hdr, length(param_keys), param_keys, param_vals, ref_sym_hdr)
-    sym_hdr = ref_sym_hdr[]
-
-    node = SymbolicNode(MX_SymbolHandle(sym_hdr))
+    # generate a new name for the new symbol if user not provided in kwargs
     hint = lowercase($name)
     name = get!(DEFAULT_NAME_MANAGER, name, hint)
-
-    # set attrs
-    for (k, v) in attrs
-      set_attr(node, k, v)
-    end
 
     if length(symbol_kws) == 0
       _compose!(node, name, args...)
@@ -730,11 +879,11 @@ macro _import_atomic_symbol_creators()
   # XXX: those are operators defined for NDArray, we exclude them here
   # because the calling convention for the type signature is not strong
   # enough to disambiguate the method for NDArray and SymbolicNode
-  const ignored_ops = ["_set_value"]
+  const ignored_ops = ["_set_value", "reshape"]  # in lowercase
 
   op_names = _get_libmx_op_names()
   func_exprs = map(op_names) do name
-    if name ∉ ignored_ops
+    if lowercase(name) ∉ ignored_ops
       expr = _define_atomic_symbol_creator(name)
     end
   end
@@ -750,26 +899,32 @@ end
 # Utility macros to chain up symbols
 ################################################################################
 macro chain(layers)
-  exprs = []
-  last_layer = nothing
-  function _chain_layer(layer, last_layer)
-    if isa(last_layer, Void)
-      esc(layer)
-    else
-      @assert(isa(layer, Expr) && layer.head == :call, "Do not know how to chain up $layer")
-      return Expr(:call, esc(layer.args[1]), last_layer, map(esc, layer.args[2:end])...)
+    exprs = []
+    last_layer = nothing
+
+    function _chain_layer(layer, last_layer)
+        if isa(last_layer, Void)
+            return esc(layer)
+        else
+            if @capture(layer, f_(x__))
+                x′ = esc.(x)
+                return :($f($last_layer, $(x′...)))
+            else
+                throw(AssertionError("$layer is not a valid function call and cannot be chained."))
+            end
+        end
     end
-  end
-  while true
-    if layers.head == :(=>)
-      new_layer = gensym()
-      push!(exprs, :($new_layer = $(_chain_layer(layers.args[1], last_layer))))
-      last_layer = new_layer
-      layers = layers.args[2]
-    else
-      push!(exprs, _chain_layer(layers, last_layer))
-      break
+
+    while true
+        if @capture(layers, l1_=>l2_)
+            new_layer = gensym()
+            push!(exprs, :($new_layer = $(_chain_layer(l1, last_layer))))
+            last_layer = new_layer
+            layers = l2
+        else
+            push!(exprs, _chain_layer(layers, last_layer))
+            break
+        end
     end
-  end
-  return Expr(:block, exprs...)
+    Expr(:block, exprs...)
 end

@@ -1,29 +1,42 @@
 "Exception thrown when an error occurred calling MXNet API."
-immutable MXError <: Exception
+struct MXError <: Exception
   msg :: AbstractString
 end
 
 ################################################################################
 # Common types used in MXNet API
 ################################################################################
-typealias MX_uint Cuint
-typealias MX_float Cfloat
-typealias MX_handle Ptr{Void}
+const MX_uint = Cuint
+const MX_float = Cfloat
+const MX_handle = Ptr{Void}
 
-typealias char_p Ptr{UInt8}
-typealias char_pp Ptr{char_p}
+const char_p = Ptr{UInt8}
+const char_pp = Ptr{char_p}
+
+################################################################################
+# Enumeration from MXNet headers
+################################################################################
+# OpReqType in include/mxnet/op_attr_types.h
+@enum GRAD_REQ GRAD_NOP=0 GRAD_WRITE=1 GRAD_INPLACE=2 GRAD_ADD=3
+const grad_req_map = Dict{Symbol, GRAD_REQ}(
+    :nop     => GRAD_NOP,      # no operation, do not write anything
+    :write   => GRAD_WRITE,    # write gradient to provided space
+    :inplace => GRAD_INPLACE,  # perform an inplace write
+    :add     => GRAD_ADD,      # add to the provided space
+)
 
 ################################################################################
 # Initialization and library API entrance
 ################################################################################
-const MXNET_LIB = Libdl.find_library(["libmxnet.so","libmxnet.dll"],
-                                     [joinpath("$(get(ENV,"MXNET_HOME",""))","lib"),
-                                      Pkg.dir("MXNet","deps","usr","lib")])
+const MXNET_LIB = Libdl.find_library("libmxnet.$(Libdl.dlext)",
+                                     [joinpath(get(ENV, "MXNET_HOME", ""), "lib"),
+                                      Pkg.dir("MXNet", "deps", "usr", "lib")])
 if isempty(MXNET_LIB)
   # touch this file, so that after the user properly build libmxnet, the precompiled
   # MXNet.ji will be re-compiled to get MXNET_LIB properly.
   touch(@__FILE__)
-  error("Cannot find or load libmxnet.so. Please see the document on how to build it.")
+  error("Cannot find or load libmxnet.$(Libdl.dlext). " *
+        "Please see the document on how to build it.")
 else
   include_dependency(MXNET_LIB)
 end
@@ -32,6 +45,8 @@ function __init__()
   # TODO: bug in nnvm, if do not call this, call get handle "_copyto" will fail
   _get_libmx_op_names()
   _populate_iter_creator_cache!()
+
+  global const LIB_VERSION = _get_lib_version()
 
   atexit() do
     # notify libmxnet we are shutting down
@@ -61,13 +76,22 @@ macro mxcall(fv, argtypes, args...)
   end
 end
 
+"""
+Get libmxnet version
+"""
+function _get_lib_version()
+  ver = Ref{Cint}(0)
+  @mxcall :MXGetVersion (Ref{Cint},) ver
+  ver[]
+end
+
 ################################################################################
 # Handle types
 ################################################################################
 macro mx_define_handle_t(name, destructor)
   name = esc(name)
   quote
-    type $name
+    mutable struct $name
       value :: MX_handle
 
       function $name(value = C_NULL)
@@ -133,14 +157,17 @@ end
 #
 # TODO: find a better solution in case this cause issues in the future.
 ################################################################################
-function dump_mx_param(val :: Any)
-  string(val)
-end
-function dump_mx_param{N,T<:Integer}(shape :: NTuple{N, T})
-  string(tuple(flipdim([shape...],1)...))
-end
+dump_mx_param(val::Any)        = string(val)
+dump_mx_param(val::Float64)    = @sprintf("%.16e", val)
+dump_mx_param(val::Float32)    = @sprintf("%.8e", val)
+dump_mx_param(val::Float16)    = @sprintf("%.4e", val)
+dump_mx_param(val::Irrational) = @sprintf("%.16e", val)
+dump_mx_param(shape::NTuple{N, <:Integer}) where N =
+  string(tuple(flipdim([shape...], 1)...))
 
-"""A convenient macro copied from Mocha.jl that could be used to define structs
+
+"""
+A convenient macro copied from Mocha.jl that could be used to define structs
 with default values and type checks. For example
 ```julia
 @defstruct MyStruct Any (
@@ -177,7 +204,7 @@ end
 """Internal use only, this value is used to indicate a required value
 is not specified.
 """
-immutable __Undefined
+struct __Undefined
 end
 
 function _defstruct_impl(is_immutable, name, fields)
@@ -259,7 +286,7 @@ function _defstruct_impl(is_immutable, name, fields)
 
   if is_immutable
     quote
-      immutable $(name) <: $(super_name)
+      struct $(name) <: $(super_name)
         $type_body
       end
 
@@ -267,7 +294,7 @@ function _defstruct_impl(is_immutable, name, fields)
     end
   else
     quote
-      type $(name) <: $(super_name)
+      mutable struct $(name) <: $(super_name)
         $type_body
       end
 

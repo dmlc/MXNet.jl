@@ -163,3 +163,42 @@ function _format_signature(narg::Int, arg_names::Ref{char_pp})
   return join([unsafe_string(name) for name in arg_names] , ", ")
 end
 
+@inline function _only2d(x)
+  @assert ndims(x) == 2
+  x
+end
+
+"""
+libmxnet operators signature checker.
+
+C/Python have different convernsion of accessing array. Those languages
+handle arrays in row-major and zero-indexing which differs from Julia's
+colume-major and 1-indexing.
+
+This function scans the docstrings of NDArray's APIs,
+filter out the signature which contain `axis`, `axes`, `keepdims` and `shape`
+as its function argument.
+
+We invoks this checker in Travis CI build and pop up the warning message
+if the functions does not get manually mapped
+(imply it's dimension refering may looks weird).
+
+If you found any warning in Travis CI build, please open an issue on GitHub.
+"""
+function _sig_checker()
+  names = filter(n -> ∉(lowercase(n), _op_import_bl), _get_libmx_op_names())
+  foreach(names) do name
+    op_handle = _get_libmx_op_handle(name)
+
+    desc, key_narg = _get_libmx_op_description(name, op_handle)
+    _sig = desc |> s -> split(s, '\n') |> first |> strip
+    _m = match(r"(axis|axes|keepdims|shape)", _sig)
+
+    if _m === nothing
+      return
+    end
+
+    warn(_sig)
+
+  end
+end
