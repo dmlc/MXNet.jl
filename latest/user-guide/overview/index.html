@@ -28,7 +28,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-0.17.1, mkdocs-material-2.0.4">
+      <meta name="generator" content="mkdocs-0.17.2, mkdocs-material-2.0.4">
     
     
       
@@ -782,7 +782,7 @@ julia&gt; mx.srand(42)
 
 julia&gt; a = mx.empty(2,3)
 2×3 mx.NDArray{Float32} @ CPU0:
- 5.36066f-36  1.79751f19  7.42688f-44
+ 6.88918f-38  1.79751f19  7.42688f-44
  0.0          4.27246f-5  0.0
 
 julia&gt; a[:] = 0.5              # set all elements to a scalar
@@ -790,23 +790,23 @@ julia&gt; a[:] = 0.5              # set all elements to a scalar
 
 julia&gt; a[:] = rand(size(a))    # set contents with a Julia Array
 2×3 Array{Float64,2}:
- 0.747822  0.174228  0.349176
- 0.764121  0.627617  0.19588
+ 0.578336  0.273376   0.843294
+ 0.805761  0.0617822  0.589445
 
 julia&gt; copy!(a, rand(size(a))) # set value by copying a Julia Array
 2×3 mx.NDArray{Float32} @ CPU0:
- 0.504944  0.168089  0.495421
- 0.255693  0.370021  0.357787
+ 0.182175   0.466033  0.243323
+ 0.0446045  0.144628  0.845256
 
 julia&gt; b = mx.empty(size(a))
 2×3 mx.NDArray{Float32} @ CPU0:
- 3.18516f-36  7.9325f34   1.80067f-41
+ 7.07081f-38  7.9325f34   1.80067f-41
  0.0          1.66905f-7  0.0
 
 julia&gt; b[:] = a                # copying and assignment between NDArrays
 2×3 mx.NDArray{Float32} @ CPU0:
- 0.504944  0.168089  0.495421
- 0.255693  0.370021  0.357787
+ 0.182175   0.466033  0.243323
+ 0.0446045  0.144628  0.845256
 </code></pre>
 
 <p>Note due to the intrinsic design of the Julia language, a normal assignment</p>
@@ -1245,7 +1245,7 @@ julia&gt; copy(c_exec.outputs[1])  # copy turns NDArray into Julia Array
     
       <script src="../../assets/javascripts/application-8e4952e681.js"></script>
       
-      <script>app.initialize({version:"0.17.1",url:{base:"../.."}})</script>
+      <script>app.initialize({version:"0.17.2",url:{base:"../.."}})</script>
       
         <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
       
