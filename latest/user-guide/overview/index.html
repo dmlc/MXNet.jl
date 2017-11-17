@@ -709,7 +709,7 @@
 <p>Most the functions and types in MXNet.jl are organized in a flat namespace. Because many some functions are conflicting with existing names in the Julia Base module, we wrap them all in a <code>mx</code> module. The convention of accessing the MXNet.jl interface is the to use the <code>mx.</code> prefix explicitly:</p>
 <pre><code class="julia">julia&gt; using MXNet
 
-julia&gt; x = mx.zeros(2,3)              # MXNet NDArray
+julia&gt; x = mx.zeros(2, 3)             # MXNet NDArray
 2×3 mx.NDArray{Float32} @ CPU0:
  0.0  0.0  0.0
  0.0  0.0  0.0
@@ -742,21 +742,21 @@ julia&gt; mx.copy!(z, y)                 # Same as copy!(z, y)
 <h3 id="ndarray"><code>NDArray</code></h3>
 <p><code>NDArray</code> is the basic building blocks of the actual computations in MXNet. It is like a Julia <code>Array</code> object, with some important differences listed here:</p>
 <ul>
-<li>The actual data could live on different <code>Context</code> (e.g. GPUs). For   some contexts, iterating into the elements one by one is very slow,   thus indexing into NDArray is not recommanded in general. The easiest   way to inspect the contents of an NDArray is to use the <code>copy</code>   function to copy the contents as a Julia <code>Array</code>.</li>
-<li>Operations on <code>NDArray</code> (including basic arithmetics and neural   network related operators) are executed in parallel with automatic   dependency tracking to ensure correctness.</li>
-<li>There is no generics in <code>NDArray</code>, the <code>eltype</code> is always   <code>mx.MX_float</code>. Because for applications in machine learning, single   precision floating point numbers are typical a best choice balancing   between precision, speed and portability. Also since libmxnet is   designed to support multiple languages as front-ends, it is much   simpler to implement with a fixed data type.</li>
+<li>The actual data could live on different <code>Context</code> (e.g. GPUs). For some contexts, iterating into the elements one by one is very slow, thus indexing into NDArray is not recommanded in general. The easiest way to inspect the contents of an NDArray is to use the <code>copy</code> function to copy the contents as a Julia <code>Array</code>.</li>
+<li>Operations on <code>NDArray</code> (including basic arithmetics and neural network related operators) are executed in parallel with automatic dependency tracking to ensure correctness.</li>
+<li>There is no generics in <code>NDArray</code>, the <code>eltype</code> is always <code>mx.MX_float</code>. Because for applications in machine learning, single precision floating point numbers are typical a best choice balancing between precision, speed and portability. Also since libmxnet is designed to support multiple languages as front-ends, it is much simpler to implement with a fixed data type.</li>
 </ul>
 <p>While most of the computation is hidden in libmxnet by operators corresponding to various neural network layers. Getting familiar with the <code>NDArray</code> API is useful for implementing <code>Optimizer</code> or customized operators in Julia directly.</p>
 <p>The followings are common ways to create <code>NDArray</code> objects:</p>
 <ul>
-<li><code>mx.empty(shape[, context])</code>: create on uninitialized array of a   given shape on a specific device. For example,   <code>mx.empty(2,3)</code>, <code>mx.((2,3), mx.gpu(2))</code>.</li>
-<li><code>mx.zeros(shape[, context])</code> and <code>mx.ones(shape[, context])</code>:   similar to the Julia's built-in <code>zeros</code> and <code>ones</code>.</li>
-<li><code>mx.copy(jl_arr, context)</code>: copy the contents of a Julia <code>Array</code> to   a specific device.</li>
+<li><code>mx.empty(shape[, context])</code>: create on uninitialized array of a given shape on a specific device. For example, <code>mx.empty(2, 3)</code>, <code>mx.((2, 3), mx.gpu(2))</code>.</li>
+<li><code>mx.zeros(shape[, context])</code> and <code>mx.ones(shape[, context])</code>: similar to the Julia's built-in <code>zeros</code> and <code>ones</code>.</li>
+<li><code>mx.copy(jl_arr, context)</code>: copy the contents of a Julia <code>Array</code> to a specific device.</li>
 </ul>
 <p>Most of the convenient functions like <code>size</code>, <code>length</code>, <code>ndims</code>, <code>eltype</code> on array objects should work out-of-the-box. Although indexing is not supported, it is possible to take <em>slices</em>:</p>
 <pre><code class="julia-repl">julia&gt; using MXNet
 
-julia&gt; a = mx.ones(2,3)
+julia&gt; a = mx.ones(2, 3)
 2×3 mx.NDArray{Float32} @ CPU0:
  1.0  1.0  1.0
  1.0  1.0  1.0
@@ -780,9 +780,9 @@ julia&gt; a
 
 julia&gt; mx.srand(42)
 
-julia&gt; a = mx.empty(2,3)
+julia&gt; a = mx.empty(2, 3)
 2×3 mx.NDArray{Float32} @ CPU0:
- 2.26416f-36  1.79751f19  7.42688f-44
+ 1.12317f-36  1.79751f19  7.42688f-44
  0.0          4.27246f-5  0.0
 
 julia&gt; a[:] = 0.5              # set all elements to a scalar
@@ -790,23 +790,23 @@ julia&gt; a[:] = 0.5              # set all elements to a scalar
 
 julia&gt; a[:] = rand(size(a))    # set contents with a Julia Array
 2×3 Array{Float64,2}:
- 0.733086  0.710315  0.286818
- 0.437881  0.380359  0.5247
+ 0.347293  0.784938  0.739621
+ 0.174371  0.776425  0.412928
 
 julia&gt; copy!(a, rand(size(a))) # set value by copying a Julia Array
 2×3 mx.NDArray{Float32} @ CPU0:
- 0.547864  0.538384  0.633639
- 0.972863  0.129743  0.791867
+ 0.96438  0.0977864  0.836775
+ 0.35453  0.0308399  0.811445
 
 julia&gt; b = mx.empty(size(a))
 2×3 mx.NDArray{Float32} @ CPU0:
- 2.73547f-36  7.9325f34   1.80067f-41
+ 1.30586f-36  7.9325f34   1.80067f-41
  0.0          1.66905f-7  0.0
 
 julia&gt; b[:] = a                # copying and assignment between NDArrays
 2×3 mx.NDArray{Float32} @ CPU0:
- 0.547864  0.538384  0.633639
- 0.972863  0.129743  0.791867
+ 0.96438  0.0977864  0.836775
+ 0.35453  0.0308399  0.811445
 </code></pre>
 
 <p>Note due to the intrinsic design of the Julia language, a normal assignment</p>
