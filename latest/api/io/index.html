@@ -913,7 +913,7 @@ end
 <p>// Creates a <code>CSVIter</code> with <code>round_batch</code>=False.   CSVIter = mx.io.CSVIter(data_csv = 'data/data.csv', data_shape = (3,),   batch_size = 3, round_batch=False)</p>
 <p>// Contents of two batches read from the above iterator in both passes, after calling   // <code>reset</code> method before second pass, is as follows:   [[1.  2.  3.]   [2.  3.  4.]   [3.  4.  5.]]</p>
 <p>[[4.  5.  6.]   [2.  3.  4.]   [3.  4.  5.]]</p>
-<p>Defined in src/io/iter_csv.cc:L222</p>
+<p>Defined in src/io/iter_csv.cc:L223</p>
 <p><strong>Arguments:</strong></p>
 <ul>
 <li><code>data_name::Symbol</code>: keyword argument, default <code>:data</code>. The name of the data.</li>
@@ -1014,7 +1014,7 @@ end
 <p>batch = data_iter.next() # first batch.   images = batch.data[0] # This will contain 4 (=batch_size) images each of 3x227x227.</p>
 <p><strong>process the images</strong></p>
 <p>...   data_iter.reset() # To restart the iterator from the beginning.</p>
-<p>Defined in src/io/iter_image_recordio_2.cc:L747</p>
+<p>Defined in src/io/iter_image_recordio_2.cc:L748</p>
 <p><strong>Arguments:</strong></p>
 <ul>
 <li><code>data_name::Symbol</code>: keyword argument, default <code>:data</code>. The name of the data.</li>
@@ -1080,7 +1080,7 @@ end
 <p>Iterating on image RecordIO files</p>
 <p>Read images batches from RecordIO files with a rich of data augmentation options.</p>
 <p>One can use $tools/im2rec.py$ to pack individual image files into RecordIO files.</p>
-<p>Defined in src/io/iter_image_recordio.cc:L346</p>
+<p>Defined in src/io/iter_image_recordio.cc:L347</p>
 <p><strong>Arguments:</strong></p>
 <ul>
 <li><code>data_name::Symbol</code>: keyword argument, default <code>:data</code>. The name of the data.</li>
@@ -1145,7 +1145,7 @@ end
 
 <p>Can also be called with the alias <code>ImageRecordUInt8Provider</code>. Iterating on image RecordIO files</p>
 <p>This iterator is identical to $ImageRecordIter$ except for using $uint8$ as the data type instead of $float$.</p>
-<p>Defined in src/io/iter_image_recordio_2.cc:L764</p>
+<p>Defined in src/io/iter_image_recordio_2.cc:L765</p>
 <p><strong>Arguments:</strong></p>
 <ul>
 <li><code>data_name::Symbol</code>: keyword argument, default <code>:data</code>. The name of the data.</li>
@@ -1196,7 +1196,7 @@ end
 
 <p>Iterating on image RecordIO files</p>
 <p>This iterator is identical to $ImageRecordIter$ except for using $uint8$ as the data type instead of $float$.</p>
-<p>Defined in src/io/iter_image_recordio.cc:L367</p>
+<p>Defined in src/io/iter_image_recordio.cc:L368</p>
 <p><strong>Arguments:</strong></p>
 <ul>
 <li><code>data_name::Symbol</code>: keyword argument, default <code>:data</code>. The name of the data.</li>
@@ -1396,7 +1396,7 @@ end
 
 <p>Can also be called with the alias <code>MNISTProvider</code>. Iterating on the MNIST dataset.</p>
 <p>One can download the dataset from http://yann.lecun.com/exdb/mnist/</p>
-<p>Defined in src/io/iter_mnist.cc:L264</p>
+<p>Defined in src/io/iter_mnist.cc:L265</p>
 <p><strong>Arguments:</strong></p>
 <ul>
 <li><code>data_name::Symbol</code>: keyword argument, default <code>:data</code>. The name of the data.</li>

@@ -782,7 +782,7 @@ julia&gt; mx.srand(42)
 
 julia&gt; a = mx.empty(2, 3)
 2×3 mx.NDArray{Float32} @ CPU0:
- 2.55079f-36  1.79751f19  7.42688f-44
+ 2.94918f-36  1.79751f19  7.42688f-44
  0.0          4.27246f-5  0.0
 
 julia&gt; a[:] = 0.5              # set all elements to a scalar
@@ -790,23 +790,23 @@ julia&gt; a[:] = 0.5              # set all elements to a scalar
 
 julia&gt; a[:] = rand(size(a))    # set contents with a Julia Array
 2×3 Array{Float64,2}:
- 0.810869  0.890252  0.0244146
- 0.270818  0.241667  0.976046
+ 0.738781   0.520392  0.0524677
+ 0.0595182  0.276136  0.293237
 
 julia&gt; copy!(a, rand(size(a))) # set value by copying a Julia Array
 2×3 mx.NDArray{Float32} @ CPU0:
- 0.406639  0.702922  0.211148
- 0.544837  0.643552  0.765431
+ 0.0300173  0.577638  0.547647
+ 0.794893   0.470896  0.205942
 
 julia&gt; b = mx.empty(size(a))
 2×3 mx.NDArray{Float32} @ CPU0:
- 1.8666f-36  7.9325f34   1.80067f-41
- 0.0         1.66905f-7  0.0
+ 4.30816f-36  7.9325f34   1.80067f-41
+ 0.0          1.66905f-7  0.0
 
 julia&gt; b[:] = a                # copying and assignment between NDArrays
 2×3 mx.NDArray{Float32} @ CPU0:
- 0.406639  0.702922  0.211148
- 0.544837  0.643552  0.765431
+ 0.0300173  0.577638  0.547647
+ 0.794893   0.470896  0.205942
 </code></pre>
 
 <p>Note due to the intrinsic design of the Julia language, a normal assignment</p>
