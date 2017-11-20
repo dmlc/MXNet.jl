@@ -35,5 +35,6 @@ build_script:
       Pkg.clone(pwd(), \"MXNet\"); Pkg.build(\"MXNet\")"
 
 test_script:
-  - C:\projects\julia\bin\julia --check-bounds=yes -e "Pkg.test(\"MXNet\")"
-
+  - C:\projects\julia\bin\julia --check-bounds=yes -e "
+    ENV[\"CONTINUOUS_INTEGRATION\"] = \"1\";
+    Pkg.test(\"MXNet\")"
