@@ -28,7 +28,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-0.17.2, mkdocs-material-2.0.4">
+      <meta name="generator" content="mkdocs-0.17.2, mkdocs-material-2.1.0">
     
     
       
@@ -36,7 +36,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/application-709eec9410.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/application-3368aa6b74.css">
       
     
     
@@ -83,18 +83,18 @@
         <label class="md-icon md-icon--menu md-header-nav__button" for="drawer"></label>
       </div>
       <div class="md-flex__cell md-flex__cell--stretch">
-        <span class="md-flex__ellipsis md-header-nav__title">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
           
             
-              
-                <span class="md-header-nav__parent">
-                  API Documentation
-                </span>
-              
+              <span class="md-header-nav__topic">
+                MXNet.jl
+              </span>
+              <span class="md-header-nav__topic">
+                Context
+              </span>
             
-            Context
           
-        </span>
+        </div>
       </div>
       <div class="md-flex__cell md-flex__cell--shrink">
         
@@ -533,7 +533,7 @@
 </code></pre>
 
 <p>A context describes the device type and id on which computation should be carried on.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/57b50d49691174ffc8fd78bf821d807e277d8f7b/src/context.jl#L3-L7' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/8564f190728ca3fa50dd2d048667b9ed08cc7a60/src/context.jl#L3-L7' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.cpu' href='#MXNet.mx.cpu'>#</a>
 <strong><code>MXNet.mx.cpu</code></strong> &mdash; <em>Function</em>.</p>
 <pre><code>cpu(dev_id)
@@ -544,7 +544,7 @@
 <ul>
 <li><code>dev_id::Int = 0</code>: the CPU id.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/57b50d49691174ffc8fd78bf821d807e277d8f7b/src/context.jl#L19-L27' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/8564f190728ca3fa50dd2d048667b9ed08cc7a60/src/context.jl#L19-L27' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.gpu' href='#MXNet.mx.gpu'>#</a>
 <strong><code>MXNet.mx.gpu</code></strong> &mdash; <em>Function</em>.</p>
 <pre><code>gpu(dev_id)
@@ -555,7 +555,7 @@
 <ul>
 <li><code>dev_id :: Int = 0</code> the GPU device id.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/57b50d49691174ffc8fd78bf821d807e277d8f7b/src/context.jl#L32-L39' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/8564f190728ca3fa50dd2d048667b9ed08cc7a60/src/context.jl#L32-L39' class='documenter-source'>source</a><br></p>
                 
                   
                 
@@ -611,9 +611,9 @@
       <div class="md-footer-copyright">
         
         powered by
-        <a href="http://www.mkdocs.org" title="MkDocs">MkDocs</a>
+        <a href="http://www.mkdocs.org">MkDocs</a>
         and
-        <a href="http://squidfunk.github.io/mkdocs-material/" title="Material for MkDocs">
+        <a href="https://squidfunk.github.io/mkdocs-material/">
           Material for MkDocs</a>
       </div>
       
@@ -625,7 +625,7 @@
       
     </div>
     
-      <script src="../../assets/javascripts/application-8e4952e681.js"></script>
+      <script src="../../assets/javascripts/application-a5397a53ce.js"></script>
       
       <script>app.initialize({version:"0.17.2",url:{base:"../.."}})</script>
       

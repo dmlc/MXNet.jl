@@ -28,7 +28,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-0.17.2, mkdocs-material-2.0.4">
+      <meta name="generator" content="mkdocs-0.17.2, mkdocs-material-2.1.0">
     
     
       
@@ -36,7 +36,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/application-709eec9410.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/application-3368aa6b74.css">
       
     
     
@@ -83,18 +83,18 @@
         <label class="md-icon md-icon--menu md-header-nav__button" for="drawer"></label>
       </div>
       <div class="md-flex__cell md-flex__cell--stretch">
-        <span class="md-flex__ellipsis md-header-nav__title">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
           
             
-              
-                <span class="md-header-nav__parent">
-                  API Documentation
-                </span>
-              
+              <span class="md-header-nav__topic">
+                MXNet.jl
+              </span>
+              <span class="md-header-nav__topic">
+                Executor
+              </span>
             
-            Executor
           
-        </span>
+        </div>
       </div>
       <div class="md-flex__cell md-flex__cell--shrink">
         
@@ -533,7 +533,35 @@
 </code></pre>
 
 <p>An executor is a realization of a symbolic architecture defined by a <code>SymbolicNode</code>. The actual forward and backward computation specified by the network architecture can be carried out with an executor.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/57b50d49691174ffc8fd78bf821d807e277d8f7b/src/executor.jl#L1-L7' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/8564f190728ca3fa50dd2d048667b9ed08cc7a60/src/executor.jl#L1-L7' class='documenter-source'>source</a><br></p>
+<p><a id='Base.print-Tuple{IO,MXNet.mx.Executor}' href='#Base.print-Tuple{IO,MXNet.mx.Executor}'>#</a>
+<strong><code>Base.print</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>print([io::IO], x::Executor)
+</code></pre>
+
+<p>Get a debug string about internal execution plan.</p>
+<p>Can be used to get an estimated about the memory cost.</p>
+<pre><code class="julia">julia&gt; x = mx.Variable(:x)
+MXNet.mx.SymbolicNode x
+
+julia&gt; exec = mx.bind(x + 1, mx.cpu(), Dict(:x =&gt; mx.ones(2,3)))
+mx.Executor Ptr{Void} @0x000055c3dee9eb30
+
+julia&gt; print(exec)
+Symbol Outputs:
+        output[0]=_plus_scalar0(0)
+Variable:x
+--------------------
+Op:_plus_scalar, Name=_plus_scalar0
+Inputs:
+        arg[0]=x(0) version=0
+Attrs:
+        scalar=1.00000000e+00
+Total 0 MB allocated
+Total 11 TempSpace resource requested
+</code></pre>
+
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/8564f190728ca3fa50dd2d048667b9ed08cc7a60/src/executor.jl#L209-L236' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.bind-Tuple{MXNet.mx.SymbolicNode,MXNet.mx.Context,Union{Array{MXNet.mx.NDArray,1}, Dict{Symbol,MXNet.mx.NDArray}}}' href='#MXNet.mx.bind-Tuple{MXNet.mx.SymbolicNode,MXNet.mx.Context,Union{Array{MXNet.mx.NDArray,1}, Dict{Symbol,MXNet.mx.NDArray}}}'>#</a>
 <strong><code>MXNet.mx.bind</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>bind(sym, ctx, args; args_grad=Dict(), aux_states=Dict(), grad_req=GRAD_WRITE)
@@ -549,19 +577,7 @@
 <li><code>aux_states</code>:</li>
 <li><code>grad_req</code>:</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/57b50d49691174ffc8fd78bf821d807e277d8f7b/src/executor.jl#L68-L83' class='documenter-source'>source</a><br></p>
-<p><a id='MXNet.mx.debug_str-Tuple{MXNet.mx.Executor}' href='#MXNet.mx.debug_str-Tuple{MXNet.mx.Executor}'>#</a>
-<strong><code>MXNet.mx.debug_str</code></strong> &mdash; <em>Method</em>.</p>
-<p>Get a debug string about internal execution plan.</p>
-<p>Can be used to get an estimated about the memory cost.</p>
-<pre><code class="julia">  net = ... # Symbol
-  dProvider = ... # DataProvider
-  exec = mx.simple_bind(net, mx.cpu(), data=size(dProvider.data_batch[1]))
-  dbg_str = mx.debug_str(exec)
-  println(split(ref, ['\n'])[end-2])
-</code></pre>
-
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/57b50d49691174ffc8fd78bf821d807e277d8f7b/src/executor.jl#L206-L217' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/8564f190728ca3fa50dd2d048667b9ed08cc7a60/src/executor.jl#L68-L83' class='documenter-source'>source</a><br></p>
                 
                   
                 
@@ -617,9 +633,9 @@
       <div class="md-footer-copyright">
         
         powered by
-        <a href="http://www.mkdocs.org" title="MkDocs">MkDocs</a>
+        <a href="http://www.mkdocs.org">MkDocs</a>
         and
-        <a href="http://squidfunk.github.io/mkdocs-material/" title="Material for MkDocs">
+        <a href="https://squidfunk.github.io/mkdocs-material/">
           Material for MkDocs</a>
       </div>
       
@@ -631,7 +647,7 @@
       
     </div>
     
-      <script src="../../assets/javascripts/application-8e4952e681.js"></script>
+      <script src="../../assets/javascripts/application-a5397a53ce.js"></script>
       
       <script>app.initialize({version:"0.17.2",url:{base:"../.."}})</script>
       
