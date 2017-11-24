@@ -21,19 +21,42 @@ MXNet.jl is built on top of [libmxnet](https://github.com/dmlc/mxnet).
 Upon installation, Julia will try to automatically download and build
 libmxnet.
 
-There are three environment variables that change this behaviour. If you
-already have a pre-installed version of mxnet you can use `MXNET_HOME`
-to point the build-process in the right direction. If the automatic
-cuda detection fails you can also set `CUDA_HOME` to override the process.
-To control which version of libmxnet will be compiled, you can use the
-`MXNET_COMMIT` variable to point to either a version tag (e.g. `v0.10.0`), a
-branch name (e.g. `master`) or a specific commit hash (e.g. `a0b1c2d3`).
+There are three environment variables that change this behaviour.
+
+- `MXNET_HOME`: If you already have a pre-installed version of mxnet,
+  you can use `MXNET_HOME` to point the build-process in the right direction.
+
+- `CUDA_HOME`: If the automatic cuda detection fails,
+  you can also set `CUDA_HOME` to override the process.
+
+  ```julia
+  ENV["CUDA_HOME"] = "/usr/mycuda"
+  Pkg.build("MXNet")
+  ```
+
+- `MXNET_COMMIT`: To control which version of libmxnet will be compiled,
+  you can use the `MXNET_COMMIT` variable to point to either a version tag
+  (e.g. `v0.10.0`), a branch name (e.g. `master`) or a specific commit hash
+  (e.g. `a0b1c2d3`).
+
+  ```julia
+  ENV["MXNET_COMMIT"] = "master"
+  Pkg.build("MXNet")
+  ```
 
 The libmxnet source is downloaded to `Pkg.dir("MXNet", "deps", "src", "mxnet")`.
-The automatic build is using default configurations, with OpenCV disabled.
-If the compilation failed due to unresolved dependency, or if
-you want to customize the build, you can compile and
-install libmxnet manually. Please see below for more details.
+The automatic build will try to detect optional dependencies, including
+
+- [CUDA](https://developer.nvidia.com/cuda-toolkit) 8.0
+
+- [CuDNN](https://developer.nvidia.com/cudnn)
+
+- [OpenCV](https://opencv.org/)
+
+If the compilation failed due to unresolved dependency,
+or if you want to customize the build,
+you can compile and install libmxnet manually.
+Please see below for more details.
 
 Manual Compilation
 ------------------

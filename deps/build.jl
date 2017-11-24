@@ -68,6 +68,14 @@ else
   info("Did not find a CUDA installation, using CPU-only version of MXNet.")
 end
 
+# try to find opencv
+HAS_OPENCV = false
+let libopencv_core = Libdl.find_library("libopencv_core")
+  HAS_OPENCV = !isempty(libopencv_core) && Libdl.dlopen_e(libopencv_core) != C_NULL
+end
+
+info("Build with OpenCV -> $(HAS_OPENCV)")
+
 function get_cpucore()
     if haskey(ENV, "TRAVIS")  # on travis-ci
         2
@@ -139,7 +147,7 @@ if !libmxnet_detected
     USE_JULIA_BLAS = true
     FORCE_LAPACK = true
   end
-  info("USE_JULIA_BLAS -> $USE_JULIA_BLAS")
+  info("Build with Julia's BLAS lib -> $USE_JULIA_BLAS")
 
   blas_name = blas_vendor == :openblas64 ? "openblas" : string(blas_vendor)
   MSHADOW_LDFLAGS = "MSHADOW_LDFLAGS=-lm $blas_path"
@@ -188,7 +196,9 @@ if !libmxnet_detected
           end
 
           # Configure OpenCV
-          `sed -i -s 's/USE_OPENCV = 1/USE_OPENCV = 0/' config.mk`
+          if !HAS_OPENCV
+            `sed -i -s 's/USE_OPENCV = 1/USE_OPENCV = 0/' config.mk`
+          end
 
           # Configure CUDA
           if HAS_CUDA
