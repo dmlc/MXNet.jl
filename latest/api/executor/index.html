@@ -536,7 +536,7 @@
 </code></pre>
 
 <p>An executor is a realization of a symbolic architecture defined by a <code>SymbolicNode</code>. The actual forward and backward computation specified by the network architecture can be carried out with an executor.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/2a5a284099766516bf3b26ce05ded190cef1ef6f/src/executor.jl#L1-L7' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/cb042fd2f870529799b16552d754980e867c498e/src/executor.jl#L1-L7' class='documenter-source'>source</a><br></p>
 <p><a id='Base.print-Tuple{IO,MXNet.mx.Executor}' href='#Base.print-Tuple{IO,MXNet.mx.Executor}'>#</a>
 <strong><code>Base.print</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>print([io::IO], x::Executor)
@@ -564,8 +564,8 @@ Total 0 MB allocated
 Total 11 TempSpace resource requested
 </code></pre>
 
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/2a5a284099766516bf3b26ce05ded190cef1ef6f/src/executor.jl#L209-L236' class='documenter-source'>source</a><br></p>
-<p><a id='MXNet.mx.bind-Tuple{MXNet.mx.SymbolicNode,MXNet.mx.Context,Union{Array{MXNet.mx.NDArray,1}, Dict{Symbol,MXNet.mx.NDArray}}}' href='#MXNet.mx.bind-Tuple{MXNet.mx.SymbolicNode,MXNet.mx.Context,Union{Array{MXNet.mx.NDArray,1}, Dict{Symbol,MXNet.mx.NDArray}}}'>#</a>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/cb042fd2f870529799b16552d754980e867c498e/src/executor.jl#L200-L227' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.bind-Tuple{MXNet.mx.SymbolicNode,MXNet.mx.Context,Any}' href='#MXNet.mx.bind-Tuple{MXNet.mx.SymbolicNode,MXNet.mx.Context,Any}'>#</a>
 <strong><code>MXNet.mx.bind</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>bind(sym, ctx, args; args_grad=Dict(), aux_states=Dict(), grad_req=GRAD_WRITE)
 </code></pre>
@@ -575,12 +575,12 @@ Total 11 TempSpace resource requested
 <ul>
 <li><code>sym::SymbolicNode</code>: the network architecture describing the computation graph.</li>
 <li><code>ctx::Context</code>: the context on which the computation should run.</li>
-<li><code>args</code>: either a list of <code>NDArray</code> or a dictionary of name-array pairs. Concrete         arrays for all the inputs in the network architecture. The inputs typically include         network parameters (weights, bias, filters, etc.), data and labels. See <a href="../symbolic-node/#MXNet.mx.list_arguments-Tuple{MXNet.mx.SymbolicNode}"><code>list_arguments</code></a>         and <a href="../symbolic-node/#MXNet.mx.infer_shape-Tuple{MXNet.mx.SymbolicNode}"><code>infer_shape</code></a>.</li>
-<li><code>args_grad</code>:</li>
-<li><code>aux_states</code>:</li>
-<li><code>grad_req</code>:</li>
+<li><code>args</code>: either a list of <code>NDArray</code> or a dictionary of name-array pairs. Concrete         arrays for all the inputs in the network architecture. The inputs typically include         network parameters (weights, bias, filters, etc.), data and labels.         See <a href="../symbolic-node/#MXNet.mx.list_arguments-Tuple{MXNet.mx.SymbolicNode}"><code>list_arguments</code></a> and <a href="../symbolic-node/#MXNet.mx.infer_shape-Tuple{MXNet.mx.SymbolicNode}"><code>infer_shape</code></a>.</li>
+<li><code>args_grad</code>: a <code>Vector</code> of <code>NDArray</code> or a <code>Dict</code> contains <code>NDArray</code></li>
+<li><code>aux_states</code>: a <code>Vector</code> of <code>NDArray</code> or a <code>Dict</code> contains <code>NDArray</code></li>
+<li><code>grad_req</code>: single value, a <code>Vector</code> of <code>GRAD_REQ</code> or a <code>Dict{Symbol,GRAD_REQ}</code></li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/2a5a284099766516bf3b26ce05ded190cef1ef6f/src/executor.jl#L68-L83' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/cb042fd2f870529799b16552d754980e867c498e/src/executor.jl#L71-L86' class='documenter-source'>source</a><br></p>
                 
                   
                 
