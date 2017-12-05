@@ -214,43 +214,42 @@ Compute the gradients of heads w.r.t previously marked variables.
 backward!(head::NDArray, head_grad::NDArray; kwargs...) =
   backward!([head], [head_grad]; kwargs...)
 
-backward!(head::NDArray, head_grad::Void=nothing; kwargs...) =
+backward!(head::NDArray, head_grad::Void = nothing; kwargs...) =
   backward!([head], head_grad; kwargs...)
 
-function backward!(heads::VecOfNDArray, head_grads=Union{Vector,Void};
-                  retain_graph::Bool=false, train_mode::Bool=true)
-  output_handles = map(arr -> arr.handle, heads)
+function backward!(heads::VecOfNDArray, head_grad::Void;
+                   retain_graph::Bool = false, train_mode::Bool = true)
+  @mxcall(
+    :MXAutogradBackwardEx,
+    (MX_uint,
+      Ptr{MX_handle},
+      Ptr{MX_handle},
+      MX_uint,
+      Ptr{MX_handle},
+      Cint,
+      Cint,
+      Cint,
+      Ptr{MX_handle},
+      Ptr{MX_handle}),
+    length(heads),
+    map(x -> x.handle, heads),
+    C_NULL,
+    0,
+    C_NULL,
+    retain_graph,
+    false,  # create_graph
+    train_mode,
+    C_NULL,
+    C_NULL)
+end
 
-  if head_grads == nothing
-    @mxcall(
-      :MXAutogradBackwardEx,
-      (MX_uint,
-       Ptr{MX_handle},
-       Ptr{MX_handle},
-       MX_uint,
-       Ptr{MX_handle},
-       Cint,
-       Cint,
-       Cint,
-       Ptr{MX_handle},
-       Ptr{MX_handle}),
-      length(output_handles),
-      output_handles,
-      C_NULL,
-      0,
-      C_NULL,
-      retain_graph,
-      false,  # create_graph
-      train_mode,
-      C_NULL,
-      C_NULL)
-    return
-  end
-
-  ograd_handles = map(head_grads) do arr
-    if isa(arr, NDArray)
+function backward!(heads::VecOfNDArray, head_grads::Vector;
+                   retain_graph::Bool = false, train_mode::Bool = true)
+  output_handles = map(x -> x.handle, heads)
+  ograd_handles  = map(head_grads) do x
+    if isa(x, NDArray)
       arr.handle
-    elseif isa(arr, Void)
+    elseif isa(x, Void)
       MX_handle(C_NULL)
     else
       throw(ArgumentError("element of head_grads should be NDArray or Void"))
