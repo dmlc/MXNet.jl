@@ -51,7 +51,7 @@ end
 
 function test_record()
   let x = mx.NDArray([1 2; 3 4])
-    info("AutoGrad::record::backward")
+    info("AutoGrad::record::backward!")
 
     mx.attach_grad(x)
     y = mx.record() do
@@ -60,13 +60,13 @@ function test_record()
 
     @test copy(y) == [1 4; 9 16]
 
-    mx.backward(y)
+    mx.backward!(y)
     # gradient is 2x
     @test copy(mx.getgrad(x)) == [2 4; 6 8]
   end
 
   let x = mx.NDArray([1 2; 3 4])
-    info("AutoGrad::record::getsymbol")
+    info("AutoGrad::record::symbol")
 
     mx.attach_grad(x)
     y = mx.record() do
@@ -75,11 +75,11 @@ function test_record()
 
     @test copy(y) == [1 4; 9 16]
 
-    @test isa(mx.getsymbol(y), mx.SymbolicNode)
+    @test isa(mx.symbol(y), mx.SymbolicNode)
   end
 
   let x = mx.NDArray([1 2; 3 4])
-    info("AutoGrad::record::backward(retain_graph=true)")
+    info("AutoGrad::record::backward!(retain_graph=true)")
 
     mx.attach_grad(x)
     y = mx.record() do
@@ -88,21 +88,21 @@ function test_record()
 
     @test copy(y) == [1 4; 9 16]
 
-    mx.backward(y, retain_graph=true)
+    mx.backward!(y, retain_graph=true)
     # gradient is 2x
     @test copy(mx.getgrad(x)) == [2 4; 6 8]
 
-    @test isa(mx.getsymbol(y), mx.SymbolicNode)
+    @test isa(mx.symbol(y), mx.SymbolicNode)
   end
 end  # function test_record()
 
 
-function test_getsymbol()
-  info("AutoGrad::getsymbol")
+function test_symbol()
+  info("AutoGrad::symbol")
 
   let x = mx.zeros(4)
     mx.attach_grad(x)
-    @test isa(mx.getsymbol(x), mx.SymbolicNode)
+    @test isa(mx.symbol(x), mx.SymbolicNode)
   end
 end
 
@@ -120,7 +120,7 @@ function test_add()
     @test copy(g) == [0 0; 0 0]
     @test copy(y) == [1 2; 3 4]
 
-    mx.backward(y)
+    mx.backward!(y)
     # gradient is 0
     @test copy(g) == [0 0; 0 0]
   end
@@ -135,7 +135,7 @@ function test_add()
     @test copy(g) == [0 0; 0 0]
     @test copy(y) == [43 44; 45 46]
 
-    mx.backward(y)
+    mx.backward!(y)
     # gradient is 1
     @test copy(g) == [1 1; 1 1]
   end
@@ -150,7 +150,7 @@ function test_add()
     @test copy(g) == [0 0; 0 0]
     @test copy(y) == [43 44; 45 46]
 
-    mx.backward(y)
+    mx.backward!(y)
     # gradient is 1
     @test copy(g) == [1 1; 1 1]
   end
@@ -172,7 +172,7 @@ function test_sub()
     @test copy(g) == [0 0; 0 0]
     @test copy(y) == [-1 -2; -3 -4]
 
-    mx.backward(y)
+    mx.backward!(y)
     # gradient is -1
     @test copy(g) == [-1 -1; -1 -1]
   end
@@ -187,7 +187,7 @@ function test_sub()
     @test copy(g) == [0 0; 0 0]
     @test copy(y) == [-41 -40; -39 -38]
 
-    mx.backward(y)
+    mx.backward!(y)
     # gradient is 1
     @test copy(g) == [1 1; 1 1]
   end
@@ -202,7 +202,7 @@ function test_sub()
     @test copy(g) == [0 0; 0 0]
     @test copy(y) == [41 40; 39 38]
 
-    mx.backward(y)
+    mx.backward!(y)
     # gradient is -1
     @test copy(g) == [-1 -1; -1 -1]
   end
@@ -223,7 +223,7 @@ function test_mul()
     @test copy(g) == [0 0; 0 0]
     @test copy(y) == [2 8; 18 32]
 
-    mx.backward(y)
+    mx.backward!(y)
     # gradient is 4x
     @test copy(g) == [4 8; 12 16]
   end
@@ -237,7 +237,7 @@ function test_mul()
     @test copy(g) == [0 0; 0 0]
     @test copy(y) == [2 8; 18 32]
 
-    mx.backward(y)
+    mx.backward!(y)
     # gradient is 4x
     @test copy(g) == [4 8; 12 16]
   end
@@ -248,7 +248,7 @@ end
   test_getgrad()
   test_mark_variables()
   test_record()
-  test_getsymbol()
+  test_symbol()
   test_add()
   test_sub()
   test_mul()
