@@ -75,6 +75,8 @@
 
 ### `NDArray`
 
+* A port of Python's `autograd` for `NDArray` (#274)
+
 * `size(x, dims...)` is supported now. (#TBD)
 
   ```julia
@@ -199,7 +201,6 @@
     * `e.^x`
     * `x.^e`
     * `π.^x`
-* A port of Python's `autograd` for `NDArray` (#274)
 
 ## API Changes
 
