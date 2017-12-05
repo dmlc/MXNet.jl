@@ -287,20 +287,20 @@ Returns the gradient buffer attached to this `NDArray`.
 If the gradient buffer isn't attached yet, return `nothing`.
 """
 function getgrad(arr::NDArray)
-  out = Ref{mx.MX_handle}(C_NULL)
+  out = Ref{MX_handle}(C_NULL)
   @mxcall(:MXNDArrayGetGrad, (MX_handle, Ref{MX_handle}), arr.handle, out)
-  (out[] == C_NULL) ? nothing: NDArray(MX_NDArrayHandle(out[]))
+  (out[] == C_NULL) ? nothing : NDArray(MX_NDArrayHandle(out[]))
 end
 
 """
-    attach_grad(arr::NDArray, grad_req::Symbol=:write)
+    attach_grad(x::NDArray, grad_req::Symbol = :write)
 
 Attach a gradient buffer to this `NDArray`, so that [`backward`](@ref)
 can compute gradient with respect to it.
 
 ## Parameters
 
-- `arr::NDArray`
+- `x::NDArray`
 - `grad_req::Symbol` (default is `:write`)
 
 ## Return
@@ -311,11 +311,11 @@ The attached gradient buffer
 
 - [`getgrad`](@ref)
 """
-function attach_grad(arr::NDArray, grad_req::Symbol=:write)
+function attach_grad(x::NDArray, grad_req::Symbol = :write)
   # TODO: support storage type (stype in Python)
   # TODO: make sure it works with gpu array
-  grad = zeros_like(arr)
-  _mark_variables([arr], [grad], grad_req)
+  grad = zeros_like(x)
+  _mark_variables([x], [grad], grad_req)
   grad
 end
 
@@ -346,10 +346,10 @@ mark_variables(var::VecOfNDArray, grads::VecOfNDArray, grad_reqs = :write) =
     throw(ArgumentError("number of variables and gradients not matched"))
   end
 
-  var_hdls = map(arr -> arr.handle, vars)
+  var_hdls  = map(arr -> arr.handle, vars)
   grad_hdls = map(arr -> arr.handle, grads)
 
-  if isa(grad_reqs, Symbol)
+  if grad_reqs isa Symbol
     val = get(grad_req_map, grad_reqs, false)
     if val == false
       throw(ArgumentError("invalid grad_reqs $grad_reqs"))
@@ -377,21 +377,14 @@ mark_variables(var::VecOfNDArray, grads::VecOfNDArray, grad_reqs = :write) =
 end
 
 """
-    getsymbol(arr)
+    symbol(x::NDArray)
 
-Retrieve recorded computation history as `SymbolicNode`.
-
-## Parameters
-
-* `x::NDArray`: Array representing the head of computation graph.
-
-## Returns
-
-The retrieved `Symbol`.
+Retrieve recorded computation history as `SymbolicNode`,
+ where `x` is a `NDArray` representing the head of computation graph.
  """
-function getsymbol(arr::NDArray)
+function symbol(x::NDArray)
   ref = Ref{MX_handle}(C_NULL)
-  @mxcall(:MXAutogradGetSymbol, (MX_handle, Ref{MX_handle}), arr, ref)
+  @mxcall(:MXAutogradGetSymbol, (MX_handle, Ref{MX_handle}), x, ref)
   SymbolicNode(MX_SymbolHandle(ref[]))
 end
 
