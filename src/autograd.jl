@@ -74,8 +74,7 @@ end
 #  Public API
 ###############################################################################
 
-@inline function _record(f::Function, is_record::Union{Void, Bool},
-                         train_mode::Union{Void, Bool})
+@inline function _record(f, is_record::Union{Void,Bool}, train_mode::Union{Void,Bool})
   # Port from Python's `_RecordingStateScope` context manager
   # __enter__
   prev_is_record = _set_recording(is_record)
@@ -95,7 +94,7 @@ end
 end
 
 """
-    record(f::Function)
+    record(f)
     record() do
       ...
     end
@@ -118,10 +117,10 @@ and captures code that needs gradients to be calculated.
   Whether the forward pass is in training or predicting mode.
   This controls the behavior of some layers such as `Dropout`, `BatchNorm`.
 """
-record(f::Function, train_mode::Bool=true) = _record(f, true, train_mode)
+record(f, train_mode::Bool = true) = _record(f, true, train_mode)
 
 """
-    pause(f::Function)
+    pause(f)
     pause() do
       ...
     end
@@ -145,7 +144,7 @@ end
 * `train_mode::Bool` (default is `false`)
   Whether to do forward for training or predicting.
 """
-pause(f::Function, train_mode::Bool=false) = _record(f, false, train_mode)
+pause(f, train_mode::Bool = false) = _record(f, false, train_mode)
 
 """
     train_mode(f::Function)
@@ -165,10 +164,10 @@ train_mode() do
 end
 ```
 """
-train_mode(f::Function) = _record(f, nothing, true)
+train_mode(f) = _record(f, nothing, true)
 
 """
-    predict_mode(f::Function)
+    predict_mode(f)
     predict_mode() do
       ...
     end
@@ -187,7 +186,7 @@ record() do
 end
 ```
 """
-predict_mode(f::Function) = _record(f, nothing, false)
+predict_mode(f) = _record(f, nothing, false)
 
 """
     backward(head,  head_grad;  retain_graph=false, train_mode=true)
@@ -212,13 +211,13 @@ Compute the gradients of heads w.r.t previously marked variables.
 
 - `train_mode::Bool`: whether to do backward for training or predicting.
 """
-backward(head::NDArray, head_grad::NDArray; kwargs...) =
-  backward([head], [head_grad]; kwargs...)
+backward!(head::NDArray, head_grad::NDArray; kwargs...) =
+  backward!([head], [head_grad]; kwargs...)
 
-backward(head::NDArray, head_grad::Void=nothing; kwargs...) =
-  backward([head], head_grad; kwargs...)
+backward!(head::NDArray, head_grad::Void=nothing; kwargs...) =
+  backward!([head], head_grad; kwargs...)
 
-function backward(heads::Vector{NDArray}, head_grads=Union{Vector, Void};
+function backward!(heads::VecOfNDArray, head_grads=Union{Vector,Void};
                   retain_graph::Bool=false, train_mode::Bool=true)
   output_handles = map(arr -> arr.handle, heads)
 
@@ -336,18 +335,17 @@ Mark `NDArrays` as variables to compute gradient for autograd.
 - `grads::Vector{NDArray}`
 - `grad_req::Vector{Symbol}`
 """
-mark_variables(var::NDArray, grad::NDArray, grad_reqs::Symbol=:write) =
+mark_variables(var::NDArray, grad::NDArray, grad_reqs::Symbol = :write) =
   _mark_variables([var], [grad], grad_reqs)
 
-mark_variables(var::Vector{NDArray}, grads::Vector{NDArray}, grad_reqs=:write) =
+mark_variables(var::VecOfNDArray, grads::VecOfNDArray, grad_reqs = :write) =
   _mark_variables(var, grads, grad_reqs)
 
-@inline function _mark_variables(vars::Vector{NDArray}, grads::Vector{NDArray},
-                                 grad_reqs::Union{Vector{Symbol}, Symbol}=:write)
+@inline function _mark_variables(vars::VecOfNDArray, grads::VecOfNDArray,
+                                 grad_reqs::Union{Vector{Symbol},Symbol} = :write)
   if length(vars) != length(grads)
     throw(ArgumentError("number of variables and gradients not matched"))
   end
-
 
   var_hdls = map(arr -> arr.handle, vars)
   grad_hdls = map(arr -> arr.handle, grads)
