@@ -5,6 +5,16 @@ using Base.Test
 using MXNet
 
 
+function checkgradient(f, x, y, ∇)
+  ∇x = mx.attach_grad(x)
+  y′ = mx.record(f)
+  @test copy(y′) ≈ y
+  @test copy(∇x) |> sum == 0
+  mx.backward!(y′)
+  @test copy(mx.getgrad(x)) ≈ ∇
+end  # function checkgradient
+
+
 function test_getgrad()
   info("AutoGrad::getgrad")
 
@@ -53,16 +63,11 @@ function test_record()
   let x = mx.NDArray([1 2; 3 4])
     info("AutoGrad::record::backward!")
 
-    mx.attach_grad(x)
-    y = mx.record() do
+    y = [1 4; 9 16]
+    ∇ = [2 4; 6 8]  # gradient is 2x
+    checkgradient(x, y, ∇) do
       mx.square(x)
     end
-
-    @test copy(y) == [1 4; 9 16]
-
-    mx.backward!(y)
-    # gradient is 2x
-    @test copy(mx.getgrad(x)) == [2 4; 6 8]
   end
 
   let x = mx.NDArray([1 2; 3 4])
@@ -110,49 +115,40 @@ end
 function test_add()
   info("AutoGrad::add")
 
+  info("AutoGrad::add::x")
+  let x = mx.NDArray([1 2; 3 4])
+    y = [1 2; 3 4]
+    ∇ = [0 0; 0 0]  # gradient is 0
+    checkgradient(x, y, ∇) do
+      x
+    end
+  end
+
   info("AutoGrad::add::+x")
   let x = mx.NDArray([1 2; 3 4])
-    g = mx.attach_grad(x)
-    y = mx.record() do
+    y = [1 2; 3 4]
+    ∇ = [1 1; 1 1]  # gradient is 1
+    checkgradient(x, y, ∇) do
       +x
     end
-
-    @test copy(g) == [0 0; 0 0]
-    @test copy(y) == [1 2; 3 4]
-
-    mx.backward!(y)
-    # gradient is 0
-    @test copy(g) == [0 0; 0 0]
   end
 
   info("AutoGrad::add::x .+ 42")
   let x = mx.NDArray([1 2; 3 4])
-    g = mx.attach_grad(x)
-    y = mx.record() do
+    y = [43 44; 45 46]
+    ∇ = [1 1; 1 1]  # gradient is 1
+    checkgradient(x, y, ∇) do
       x .+ 42
     end
-
-    @test copy(g) == [0 0; 0 0]
-    @test copy(y) == [43 44; 45 46]
-
-    mx.backward!(y)
-    # gradient is 1
-    @test copy(g) == [1 1; 1 1]
   end
 
   info("AutoGrad::add::42 .+ x")
   let x = mx.NDArray([1 2; 3 4])
-    g = mx.attach_grad(x)
-    y = mx.record() do
+    y = [43 44; 45 46]
+    ∇ = [1 1; 1 1]
+    checkgradient(x, y, ∇) do
       42 .+ x
     end
-
-    @test copy(g) == [0 0; 0 0]
-    @test copy(y) == [43 44; 45 46]
-
-    mx.backward!(y)
-    # gradient is 1
-    @test copy(g) == [1 1; 1 1]
   end
 
   # TODO: info("AutoGrad::add::x .+ y")
@@ -164,47 +160,29 @@ function test_sub()
 
   info("AutoGrad::sub::-x")
   let x = mx.NDArray([1 2; 3 4])
-    g = mx.attach_grad(x)
-    y = mx.record() do
+    y = [-1 -2; -3 -4]
+    ∇ = [-1 -1; -1 -1]  # gradient is -1
+    checkgradient(x, y, ∇) do
       -x
     end
-
-    @test copy(g) == [0 0; 0 0]
-    @test copy(y) == [-1 -2; -3 -4]
-
-    mx.backward!(y)
-    # gradient is -1
-    @test copy(g) == [-1 -1; -1 -1]
   end
 
   info("AutoGrad::sub::x .- 42")
   let x = mx.NDArray([1 2; 3 4])
-    g = mx.attach_grad(x)
-    y = mx.record() do
+    y = [-41 -40; -39 -38]
+    ∇ = [1 1; 1 1]
+    checkgradient(x, y, ∇) do
       x .- 42
     end
-
-    @test copy(g) == [0 0; 0 0]
-    @test copy(y) == [-41 -40; -39 -38]
-
-    mx.backward!(y)
-    # gradient is 1
-    @test copy(g) == [1 1; 1 1]
   end
 
   info("AutoGrad::sub::42 .- x")
   let x = mx.NDArray([1 2; 3 4])
-    g = mx.attach_grad(x)
-    y = mx.record() do
+    y = [41 40; 39 38]
+    ∇ = [1 1; 1 1]
+    checkgradient(x, y, ∇) do
       42 .- x
     end
-
-    @test copy(g) == [0 0; 0 0]
-    @test copy(y) == [41 40; 39 38]
-
-    mx.backward!(y)
-    # gradient is -1
-    @test copy(g) == [-1 -1; -1 -1]
   end
 
   # TODO: info("AutoGrad::add::x .- y")
@@ -215,31 +193,19 @@ function test_mul()
   info("AutoGrad::mul")
 
   let x = mx.NDArray([1 2; 3 4])
-    g = mx.attach_grad(x)
-    y = mx.record() do
+    y = [2 8; 18 32]
+    ∇ = [4 8; 12 16]  # 4x
+    checkgradient(x, y, ∇) do
       2x .* x
     end
-
-    @test copy(g) == [0 0; 0 0]
-    @test copy(y) == [2 8; 18 32]
-
-    mx.backward!(y)
-    # gradient is 4x
-    @test copy(g) == [4 8; 12 16]
   end
 
   let x = mx.NDArray([1 2; 3 4])
-    g = mx.attach_grad(x)
-    y = mx.record() do
+    y = [2 8; 18 32]
+    ∇ = [4 8; 12 16]  # 4x
+    checkgradient(x, y, ∇) do
       x * 2 .* x
     end
-
-    @test copy(g) == [0 0; 0 0]
-    @test copy(y) == [2 8; 18 32]
-
-    mx.backward!(y)
-    # gradient is 4x
-    @test copy(g) == [4 8; 12 16]
   end
 end
 
