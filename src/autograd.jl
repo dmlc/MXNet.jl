@@ -26,6 +26,8 @@ function _set_recording(state::Bool)::Bool
   prev[]
 end
 
+_set_recording(::Void) = nothing
+
 """
 Set status to training/predicting.
 For example, Dropout will drop inputs randomly when
@@ -43,6 +45,8 @@ function _set_training(train_mode::Bool)::Bool
   @mxcall(:MXAutogradSetIsTraining, (Cint, Ref{Cint}), train_mode, prev)
   prev[]
 end
+
+_set_training(::Void) = nothing
 
 """
 Get status on recording/not recording.
@@ -222,15 +226,15 @@ function backward!(heads::VecOfNDArray, head_grad::Void;
   @mxcall(
     :MXAutogradBackwardEx,
     (MX_uint,
-      Ptr{MX_handle},
-      Ptr{MX_handle},
-      MX_uint,
-      Ptr{MX_handle},
-      Cint,
-      Cint,
-      Cint,
-      Ptr{MX_handle},
-      Ptr{MX_handle}),
+     Ptr{MX_handle},
+     Ptr{MX_handle},
+     MX_uint,
+     Ptr{MX_handle},
+     Cint,
+     Cint,
+     Cint,
+     Ptr{MX_handle},
+     Ptr{MX_handle}),
     length(heads),
     map(x -> x.handle, heads),
     C_NULL,
@@ -293,10 +297,10 @@ function getgrad(arr::NDArray)
 end
 
 """
-    attach_grad(x::NDArray, grad_req::Symbol = :write)
+    attach_grad!(x::NDArray, grad_req::Symbol = :write)
 
-Attach a gradient buffer to this `NDArray`, so that [`backward`](@ref)
-can compute gradient with respect to it.
+Attach a gradient buffer to this `NDArray`,
+so that [`backward!`](@ref) can compute gradient with respect to it.
 
 ## Parameters
 
@@ -311,17 +315,17 @@ The attached gradient buffer
 
 - [`getgrad`](@ref)
 """
-function attach_grad(x::NDArray, grad_req::Symbol = :write)
+function attach_grad!(x::NDArray, grad_req::Symbol = :write)
   # TODO: support storage type (stype in Python)
   # TODO: make sure it works with gpu array
   grad = zeros_like(x)
-  _mark_variables([x], [grad], grad_req)
+  _mark_variables!([x], [grad], grad_req)
   grad
 end
 
 """
-    mark_variables(var,  grad,  grad_req)
-    mark_variables(vars, grads, grad_reqs)
+    mark_variables!(var,  grad,  grad_req)
+    mark_variables!(vars, grads, grad_reqs)
 
 Mark `NDArrays` as variables to compute gradient for autograd.
 
@@ -334,13 +338,13 @@ Mark `NDArrays` as variables to compute gradient for autograd.
 - `grads::Vector{NDArray}`
 - `grad_req::Vector{Symbol}`
 """
-mark_variables(var::NDArray, grad::NDArray, grad_reqs::Symbol = :write) =
-  _mark_variables([var], [grad], grad_reqs)
+mark_variables!(var::NDArray, grad::NDArray, grad_reqs::Symbol = :write) =
+  _mark_variables!([var], [grad], grad_reqs)
 
-mark_variables(var::VecOfNDArray, grads::VecOfNDArray, grad_reqs = :write) =
-  _mark_variables(var, grads, grad_reqs)
+mark_variables!(var::VecOfNDArray, grads::VecOfNDArray, grad_reqs = :write) =
+  _mark_variables!(var, grads, grad_reqs)
 
-@inline function _mark_variables(vars::VecOfNDArray, grads::VecOfNDArray,
+@inline function _mark_variables!(vars::VecOfNDArray, grads::VecOfNDArray,
                                  grad_reqs::Union{Vector{Symbol},Symbol} = :write)
   if length(vars) != length(grads)
     throw(ArgumentError("number of variables and gradients not matched"))

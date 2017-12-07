@@ -6,7 +6,7 @@ using MXNet
 
 
 function checkgradient(f, x, y, ∇)
-  ∇x = mx.attach_grad(x)
+  ∇x = mx.attach_grad!(x)
   y′ = mx.record(f)
   @test copy(y′) ≈ y
   @test copy(∇x) |> sum == 0
@@ -23,7 +23,7 @@ function test_getgrad()
 
   info("AutoGrad::getgrad::attached")
   x = mx.NDArray([1 2; 3 4])
-  grad = mx.attach_grad(x)
+  grad = mx.attach_grad!(x)
   @test eltype(grad) ≡ Int
   @test copy(grad) == [0 0; 0 0]
 
@@ -38,7 +38,7 @@ function test_mark_variables()
   ẋ = mx.zeros(4)
   y = mx.zeros(4)
   ẏ = mx.zeros(4)
-  mx.mark_variables([x, y], [ẋ, ẏ], [:nop, :nop])
+  mx.mark_variables!([x, y], [ẋ, ẏ], [:nop, :nop])
   ẋ[:] = 42
   ẏ[:] = 24
 
@@ -55,7 +55,7 @@ function test_mark_variables()
   x = mx.zeros(4)
   y = mx.zeros(4)
   z = mx.zeros(4)
-  @test_throws ArgumentError mx.mark_variables([x], [y, z])
+  @test_throws ArgumentError mx.mark_variables!([x], [y, z])
 end
 
 
@@ -73,7 +73,7 @@ function test_record()
   let x = mx.NDArray([1 2; 3 4])
     info("AutoGrad::record::symbol")
 
-    mx.attach_grad(x)
+    mx.attach_grad!(x)
     y = mx.record() do
       mx.square(x)
     end
@@ -86,7 +86,7 @@ function test_record()
   let x = mx.NDArray([1 2; 3 4])
     info("AutoGrad::record::backward!(retain_graph=true)")
 
-    mx.attach_grad(x)
+    mx.attach_grad!(x)
     y = mx.record() do
       mx.square(x)
     end
@@ -106,7 +106,7 @@ function test_symbol()
   info("AutoGrad::symbol")
 
   let x = mx.zeros(4)
-    mx.attach_grad(x)
+    mx.attach_grad!(x)
     @test isa(mx.symbol(x), mx.SymbolicNode)
   end
 end
@@ -118,7 +118,7 @@ function test_add()
   info("AutoGrad::add::x")
   let x = mx.NDArray([1 2; 3 4])
     y = [1 2; 3 4]
-    ∇ = [0 0; 0 0]  # gradient is 0
+    ∇ = [1 1; 1 1]  # gradient is 1
     checkgradient(x, y, ∇) do
       x
     end
