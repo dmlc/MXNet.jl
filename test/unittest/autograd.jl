@@ -45,7 +45,7 @@ function test_mark_variables!()
   @test copy(mx.getgrad(x)) == [42, 42, 42, 42]
   @test copy(mx.getgrad(y)) == [24, 24, 24, 24]
 
-  info("AutoGrad::mark_variables::invalid grad_reqs")
+  info("AutoGrad::mark_variables!::invalid grad_reqs")
   x = mx.zeros(4)
   y = mx.zeros(4)
   @test_throws ArgumentError mx.mark_variables!(x, y, :magic)
@@ -212,6 +212,29 @@ function test_mul()
 end
 
 
+function test_div()
+  info("AutoGrad::div")
+
+  info("AutoGrad::div::x ./ 2")
+  let x = mx.NDArray(Float32[1 2; 3 4])
+    y = Float32[.5 1; 1.5 2]
+    ∇ = [.5 .5; .5 .5]
+    checkgradient(x, y, ∇) do
+      x ./ 2
+    end
+  end
+
+  info("AutoGrad::rdiv::2 ./ x")
+  let A = Float32[1 2; 3 4], x = mx.NDArray(A)
+    y = 2 ./ A
+    ∇ = @. -2 / A^2  # -2 / x²
+    checkgradient(x, y, ∇) do
+      2 ./ x
+    end
+  end
+end  # function test_div
+
+
 @testset "AutoGrad Test" begin
   test_getgrad()
   test_mark_variables!()
@@ -220,6 +243,7 @@ end
   test_add()
   test_sub()
   test_mul()
+  test_div()
 end
 
 
