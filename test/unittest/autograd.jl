@@ -32,8 +32,8 @@ function test_getgrad()
 end
 
 
-function test_mark_variables()
-  info("AutoGrad::mark_variables")
+function test_mark_variables!()
+  info("AutoGrad::mark_variables!")
   x = mx.zeros(4)
   ẋ = mx.zeros(4)
   y = mx.zeros(4)
@@ -48,10 +48,10 @@ function test_mark_variables()
   info("AutoGrad::mark_variables::invalid grad_reqs")
   x = mx.zeros(4)
   y = mx.zeros(4)
-  @test_throws ArgumentError mx.mark_variables(x, y, :magic)
-  @test_throws ArgumentError mx.mark_variables([x], [y], [:magic])
+  @test_throws ArgumentError mx.mark_variables!(x, y, :magic)
+  @test_throws ArgumentError mx.mark_variables!([x], [y], [:magic])
 
-  info("AutoGrad::mark_variables::args length mismatch")
+  info("AutoGrad::mark_variables!::args length mismatch")
   x = mx.zeros(4)
   y = mx.zeros(4)
   z = mx.zeros(4)
@@ -212,7 +212,7 @@ end
 
 @testset "AutoGrad Test" begin
   test_getgrad()
-  test_mark_variables()
+  test_mark_variables!()
   test_record()
   test_symbol()
   test_add()
