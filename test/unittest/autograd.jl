@@ -179,7 +179,7 @@ function test_sub()
   info("AutoGrad::sub::42 .- x")
   let x = mx.NDArray([1 2; 3 4])
     y = [41 40; 39 38]
-    ∇ = [1 1; 1 1]
+    ∇ = -[1 1; 1 1]
     checkgradient(x, y, ∇) do
       42 .- x
     end
@@ -192,6 +192,7 @@ end  # function test_sub
 function test_mul()
   info("AutoGrad::mul")
 
+  info("AutoGrad::mul::2x .* x")
   let x = mx.NDArray([1 2; 3 4])
     y = [2 8; 18 32]
     ∇ = [4 8; 12 16]  # 4x
@@ -200,6 +201,7 @@ function test_mul()
     end
   end
 
+  info("AutoGrad::mul::x * 2 .* x")
   let x = mx.NDArray([1 2; 3 4])
     y = [2 8; 18 32]
     ∇ = [4 8; 12 16]  # 4x
