@@ -344,36 +344,34 @@ mark_variables!(var::NDArray, grad::NDArray, grad_reqs::Symbol = :write) =
 mark_variables!(var::VecOfNDArray, grads::VecOfNDArray, grad_reqs = :write) =
   _mark_variables!(var, grads, grad_reqs)
 
+@inline function _getgrad_req(x::Symbol)::GRAD_REQ
+  val = get(grad_req_map, x, false)
+  if val == false
+    throw(ArgumentError("invalid grad_reqs $x"))
+  end
+  val
+end
+
+@inline _getgrad_reqs(x::Symbol, n::Int) =
+  map((_) -> MX_uint(_getgrad_req(x)), Base.OneTo(n))
+
+@inline function _getgrad_reqs(xs::Vector{Symbol}, n::Int)
+  if length(xs) != n
+    throw(ArgumentError("number of variables and gradients not matched"))
+  end
+  map(MX_uint ∘ _getgrad_req, xs)
+end
+
 @inline function _mark_variables!(vars::VecOfNDArray, grads::VecOfNDArray,
-                                 grad_reqs::Union{Vector{Symbol},Symbol} = :write)
-  if length(vars) != length(grads)
+                                  grad_reqs = :write)
+  n = length(vars)
+  if n != length(grads)
     throw(ArgumentError("number of variables and gradients not matched"))
   end
 
-  var_hdls  = map(arr -> arr.handle, vars)
-  grad_hdls = map(arr -> arr.handle, grads)
-
-  if grad_reqs isa Symbol
-    val = get(grad_req_map, grad_reqs, false)
-    if val == false
-      throw(ArgumentError("invalid grad_reqs $grad_reqs"))
-    end
-
-    grad_reqs = MX_uint[val for i ∈ 1:length(vars)]
-  else
-    if length(vars) != length(grad_reqs)
-      throw(ArgumentError("number of variables and gradients not matched"))
-    end
-
-    grad_reqs = map(grad_reqs) do k
-      val = get(grad_req_map, k, false)
-      if val == false
-        throw(ArgumentError("invalid grad_reqs $k"))
-      end
-
-      MX_uint(val)
-    end
-  end
+  var_hdls  = map(x -> x.handle, vars)
+  grad_hdls = map(x -> x.handle, grads)
+  grad_reqs = _getgrad_reqs(grad_reqs, n)
 
   @mxcall(:MXAutogradMarkVariables,
           (MX_uint, Ref{MX_handle}, Ptr{MX_uint}, Ref{MX_handle}),
