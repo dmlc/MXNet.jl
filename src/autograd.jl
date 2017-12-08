@@ -98,41 +98,45 @@ end
 end
 
 """
-    record(f)
-    record() do
+    record(f, train_mode = true)
+    record(translates = true) do
       ...
     end
 
 Returns an autograd recording scope context to be used in `do` block
 and captures code that needs gradients to be calculated.
 
-.. note:: When forwarding with `train_mode=false`, the corresponding backward
-          should also use `train_mode=false`, otherwise gradient is undefined.
+Parameter `train_mode::Bool` controls whether the forward pass is in training
+or predicting mode.
+This controls the behavior of some layers such as `Dropout`, `BatchNorm`.
 
-## Example
+!!! note
+    When forwarding with `train_mode = false`, the corresponding backward
+    should also use `train_mode = false`, otherwise gradient is undefined.
 
 ```julia
-# TBD
+x = mx.NDArray([1 2; 3 4])
+∇ = mx.attach_grad!(x)
+y = mx.record() do
+  2x
+end
+mx.backward!(y)
+
+julia> ∇
+2×2 mx.NDArray{Int64,2} @ CPU0:
+ 2  2
+ 2  2
 ```
-
-## Parameters
-
-* `train_mode::Bool` (default is `true`)
-  Whether the forward pass is in training or predicting mode.
-  This controls the behavior of some layers such as `Dropout`, `BatchNorm`.
 """
 record(f, train_mode::Bool = true) = _record(f, true, train_mode)
 
 """
-    pause(f)
-    pause() do
+    pause(f, train_mode = false)
+    pause(train_mode = false) do
       ...
     end
 
-Returns a scope context to be used in 'with' statement for codes that do not
-need gradients to be calculated.
-
-## Example (TBD)
+Create a scope context for codes that do not need gradients to be calculated.
 
 ```julia
 record() do
@@ -142,29 +146,23 @@ record() do
   end
 end
 ```
-
-## Parameters
-
-* `train_mode::Bool` (default is `false`)
-  Whether to do forward for training or predicting.
 """
 pause(f, train_mode::Bool = false) = _record(f, false, train_mode)
 
 """
-    train_mode(f::Function)
+    train_mode(f)
     train_mode() do
       ...
     end
 
-Returns a scope context to be used in 'with' statement in which forward pass
-behavior is set to training mode, without changing the recording states.
-
-## Example
+Create a scope context in which forward pass behavior is set to training mode,
+without changing the recording states.
 
 ```julia
 y = model(x)
 train_mode() do
-  y = dropout(y)
+  z = mx.Dropout(y)
+  ...
 end
 ```
 """
@@ -176,10 +174,8 @@ train_mode(f) = _record(f, nothing, true)
       ...
     end
 
-Returns a scope context to be used in 'with' statement in which forward pass
-behavior is set to inference mode, without changing the recording states.
-
-## Example
+Create a scope context in which forward pass behavior is set to inference mode,
+without changing the recording states.
 
 ```julia
 record() do
