@@ -123,6 +123,30 @@ function test_pause()
 end  # function test_pause
 
 
+function test_train_mode()
+  info("AutoGrad::train_mode")
+  let x = mx.NDArray(Float32[1 2; 3 4])
+    y = mx.train_mode() do
+      mx.Dropout(x, p = 1)
+    end
+
+    @test all(isnan.(copy(y)))
+  end
+end  # function test_train_mode
+
+
+function test_predict_mode()
+  info("AutoGrad::predict_mode")
+  let x = mx.NDArray(Float32[1 2; 3 4])
+    y = mx.predict_mode() do
+      mx.Dropout(x, p = 1)
+    end
+
+    @test copy(y) ≈ Float32[1 2; 3 4]
+  end
+end  # function test_train_mode
+
+
 function test_symbol()
   info("AutoGrad::symbol")
 
@@ -261,6 +285,8 @@ end  # function test_div
   test_mark_variables!()
   test_record()
   test_pause()
+  test_train_mode()
+  test_predict_mode()
   test_symbol()
   test_add()
   test_sub()

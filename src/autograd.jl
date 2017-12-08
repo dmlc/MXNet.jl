@@ -31,7 +31,7 @@ _set_recording(::Void) = nothing
 """
 Set status to training/predicting.
 For example, Dropout will drop inputs randomly when
-`train_mode=true` while simply passing through if `train_mode=false`.
+`train_mode = true` while simply passing through if `train_mode = false`.
 
 ## Parameters
 * `train_mode::Bool`
@@ -189,8 +189,8 @@ end
 predict_mode(f) = _record(f, nothing, false)
 
 """
-    backward!(head,  head_grad;  retain_graph=false, train_mode=true)
-    backward!(heads, head_grads; retain_graph=false, train_mode=true)
+    backward!(head,  head_grad;  retain_graph = false, train_mode = true)
+    backward!(heads, head_grads; retain_graph = false, train_mode = true)
 
 Compute the gradients of heads w.r.t previously marked variables.
 
