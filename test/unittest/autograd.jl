@@ -99,7 +99,28 @@ function test_record()
 
     @test isa(mx.symbol(y), mx.SymbolicNode)
   end
-end  # function test_record()
+end  # function test_record
+
+
+function test_pause()
+  info("AutoGrad::pause")
+  let x = mx.NDArray([1 2; 3 4])
+    ∇ = mx.attach_grad!(x)
+    y = mx.record() do
+      y = mx.square(x)
+      mx.pause() do
+        z = mx.square(y)
+        @test copy(z) == [1 16; 81 256]
+      end
+      y
+    end
+
+    @test copy(y) == [1 4; 9 16]
+
+    mx.backward!(y)
+    @test copy(∇) == [2 4; 6 8]
+  end
+end  # function test_pause
 
 
 function test_symbol()
@@ -239,6 +260,7 @@ end  # function test_div
   test_getgrad()
   test_mark_variables!()
   test_record()
+  test_pause()
   test_symbol()
   test_add()
   test_sub()

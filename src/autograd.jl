@@ -193,8 +193,8 @@ end
 predict_mode(f) = _record(f, nothing, false)
 
 """
-    backward(head,  head_grad;  retain_graph=false, train_mode=true)
-    backward(heads, head_grads; retain_graph=false, train_mode=true)
+    backward!(head,  head_grad;  retain_graph=false, train_mode=true)
+    backward!(heads, head_grads; retain_graph=false, train_mode=true)
 
 Compute the gradients of heads w.r.t previously marked variables.
 
