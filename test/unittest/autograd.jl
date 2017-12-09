@@ -105,7 +105,7 @@ end  # function test_record
 function test_is_recording()
   info("AutoGrad::is_recording")
   mx.record() do
-    @test is_recording()
+    @test mx.is_recording()
   end
 end  # function test_is_recording
 
@@ -113,11 +113,11 @@ end  # function test_is_recording
 function test_is_training()
   info("AutoGrad::is_training")
   mx.record() do
-    @test is_training()
+    @test mx.is_training()
   end
 
   mx.record(false) do
-    @test !is_training()
+    @test !mx.is_training()
   end
 end  # function test_is_training
 
