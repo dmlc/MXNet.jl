@@ -102,6 +102,26 @@ function test_record()
 end  # function test_record
 
 
+function test_is_recording()
+  info("AutoGrad::is_recording")
+  mx.record() do
+    @test is_recording()
+  end
+end  # function test_is_recording
+
+
+function test_is_training()
+  info("AutoGrad::is_training")
+  mx.record() do
+    @test is_training()
+  end
+
+  mx.record(false) do
+    @test !is_training()
+  end
+end  # function test_is_training
+
+
 function test_pause()
   info("AutoGrad::pause")
   let x = mx.NDArray([1 2; 3 4])
@@ -284,6 +304,8 @@ end  # function test_div
   test_getgrad()
   test_mark_variables!()
   test_record()
+  test_is_recording()
+  test_is_training()
   test_pause()
   test_train_mode()
   test_predict_mode()

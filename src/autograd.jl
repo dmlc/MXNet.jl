@@ -48,35 +48,31 @@ end
 
 _set_training(::Void) = nothing
 
+###############################################################################
+#  Public API
+###############################################################################
+
 """
+    is_recording()::Bool
+
 Get status on recording/not recording.
-
-## Returns
-
-Current state of recording.
 """
-function _is_recording()::Bool
+function is_recording()::Bool
   state = Ref{Cint}(C_NULL)
   @mxcall(:MXAutogradIsRecording, (Ref{Cint},), state)
   state[]
 end
 
 """
+    is_training()::Bool
+
 Get status on recording/not recording.
-
-## Returns
-
-Current state of recording.
 """
-function _is_training()::Bool
+function is_training()::Bool
   state = Ref{Cint}(C_NULL)
   @mxcall(:MXAutogradIsTraining, (Ref{Cint},), state)
   state[]
 end
-
-###############################################################################
-#  Public API
-###############################################################################
 
 @inline function _record(f, is_record::Union{Void,Bool}, train_mode::Union{Void,Bool})
   # Port from Python's `_RecordingStateScope` context manager
@@ -247,9 +243,9 @@ function backward!(heads::VecOfNDArray, head_grads::Vector;
                    retain_graph::Bool = false, train_mode::Bool = true)
   output_handles = map(x -> x.handle, heads)
   ograd_handles  = map(head_grads) do x
-    if isa(x, NDArray)
+    if x isa NDArray
       arr.handle
-    elseif isa(x, Void)
+    elseif x isa Void
       MX_handle(C_NULL)
     else
       throw(ArgumentError("element of head_grads should be NDArray or Void"))
