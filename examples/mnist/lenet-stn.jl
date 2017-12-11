@@ -66,4 +66,5 @@ initializer = mx.XavierInitializer(distribution=mx.xv_normal,
 mx.fit(model, optimizer, train_provider,
        n_epoch=20,
        eval_data=eval_provider,
-       initializer=initializer)
+       initializer=initializer,
+       callbacks=[mx.speedometer()])
