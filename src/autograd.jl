@@ -194,11 +194,11 @@ Compute the gradients of heads w.r.t previously marked variables.
 
 - `head::NDArray`: output NDArray
 
-- `head_grad::NDArray` or `Void`: gradient with respect to head.
+- `head_grad::NDArray` or `Void`: gradient coefficient with respect to head.
 
 - `heads::Vector{NDArray}`: a list of output NDArray
 
-- `head_grads::Vector`: a list of gradient with respect ot heads.
+- `head_grads::Vector`: a list of gradient coefficient with respect ot heads.
   the element should be `NDArray` or `Void`
 
 - `retain_graph::Bool`: whether to keep the graph after backward. e.g:
@@ -207,11 +207,11 @@ Compute the gradients of heads w.r.t previously marked variables.
 
 - `train_mode::Bool`: whether to do backward for training or predicting.
 """
-backward!(head::NDArray, head_grad::NDArray; kwargs...) =
-  backward!([head], [head_grad]; kwargs...)
+backward!(head::NDArray, head_grad::NDArray; kws...) =
+  backward!([head], [head_grad]; kws...)
 
-backward!(head::NDArray, head_grad::Void = nothing; kwargs...) =
-  backward!([head], head_grad; kwargs...)
+backward!(head::NDArray, head_grad::Void = nothing; kws...) =
+  backward!([head], head_grad; kws...)
 
 function backward!(heads::VecOfNDArray, head_grad::Void;
                    retain_graph::Bool = false, train_mode::Bool = true)
@@ -244,7 +244,7 @@ function backward!(heads::VecOfNDArray, head_grads::Vector;
   output_handles = map(x -> x.handle, heads)
   ograd_handles  = map(head_grads) do x
     if x isa NDArray
-      arr.handle
+      x.handle
     elseif x isa Void
       MX_handle(C_NULL)
     else

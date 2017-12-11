@@ -99,6 +99,10 @@ function test_record()
 
     @test isa(mx.symbol(y), mx.SymbolicNode)
   end
+
+  mx._record(nothing, nothing) do  # no error with edage case
+    @test true
+  end
 end  # function test_record
 
 
@@ -165,6 +169,35 @@ function test_predict_mode()
     @test copy(y) ≈ Float32[1 2; 3 4]
   end
 end  # function test_train_mode
+
+
+function test_backward!()
+  info("AutoGrad::backward!::with head_grad")
+  let x = mx.NDArray(Float32[1 2; 3 4]), A = Float32[.2 .4; 0 .1]
+    ∇ = mx.attach_grad!(x)
+    y = mx.record() do
+      mx.square(x)
+    end
+    mx.backward!(y, mx.NDArray(A))
+    @test copy(∇) ≈ [2 4; 6 8] .* A
+  end
+
+  info("AutoGrad::backward!::with head_grads")
+  let x = mx.NDArray(Float32[1 2; 3 4])
+    ∇ = mx.attach_grad!(x)
+    mx.record() do
+      x′ = mx.square(x)
+      y = mx.square(x)
+      z = mx.square(x) .+ 42
+      mx.backward!([x′, y, z], [nothing,
+                                mx.NDArray(Float32[.01 .01; 1 1]),
+                                mx.NDArray(Float32[1 1; .1 .1])])
+    end
+    ans = [4.02 8.04
+           12.6 16.8]
+    @test copy(∇) ≈ ans
+  end
+end  # function test_backward!
 
 
 function test_symbol()
@@ -309,6 +342,7 @@ end  # function test_div
   test_pause()
   test_train_mode()
   test_predict_mode()
+  test_backward!()
   test_symbol()
   test_add()
   test_sub()
