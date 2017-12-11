@@ -56,6 +56,7 @@ function test_mark_variables!()
   y = mx.zeros(4)
   z = mx.zeros(4)
   @test_throws ArgumentError mx.mark_variables!([x], [y, z])
+  @test_throws ArgumentError mx.mark_variables!([x], [y], [:write, :nop])
 end
 
 
@@ -196,6 +197,11 @@ function test_backward!()
     ans = [4.02 8.04
            12.6 16.8]
     @test copy(∇) ≈ ans
+  end
+
+  info("AutoGrad::backward!::ArgumentError")
+  let x = mx.NDArray([42])
+    @test_throws ArgumentError mx.backward!([x], [24])
   end
 end  # function test_backward!
 

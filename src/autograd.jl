@@ -349,7 +349,7 @@ end
 
 @inline function _getgrad_reqs(xs::Vector{Symbol}, n::Int)
   if length(xs) != n
-    throw(ArgumentError("number of variables and gradients not matched"))
+    throw(ArgumentError("number of variables and grad_reqs not matched"))
   end
   map(MX_uint ∘ _getgrad_req, xs)
 end
