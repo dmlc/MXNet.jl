@@ -57,12 +57,12 @@ train_provider, eval_provider = get_mnist_providers(batch_size; flat=false)
 model = mx.FeedForward(lenet, context=mx.cpu())
 
 # optimizer
-optimizer = mx.SGD(lr=0.1, momentum=.9)
+optimizer = mx.SGD(lr=.1, momentum=.1)
 
 # fit parameters
-initializer = mx.XavierInitializer(distribution=mx.xv_normal,
-                                   regularization=mx.xv_in,
-                                   magnitude=2)
+initializer = mx.XavierInitializer(distribution=mx.xv_uniform,
+                                   regularization=mx.xv_avg,
+                                   magnitude=1)
 mx.fit(model, optimizer, train_provider,
        n_epoch=20,
        eval_data=eval_provider,
