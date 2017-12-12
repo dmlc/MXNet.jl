@@ -385,3 +385,150 @@ end
 ###############################################################################
 #  TODO: User-defined differentiable function
 ###############################################################################
+
+# gc-free holder
+const _cbs_r  = [Ref{Ptr{Void}}(C_NULL), Ref{Ptr{Void}}(C_NULL)]
+const _cbs    = [Ptr{Void}(C_NULL), Ptr{Void}(C_NULL)]
+const _cbsref = Ref{Ptr{Ptr{Void}}}(C_NULL)
+
+function _init_customfunc()  # will be invoked in __init__
+  global _cbs_r
+  global _cbs
+  global _cbsref
+  _cbs_r[1][] = _cbs[1] = cfunction(_back_wrapper, Cint,
+                                    (Cint, Cint, Ptr{Ptr{Void}}, Ptr{Cint},
+                                     Bool, Ptr{Void}))
+  _cbs_r[2][] = _cbs[2] = cfunction(_del_wrapper, Cint, (Ptr{Void},))
+  _cbsref[] = Base.unsafe_convert(Ptr{Ptr{Void}}, _cbs)
+end
+
+function _back_wrapper(num_ograds, num_igrads, ptrs, reqs, is_train, fptr::Ptr{Void})
+  hdls = unsafe_wrap(Array, ptrs, num_ograds + num_igrads)
+  ograds = map(x -> NDArray(MX_NDArrayHandle(x), false), hdls[1:num_ograds])
+  igrads = map(NDArray ∘ MX_NDArrayHandle, hdls[num_ograds+1:num_ograds+num_igrads])
+  reqs = unsafe_wrap(Array, reqs, num_igrads)
+
+  # passing closure via raw pointer
+  f = unsafe_pointer_to_objref(fptr)
+
+  Δs = backward!(f, ograds...)
+  Δs = Δs isa NDArray ? [Δs] : Δs
+
+  # update gradient
+  for (i, Δ, req) ∈ zip(igrads, Δs, reqs)
+    req = GRAD_REQ(req)
+    if req == GRAD_NOP
+      continue
+    elseif req ∈ (GRAD_WRITE, GRAD_INPLACE)
+      i[:] = Δ
+    elseif req == GRAD_ADD
+      i[:] += Δ
+    end
+  end
+
+  Cint(true)
+end
+
+function _del_wrapper(ref)
+  cblist_ref = unsafe_pointer_to_objref(ref)
+  delete!(_cblists, cblist_ref)
+  Cint(true)
+end
+
+struct MXCallbackList
+  n::Cint               # int num_callbacks;
+  cbs::Ptr{Ptr{Void}}   # int (**callbacks)(void);
+  ctxs::Ptr{Ptr{Void}}  # void **contexts;
+
+  # we must provide two callback functions
+  # the first is backward function
+  # the second is delete callback
+  # https://github.com/apache/incubator-mxnet/blob/2f8c1e83f94e84a25a48d2cd43136030fb3f2d1e/include/mxnet/c_api.h#L174-L182
+
+  # `ctxs` is a array which is same size as `cbs`
+  # its elements will be passed as `state` for callback functions,
+  # usually the last argument.
+  # In our case, we will push the pointer of custom func instance as
+  # first element of `ctxs`; the pointer of MXCallbackList instance as
+  # the second element.
+  # The purpose of first pointer is to pass closure into `cfunction`.
+  # The second pointer is to free the reference of MXCallbackList,
+  # and let the function instance be GC-ed properly.
+
+  function MXCallbackList(f)  # where f is the custom func instance
+    ctxs = [
+      Base.unsafe_convert(Ptr{Void}, Ref(f)),
+      Ptr{Void}(C_NULL),
+    ]
+    ctxsptr = Base.unsafe_convert(Ptr{Ptr{Void}}, ctxs)
+    cblist = new(2, _cbsref[], ctxsptr)
+    # get the reference, and make a self-reference in ctxs[2]
+    cblist_ref = Ref{MXCallbackList}(cblist)
+    ctxs[2] = Base.unsafe_convert(Ptr{Void}, cblist_ref)
+    # insert ref into a holder to prevent from being GC-ed
+    _cblists[cblist_ref] = ctxs
+    cblist_ref
+  end
+end
+
+# hold MXCallbackList to prevent from gc
+const _cblists = Dict{Ref{MXCallbackList},Any}()
+
+"""
+    @customfunc func
+
+Create callable custom function.
+Please pass the type, not a instance.
+
+Please checkout `examples/autograd/customfunc.jl` for example.
+"""
+macro customfunc(f)
+  # Julia still cannot define method for a abstract type,
+  # so we let user to use this macro as kind of registeration a custom function.
+  # See https://github.com/JuliaLang/julia/issues/14919
+  # Once Julia support abstract type method.
+  # I will recommend that creating a
+  #   abstract type CustomFunc end
+  # then just define following callable function for CustomFunc
+  #   function (f::CustomFunc)(xs...)
+  # So user can just subtype the CustomFunc, defining forward/backward!,
+  # then user's subtype will be callable out of box.
+  quote
+    function (f::$(esc(f)))(xs...)
+      ys = _record(false, nothing) do
+        forward(f, xs...)
+      end
+
+      !is_recording() && return ys
+
+      ys′ = ys isa NDArray ? [ys] : ys
+
+      # struct MXCallbackList
+      cblist_ref = MXCallbackList(f)
+
+      @mxcall(
+        :MXCustomFunctionRecord,
+        (Cint,            # num_inputs
+         Ptr{MX_handle},  # inputs
+
+         Cint,            # num_outputs
+         Ptr{MX_handle},  # outputs
+
+         Ref{MXCallbackList}),  # callbacks
+        length(xs),
+        collect(xs),  # convert to Array
+
+        length(ys′),
+        ys′,
+
+        cblist_ref)
+
+      ys
+    end  # end of function
+  end  # end of quote
+end
+
+# custom function should overload these functions.
+# the # of forward return values is the inputs of backward!.
+function forward end
+function backward! end

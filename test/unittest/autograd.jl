@@ -339,6 +339,43 @@ function test_div()
 end  # function test_div
 
 
+include(joinpath(@__DIR__, "..", "..", "examples", "autograd", "customfunc.jl"))
+
+function test_custom_func()
+  info("AutoGrad::custom function")
+  @test isbits(mx.MXCallbackList)
+
+  """
+  swish with custom function
+  """
+  function g()
+    x = mx.NDArray(Float32[1 2; 3 4])
+    ∇ = mx.attach_grad!(x)
+    f = swish()  # from examples/autograd/customfunc.jl
+    y = mx.record() do
+      f(x)
+    end
+    mx.backward!(y, mx.NDArray(Float32[.5 .5; .5 .5]))
+    ∇
+  end
+
+  """
+  swish without custom function
+  """
+  function h()
+    x = mx.NDArray(Float32[1 2; 3 4])
+    ∇ = mx.attach_grad!(x)
+    y = mx.record() do
+      x .* mx.sigmoid(x)
+    end
+    mx.backward!(y, mx.NDArray(Float32[.5 .5; .5 .5]))
+    ∇
+  end
+
+  @test copy(g()) ≈ copy(h())
+end  # function test_custom_func
+
+
 @testset "AutoGrad Test" begin
   test_getgrad()
   test_mark_variables!()
@@ -354,6 +391,7 @@ end  # function test_div
   test_sub()
   test_mul()
   test_div()
+  test_custom_func()
 end
 
 
