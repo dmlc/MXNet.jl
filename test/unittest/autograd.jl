@@ -361,7 +361,72 @@ function test_power()
       x.^.5
     end
   end
+end  # function test_power
+
+
+include(joinpath(@__DIR__, "..", "..", "examples", "autograd", "customfunc.jl"))
+
+struct foo end
+@mx.custom foo(x) = foo()  # test the compat form of func def
+mx.forward(f::foo, x) = x
+
+struct bar
+  @mx.custom bar(x) = new()  # test the compat form of func def
 end
+mx.forward(f::bar, x) = x
+
+function test_custom_func()
+  info("AutoGrad::custom function")
+  @test isbits(mx.MXCallbackList)
+
+  """
+  swish with custom function
+  """
+  function g()
+    x = mx.NDArray(Float32[1 2; 3 4])
+    ∇ = mx.attach_grad!(x)
+    y = mx.record() do
+      swish(x)  # from examples/autograd/customfunc.jl
+    end
+    mx.backward!(y, mx.NDArray(Float32[.5 .5; .5 .5]))
+    ∇
+  end
+
+  """
+  swish2 with custom function
+  """
+  function g2()
+    x = mx.NDArray(Float32[1 2; 3 4])
+    ∇ = mx.attach_grad!(x)
+    y = mx.record() do
+      swish2(x)  # from examples/autograd/customfunc.jl
+    end
+    mx.backward!(y, mx.NDArray(Float32[.5 .5; .5 .5]))
+    ∇
+  end
+
+  """
+  swish without custom function
+  """
+  function h()
+    x = mx.NDArray(Float32[1 2; 3 4])
+    ∇ = mx.attach_grad!(x)
+    y = mx.record() do
+      x .* mx.sigmoid(x)
+    end
+    mx.backward!(y, mx.NDArray(Float32[.5 .5; .5 .5]))
+    ∇
+  end
+
+  @test copy(g())  ≈ copy(h())
+  @test copy(g2()) ≈ copy(h())
+
+  let x = mx.NDArray(Float32[1, 2, 3, 4])
+    @test copy(foo(x)) == copy(x)
+
+    @test copy(bar(x)) == copy(x)
+  end
+end  # function test_custom_func
 
 
 @testset "AutoGrad Test" begin
@@ -380,6 +445,7 @@ end
   test_mul()
   test_div()
   test_power()
+  test_custom_func()
 end
 
 

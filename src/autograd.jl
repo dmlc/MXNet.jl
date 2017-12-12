@@ -2,6 +2,8 @@
 # this is a port of Python's autograd module
 # https://github.com/apache/incubator-mxnet/blob/master/python/mxnet/autograd.py
 
+using Base.Meta: isexpr
+
 ###############################################################################
 #  Private util functions
 ###############################################################################
@@ -385,3 +387,181 @@ end
 ###############################################################################
 #  TODO: User-defined differentiable function
 ###############################################################################
+
+# gc-free holder
+const _cbs_r  = [Ref{Ptr{Void}}(C_NULL), Ref{Ptr{Void}}(C_NULL)]
+const _cbs    = [Ptr{Void}(C_NULL), Ptr{Void}(C_NULL)]
+const _cbsref = Ref{Ptr{Ptr{Void}}}(C_NULL)
+const _frefs  = Dict()  # hold custom function instance and its args
+
+function _init_customfunc()  # will be invoked in __init__
+  global _cbs_r
+  global _cbs
+  global _cbsref
+  _cbs_r[1][] = _cbs[1] = cfunction(_back_wrapper, Cint,
+                                    (Cint, Cint, Ptr{Ptr{Void}}, Ptr{Cint},
+                                     Bool, Ptr{Void}))
+  _cbs_r[2][] = _cbs[2] = cfunction(_del_wrapper, Cint, (Ptr{Void},))
+  _cbsref[] = Base.unsafe_convert(Ptr{Ptr{Void}}, _cbs)
+end
+
+function _back_wrapper(num_ograds, num_igrads, ptrs, reqs, is_train, fptr::Ptr{Void})
+  hdls = unsafe_wrap(Array, ptrs, num_ograds + num_igrads)
+  ograds = map(x -> NDArray(MX_NDArrayHandle(x), false), hdls[1:num_ograds])
+  igrads = map(NDArray ∘ MX_NDArrayHandle, hdls[num_ograds+1:num_ograds+num_igrads])
+  reqs = unsafe_wrap(Array, reqs, num_igrads)
+
+  # passing closure via raw pointer
+  f = unsafe_pointer_to_objref(fptr)
+
+  Δs = backward!(f, ograds...)
+  Δs = Δs isa NDArray ? [Δs] : Δs
+
+  # update gradient
+  for (i, Δ, req) ∈ zip(igrads, Δs, reqs)
+    req = GRAD_REQ(req)
+    if req == GRAD_NOP
+      continue
+    elseif req ∈ (GRAD_WRITE, GRAD_INPLACE)
+      i[:] = Δ
+    elseif req == GRAD_ADD
+      i[:] += Δ
+    end
+  end
+
+  # release ref for gc
+  delete!(_frefs, f)
+
+  Cint(true)
+end
+
+function _del_wrapper(ref)
+  cblist_ref = unsafe_pointer_to_objref(ref)
+  delete!(_cblists, cblist_ref)
+  Cint(true)
+end
+
+struct MXCallbackList
+  n::Cint               # int num_callbacks;
+  cbs::Ptr{Ptr{Void}}   # int (**callbacks)(void);
+  ctxs::Ptr{Ptr{Void}}  # void **contexts;
+
+  # we must provide two callback functions
+  # the first is backward function `_back_wrapper`
+  # the second is delete callback `_del_wrapper`
+  # https://github.com/apache/incubator-mxnet/blob/2f8c1e83f94e84a25a48d2cd43136030fb3f2d1e/include/mxnet/c_api.h#L174-L182
+
+  # `ctxs` is a array which is same size as `cbs`
+  # its elements will be passed as `state` for callback functions,
+  # usually the last argument.
+  # In our case, we will push the pointer of custom func instance as
+  # first element of `ctxs`; the pointer of MXCallbackList instance as
+  # the second element.
+  # The purpose of first pointer is to pass closure into `cfunction`.
+  # The second pointer is to free the reference of MXCallbackList,
+  # and let the function instance be GC-ed properly.
+
+  function MXCallbackList(f)  # where all args are Refs
+    ctxs = [
+      Base.unsafe_convert(Ptr{Void}, Ref(f)),
+      Ptr{Void}(C_NULL),
+    ]
+    ctxsptr = Base.unsafe_convert(Ptr{Ptr{Void}}, ctxs)
+    cblist = new(2, _cbsref[], ctxsptr)
+    # get the reference, and make a self-reference in ctxs[2]
+    cblist_ref = Ref{MXCallbackList}(cblist)
+    ctxs[2] = Base.unsafe_convert(Ptr{Void}, cblist_ref)
+    # insert ref into a holder to prevent from being GC-ed.
+    # hold `xs` and `ys` which is passed into `MXCustomFunctionRecord`.
+    _cblists[cblist_ref] = Ref(ctxs)
+    cblist_ref
+  end
+end
+
+# hold MXCallbackList to prevent from gc
+const _cblists = Dict{Ref{MXCallbackList},Ref}()
+
+_isparams(ex) =
+  isexpr(ex, :call) && length(ex.args) >= 2 && isexpr(ex.args[2], :parameters)
+
+_isfuncdef(ex) =
+  isexpr(ex, :function) || (isexpr(ex, :(=)) && isexpr(ex.args[1], :call))
+
+"""
+    @custom
+
+Create callable custom function.
+All the position-arguments should be `NDArray`.
+The return value should be a instance of your custom type.
+
+Please checkout `examples/autograd/customfunc.jl` for example.
+"""
+macro custom(ex::Expr)
+  @assert(_isfuncdef(ex), "unspport syntax")
+
+  sig = ex.args[1]
+  body = esc(Expr(:let, ex.args[2]))  # create a new scope via `let`
+
+  # forward(f, xs...)
+  forward_expr = copy(sig)
+  args = forward_expr.args
+  args[1] = :forward
+  i = !_isparams(sig) ? 2 : 3
+  insert!(args, i, :f)
+  # properly escape
+  if _isparams(sig)
+    args[2] = esc(args[2])
+  end
+  for j ∈ i+1:endof(args)
+    args[j] = esc(args[j])
+  end
+
+  # xs, without keyword arguments
+  xs_len = length(args[i+1:end])
+  xs_expr = Expr(:vect, args[i+1:end]...)
+
+  body′ = quote
+    f, ys = _record(false, nothing) do
+      f = $body  # f is the object instance
+      ys = $forward_expr
+      f, ys
+    end
+
+    !is_recording() && return ys
+
+    xs = $xs_expr
+    ys′ = ys isa NDArray ? [ys] : ys
+
+    # struct MXCallbackList
+    cblist_ref = MXCallbackList(f)
+
+    # gc free
+    _frefs[f] = (Ref(xs), Ref(ys′))
+
+    @mxcall(
+      :MXCustomFunctionRecord,
+      (Cint,            # num_inputs
+       Ptr{MX_handle},  # inputs
+
+       Cint,            # num_outputs
+       Ptr{MX_handle},  # outputs
+
+       Ref{MXCallbackList}),  # callbacks
+      $xs_len,
+      xs,
+
+      length(ys′),
+      ys′,
+
+      cblist_ref)
+
+    ys
+  end
+
+  Expr(:function, esc(sig), body′)
+end
+
+# custom function should overload these functions.
+# the # of forward return values is the inputs of backward!.
+function forward end
+function backward! end

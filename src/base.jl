@@ -50,6 +50,8 @@ function __init__()
 
   global const LIB_VERSION = _get_lib_version()
 
+  _init_customfunc()
+
   atexit() do
     # notify libmxnet we are shutting down
     ccall( ("MXNotifyShutdown", MXNET_LIB), Cint, () )
