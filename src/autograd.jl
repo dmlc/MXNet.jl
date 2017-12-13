@@ -392,6 +392,7 @@ end
 const _cbs_r  = [Ref{Ptr{Void}}(C_NULL), Ref{Ptr{Void}}(C_NULL)]
 const _cbs    = [Ptr{Void}(C_NULL), Ptr{Void}(C_NULL)]
 const _cbsref = Ref{Ptr{Ptr{Void}}}(C_NULL)
+const _frefs  = Dict()  # hold custom function instance and its args
 
 function _init_customfunc()  # will be invoked in __init__
   global _cbs_r
@@ -428,6 +429,9 @@ function _back_wrapper(num_ograds, num_igrads, ptrs, reqs, is_train, fptr::Ptr{V
     end
   end
 
+  # release ref for gc
+  delete!(_frefs, f)
+
   Cint(true)
 end
 
@@ -457,9 +461,9 @@ struct MXCallbackList
   # The second pointer is to free the reference of MXCallbackList,
   # and let the function instance be GC-ed properly.
 
-  function MXCallbackList(f, xs, ys)  # where all args are Refs
+  function MXCallbackList(f)  # where all args are Refs
     ctxs = [
-      Base.unsafe_convert(Ptr{Void}, f),
+      Base.unsafe_convert(Ptr{Void}, Ref(f)),
       Ptr{Void}(C_NULL),
     ]
     ctxsptr = Base.unsafe_convert(Ptr{Ptr{Void}}, ctxs)
@@ -469,13 +473,13 @@ struct MXCallbackList
     ctxs[2] = Base.unsafe_convert(Ptr{Void}, cblist_ref)
     # insert ref into a holder to prevent from being GC-ed.
     # hold `xs` and `ys` which is passed into `MXCustomFunctionRecord`.
-    _cblists[cblist_ref] = (f, xs, ys, Ref(ctxs))
+    _cblists[cblist_ref] = Ref(ctxs)
     cblist_ref
   end
 end
 
 # hold MXCallbackList to prevent from gc
-const _cblists = Dict{Ref{MXCallbackList},Any}()
+const _cblists = Dict{Ref{MXCallbackList},Ref}()
 
 _isparams(ex) =
   (isexpr(ex, :call) && length(ex.args) >= 2 && isexpr(ex.args[2], :parameters))
@@ -522,10 +526,14 @@ macro custom(ex::Expr)
 
     !is_recording() && return ys
 
+    xs = $xs_expr
     ys′ = ys isa NDArray ? [ys] : ys
 
     # struct MXCallbackList
-    cblist_ref = MXCallbackList(Ref(f), Ref($xs_expr), Ref(ys′))
+    cblist_ref = MXCallbackList(f)
+
+    # gc free
+    _frefs[f] = (Ref(xs), Ref(ys′))
 
     @mxcall(
       :MXCustomFunctionRecord,
@@ -537,7 +545,7 @@ macro custom(ex::Expr)
 
        Ref{MXCallbackList}),  # callbacks
       $xs_len,
-      $xs_expr,
+      xs,
 
       length(ys′),
       ys′,
