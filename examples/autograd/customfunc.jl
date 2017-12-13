@@ -1,5 +1,7 @@
+using MXNet
+
 ###############################################################################
-#  swish
+#  swish: option 1, with inner constructor
 ###############################################################################
 
 """
@@ -12,21 +14,39 @@ mutable struct swish
   x
   y
   σ
-  swish() = new()  # with undefined fields
+  @mx.custom function swish(x)
+    σ = @. 1 / (1 + e^(-x))  # assume there is no mx.sigmoid; we need to get hand dirty
+    y = x .* σ
+    new(x, σ, y)  # must return a object instance for @custom
+  end
 end
 
-# create callable function
-@mx.customfunc swish
-
-function mx.forward(f::swish, x)
-  f.x = x
-  f.σ = @. 1 / (1 + e^(-x))  # assume there is no mx.sigmoid; we need to get hand dirty
-  f.y = x .* f.σ
-end
+# the actual return value
+mx.forward(f::swish, x) = f.y
 
 mx.backward!(f::swish, Δy #= coefficient of gradient =#) =
   @. (f.y + f.σ * (1 - f.y)) * Δy
 
+###############################################################################
+#  swish2: option 2, with outer constructor
+###############################################################################
+
+mutable struct swish2
+  x
+  y
+  σ
+end
+
+@mx.custom function swish2(x)
+  σ = @. 1 / (1 + e^(-x))
+  y = x .* σ
+  swish2(x, σ, y)  # must return a object instance for @custom
+end
+
+mx.forward(f::swish2, x) = f.y
+
+mx.backward!(f::swish2, Δy #= coefficient of gradient =#) =
+  @. (f.y + f.σ * (1 - f.y)) * Δy
 
 ###############################################################################
 #  example usage
@@ -34,9 +54,8 @@ mx.backward!(f::swish, Δy #= coefficient of gradient =#) =
 
 x = mx.NDArray(Float32[1 2; 3 4])
 ∇ = mx.attach_grad!(x)
-f = swish()
 y = mx.record() do
-  f(x)
+  swish(x)
 end
 mx.backward!(y)
 ∇
@@ -46,15 +65,15 @@ mx.backward!(y)
 #
 # julia> @benchmark g()  # custom func swish
 # BenchmarkTools.Trial:
-#   memory estimate:  29.58 KiB
-#   allocs estimate:  599
+#   memory estimate:  29.83 KiB
+#   allocs estimate:  608
 #   --------------
-#   minimum time:     352.222 μs (0.00% GC)
-#   median time:      391.971 μs (0.00% GC)
-#   mean time:        443.911 μs (1.73% GC)
-#   maximum time:     22.587 ms (28.61% GC)
+#   minimum time:     372.205 μs (0.00% GC)
+#   median time:      475.992 μs (0.00% GC)
+#   mean time:        565.441 μs (3.65% GC)
+#   maximum time:     33.960 ms (47.71% GC)
 #   --------------
-#   samples:          10000
+#   samples:          8723
 #   evals/sample:     1
 #
 # julia> @benchmark h()  # with native NDArray operator
@@ -62,10 +81,10 @@ mx.backward!(y)
 #   memory estimate:  9.39 KiB
 #   allocs estimate:  184
 #   --------------
-#   minimum time:     173.886 μs (0.00% GC)
-#   median time:      202.246 μs (0.00% GC)
-#   mean time:        250.379 μs (1.26% GC)
-#   maximum time:     48.067 ms (36.39% GC)
+#   minimum time:     179.940 μs (0.00% GC)
+#   median time:      234.188 μs (0.00% GC)
+#   mean time:        264.236 μs (1.47% GC)
+#   maximum time:     35.323 ms (28.11% GC)
 #   --------------
 #   samples:          10000
 #   evals/sample:     1

@@ -2,6 +2,8 @@
 # this is a port of Python's autograd module
 # https://github.com/apache/incubator-mxnet/blob/master/python/mxnet/autograd.py
 
+using Base.Meta: isexpr
+
 ###############################################################################
 #  Private util functions
 ###############################################################################
@@ -441,8 +443,8 @@ struct MXCallbackList
   ctxs::Ptr{Ptr{Void}}  # void **contexts;
 
   # we must provide two callback functions
-  # the first is backward function
-  # the second is delete callback
+  # the first is backward function `_back_wrapper`
+  # the second is delete callback `_del_wrapper`
   # https://github.com/apache/incubator-mxnet/blob/2f8c1e83f94e84a25a48d2cd43136030fb3f2d1e/include/mxnet/c_api.h#L174-L182
 
   # `ctxs` is a array which is same size as `cbs`
@@ -455,9 +457,9 @@ struct MXCallbackList
   # The second pointer is to free the reference of MXCallbackList,
   # and let the function instance be GC-ed properly.
 
-  function MXCallbackList(f)  # where f is the custom func instance
+  function MXCallbackList(f, xs, ys)  # where all args are Refs
     ctxs = [
-      Base.unsafe_convert(Ptr{Void}, Ref(f)),
+      Base.unsafe_convert(Ptr{Void}, f),
       Ptr{Void}(C_NULL),
     ]
     ctxsptr = Base.unsafe_convert(Ptr{Ptr{Void}}, ctxs)
@@ -465,8 +467,9 @@ struct MXCallbackList
     # get the reference, and make a self-reference in ctxs[2]
     cblist_ref = Ref{MXCallbackList}(cblist)
     ctxs[2] = Base.unsafe_convert(Ptr{Void}, cblist_ref)
-    # insert ref into a holder to prevent from being GC-ed
-    _cblists[cblist_ref] = ctxs
+    # insert ref into a holder to prevent from being GC-ed.
+    # hold `xs` and `ys` which is passed into `MXCustomFunctionRecord`.
+    _cblists[cblist_ref] = (f, xs, ys, Ref(ctxs))
     cblist_ref
   end
 end
@@ -474,58 +477,77 @@ end
 # hold MXCallbackList to prevent from gc
 const _cblists = Dict{Ref{MXCallbackList},Any}()
 
+_isparams(ex) =
+  (isexpr(ex, :call) && length(ex.args) >= 2 && isexpr(ex.args[2], :parameters))
+
 """
-    @customfunc func
+    @custom
 
 Create callable custom function.
-Please pass the type, not a instance.
+All the position-arguments should be `NDArray`.
+The return value should be a instance of your custom type.
 
 Please checkout `examples/autograd/customfunc.jl` for example.
 """
-macro customfunc(f)
-  # Julia still cannot define method for a abstract type,
-  # so we let user to use this macro as kind of registeration a custom function.
-  # See https://github.com/JuliaLang/julia/issues/14919
-  # Once Julia support abstract type method.
-  # I will recommend that creating a
-  #   abstract type CustomFunc end
-  # then just define following callable function for CustomFunc
-  #   function (f::CustomFunc)(xs...)
-  # So user can just subtype the CustomFunc, defining forward/backward!,
-  # then user's subtype will be callable out of box.
-  quote
-    function (f::$(esc(f)))(xs...)
-      ys = _record(false, nothing) do
-        forward(f, xs...)
-      end
+macro custom(ex::Expr)
+  @assert(isexpr(ex, :function), "unspport syntax")
 
-      !is_recording() && return ys
+  sig = ex.args[1]
+  body = esc(Expr(:let, ex.args[2]))  # create a new scope via `let`
 
-      ys′ = ys isa NDArray ? [ys] : ys
+  # forward(f, xs...)
+  forward_expr = copy(sig)
+  args = forward_expr.args
+  args[1] = :forward
+  i = !_isparams(sig) ? 2 : 3
+  insert!(args, i, :f)
+  # properly escape
+  if _isparams(sig)
+    args[2] = esc(args[2])
+  end
+  for j ∈ i+1:endof(args)
+    args[j] = esc(args[j])
+  end
 
-      # struct MXCallbackList
-      cblist_ref = MXCallbackList(f)
+  # xs, without keyword arguments
+  xs_len = length(args[i+1:end])
+  xs_expr = Expr(:vect, args[i+1:end]...)
 
-      @mxcall(
-        :MXCustomFunctionRecord,
-        (Cint,            # num_inputs
-         Ptr{MX_handle},  # inputs
+  body′ = quote
+    f, ys = _record(false, nothing) do
+      f = $body  # f is the object instance
+      ys = $forward_expr
+      f, ys
+    end
 
-         Cint,            # num_outputs
-         Ptr{MX_handle},  # outputs
+    !is_recording() && return ys
 
-         Ref{MXCallbackList}),  # callbacks
-        length(xs),
-        collect(xs),  # convert to Array
+    ys′ = ys isa NDArray ? [ys] : ys
 
-        length(ys′),
-        ys′,
+    # struct MXCallbackList
+    cblist_ref = MXCallbackList(Ref(f), Ref($xs_expr), Ref(ys′))
 
-        cblist_ref)
+    @mxcall(
+      :MXCustomFunctionRecord,
+      (Cint,            # num_inputs
+       Ptr{MX_handle},  # inputs
 
-      ys
-    end  # end of function
-  end  # end of quote
+       Cint,            # num_outputs
+       Ptr{MX_handle},  # outputs
+
+       Ref{MXCallbackList}),  # callbacks
+      $xs_len,
+      $xs_expr,
+
+      length(ys′),
+      ys′,
+
+      cblist_ref)
+
+    ys
+  end
+
+  Expr(:function, esc(sig), body′)
 end
 
 # custom function should overload these functions.

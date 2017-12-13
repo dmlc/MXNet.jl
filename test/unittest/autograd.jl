@@ -351,9 +351,21 @@ function test_custom_func()
   function g()
     x = mx.NDArray(Float32[1 2; 3 4])
     ∇ = mx.attach_grad!(x)
-    f = swish()  # from examples/autograd/customfunc.jl
     y = mx.record() do
-      f(x)
+      swish(x)  # from examples/autograd/customfunc.jl
+    end
+    mx.backward!(y, mx.NDArray(Float32[.5 .5; .5 .5]))
+    ∇
+  end
+
+  """
+  swish2 with custom function
+  """
+  function g2()
+    x = mx.NDArray(Float32[1 2; 3 4])
+    ∇ = mx.attach_grad!(x)
+    y = mx.record() do
+      swish2(x)  # from examples/autograd/customfunc.jl
     end
     mx.backward!(y, mx.NDArray(Float32[.5 .5; .5 .5]))
     ∇
@@ -372,7 +384,8 @@ function test_custom_func()
     ∇
   end
 
-  @test copy(g()) ≈ copy(h())
+  @test copy(g())  ≈ copy(h())
+  @test copy(g2()) ≈ copy(h())
 end  # function test_custom_func
 
 
