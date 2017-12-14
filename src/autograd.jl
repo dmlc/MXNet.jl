@@ -482,7 +482,10 @@ end
 const _cblists = Dict{Ref{MXCallbackList},Ref}()
 
 _isparams(ex) =
-  (isexpr(ex, :call) && length(ex.args) >= 2 && isexpr(ex.args[2], :parameters))
+  isexpr(ex, :call) && length(ex.args) >= 2 && isexpr(ex.args[2], :parameters)
+
+_isfuncdef(ex) =
+  isexpr(ex, :function) || (isexpr(ex, :(=)) && isexpr(ex.args[1], :call))
 
 """
     @custom
@@ -494,7 +497,7 @@ The return value should be a instance of your custom type.
 Please checkout `examples/autograd/customfunc.jl` for example.
 """
 macro custom(ex::Expr)
-  @assert(isexpr(ex, :function), "unspport syntax")
+  @assert(_isfuncdef(ex), "unspport syntax")
 
   sig = ex.args[1]
   body = esc(Expr(:let, ex.args[2]))  # create a new scope via `let`

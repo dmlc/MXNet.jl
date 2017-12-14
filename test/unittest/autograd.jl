@@ -341,6 +341,15 @@ end  # function test_div
 
 include(joinpath(@__DIR__, "..", "..", "examples", "autograd", "customfunc.jl"))
 
+struct foo end
+@mx.custom foo(x) = foo()  # test the compat form of func def
+mx.forward(f::foo, x) = x
+
+struct bar
+  @mx.custom bar(x) = new()  # test the compat form of func def
+end
+mx.forward(f::bar, x) = x
+
 function test_custom_func()
   info("AutoGrad::custom function")
   @test isbits(mx.MXCallbackList)
@@ -386,6 +395,12 @@ function test_custom_func()
 
   @test copy(g())  ≈ copy(h())
   @test copy(g2()) ≈ copy(h())
+
+  let x = mx.NDArray(Float32[1, 2, 3, 4])
+    @test copy(foo(x)) == copy(x)
+
+    @test copy(bar(x)) == copy(x)
+  end
 end  # function test_custom_func
 
 
