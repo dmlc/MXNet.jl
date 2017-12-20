@@ -4,7 +4,7 @@
     
     <url>
      <loc>/</loc>
-     <lastmod>2017-12-19</lastmod>
+     <lastmod>2017-12-20</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -13,13 +13,13 @@
         
     <url>
      <loc>/tutorial/mnist/</loc>
-     <lastmod>2017-12-19</lastmod>
+     <lastmod>2017-12-20</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/tutorial/char-lstm/</loc>
-     <lastmod>2017-12-19</lastmod>
+     <lastmod>2017-12-20</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
@@ -29,19 +29,19 @@
         
     <url>
      <loc>/user-guide/install/</loc>
-     <lastmod>2017-12-19</lastmod>
+     <lastmod>2017-12-20</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/user-guide/overview/</loc>
-     <lastmod>2017-12-19</lastmod>
+     <lastmod>2017-12-20</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/user-guide/faq/</loc>
-     <lastmod>2017-12-19</lastmod>
+     <lastmod>2017-12-20</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
@@ -51,73 +51,73 @@
         
     <url>
      <loc>/api/context/</loc>
-     <lastmod>2017-12-19</lastmod>
+     <lastmod>2017-12-20</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/model/</loc>
-     <lastmod>2017-12-19</lastmod>
+     <lastmod>2017-12-20</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/initializer/</loc>
-     <lastmod>2017-12-19</lastmod>
+     <lastmod>2017-12-20</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/optimizer/</loc>
-     <lastmod>2017-12-19</lastmod>
+     <lastmod>2017-12-20</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/callback/</loc>
-     <lastmod>2017-12-19</lastmod>
+     <lastmod>2017-12-20</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/metric/</loc>
-     <lastmod>2017-12-19</lastmod>
+     <lastmod>2017-12-20</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/io/</loc>
-     <lastmod>2017-12-19</lastmod>
+     <lastmod>2017-12-20</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/ndarray/</loc>
-     <lastmod>2017-12-19</lastmod>
+     <lastmod>2017-12-20</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/symbolic-node/</loc>
-     <lastmod>2017-12-19</lastmod>
+     <lastmod>2017-12-20</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/nn-factory/</loc>
-     <lastmod>2017-12-19</lastmod>
+     <lastmod>2017-12-20</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/executor/</loc>
-     <lastmod>2017-12-19</lastmod>
+     <lastmod>2017-12-20</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/visualize/</loc>
-     <lastmod>2017-12-19</lastmod>
+     <lastmod>2017-12-20</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
