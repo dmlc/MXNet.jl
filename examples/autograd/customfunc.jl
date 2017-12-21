@@ -14,7 +14,7 @@ mutable struct swish
   x
   y
   σ
-  @mx.custom function swish(x)
+  @custom function swish(x)
     σ = @. 1 / (1 + e^(-x))  # assume there is no mx.sigmoid; we need to get hand dirty
     y = x .* σ
     new(x, σ, y)  # must return a object instance for @custom
@@ -37,7 +37,7 @@ mutable struct swish2
   σ
 end
 
-@mx.custom function swish2(x)
+@custom function swish2(x)
   σ = @. 1 / (1 + e^(-x))
   y = x .* σ
   swish2(x, σ, y)  # must return a object instance for @custom
@@ -52,12 +52,12 @@ mx.backward!(f::swish2, Δy #= coefficient of gradient =#) =
 #  example usage
 ###############################################################################
 
-x = mx.NDArray(Float32[1 2; 3 4])
-∇ = mx.attach_grad!(x)
-y = mx.record() do
+x = NDArray(Float32[1 2; 3 4])
+∇ = attach_grad!(x)
+y = record() do
   swish(x)
 end
-mx.backward!(y)
+backward!(y)
 ∇
 
 

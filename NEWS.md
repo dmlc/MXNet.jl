@@ -75,7 +75,21 @@
 
 ### `NDArray`
 
-* A port of Python's `autograd` for `NDArray` (#274)
+* A port of Python's `autograd` for `NDArray`. (#274, #385)
+  Following APIs exported:
+
+    * `attach_grad!()`
+    * `backward!()`
+    * `getgrad()`
+    * `is_recording()`
+    * `is_training()`
+    * `mark_variables()`
+    * `pause()`
+    * `predict_mode()`
+    * `record()`
+    * `symbol()`
+    * `train_mode()`
+    * `@custom`
 
 * `size(x, dims...)` is supported now. (#TBD)
 

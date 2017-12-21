@@ -367,11 +367,11 @@ end  # function test_power
 include(joinpath(@__DIR__, "..", "..", "examples", "autograd", "customfunc.jl"))
 
 struct foo end
-@mx.custom foo(x) = foo()  # test the compat form of func def
+@custom foo(x) = foo()  # test the compat form of func def
 mx.forward(f::foo, x) = x
 
 struct bar
-  @mx.custom bar(x) = new()  # test the compat form of func def
+  @custom bar(x) = new()  # test the compat form of func def
 end
 mx.forward(f::bar, x) = x
 
