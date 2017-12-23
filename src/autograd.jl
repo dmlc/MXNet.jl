@@ -385,7 +385,7 @@ function symbol(x::NDArray)
 end
 
 ###############################################################################
-#  TODO: User-defined differentiable function
+#  User-defined differentiable function
 ###############################################################################
 
 # gc-free holder
@@ -481,12 +481,6 @@ end
 # hold MXCallbackList to prevent from gc
 const _cblists = Dict{Ref{MXCallbackList},Ref}()
 
-_isparams(ex) =
-  isexpr(ex, :call) && length(ex.args) >= 2 && isexpr(ex.args[2], :parameters)
-
-_isfuncdef(ex) =
-  isexpr(ex, :function) || (isexpr(ex, :(=)) && isexpr(ex.args[1], :call))
-
 """
     @custom
 
@@ -497,28 +491,27 @@ The return value should be a instance of your custom type.
 Please checkout `examples/autograd/customfunc.jl` for example.
 """
 macro custom(ex::Expr)
-  @assert(_isfuncdef(ex), "unspport syntax")
-
+  fdef = splitdef(ex)  # by MacroTools
   sig = ex.args[1]
   body = esc(Expr(:let, ex.args[2]))  # create a new scope via `let`
 
+  # only extract symbols, get rid of all annotations and default values
+  args = map(x -> esc(splitarg(x)[1]), fdef[:args])
   # forward(f, xs...)
-  forward_expr = copy(sig)
-  args = forward_expr.args
-  args[1] = :forward
-  i = !_isparams(sig) ? 2 : 3
-  insert!(args, i, :f)
-  # properly escape
-  if _isparams(sig)
-    args[2] = esc(args[2])
-  end
-  for j ∈ i+1:endof(args)
-    args[j] = esc(args[j])
+  forward_expr = Expr(:call, :forward, :f, args...)
+  # insert keyword args
+  if !isempty(fdef[:kwargs])
+    # only extract symbols, get rid of all annotations and default values
+    kwargs = map(fdef[:kwargs]) do x
+      sym = splitarg(x)[1]
+      Expr(:kw, sym, esc(sym))
+    end
+    append!(forward_expr.args, kwargs)
   end
 
-  # xs, without keyword arguments
-  xs_len = length(args[i+1:end])
-  xs_expr = Expr(:vect, args[i+1:end]...)
+  # xs, FIXME: a list of NDArray from positional argument
+  xs_len = length(args)
+  xs_expr = Expr(:vect, args...)
 
   body′ = quote
     f, ys = _record(false, nothing) do

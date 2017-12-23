@@ -375,6 +375,30 @@ struct bar
 end
 mx.forward(f::bar, x) = x
 
+struct baz{T}  # test parametric type
+  x::T
+  @custom baz{T}(x) where T = new(x)  # test `where` syntax
+end
+mx.forward(f::baz, x) = x
+
+struct qaz{T}
+  x::T
+  @custom function qaz{T}(x) where T  # test `where` syntax
+    new(x)
+  end
+end
+mx.forward(f::qaz, x) = x
+
+# test keyword args
+struct test_kw
+  x
+  @custom test_kw(x; magic = false) = new(x)
+end
+function mx.forward(f::test_kw, x; magic = false)
+  @assert magic
+  x
+end
+
 function test_custom_func()
   info("AutoGrad::custom function")
   @test isbits(mx.MXCallbackList)
@@ -383,9 +407,9 @@ function test_custom_func()
   swish with custom function
   """
   function g()
-    x = mx.NDArray(Float32[1 2; 3 4])
-    ∇ = mx.attach_grad!(x)
-    y = mx.record() do
+    x = NDArray(Float32[1 2; 3 4])
+    ∇ = attach_grad!(x)
+    y = record() do
       swish(x)  # from examples/autograd/customfunc.jl
     end
     mx.backward!(y, mx.NDArray(Float32[.5 .5; .5 .5]))
@@ -396,9 +420,9 @@ function test_custom_func()
   swish2 with custom function
   """
   function g2()
-    x = mx.NDArray(Float32[1 2; 3 4])
-    ∇ = mx.attach_grad!(x)
-    y = mx.record() do
+    x = NDArray(Float32[1 2; 3 4])
+    ∇ = attach_grad!(x)
+    y = record() do
       swish2(x)  # from examples/autograd/customfunc.jl
     end
     mx.backward!(y, mx.NDArray(Float32[.5 .5; .5 .5]))
@@ -409,9 +433,9 @@ function test_custom_func()
   swish without custom function
   """
   function h()
-    x = mx.NDArray(Float32[1 2; 3 4])
-    ∇ = mx.attach_grad!(x)
-    y = mx.record() do
+    x = NDArray(Float32[1 2; 3 4])
+    ∇ = attach_grad!(x)
+    y = record() do
       x .* mx.sigmoid(x)
     end
     mx.backward!(y, mx.NDArray(Float32[.5 .5; .5 .5]))
@@ -425,6 +449,12 @@ function test_custom_func()
     @test copy(foo(x)) == copy(x)
 
     @test copy(bar(x)) == copy(x)
+
+    @test copy(baz{Any}(x)) == copy(x)
+
+    @test copy(qaz{Any}(x)) == copy(x)
+
+    @test copy(test_kw(x, magic = true)) == copy(x)
   end
 end  # function test_custom_func
 
