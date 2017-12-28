@@ -28,7 +28,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-0.17.2, mkdocs-material-2.2.5">
+      <meta name="generator" content="mkdocs-0.17.2, mkdocs-material-2.2.6">
     
     
       
@@ -36,7 +36,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/application.bcabdff3.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/application.6525f7f6.css">
       
     
     
@@ -785,7 +785,7 @@ julia&gt; mx.srand(42)
 
 julia&gt; a = mx.empty(2, 3)
 2×3 mx.NDArray{Float32,2} @ CPU0:
- 1.73343f-37  1.79751f19  1.69501f-7
+ 9.06587f-36  1.79751f19  1.69501f-7
  0.0          1.06216f-5  0.0
 
 julia&gt; a[:] = 0.5              # set all elements to a scalar
@@ -793,23 +793,23 @@ julia&gt; a[:] = 0.5              # set all elements to a scalar
 
 julia&gt; a[:] = rand(size(a))    # set contents with a Julia Array
 2×3 Array{Float64,2}:
- 0.972924  0.136037  0.817548
- 0.15554   0.766455  0.491545
+ 0.954713  0.256394  0.269677
+ 0.400478  0.465898  0.821301
 
 julia&gt; copy!(a, rand(size(a))) # set value by copying a Julia Array
 2×3 mx.NDArray{Float32,2} @ CPU0:
- 0.196452  0.698294  0.648448
- 0.364597  0.776798  0.704727
+ 0.391917   0.998338  0.79989
+ 0.0658379  0.581805  0.87268
 
 julia&gt; b = mx.empty(size(a))
 2×3 mx.NDArray{Float32,2} @ CPU0:
- 1.5609f-37  7.9325f34   1.19403f-7
- 0.0         4.17261f-8  0.0
+ 2.78222f-36  7.9325f34   1.19403f-7
+ 0.0          4.17261f-8  0.0
 
 julia&gt; b[:] = a                # copying and assignment between NDArrays
 2×3 mx.NDArray{Float32,2} @ CPU0:
- 0.196452  0.698294  0.648448
- 0.364597  0.776798  0.704727
+ 0.391917   0.998338  0.79989
+ 0.0658379  0.581805  0.87268
 </code></pre>
 
 <p>Note due to the intrinsic design of the Julia language, a normal assignment</p>
@@ -1243,7 +1243,7 @@ julia&gt; copy(c_exec.outputs[1])  # copy turns NDArray into Julia Array
       
     </div>
     
-      <script src="../../assets/javascripts/application.6cdc17f0.js"></script>
+      <script src="../../assets/javascripts/application.cae2244d.js"></script>
       
       <script>app.initialize({version:"0.17.2",url:{base:"../.."}})</script>
       
