@@ -7100,7 +7100,7 @@ The operator is available on both CPU and GPU.
 <p>lam = [ 1.0, 8.5 ]</p>
 <p>// Draw a single sample for each distribution    sample_exponential(lam) = [ 0.51837951,  0.09994757]</p>
 <p>// Draw a vector containing two samples for each distribution    sample_exponential(lam, shape=(2)) = [[ 0.51837951,  0.19866663],                                          [ 0.09994757,  0.50447971]]</p>
-<p>Defined in src/operator/random/multisample_op.cc:L283</p>
+<p>Defined in src/operator/random/multisample_op.cc:L284</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>lam::NDArray-or-SymbolicNode</code>: Lambda (rate) parameters of the distributions.</li>
@@ -7122,7 +7122,7 @@ The operator is available on both CPU and GPU.
 <p>alpha = [ 0.0, 2.5 ]    beta = [ 1.0, 0.7 ]</p>
 <p>// Draw a single sample for each distribution    sample_gamma(alpha, beta) = [ 0.        ,  2.25797319]</p>
 <p>// Draw a vector containing two samples for each distribution    sample_gamma(alpha, beta, shape=(2)) = [[ 0.        ,  0.        ],                                            [ 2.25797319,  1.70734084]]</p>
-<p>Defined in src/operator/random/multisample_op.cc:L281</p>
+<p>Defined in src/operator/random/multisample_op.cc:L282</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>alpha::NDArray-or-SymbolicNode</code>: Alpha (shape) parameters of the distributions.</li>
@@ -7146,7 +7146,7 @@ The operator is available on both CPU and GPU.
 <p>mu = [ 2.0, 2.5 ]    alpha = [ 1.0, 0.1 ]</p>
 <p>// Draw a single sample for each distribution    sample_generalized_negative_binomial(mu, alpha) = [ 0.,  3.]</p>
 <p>// Draw a vector containing two samples for each distribution    sample_generalized_negative_binomial(mu, alpha, shape=(2)) = [[ 0.,  3.],                                                                  [ 3.,  1.]]</p>
-<p>Defined in src/operator/random/multisample_op.cc:L292</p>
+<p>Defined in src/operator/random/multisample_op.cc:L293</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>mu::NDArray-or-SymbolicNode</code>: Means of the distributions.</li>
@@ -7194,7 +7194,7 @@ The operator is available on both CPU and GPU.
 <p>k = [ 20, 49 ]    p = [ 0.4 , 0.77 ]</p>
 <p>// Draw a single sample for each distribution    sample_negative_binomial(k, p) = [ 15.,  16.]</p>
 <p>// Draw a vector containing two samples for each distribution    sample_negative_binomial(k, p, shape=(2)) = [[ 15.,  50.],                                                 [ 16.,  12.]]</p>
-<p>Defined in src/operator/random/multisample_op.cc:L288</p>
+<p>Defined in src/operator/random/multisample_op.cc:L289</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>k::NDArray-or-SymbolicNode</code>: Limits of unsuccessful experiments.</li>
@@ -7217,7 +7217,7 @@ The operator is available on both CPU and GPU.
 <p>mu = [ 0.0, 2.5 ]    sigma = [ 1.0, 3.7 ]</p>
 <p>// Draw a single sample for each distribution    sample_normal(mu, sigma) = [-0.56410581,  0.95934606]</p>
 <p>// Draw a vector containing two samples for each distribution    sample_normal(mu, sigma, shape=(2)) = [[-0.56410581,  0.2928229 ],                                           [ 0.95934606,  4.48287058]]</p>
-<p>Defined in src/operator/random/multisample_op.cc:L278</p>
+<p>Defined in src/operator/random/multisample_op.cc:L279</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>mu::NDArray-or-SymbolicNode</code>: Means of the distributions.</li>
@@ -7241,7 +7241,7 @@ The operator is available on both CPU and GPU.
 <p>lam = [ 1.0, 8.5 ]</p>
 <p>// Draw a single sample for each distribution    sample_poisson(lam) = [  0.,  13.]</p>
 <p>// Draw a vector containing two samples for each distribution    sample_poisson(lam, shape=(2)) = [[  0.,   4.],                                      [ 13.,   8.]]</p>
-<p>Defined in src/operator/random/multisample_op.cc:L285</p>
+<p>Defined in src/operator/random/multisample_op.cc:L286</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>lam::NDArray-or-SymbolicNode</code>: Lambda (rate) parameters of the distributions.</li>
@@ -7263,7 +7263,7 @@ The operator is available on both CPU and GPU.
 <p>low = [ 0.0, 2.5 ]    high = [ 1.0, 3.7 ]</p>
 <p>// Draw a single sample for each distribution    sample_uniform(low, high) = [ 0.40451524,  3.18687344]</p>
 <p>// Draw a vector containing two samples for each distribution    sample_uniform(low, high, shape=(2)) = [[ 0.40451524,  0.18017688],                                            [ 3.18687344,  3.68352246]]</p>
-<p>Defined in src/operator/random/multisample_op.cc:L276</p>
+<p>Defined in src/operator/random/multisample_op.cc:L277</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>low::NDArray-or-SymbolicNode</code>: Lower bounds of the distributions.</li>
@@ -10932,7 +10932,7 @@ NOT in axis instead.</p>
 <p>lam = [ 1.0, 8.5 ]</p>
 <p>// Draw a single sample for each distribution    sample_exponential(lam) = [ 0.51837951,  0.09994757]</p>
 <p>// Draw a vector containing two samples for each distribution    sample_exponential(lam, shape=(2)) = [[ 0.51837951,  0.19866663],                                          [ 0.09994757,  0.50447971]]</p>
-<p>Defined in src/operator/random/multisample_op.cc:L283</p>
+<p>Defined in src/operator/random/multisample_op.cc:L284</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>lam::NDArray-or-SymbolicNode</code>: Lambda (rate) parameters of the distributions.</li>
@@ -10955,7 +10955,7 @@ NOT in axis instead.</p>
 <p>alpha = [ 0.0, 2.5 ]    beta = [ 1.0, 0.7 ]</p>
 <p>// Draw a single sample for each distribution    sample_gamma(alpha, beta) = [ 0.        ,  2.25797319]</p>
 <p>// Draw a vector containing two samples for each distribution    sample_gamma(alpha, beta, shape=(2)) = [[ 0.        ,  0.        ],                                            [ 2.25797319,  1.70734084]]</p>
-<p>Defined in src/operator/random/multisample_op.cc:L281</p>
+<p>Defined in src/operator/random/multisample_op.cc:L282</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>alpha::NDArray-or-SymbolicNode</code>: Alpha (shape) parameters of the distributions.</li>
@@ -10980,7 +10980,7 @@ NOT in axis instead.</p>
 <p>mu = [ 2.0, 2.5 ]    alpha = [ 1.0, 0.1 ]</p>
 <p>// Draw a single sample for each distribution    sample_generalized_negative_binomial(mu, alpha) = [ 0.,  3.]</p>
 <p>// Draw a vector containing two samples for each distribution    sample_generalized_negative_binomial(mu, alpha, shape=(2)) = [[ 0.,  3.],                                                                  [ 3.,  1.]]</p>
-<p>Defined in src/operator/random/multisample_op.cc:L292</p>
+<p>Defined in src/operator/random/multisample_op.cc:L293</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>mu::NDArray-or-SymbolicNode</code>: Means of the distributions.</li>
@@ -11030,7 +11030,7 @@ NOT in axis instead.</p>
 <p>k = [ 20, 49 ]    p = [ 0.4 , 0.77 ]</p>
 <p>// Draw a single sample for each distribution    sample_negative_binomial(k, p) = [ 15.,  16.]</p>
 <p>// Draw a vector containing two samples for each distribution    sample_negative_binomial(k, p, shape=(2)) = [[ 15.,  50.],                                                 [ 16.,  12.]]</p>
-<p>Defined in src/operator/random/multisample_op.cc:L288</p>
+<p>Defined in src/operator/random/multisample_op.cc:L289</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>k::NDArray-or-SymbolicNode</code>: Limits of unsuccessful experiments.</li>
@@ -11054,7 +11054,7 @@ NOT in axis instead.</p>
 <p>mu = [ 0.0, 2.5 ]    sigma = [ 1.0, 3.7 ]</p>
 <p>// Draw a single sample for each distribution    sample_normal(mu, sigma) = [-0.56410581,  0.95934606]</p>
 <p>// Draw a vector containing two samples for each distribution    sample_normal(mu, sigma, shape=(2)) = [[-0.56410581,  0.2928229 ],                                           [ 0.95934606,  4.48287058]]</p>
-<p>Defined in src/operator/random/multisample_op.cc:L278</p>
+<p>Defined in src/operator/random/multisample_op.cc:L279</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>mu::NDArray-or-SymbolicNode</code>: Means of the distributions.</li>
@@ -11079,7 +11079,7 @@ NOT in axis instead.</p>
 <p>lam = [ 1.0, 8.5 ]</p>
 <p>// Draw a single sample for each distribution    sample_poisson(lam) = [  0.,  13.]</p>
 <p>// Draw a vector containing two samples for each distribution    sample_poisson(lam, shape=(2)) = [[  0.,   4.],                                      [ 13.,   8.]]</p>
-<p>Defined in src/operator/random/multisample_op.cc:L285</p>
+<p>Defined in src/operator/random/multisample_op.cc:L286</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>lam::NDArray-or-SymbolicNode</code>: Lambda (rate) parameters of the distributions.</li>
@@ -11102,7 +11102,7 @@ NOT in axis instead.</p>
 <p>low = [ 0.0, 2.5 ]    high = [ 1.0, 3.7 ]</p>
 <p>// Draw a single sample for each distribution    sample_uniform(low, high) = [ 0.40451524,  3.18687344]</p>
 <p>// Draw a vector containing two samples for each distribution    sample_uniform(low, high, shape=(2)) = [[ 0.40451524,  0.18017688],                                            [ 3.18687344,  3.68352246]]</p>
-<p>Defined in src/operator/random/multisample_op.cc:L276</p>
+<p>Defined in src/operator/random/multisample_op.cc:L277</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>low::NDArray-or-SymbolicNode</code>: Lower bounds of the distributions.</li>
