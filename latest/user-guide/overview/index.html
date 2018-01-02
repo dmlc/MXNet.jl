@@ -785,7 +785,7 @@ julia&gt; mx.srand(42)
 
 julia&gt; a = mx.empty(2, 3)
 2×3 mx.NDArray{Float32,2} @ CPU0:
- 1.51397f-36  1.79751f19  1.69501f-7
+ 6.61145f-37  1.79751f19  1.69501f-7
  0.0          1.06216f-5  0.0
 
 julia&gt; a[:] = 0.5              # set all elements to a scalar
@@ -793,23 +793,23 @@ julia&gt; a[:] = 0.5              # set all elements to a scalar
 
 julia&gt; a[:] = rand(size(a))    # set contents with a Julia Array
 2×3 Array{Float64,2}:
- 0.623969  0.984901  0.861173
- 0.783129  0.416909  0.018368
+ 0.0349412  0.165467  0.627374
+ 0.931097   0.105953  0.28846
 
 julia&gt; copy!(a, rand(size(a))) # set value by copying a Julia Array
 2×3 mx.NDArray{Float32,2} @ CPU0:
- 0.799687  0.679506  0.899997
- 0.904925  0.152821  0.224971
+ 0.688499  0.94923   0.583261
+ 0.289786  0.126246  0.213788
 
 julia&gt; b = mx.empty(size(a))
 2×3 mx.NDArray{Float32,2} @ CPU0:
- 1.50274f-36  7.9325f34   1.19403f-7
+ 7.07788f-37  7.9325f34   1.19403f-7
  0.0          4.17261f-8  0.0
 
 julia&gt; b[:] = a                # copying and assignment between NDArrays
 2×3 mx.NDArray{Float32,2} @ CPU0:
- 0.799687  0.679506  0.899997
- 0.904925  0.152821  0.224971
+ 0.688499  0.94923   0.583261
+ 0.289786  0.126246  0.213788
 </code></pre>
 
 <p>Note due to the intrinsic design of the Julia language, a normal assignment</p>
@@ -820,32 +820,32 @@ julia&gt; b[:] = a                # copying and assignment between NDArrays
 <pre><code class="julia-repl">julia&gt; using MXNet
 
 julia&gt; a = mx.ones(2)
-2 mx.NDArray{Float32,1} @ CPU0:
+2-element mx.NDArray{Float32,1} @ CPU0:
  1.0
  1.0
 
 julia&gt; r = a           # keep a reference to a
-2 mx.NDArray{Float32,1} @ CPU0:
+2-element mx.NDArray{Float32,1} @ CPU0:
  1.0
  1.0
 
 julia&gt; b = mx.ones(2)
-2 mx.NDArray{Float32,1} @ CPU0:
+2-element mx.NDArray{Float32,1} @ CPU0:
  1.0
  1.0
 
 julia&gt; a += b          # translates to a = a + b
-2 mx.NDArray{Float32,1} @ CPU0:
+2-element mx.NDArray{Float32,1} @ CPU0:
  2.0
  2.0
 
 julia&gt; a
-2 mx.NDArray{Float32,1} @ CPU0:
+2-element mx.NDArray{Float32,1} @ CPU0:
  2.0
  2.0
 
 julia&gt; r
-2 mx.NDArray{Float32,1} @ CPU0:
+2-element mx.NDArray{Float32,1} @ CPU0:
  1.0
  1.0
 </code></pre>
@@ -853,12 +853,12 @@ julia&gt; r
 <p>As we can see, <code>a</code> has expected value, but instead of inplace updating, a new <code>NDArray</code> is created and <code>a</code> is set to point to this new object. If we look at <code>r</code>, which still reference to the old <code>a</code>, its content has not changed. There is currently no way in Julia to overload the operators like <code>+=</code> to get customized behavior.</p>
 <p>Instead, you will need to write <code>a[:] = a + b</code>, or if you want <em>real</em> inplace <code>+=</code> operation, MXNet.jl provides a simple macro <code>@mx.inplace</code>:</p>
 <pre><code class="julia-repl">julia&gt; @mx.inplace a += b
-2 mx.NDArray{Float32,1} @ CPU0:
+2-element mx.NDArray{Float32,1} @ CPU0:
  3.0
  3.0
 
 julia&gt; macroexpand(:(@mx.inplace a += b))
-2 mx.NDArray{Float32,1} @ CPU0:
+2-element mx.NDArray{Float32,1} @ CPU0:
  4.0
  4.0
 </code></pre>
@@ -1139,13 +1139,13 @@ julia&gt; C = A .* B
 MXNet.mx.SymbolicNode _mul0
 
 julia&gt; a = mx.ones(3) * 4
-3 mx.NDArray{Float32,1} @ CPU0:
+3-element mx.NDArray{Float32,1} @ CPU0:
  4.0
  4.0
  4.0
 
 julia&gt; b = mx.ones(3) * 2
-3 mx.NDArray{Float32,1} @ CPU0:
+3-element mx.NDArray{Float32,1} @ CPU0:
  2.0
  2.0
  2.0
@@ -1157,7 +1157,7 @@ julia&gt; mx.forward(c_exec)
  NDArray Float32[8.0, 8.0, 8.0]
 
 julia&gt; c_exec.outputs[1]
-3 mx.NDArray{Float32,1} @ CPU0:
+3-element mx.NDArray{Float32,1} @ CPU0:
  8.0
  8.0
  8.0
