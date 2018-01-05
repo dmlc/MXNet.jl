@@ -2286,7 +2286,7 @@ NOT in axis instead.</p>
                         [ 10.,  11.,  12.,  13.,  14.]]]
 </code></pre>
 
-<p>Defined in src/operator/tensor/indexing_op.cc:L185</p>
+<p>Defined in src/operator/tensor/indexing_op.cc:L225</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array to the embedding operator.</li>
@@ -4868,6 +4868,30 @@ NOT in axis instead.</p>
 <li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
 </ul>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/0ef59668f695c777ae094fdf437cf1b9165af3a0/src/symbolic-node.jl#L952-L964' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx._backward_gather_nd-Tuple{Vararg{MXNet.mx.SymbolicNode,N} where N}' href='#MXNet.mx._backward_gather_nd-Tuple{Vararg{MXNet.mx.SymbolicNode,N} where N}'>#</a>
+<strong><code>MXNet.mx._backward_gather_nd</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>_backward_gather_nd(data, indices, shape)
+</code></pre>
+
+<p>Accumulates data according to indices and get the result. It's the backward of <code>gather_nd</code>.</p>
+<p>Given <code>data</code> with shape <code>(Y_0, ..., Y_{K-1}, X_M, ..., X_{N-1})</code> and indices with shape <code>(M, Y_0, ..., Y_{K-1})</code>, the output will have shape <code>(X_0, X_1, ..., X_{N-1})</code>, where <code>M &lt;= N</code>. If <code>M == N</code>, data shape should simply be <code>(Y_0, ..., Y_{K-1})</code>.</p>
+<p>The elements in output is defined as follows::</p>
+<p>output[indices[0, y_0, ..., y_{K-1}],          ...,          indices[M-1, y_0, ..., y_{K-1}],          x_M, ..., x_{N-1}] += data[y_0, ..., y_{K-1}, x_M, ..., x_{N-1}]</p>
+<p>all other entries in output are 0 or the original value if AddTo is triggered.</p>
+<p>Examples::</p>
+<p>data = [2, 3, 0]   indices = [[1, 1, 0], [0, 1, 0]]   shape = (2, 2)   _backward_gather_nd(data, indices, shape) = [[0, 0], [2, 3]] # Same as scatter_nd</p>
+<p><strong>The difference between scatter_nd and scatter_nd_acc is the latter will accumulate</strong></p>
+<p><strong>the values that point to the same index.</strong></p>
+<p>data = [2, 3, 0]   indices = [[1, 1, 0], [1, 1, 0]]   shape = (2, 2)   _backward_gather_nd(data, indices, shape) = [[0, 0], [0, 5]]</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>data::NDArray-or-SymbolicNode</code>: data</li>
+<li><code>indices::NDArray-or-SymbolicNode</code>: indices</li>
+<li><code>shape::Shape(tuple), required</code>: Shape of output.</li>
+<li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
+<li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
+</ul>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/0ef59668f695c777ae094fdf437cf1b9165af3a0/src/symbolic-node.jl#L952-L997' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx._backward_hypot-Tuple{Vararg{MXNet.mx.SymbolicNode,N} where N}' href='#MXNet.mx._backward_hypot-Tuple{Vararg{MXNet.mx.SymbolicNode,N} where N}'>#</a>
 <strong><code>MXNet.mx._backward_hypot</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>_backward_hypot()
@@ -5936,7 +5960,7 @@ The operator is available on both CPU and GPU.
                              [ 10.,  11.,  12.,  13.,  14.]]]
 </code></pre>
 
-<p>Defined in src/operator/tensor/indexing_op.cc:L254</p>
+<p>Defined in src/operator/tensor/indexing_op.cc:L294</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: The input array to the embedding operator.</li>
@@ -7620,8 +7644,7 @@ box_iou(x, y, format='corner') = [[0.1428], [0.1428]]
 <pre><code>_scatter_set_nd(data, indices, shape)
 </code></pre>
 
-<p>This operator has the same functionality as scatter_nd except that it does not reset the elements not indexed by the input index <code>NDArray</code> in the input data <code>NDArray</code>.</p>
-<p>.. note:: This operator is for internal use only.</p>
+<p>This operator has the same functionality as scatter_nd except that it does not reset the elements not indexed by the input index <code>NDArray</code> in the input data <code>NDArray</code>. .. note:: This operator is for internal use only.</p>
 <p>Examples::</p>
 <p>data = [2, 3, 0]   indices = [[1, 1, 0], [0, 1, 0]]   out = [[1, 1], [1, 1]]   scatter_nd(data=data, indices=indices, out=out)   out = [[0, 1], [2, 3]]</p>
 <p><strong>Arguments</strong></p>
@@ -7632,7 +7655,7 @@ box_iou(x, y, format='corner') = [[0.1428], [0.1428]]
 <li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
 <li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/0ef59668f695c777ae094fdf437cf1b9165af3a0/src/symbolic-node.jl#L952-L980' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/0ef59668f695c777ae094fdf437cf1b9165af3a0/src/symbolic-node.jl#L952-L979' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx._slice_assign-Tuple{Vararg{MXNet.mx.SymbolicNode,N} where N}' href='#MXNet.mx._slice_assign-Tuple{Vararg{MXNet.mx.SymbolicNode,N} where N}'>#</a>
 <strong><code>MXNet.mx._slice_assign</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>_slice_assign(lhs, rhs, begin, end, step)
@@ -7741,7 +7764,7 @@ box_iou(x, y, format='corner') = [[0.1428], [0.1428]]
 <p>m = beta1<em>m + (1-beta1)</em>grad  v = beta2<em>v + (1-beta2)</em>(grad**2)  w += - learning_rate * m / (sqrt(v) + epsilon)</p>
 <p>If w, m and v are all of $row_sparse$ storage type, only the row slices whose indices appear in grad.indices are updated (for w, m and v)::</p>
 <p>for row in grad.indices:      m[row] = beta1<em>m[row] + (1-beta1)</em>grad[row]      v[row] = beta2<em>v[row] + (1-beta2)</em>(grad[row]**2)      w[row] += - learning_rate * m[row] / (sqrt(v[row]) + epsilon)</p>
-<p>Defined in src/operator/optimizer_op.cc:L208</p>
+<p>Defined in src/operator/optimizer_op.cc:L266</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>weight::NDArray-or-SymbolicNode</code>: Weight</li>
@@ -8282,7 +8305,7 @@ integer towards zero of the input.</p>
 <p>rescaled_grad = clip(grad * rescale_grad, clip_gradient)  z += rescaled_grad - (sqrt(n + rescaled_grad<strong>2) - sqrt(n)) * weight / learning_rate  n += rescaled_grad</strong>2  w = (sign(z) * lamda1 - z) / ((beta + sqrt(n)) / learning_rate + wd) * (abs(z) &gt; lamda1)</p>
 <p>If w, z and n are all of $row_sparse$ storage type, only the row slices whose indices appear in grad.indices are updated (for w, z and n)::</p>
 <p>for row in grad.indices:      rescaled_grad[row] = clip(grad[row] * rescale_grad, clip_gradient)      z[row] += rescaled_grad[row] - (sqrt(n[row] + rescaled_grad[row]<strong>2) - sqrt(n[row])) * weight[row] / learning_rate      n[row] += rescaled_grad[row]</strong>2      w[row] = (sign(z[row]) * lamda1 - z[row]) / ((beta + sqrt(n[row])) / learning_rate + wd) * (abs(z[row]) &gt; lamda1)</p>
-<p>Defined in src/operator/optimizer_op.cc:L341</p>
+<p>Defined in src/operator/optimizer_op.cc:L399</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>weight::NDArray-or-SymbolicNode</code>: Weight</li>
@@ -8624,9 +8647,10 @@ NOT in axis instead.</p>
 <p>It updates the weights using::</p>
 <p>v = momentum * v - learning_rate * gradient   weight += v</p>
 <p>Where the parameter $momentum$ is the decay rate of momentum estimates at each epoch.</p>
-<p>If weight and momentum are both of $row_sparse$ storage type, only the row slices whose indices appear in grad.indices are updated (for both weight and momentum)::</p>
+<p>If weight and grad are both of $row_sparse$ storage type and momentum is of $default$ storage type, standard update is applied.</p>
+<p>If weight, grad and momentum are all of $row_sparse$ storage type, only the row slices whose indices appear in grad.indices are updated (for both weight and momentum)::</p>
 <p>for row in gradient.indices:       v[row] = momentum[row] * v[row] - learning_rate * gradient[row]       weight[row] += v[row]</p>
-<p>Defined in src/operator/optimizer_op.cc:L94</p>
+<p>Defined in src/operator/optimizer_op.cc:L148</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>weight::NDArray-or-SymbolicNode</code>: Weight</li>
@@ -8640,7 +8664,7 @@ NOT in axis instead.</p>
 <li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
 <li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/0ef59668f695c777ae094fdf437cf1b9165af3a0/src/symbolic-node.jl#L952-L1005' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/0ef59668f695c777ae094fdf437cf1b9165af3a0/src/symbolic-node.jl#L952-L1008' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx._sparse_sgd_update-Tuple{Vararg{MXNet.mx.SymbolicNode,N} where N}' href='#MXNet.mx._sparse_sgd_update-Tuple{Vararg{MXNet.mx.SymbolicNode,N} where N}'>#</a>
 <strong><code>MXNet.mx._sparse_sgd_update</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>_sparse_sgd_update(weight, grad, lr, wd, rescale_grad, clip_gradient)
@@ -8652,7 +8676,7 @@ NOT in axis instead.</p>
 <p>weight = weight - learning_rate * gradient</p>
 <p>If weight is of $row_sparse$ storage type, only the row slices whose indices appear in grad.indices are updated::</p>
 <p>for row in gradient.indices:      weight[row] = weight[row] - learning_rate * gradient[row]</p>
-<p>Defined in src/operator/optimizer_op.cc:L54</p>
+<p>Defined in src/operator/optimizer_op.cc:L105</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>weight::NDArray-or-SymbolicNode</code>: Weight</li>
@@ -9037,7 +9061,7 @@ NOT in axis instead.</p>
 <p>m = beta1<em>m + (1-beta1)</em>grad  v = beta2<em>v + (1-beta2)</em>(grad**2)  w += - learning_rate * m / (sqrt(v) + epsilon)</p>
 <p>If w, m and v are all of $row_sparse$ storage type, only the row slices whose indices appear in grad.indices are updated (for w, m and v)::</p>
 <p>for row in grad.indices:      m[row] = beta1<em>m[row] + (1-beta1)</em>grad[row]      v[row] = beta2<em>v[row] + (1-beta2)</em>(grad[row]**2)      w[row] += - learning_rate * m[row] / (sqrt(v[row]) + epsilon)</p>
-<p>Defined in src/operator/optimizer_op.cc:L208</p>
+<p>Defined in src/operator/optimizer_op.cc:L266</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>weight::NDArray-or-SymbolicNode</code>: Weight</li>
@@ -9194,7 +9218,7 @@ NOT in axis instead.</p>
 <p>Examples::</p>
 <p>x = [[ 1.,  2.],        [ 3.,  4.],        [ 5.,  6.]]</p>
 <p>// takes elements with specified indices   batch_take(x, [0,1,0]) = [ 1.  4.  5.]</p>
-<p>Defined in src/operator/tensor/indexing_op.cc:L382</p>
+<p>Defined in src/operator/tensor/indexing_op.cc:L422</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>a::NDArray-or-SymbolicNode</code>: The input array</li>
@@ -9943,7 +9967,7 @@ flatten(x) = [[ 1.,  2.,  3.,  4.,  5.,  6.,  7.,  8.,  9.],
 <p>g_t = \nabla J(W_{t-1})\
  v_t = \beta_2 v_{t-1} + (1 - \beta_2) g_t^2\
  d_t = \frac{ (1 - \beta_1^t) }{ \eta_t } (\sqrt{ \frac{ v_t }{ 1 - \beta_2^t } } + \epsilon)  \sigma_t = d_t - \beta_1 d_{t-1}  z_t = \beta_1 z_{ t-1 } + (1 - \beta_1^t) g_t - \sigma_t W_{t-1}  W_t = - \frac{ z_t }{ d_t }</p>
-<p>Defined in src/operator/optimizer_op.cc:L161</p>
+<p>Defined in src/operator/optimizer_op.cc:L219</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>weight::NDArray-or-SymbolicNode</code>: Weight</li>
@@ -9972,7 +9996,7 @@ flatten(x) = [[ 1.,  2.,  3.,  4.,  5.,  6.,  7.,  8.,  9.],
 <p>rescaled_grad = clip(grad * rescale_grad, clip_gradient)  z += rescaled_grad - (sqrt(n + rescaled_grad<strong>2) - sqrt(n)) * weight / learning_rate  n += rescaled_grad</strong>2  w = (sign(z) * lamda1 - z) / ((beta + sqrt(n)) / learning_rate + wd) * (abs(z) &gt; lamda1)</p>
 <p>If w, z and n are all of $row_sparse$ storage type, only the row slices whose indices appear in grad.indices are updated (for w, z and n)::</p>
 <p>for row in grad.indices:      rescaled_grad[row] = clip(grad[row] * rescale_grad, clip_gradient)      z[row] += rescaled_grad[row] - (sqrt(n[row] + rescaled_grad[row]<strong>2) - sqrt(n[row])) * weight[row] / learning_rate      n[row] += rescaled_grad[row]</strong>2      w[row] = (sign(z[row]) * lamda1 - z[row]) / ((beta + sqrt(n[row])) / learning_rate + wd) * (abs(z[row]) &gt; lamda1)</p>
-<p>Defined in src/operator/optimizer_op.cc:L341</p>
+<p>Defined in src/operator/optimizer_op.cc:L399</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>weight::NDArray-or-SymbolicNode</code>: Weight</li>
@@ -10009,7 +10033,7 @@ of the input.</p>
 <pre><code>gather_nd(data, indices)
 </code></pre>
 
-<p>Gather elements or slices from <code>data</code> and store to a tensor whose shape is defined by <code>indices</code>. <code>gather_nd</code> and <code>scatter_nd</code> are inverse functions to each other.</p>
+<p>Gather elements or slices from <code>data</code> and store to a tensor whose shape is defined by <code>indices</code>.</p>
 <p>Given <code>data</code> with shape <code>(X_0, X_1, ..., X_{N-1})</code> and indices with shape <code>(M, Y_0, ..., Y_{K-1})</code>, the output will have shape <code>(Y_0, ..., Y_{K-1}, X_M, ..., X_{N-1})</code>, where <code>M &lt;= N</code>. If <code>M == N</code>, output shape will simply be <code>(Y_0, ..., Y_{K-1})</code>.</p>
 <p>The elements in output is defined as follows::</p>
 <p>output[y_0, ..., y_{K-1}, x_M, ..., x_{N-1}] = data[indices[0, y_0, ..., y_{K-1}],                                                       ...,                                                       indices[M-1, y_0, ..., y_{K-1}],                                                       x_M, ..., x_{N-1}]</p>
@@ -10022,7 +10046,7 @@ of the input.</p>
 <li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
 <li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/0ef59668f695c777ae094fdf437cf1b9165af3a0/src/symbolic-node.jl#L952-L985' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/0ef59668f695c777ae094fdf437cf1b9165af3a0/src/symbolic-node.jl#L952-L984' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.get_attr-Tuple{MXNet.mx.SymbolicNode,Symbol}' href='#MXNet.mx.get_attr-Tuple{MXNet.mx.SymbolicNode,Symbol}'>#</a>
 <strong><code>MXNet.mx.get_attr</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>get_attr(self :: SymbolicNode, key :: Symbol)
@@ -10719,7 +10743,7 @@ NOT in axis instead.</p>
                                   [ 1.  0.  0.]]]
 </code></pre>
 
-<p>Defined in src/operator/tensor/indexing_op.cc:L428</p>
+<p>Defined in src/operator/tensor/indexing_op.cc:L468</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>indices::NDArray-or-SymbolicNode</code>: array of locations where to set on_value</li>
@@ -11121,7 +11145,7 @@ NOT in axis instead.</p>
 <p>.. math::   \theta_{t+1} = \theta_t - \frac{\eta}{RMS[g]_t} g_t</p>
 <p>The RMSProp code follows the version in http://www.cs.toronto.edu/~tijmen/csc321/slides/lecture_slides_lec6.pdf Tieleman &amp; Hinton, 2012.</p>
 <p>Hinton suggests the momentum term :math:<code>\gamma</code> to be 0.9 and the learning rate :math:<code>\eta</code> to be 0.001.</p>
-<p>Defined in src/operator/optimizer_op.cc:L262</p>
+<p>Defined in src/operator/optimizer_op.cc:L320</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>weight::NDArray-or-SymbolicNode</code>: Weight</li>
@@ -11153,7 +11177,7 @@ NOT in axis instead.</p>
 <p>.. math::   \theta_{t+1} = \theta_t + \Delta_t</p>
 <p>The RMSPropAlex code follows the version in http://arxiv.org/pdf/1308.0850v5.pdf Eq(38) - Eq(45) by Alex Graves, 2013.</p>
 <p>Graves suggests the momentum term :math:<code>\gamma_1</code> to be 0.95, :math:<code>\gamma_2</code> to be 0.9 and the learning rate :math:<code>\eta</code> to be 0.0001.</p>
-<p>Defined in src/operator/optimizer_op.cc:L301</p>
+<p>Defined in src/operator/optimizer_op.cc:L359</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>weight::NDArray-or-SymbolicNode</code>: Weight</li>
@@ -11397,11 +11421,16 @@ NOT in axis instead.</p>
 <pre><code>scatter_nd(data, indices, shape)
 </code></pre>
 
-<p>Scatters data into a new tensor according to indices. <code>gather_nd</code> and <code>scatter_nd</code> are inverse functions to each other.</p>
+<p>Scatters data into a new tensor according to indices.</p>
 <p>Given <code>data</code> with shape <code>(Y_0, ..., Y_{K-1}, X_M, ..., X_{N-1})</code> and indices with shape <code>(M, Y_0, ..., Y_{K-1})</code>, the output will have shape <code>(X_0, X_1, ..., X_{N-1})</code>, where <code>M &lt;= N</code>. If <code>M == N</code>, data shape should simply be <code>(Y_0, ..., Y_{K-1})</code>.</p>
 <p>The elements in output is defined as follows::</p>
 <p>output[indices[0, y_0, ..., y_{K-1}],          ...,          indices[M-1, y_0, ..., y_{K-1}],          x_M, ..., x_{N-1}] = data[y_0, ..., y_{K-1}, x_M, ..., x_{N-1}]</p>
 <p>all other entries in output are 0.</p>
+<p>.. warning::</p>
+<pre><code>If the indices have duplicates, the result will be non-deterministic and
+the gradient of `scatter_nd` will not be correct!!
+</code></pre>
+
 <p>Examples::</p>
 <p>data = [2, 3, 0]   indices = [[1, 1, 0], [0, 1, 0]]   shape = (2, 2)   scatter_nd(data, indices, shape) = [[0, 0], [2, 3]]</p>
 <p><strong>Arguments</strong></p>
@@ -11412,7 +11441,7 @@ NOT in axis instead.</p>
 <li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
 <li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/0ef59668f695c777ae094fdf437cf1b9165af3a0/src/symbolic-node.jl#L952-L989' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/0ef59668f695c777ae094fdf437cf1b9165af3a0/src/symbolic-node.jl#L952-L994' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.set_attr-Tuple{MXNet.mx.SymbolicNode,Symbol,AbstractString}' href='#MXNet.mx.set_attr-Tuple{MXNet.mx.SymbolicNode,Symbol,AbstractString}'>#</a>
 <strong><code>MXNet.mx.set_attr</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>set_attr(self:: SymbolicNode, key :: Symbol, value :: AbstractString)
@@ -11438,9 +11467,10 @@ NOT in axis instead.</p>
 <p>It updates the weights using::</p>
 <p>v = momentum * v - learning_rate * gradient   weight += v</p>
 <p>Where the parameter $momentum$ is the decay rate of momentum estimates at each epoch.</p>
-<p>If weight and momentum are both of $row_sparse$ storage type, only the row slices whose indices appear in grad.indices are updated (for both weight and momentum)::</p>
+<p>If weight and grad are both of $row_sparse$ storage type and momentum is of $default$ storage type, standard update is applied.</p>
+<p>If weight, grad and momentum are all of $row_sparse$ storage type, only the row slices whose indices appear in grad.indices are updated (for both weight and momentum)::</p>
 <p>for row in gradient.indices:       v[row] = momentum[row] * v[row] - learning_rate * gradient[row]       weight[row] += v[row]</p>
-<p>Defined in src/operator/optimizer_op.cc:L94</p>
+<p>Defined in src/operator/optimizer_op.cc:L148</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>weight::NDArray-or-SymbolicNode</code>: Weight</li>
@@ -11454,7 +11484,7 @@ NOT in axis instead.</p>
 <li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
 <li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/0ef59668f695c777ae094fdf437cf1b9165af3a0/src/symbolic-node.jl#L952-L1003' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/0ef59668f695c777ae094fdf437cf1b9165af3a0/src/symbolic-node.jl#L952-L1006' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.sgd_update-Tuple{Vararg{MXNet.mx.SymbolicNode,N} where N}' href='#MXNet.mx.sgd_update-Tuple{Vararg{MXNet.mx.SymbolicNode,N} where N}'>#</a>
 <strong><code>MXNet.mx.sgd_update</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>sgd_update(weight, grad, lr, wd, rescale_grad, clip_gradient)
@@ -11465,7 +11495,7 @@ NOT in axis instead.</p>
 <p>weight = weight - learning_rate * gradient</p>
 <p>If weight is of $row_sparse$ storage type, only the row slices whose indices appear in grad.indices are updated::</p>
 <p>for row in gradient.indices:      weight[row] = weight[row] - learning_rate * gradient[row]</p>
-<p>Defined in src/operator/optimizer_op.cc:L54</p>
+<p>Defined in src/operator/optimizer_op.cc:L105</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>weight::NDArray-or-SymbolicNode</code>: Weight</li>
@@ -11743,7 +11773,7 @@ NOT in axis instead.</p>
                          [ 5.,  6.]]]
 </code></pre>
 
-<p>Defined in src/operator/tensor/indexing_op.cc:L327</p>
+<p>Defined in src/operator/tensor/indexing_op.cc:L367</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>a::NDArray-or-SymbolicNode</code>: The input array.</li>
