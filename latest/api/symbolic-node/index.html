@@ -7766,7 +7766,7 @@ box_iou(x, y, format='corner') = [[0.1428], [0.1428]]
 <p>m = beta1<em>m + (1-beta1)</em>grad  v = beta2<em>v + (1-beta2)</em>(grad**2)  w += - learning_rate * m / (sqrt(v) + epsilon)</p>
 <p>If w, m and v are all of $row_sparse$ storage type, only the row slices whose indices appear in grad.indices are updated (for w, m and v)::</p>
 <p>for row in grad.indices:      m[row] = beta1<em>m[row] + (1-beta1)</em>grad[row]      v[row] = beta2<em>v[row] + (1-beta2)</em>(grad[row]**2)      w[row] += - learning_rate * m[row] / (sqrt(v[row]) + epsilon)</p>
-<p>Defined in src/operator/optimizer_op.cc:L266</p>
+<p>Defined in src/operator/optimizer_op.cc:L327</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>weight::NDArray-or-SymbolicNode</code>: Weight</li>
@@ -8307,7 +8307,7 @@ integer towards zero of the input.</p>
 <p>rescaled_grad = clip(grad * rescale_grad, clip_gradient)  z += rescaled_grad - (sqrt(n + rescaled_grad<strong>2) - sqrt(n)) * weight / learning_rate  n += rescaled_grad</strong>2  w = (sign(z) * lamda1 - z) / ((beta + sqrt(n)) / learning_rate + wd) * (abs(z) &gt; lamda1)</p>
 <p>If w, z and n are all of $row_sparse$ storage type, only the row slices whose indices appear in grad.indices are updated (for w, z and n)::</p>
 <p>for row in grad.indices:      rescaled_grad[row] = clip(grad[row] * rescale_grad, clip_gradient)      z[row] += rescaled_grad[row] - (sqrt(n[row] + rescaled_grad[row]<strong>2) - sqrt(n[row])) * weight[row] / learning_rate      n[row] += rescaled_grad[row]</strong>2      w[row] = (sign(z[row]) * lamda1 - z[row]) / ((beta + sqrt(n[row])) / learning_rate + wd) * (abs(z[row]) &gt; lamda1)</p>
-<p>Defined in src/operator/optimizer_op.cc:L399</p>
+<p>Defined in src/operator/optimizer_op.cc:L460</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>weight::NDArray-or-SymbolicNode</code>: Weight</li>
@@ -8652,7 +8652,7 @@ NOT in axis instead.</p>
 <p>If weight and grad are both of $row_sparse$ storage type and momentum is of $default$ storage type, standard update is applied.</p>
 <p>If weight, grad and momentum are all of $row_sparse$ storage type, only the row slices whose indices appear in grad.indices are updated (for both weight and momentum)::</p>
 <p>for row in gradient.indices:       v[row] = momentum[row] * v[row] - learning_rate * gradient[row]       weight[row] += v[row]</p>
-<p>Defined in src/operator/optimizer_op.cc:L148</p>
+<p>Defined in src/operator/optimizer_op.cc:L209</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>weight::NDArray-or-SymbolicNode</code>: Weight</li>
@@ -8678,7 +8678,7 @@ NOT in axis instead.</p>
 <p>weight = weight - learning_rate * gradient</p>
 <p>If weight is of $row_sparse$ storage type, only the row slices whose indices appear in grad.indices are updated::</p>
 <p>for row in gradient.indices:      weight[row] = weight[row] - learning_rate * gradient[row]</p>
-<p>Defined in src/operator/optimizer_op.cc:L105</p>
+<p>Defined in src/operator/optimizer_op.cc:L166</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>weight::NDArray-or-SymbolicNode</code>: Weight</li>
@@ -9063,7 +9063,7 @@ NOT in axis instead.</p>
 <p>m = beta1<em>m + (1-beta1)</em>grad  v = beta2<em>v + (1-beta2)</em>(grad**2)  w += - learning_rate * m / (sqrt(v) + epsilon)</p>
 <p>If w, m and v are all of $row_sparse$ storage type, only the row slices whose indices appear in grad.indices are updated (for w, m and v)::</p>
 <p>for row in grad.indices:      m[row] = beta1<em>m[row] + (1-beta1)</em>grad[row]      v[row] = beta2<em>v[row] + (1-beta2)</em>(grad[row]**2)      w[row] += - learning_rate * m[row] / (sqrt(v[row]) + epsilon)</p>
-<p>Defined in src/operator/optimizer_op.cc:L266</p>
+<p>Defined in src/operator/optimizer_op.cc:L327</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>weight::NDArray-or-SymbolicNode</code>: Weight</li>
@@ -9969,7 +9969,7 @@ flatten(x) = [[ 1.,  2.,  3.,  4.,  5.,  6.,  7.,  8.,  9.],
 <p>g_t = \nabla J(W_{t-1})\
  v_t = \beta_2 v_{t-1} + (1 - \beta_2) g_t^2\
  d_t = \frac{ (1 - \beta_1^t) }{ \eta_t } (\sqrt{ \frac{ v_t }{ 1 - \beta_2^t } } + \epsilon)  \sigma_t = d_t - \beta_1 d_{t-1}  z_t = \beta_1 z_{ t-1 } + (1 - \beta_1^t) g_t - \sigma_t W_{t-1}  W_t = - \frac{ z_t }{ d_t }</p>
-<p>Defined in src/operator/optimizer_op.cc:L219</p>
+<p>Defined in src/operator/optimizer_op.cc:L280</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>weight::NDArray-or-SymbolicNode</code>: Weight</li>
@@ -9998,7 +9998,7 @@ flatten(x) = [[ 1.,  2.,  3.,  4.,  5.,  6.,  7.,  8.,  9.],
 <p>rescaled_grad = clip(grad * rescale_grad, clip_gradient)  z += rescaled_grad - (sqrt(n + rescaled_grad<strong>2) - sqrt(n)) * weight / learning_rate  n += rescaled_grad</strong>2  w = (sign(z) * lamda1 - z) / ((beta + sqrt(n)) / learning_rate + wd) * (abs(z) &gt; lamda1)</p>
 <p>If w, z and n are all of $row_sparse$ storage type, only the row slices whose indices appear in grad.indices are updated (for w, z and n)::</p>
 <p>for row in grad.indices:      rescaled_grad[row] = clip(grad[row] * rescale_grad, clip_gradient)      z[row] += rescaled_grad[row] - (sqrt(n[row] + rescaled_grad[row]<strong>2) - sqrt(n[row])) * weight[row] / learning_rate      n[row] += rescaled_grad[row]</strong>2      w[row] = (sign(z[row]) * lamda1 - z[row]) / ((beta + sqrt(n[row])) / learning_rate + wd) * (abs(z[row]) &gt; lamda1)</p>
-<p>Defined in src/operator/optimizer_op.cc:L399</p>
+<p>Defined in src/operator/optimizer_op.cc:L460</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>weight::NDArray-or-SymbolicNode</code>: Weight</li>
@@ -11147,7 +11147,7 @@ NOT in axis instead.</p>
 <p>.. math::   \theta_{t+1} = \theta_t - \frac{\eta}{RMS[g]_t} g_t</p>
 <p>The RMSProp code follows the version in http://www.cs.toronto.edu/~tijmen/csc321/slides/lecture_slides_lec6.pdf Tieleman &amp; Hinton, 2012.</p>
 <p>Hinton suggests the momentum term :math:<code>\gamma</code> to be 0.9 and the learning rate :math:<code>\eta</code> to be 0.001.</p>
-<p>Defined in src/operator/optimizer_op.cc:L320</p>
+<p>Defined in src/operator/optimizer_op.cc:L381</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>weight::NDArray-or-SymbolicNode</code>: Weight</li>
@@ -11179,7 +11179,7 @@ NOT in axis instead.</p>
 <p>.. math::   \theta_{t+1} = \theta_t + \Delta_t</p>
 <p>The RMSPropAlex code follows the version in http://arxiv.org/pdf/1308.0850v5.pdf Eq(38) - Eq(45) by Alex Graves, 2013.</p>
 <p>Graves suggests the momentum term :math:<code>\gamma_1</code> to be 0.95, :math:<code>\gamma_2</code> to be 0.9 and the learning rate :math:<code>\eta</code> to be 0.0001.</p>
-<p>Defined in src/operator/optimizer_op.cc:L359</p>
+<p>Defined in src/operator/optimizer_op.cc:L420</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>weight::NDArray-or-SymbolicNode</code>: Weight</li>
@@ -11472,7 +11472,7 @@ the gradient of `scatter_nd` will not be correct!!
 <p>If weight and grad are both of $row_sparse$ storage type and momentum is of $default$ storage type, standard update is applied.</p>
 <p>If weight, grad and momentum are all of $row_sparse$ storage type, only the row slices whose indices appear in grad.indices are updated (for both weight and momentum)::</p>
 <p>for row in gradient.indices:       v[row] = momentum[row] * v[row] - learning_rate * gradient[row]       weight[row] += v[row]</p>
-<p>Defined in src/operator/optimizer_op.cc:L148</p>
+<p>Defined in src/operator/optimizer_op.cc:L209</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>weight::NDArray-or-SymbolicNode</code>: Weight</li>
@@ -11497,7 +11497,7 @@ the gradient of `scatter_nd` will not be correct!!
 <p>weight = weight - learning_rate * gradient</p>
 <p>If weight is of $row_sparse$ storage type, only the row slices whose indices appear in grad.indices are updated::</p>
 <p>for row in gradient.indices:      weight[row] = weight[row] - learning_rate * gradient[row]</p>
-<p>Defined in src/operator/optimizer_op.cc:L105</p>
+<p>Defined in src/operator/optimizer_op.cc:L166</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>weight::NDArray-or-SymbolicNode</code>: Weight</li>
@@ -11510,6 +11510,65 @@ the gradient of `scatter_nd` will not be correct!!
 <li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
 </ul>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/e79ce7190d0faa2fbef5253f1b1cc6cd3ba6014a/src/symbolic-node.jl#L952-L986' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.signsgd_update-Tuple{Vararg{MXNet.mx.SymbolicNode,N} where N}' href='#MXNet.mx.signsgd_update-Tuple{Vararg{MXNet.mx.SymbolicNode,N} where N}'>#</a>
+<strong><code>MXNet.mx.signsgd_update</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>signsgd_update(weight, grad, lr, wd, rescale_grad, clip_gradient)
+</code></pre>
+
+<p>Update function for SignSGD optimizer. .. math::</p>
+<p>g_t = \nabla J(W_{t-1})\
+ W_t = W_{t-1} - \eta_t \text{sign}(g_t)}</p>
+<p>It updates the weights using::</p>
+<p>weight = weight - learning_rate * sign(gradient)</p>
+<p>.. note:: </p>
+<ul>
+<li>sparse ndarray not supported for this optimizer yet.</li>
+</ul>
+<p>Defined in src/operator/optimizer_op.cc:L55</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>weight::NDArray-or-SymbolicNode</code>: Weight</li>
+<li><code>grad::NDArray-or-SymbolicNode</code>: Gradient</li>
+<li><code>lr::float, required</code>: Learning rate</li>
+<li><code>wd::float, optional, default=0</code>: Weight decay augments the objective function with a regularization term that penalizes large weights. The penalty scales with the square of the magnitude of each weight.</li>
+<li><code>rescale_grad::float, optional, default=1</code>: Rescale gradient to grad = rescale_grad*grad.</li>
+<li><code>clip_gradient::float, optional, default=-1</code>: Clip gradient to the range of [-clip_gradient, clip_gradient] If clip_gradient &lt;= 0, gradient clipping is turned off. grad = max(min(grad, clip_gradient), -clip_gradient).</li>
+<li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
+<li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
+</ul>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/e79ce7190d0faa2fbef5253f1b1cc6cd3ba6014a/src/symbolic-node.jl#L952-L986' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.signum_update-Tuple{Vararg{MXNet.mx.SymbolicNode,N} where N}' href='#MXNet.mx.signum_update-Tuple{Vararg{MXNet.mx.SymbolicNode,N} where N}'>#</a>
+<strong><code>MXNet.mx.signum_update</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>signum_update(weight, grad, mom, lr, momentum, wd, rescale_grad, clip_gradient, wd_lh)
+</code></pre>
+
+<p>SIGN momentUM (Signum) optimizer.</p>
+<p>.. math::</p>
+<p>g_t = \nabla J(W_{t-1})\
+ m_t = \beta m_{t-1} + (1 - \beta) g_t\
+ W_t = W_{t-1} - \eta_t \text{sign}(m_t)}</p>
+<p>It updates the weights using::  state = momentum * state + (1-momentum) * gradient  weight = weight - learning_rate * sign(state)</p>
+<p>Where the parameter $momentum$ is the decay rate of momentum estimates at each epoch.</p>
+<p>.. note:: </p>
+<ul>
+<li>sparse ndarray not supported for this optimizer yet.</li>
+</ul>
+<p>Defined in src/operator/optimizer_op.cc:L84</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>weight::NDArray-or-SymbolicNode</code>: Weight</li>
+<li><code>grad::NDArray-or-SymbolicNode</code>: Gradient</li>
+<li><code>mom::NDArray-or-SymbolicNode</code>: Momentum</li>
+<li><code>lr::float, required</code>: Learning rate</li>
+<li><code>momentum::float, optional, default=0</code>: The decay rate of momentum estimates at each epoch.</li>
+<li><code>wd::float, optional, default=0</code>: Weight decay augments the objective function with a regularization term that penalizes large weights. The penalty scales with the square of the magnitude of each weight.</li>
+<li><code>rescale_grad::float, optional, default=1</code>: Rescale gradient to grad = rescale_grad*grad.</li>
+<li><code>clip_gradient::float, optional, default=-1</code>: Clip gradient to the range of [-clip_gradient, clip_gradient] If clip_gradient &lt;= 0, gradient clipping is turned off. grad = max(min(grad, clip_gradient), -clip_gradient).</li>
+<li><code>wd_lh::float, optional, default=0</code>: The amount of weight decay that does not go into gradient/momentum calculationsotherwise do weight decay algorithmically only.</li>
+<li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
+<li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
+</ul>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/e79ce7190d0faa2fbef5253f1b1cc6cd3ba6014a/src/symbolic-node.jl#L952-L996' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.slice-Tuple{Vararg{MXNet.mx.SymbolicNode,N} where N}' href='#MXNet.mx.slice-Tuple{Vararg{MXNet.mx.SymbolicNode,N} where N}'>#</a>
 <strong><code>MXNet.mx.slice</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>slice(data, begin, end, step)
