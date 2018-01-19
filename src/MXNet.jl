@@ -31,8 +31,18 @@ export SymbolicNode,
 
 # ndarray.jl
 export NDArray,
+       clip,
+       clip!,
        context,
-       empty
+       empty,
+       expand_dims,
+       @inplace,
+       # activation funcs
+       σ,
+       sigmoid,
+       relu,
+       softmax,
+       log_softmax
 
 # autograd.jl
 export attach_grad!,

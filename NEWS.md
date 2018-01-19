@@ -2,8 +2,17 @@
 
 * Following material from `mx` module got exported (#TBD):
     * `NDArray`
+        * `clip()`
+        * `clip!()`
         * `context()`
         * `empty()`
+        * `expand_dims()`
+        * `@inplace`
+        * `σ()`
+        * `sigmoid()`
+        * `relu()`
+        * `softmax()`
+        * `log_softmax()`
 
     * `SymbolicNode`
         * `Variable`
@@ -91,6 +100,25 @@
     * `train_mode()`
     * `@custom`
 
+* A handy constructor: `NDArray(Type, AbstractArray)` is added. (#TBD)
+
+  E.g.
+  ```julia
+  julia> NDArray([1, 2, 3])
+  3-element mx.NDArray{Int64,1} @ CPU0:
+   1
+   2
+   3
+
+  julia> NDArray(Float32, [1, 2, 3])
+  3-element mx.NDArray{Float32,1} @ CPU0:
+   1.0
+   2.0
+   3.0
+  ```
+
+* A port of Python's `autograd` for `NDArray` (#274)
+
 * `size(x, dims...)` is supported now. (#TBD)
 
   ```julia
@@ -123,7 +151,27 @@
    4.0
   ```
 
-* modulo operator. (#TBD)
+* `copy!(NDArray, AbstractArray)` is implemented now. (#TBD)
+
+  ```julia
+  julia> x = mx.zeros(3)
+  3-element mx.NDArray{Float32,1} @ CPU0:
+   0.0
+   0.0
+   0.0
+
+  julia> copy!(x, 3:5)
+  3-element mx.NDArray{Float32,1} @ CPU0:
+   3.0
+   4.0
+   5.0
+  ```
+
+* `Base.ones(x::NDArray)` for creating an one-ed `NDArray`. (#TBD)
+
+* `Base.zeros(x::NDArray)` for creating a zero-ed `NDArray`. (#TBD)
+
+* Modulo operator. (#TBD)
 
   ```julia
   x = NDArray(...)
@@ -132,6 +180,14 @@
   x .% y
   x .% 2
   2 .% x
+  ```
+
+* Inplace modulo operator, `mod_from!` and `rmod_from!`. (#TBD)
+
+  ```julia
+  mod_from!(x, y)
+  mod_from!(x, 2)
+  rmod_from!(2, x)
   ```
 
 * `cat`, `vcat`, `hcat` is implemented. (#TBD)
@@ -175,9 +231,67 @@
    1.0  2.0  3.0  4.0
   ```
 
+* Matrix/tensor multiplication is supported now. (#TBD)
+
+  ```julia
+  julia> x
+  2×3 mx.NDArray{Float32,2} @ CPU0:
+   1.0  2.0  3.0
+   4.0  5.0  6.0
+
+  julia> y
+  3 mx.NDArray{Float32,1} @ CPU0:
+   -1.0
+   -2.0
+   -3.0
+
+  julia> x * y
+  2 mx.NDArray{Float32,1} @ CPU0:
+   -14.0
+   -32.0
+  ```
+
 ## API Changes
 
 ### `NDArray`
+
+* Broadcasting along dimension supported on following operators,
+  and the original `mx.broadcast_*` APIs are deprecated
+  (#401) (#402) (#403):
+
+    * `+`
+    * `-`
+    * `*`
+    * `/`
+    * `%`
+    * `^`
+    * `==`
+    * `!=`
+    * `>`
+    * `>=`
+    * `<`
+    * `<=`
+    * `max`
+    * `min`
+
+    ```julia
+    julia> x = NDArray([1 2 3;
+                        4 5 6])
+    2×3 mx.NDArray{Int64,2} @ CPU0:
+     1  2  3
+     4  5  6
+
+    julia> y = NDArray([1;
+                        10])
+    2-element mx.NDArray{Int64,1} @ CPU0:
+      1
+     10
+
+    julia> x .+ y
+    2×3 mx.NDArray{Int64,2} @ CPU0:
+      2   3   4
+     14  15  16
+    ```
 
 * Please use dot-call on following trigonometric functions.
   Also, the `arc*` has been renamed to keep consistent with `Base`.
@@ -200,6 +314,50 @@
     * `arcsinh(x)` -> `asinh.(x)`
     * `arccosh(x)` -> `acosh.(x)`
     * `arctanh(x)` -> `atanh.(x)`
+
+* Please use dot-call on following activation functions.
+  And the `dim` of `softmax` and `log_softmax` has been fixed
+  as Julia column-based style.
+  (#TBD)
+
+    * `σ.(x)`
+    * `relu.(x)`
+    * `softmax.(x, [dim = ndims(x)])`
+    * `log_softmax.(x, [dim = ndims(x)])`
+
+* `rand`, `rand!`, `randn`, `randn!` is more Base-like now (#TBD).
+
+  ```julia
+  julia> mx.rand(2, 3)
+  2×3 mx.NDArray{Float32,2} @ CPU0:
+   0.631961  0.324175  0.0762663
+   0.285366  0.395292  0.074995
+
+  julia> mx.rand(2, 3; low = 1, high = 10)
+  2×3 mx.NDArray{Float32,2} @ CPU0:
+   7.83884  7.85793  7.64791
+   7.68646  8.56082  8.42189
+  ```
+
+  ```julia
+  julia> mx.randn(2, 3)
+  2×3 mx.NDArray{Float32,2} @ CPU0:
+   0.962853  0.424535  -0.320123
+   0.478113  1.72886    1.72287
+
+  julia> mx.randn(2, 3, μ = 100)
+  2×3 mx.NDArray{Float32,2} @ CPU0:
+   99.5635  100.483   99.888
+   99.9889  100.533  100.072
+  ```
+
+* Signature of `clip` changed, it doesn't require any keyword argument now.
+  (#TBD)
+
+  Before: `clip(x, a_min = -4, a_max = 4)`
+  After: `clip(x, -4, 4)`
+
+----
 
 # v0.3.0 (2017.11.16)
 

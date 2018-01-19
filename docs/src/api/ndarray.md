@@ -11,6 +11,7 @@ In the following example `y` can be a `Real` value or another `NDArray`
 | `*` | `x .* y` | Elementwise multiplication |
 | `/` | `x ./ y` | Elementwise division       |
 | `^` | `x .^ y` | Elementwise power          |
+| `%` | `x .% y` | Elementwise modulo         |
 
 
 ## Trigonometric Functions
@@ -35,6 +36,17 @@ In the following example `y` can be a `Real` value or another `NDArray`
 | [`asinh`](@ref) | `asinh.(x)` | Elementwise inverse hyperbolic sine    |
 | [`acosh`](@ref) | `acosh.(x)` | Elementwise inverse hyperbolic cosine  |
 | [`atanh`](@ref) | `atanh.(x)` | Elementwise inverse hyperbolic tangent |
+
+
+## Activation Functions
+
+| API                   | Example           |                         |
+|-----------------------|-------------------|-------------------------|
+| [`σ`](@ref)           | `σ.(x)`           | Sigmoid function        |
+| [`sigmoid`](@ref)     | `sigmoid.(x)`     | Sigmoid function        |
+| [`relu`](@ref)        | `relu.(x)`        | ReLU function           |
+| [`softmax`](@ref)     | `softmax.(x)`     | Softmax function        |
+| [`log_softmax`](@ref) | `log_softmax.(x)` | Softmax followed by log |
 
 
 ## Reference

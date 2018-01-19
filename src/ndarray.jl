@@ -98,6 +98,8 @@ end
 
 NDArray(x::AbstractArray{T}) where {T<:DType} = copy(collect(x), cpu())
 NDArray(x::Array{T}) where {T<:DType} = copy(x, cpu())
+NDArray(::Type{T}, x::AbstractArray) where {T<:DType} =
+  copy(convert(AbstractArray{T}, x), cpu())
 NDArray(handle, writable = true) =
   NDArray{eltype(handle), ndims(handle)}(handle, writable)
 
@@ -113,10 +115,11 @@ function Base.show(io::IO, x::NDArray)
 end
 
 # for REPL
-function Base.show(io::IO, ::MIME{Symbol("text/plain")}, x::NDArray)
+function Base.show(io::IO, ::MIME{Symbol("text/plain")}, x::NDArray{T, N}) where {T, N}
   type_ = split(string(typeof(x)), '.', limit=2)[end]
-  println(io, "$(join(size(x), "×")) $(type_) @ $(context(x)):")
-  Base.showarray(io, try_get_shared(x, sync = :read), false, header=false)
+  size_ = N == 1 ? "$(length(x))-element" : join(size(x), "×")
+  println(io, "$size_ $type_ @ $(context(x)):")
+  Base.showarray(io, try_get_shared(x, sync = :read), false, header = false)
 end
 
 Base.unsafe_convert(::Type{MX_handle}, obj::NDArray) =
@@ -171,8 +174,9 @@ Note that the returned `NDArray` is uninitialized.
 Base.similar(x::NDArray{T}) where {T} = empty(T, size(x), context(x))
 
 """
-    zeros(DType, dims[, ctx::Context = cpu()])
-    zeros(DType, dims...)
+    zeros([DType], dims, [ctx::Context = cpu()])
+    zeros([DType], dims...)
+    zeros(x::NDArray)
 
 Create zero-ed `NDArray` with specific shape and type.
 """
@@ -184,19 +188,17 @@ end
 
 zeros(::Type{T}, dims::Int...) where {T<:DType} = zeros(T, dims)
 
-"""
-    zeros(dims[, ctx::Context = cpu()])
-    zeros(dims...)
-
-Create zero-ed `NDArray` with specific shape.
-"""
-zeros(dims::NTuple{N, Int}, ctx::Context = cpu()) where N =
+zeros(dims::NTuple{N,Int}, ctx::Context = cpu()) where N =
   zeros(MX_float, dims, ctx)
 zeros(dims::Int...) = zeros(dims)
 
+zeros(x::NDArray)::typeof(x)      = zeros_like(x)
+Base.zeros(x::NDArray)::typeof(x) = zeros_like(x)
+
 """
-    ones(DType, dims::Tuple[, ctx::Context = cpu()])
-    ones(DType, dim1, dim2...)
+    ones([DType], dims, [ctx::Context = cpu()])
+    ones([DType], dims...)
+    ones(x::NDArray)
 
 Create an `NDArray` with specific shape & type, and initialize with 1.
 """
@@ -208,19 +210,12 @@ end
 
 ones(::Type{T}, dims::Int...) where T<:DType = ones(T, dims)
 
-"""
-    ones(dims::Tuple[, ctx::Context = cpu()])
-    ones(dim1, dim2, ...)
-
-Create an `NDArray` with specific shape and initialize with 1.
-"""
-function ones(dims::NTuple{N,Int}, ctx::Context = cpu()) where N
-  arr = empty(dims, ctx)
-  arr[:] = 1
-  arr
-end
-
+ones(dims::NTuple{N,Int}, ctx::Context = cpu()) where N =
+  ones(MX_float, dims, ctx)
 ones(dims::Int...) = ones(dims)
+
+ones(x::NDArray)::typeof(x)      = ones_like(x)
+Base.ones(x::NDArray)::typeof(x) = ones_like(x)
 
 import Base: size, length, ndims, eltype
 
@@ -355,7 +350,7 @@ end
 
 function setindex!(arr::NDArray, val::Real, ::Colon)
   @assert arr.writable
-  _set_value(out=arr, src=convert(eltype(arr), val))
+  _set_value(out = arr, src = dump_mx_param(val))
 end
 
 function setindex!(arr::NDArray, val::Array{T}, ::Colon) where T<:Real
@@ -437,7 +432,7 @@ end
 import Base: copy!, copy, convert, deepcopy
 
 """
-    copy!(dst :: Union{NDArray, Array}, src :: Union{NDArray, Array})
+    copy!(dst::Union{NDArray, Array}, src::Union{NDArray, Array})
 
 Copy contents of `src` into `dst`.
 """
@@ -460,6 +455,7 @@ function copy!(dst::Array{T}, src::NDArray{T}) where T<:DType
 end
 
 copy!(dst::Array{<:Real}, src::NDArray) = copy!(dst, copy(src))
+copy!(dst::NDArray, src::AbstractArray) = copy!(dst, collect(src))
 
 function copy!(dst::NDArray{T}, src::Array{<:Real}) where {T}
   @assert dst.writable
@@ -571,18 +567,21 @@ will translate into
 
 which will do inplace adding of the contents of `b` into `a`.
 """
-macro inplace(stmt)
-  if stmt.head == :+= || stmt.head == :.+=
-    Expr(:call, :add_to!, esc(stmt.args[1]), esc(stmt.args[2]))
-  elseif stmt.head == :-= || stmt.head == :.-=
-    Expr(:call, :sub_from!, esc(stmt.args[1]), esc(stmt.args[2]))
-  elseif stmt.head == :.*=
-    Expr(:call, :mul_to!, esc(stmt.args[1]), esc(stmt.args[2]))
-  elseif stmt.head == :./=
-    Expr(:call, :div_from!, esc(stmt.args[1]), esc(stmt.args[2]))
+macro inplace(ex)
+  f = if ex.head == :+= || ex.head == :.+=
+    :add_to!
+  elseif ex.head == :-= || ex.head == :.-=
+    :sub_from!
+  elseif ex.head == :.*=
+    :mul_to!
+  elseif ex.head == :./=
+    :div_from!
+  elseif ex.head == :.%=
+    :mod_from!
   else
-    error("unsupported inplace translation for $stmt")
+    error("unsupported inplace translation for $ex")
   end
+  Expr(:call, f, esc(ex.args[1]), esc(ex.args[2]))
 end
 
 """
@@ -617,8 +616,12 @@ added together. Note at least the first or second argument needs to be an
 +(x::NDArray, y::Real)    = _plus_scalar(x, scalar = y)
 +(y::Real,    x::NDArray) = _plus_scalar(x, scalar = y)
 
-broadcast_(::typeof(+), x::NDArray, y::NDArrayOrReal) = x + y
-broadcast_(::typeof(+), x::Real, y::NDArray)          = x + y
+broadcast_(::typeof(+), x::NDArray, y::Real) = x + y
+broadcast_(::typeof(+), x::Real, y::NDArray) = x + y
+
+broadcast_(::typeof(+), x::NDArray{T,N}, y::NDArray{T,N}) where {T,N}   = x + y
+broadcast_(::typeof(+), x::NDArray{T,N}, y::NDArray{T,M}) where {T,N,M} =
+  _broadcast_add(x, y)
 
 """
     sub_from!(dst::NDArray, args::NDArrayOrReal...)
@@ -650,8 +653,12 @@ Or create the negative of `x`.
 -(x::NDArray, y::Real)    = _minus_scalar(x, scalar = y)
 -(y::Real, x::NDArray)    = _rminus_scalar(x, scalar = y)
 
-broadcast_(::typeof(-), x::NDArray, y::NDArrayOrReal) = x - y
-broadcast_(::typeof(-), x::Real, y::NDArray)          = x - y
+broadcast_(::typeof(-), x::NDArray, y::Real) = x - y
+broadcast_(::typeof(-), x::Real, y::NDArray) = x - y
+
+broadcast_(::typeof(-), x::NDArray{T,N}, y::NDArray{T,N}) where {T,N}   = x - y
+broadcast_(::typeof(-), x::NDArray{T,N}, y::NDArray{T,M}) where {T,N,M} =
+  _broadcast_minus(x, y)
 
 """
     mul_to!(dst::NDArray, arg::NDArrayOrReal)
@@ -674,21 +681,25 @@ import Base: *
 """
     .*(x, y)
 
-Currently only multiplication a scalar with an `NDArray` is implemented.
+Elementwise multiplication for `NDArray`.
 """
 *(x::NDArray, y::Real)  = _mul_scalar(x, scalar = y)
 *(y::Real, x::NDArray)  = _mul_scalar(x, scalar = y)
 
-broadcast_(::typeof(*), x::NDArray, y::Real)    = x * y
-broadcast_(::typeof(*), y::Real, x::NDArray)    = x * y
-broadcast_(::typeof(*), x::NDArray, y::NDArray) = _mul(x, y)
+broadcast_(::typeof(*), x::NDArray, y::Real) = x * y
+broadcast_(::typeof(*), y::Real, x::NDArray) = x * y
+
+broadcast_(::typeof(*), x::NDArray{T,N}, y::NDArray{T,N}) where {T,N} =
+  _mul(x, y)
+broadcast_(::typeof(*), x::NDArray{T,N}, y::NDArray{T,M}) where {T,N,M} =
+  _broadcast_mul(x, y)
 
 """
     *(A::NDArray, B::NDArray)
 
-Matrix (2D NDArray) multiplication.
+Matrix/tensor multiplication.
 """
-*(x::NDArray{T,2}, y::NDArray{S,2}) where {T,S} = dot(x, y)
+*(x::NDArray{T}, y::NDArray{T}) where T = x ⋅ y
 
 """
     div_from!(dst::NDArray, arg::NDArrayOrReal)
@@ -739,14 +750,36 @@ of the same shape.
 """
 /(x::NDArray, y::Real) = _div_scalar(x, scalar = y)
 
-broadcast_(::typeof(/), x::NDArray, y::NDArray) = _div(x, y)
 broadcast_(::typeof(/), x::NDArray, y::Real)    = _div_scalar(x, scalar = y)
 broadcast_(::typeof(/), y::Real, x::NDArray)    = _rdiv_scalar(x, scalar = y)
+
+broadcast_(::typeof(/), x::NDArray{T,N}, y::NDArray{T,N}) where {T,N} =
+  _div(x, y)
+broadcast_(::typeof(/), x::NDArray{T,N}, y::NDArray{T,M}) where {T,N,M} =
+  _broadcast_div(x, y)
 
 function broadcast_(::typeof(/), x::NDArray{T}, y::Real) where {T<:Integer}
   @assert(round(T, y) != zero(T), "Integer divided by zero")
   _div_scalar(x, scalar = y)
 end
+
+"""
+    mod_from!(x::NDArray, y::NDArray)
+    mod_from!(x::NDArray, y::Real)
+
+Elementwise modulo for `NDArray`.
+Inplace updating.
+"""
+mod_from!(x::NDArray, y::NDArray) = _mod!(x, y)
+mod_from!(x::NDArray, y::Real)    = _mod_scalar!(x, y)
+
+"""
+    rmod_from!(y::Real, x::NDArray)
+
+Elementwise modulo for `NDArray`.
+Inplace updating.
+"""
+rmod_from!(y::Real, x::NDArray) = _rmod_scalar!(x, y)
 
 import Base: %
 
@@ -759,21 +792,64 @@ Elementwise modulo for `NDArray`.
 """
 %(x::NDArray, y::Real) = _mod_scalar(x, scalar = y)
 
-broadcast_(::typeof(%), x::NDArray, y::NDArray) = _mod(x, y)
-broadcast_(::typeof(%), x::NDArray, y::Real)    = _mod_scalar(x, scalar = y)
-broadcast_(::typeof(%), y::Real, x::NDArray)    = _rmod_scalar(x, scalar = y)
+broadcast_(::typeof(%), x::NDArray, y::Real)    = _mod_scalar(x, y)
+broadcast_(::typeof(%), y::Real, x::NDArray)    = _rmod_scalar(x, y)
+
+broadcast_(::typeof(%), x::NDArray{T,N}, y::NDArray{T,N}) where {T,N} =
+  _mod(x, y)
+broadcast_(::typeof(%), x::NDArray{T,N}, y::NDArray{T,M}) where {T,N,M} =
+  _broadcast_mod(x, y)
 
 import Base: ^
 
 # document of `.^` is merged into SymbolicNode's
 
-broadcast_(::typeof(^), x::NDArray, y::NDArray) = _power(x, y)
 broadcast_(::typeof(^), x::NDArray, s::Real)    = _power_scalar(x, scalar = s)
 broadcast_(::typeof(^), s::Real, x::NDArray)    = _rpower_scalar(x, scalar = s)
 
 broadcast_(::typeof(^), ::Irrational{:e}, x::NDArray) = exp(x)
 broadcast_(::typeof(^), x::NDArray, s::Irrational)    = _power_scalar(x, scalar = s)
 broadcast_(::typeof(^), s::Irrational, x::NDArray)    = _rpower_scalar(x, scalar = s)
+
+broadcast_(::typeof(^), x::NDArray{T,N}, y::NDArray{T,N}) where {T,N} =
+  _power(x, y)
+broadcast_(::typeof(^), x::NDArray{T,N}, y::NDArray{T,M}) where {T,N,M} =
+  _broadcast_power(x, y)
+
+###############################################################################
+# comparison
+###############################################################################
+
+broadcast_(::typeof(==), x::NDArray{T}, y::NDArray{T}) where {T} =
+  _broadcast_equal(x, y)
+
+broadcast_(::typeof(!=), x::NDArray{T}, y::NDArray{T}) where {T} =
+  _broadcast_not_equal(x, y)
+
+broadcast_(::typeof(>), x::NDArray{T}, y::NDArray{T}) where {T} =
+  _broadcast_greater(x, y)
+
+broadcast_(::typeof(>=), x::NDArray{T}, y::NDArray{T}) where {T} =
+  _broadcast_greater_equal(x, y)
+
+broadcast_(::typeof(<), x::NDArray{T}, y::NDArray{T}) where {T} =
+  _broadcast_lesser(x, y)
+
+broadcast_(::typeof(<=), x::NDArray{T}, y::NDArray{T}) where {T} =
+  _broadcast_lesser_equal(x, y)
+
+
+###############################################################################
+# min/max
+###############################################################################
+
+import Base: min, max
+
+broadcast_(::typeof(max), x::NDArray{T}, y::NDArray{T}) where {T} =
+  _broadcast_maximum(x, y)
+
+broadcast_(::typeof(min), x::NDArray{T}, y::NDArray{T}) where {T} =
+  _broadcast_minimum(x, y)
 
 """
     fill!(arr::NDArray, x)
@@ -1045,7 +1121,8 @@ end
 # Mapping NDArray functions to Base-like API
 ################################################################################
 
-const _mxsig = Dict{Symbol,Expr}()
+const _ndsig = Dict{Symbol,Expr}()
+const _nddoc = Dict{Symbol,Any}()
 
 function _autoimport(name::Symbol, sig::Expr)
   if name == :broadcast_
@@ -1059,8 +1136,13 @@ function _autoimport(name::Symbol, sig::Expr)
   end
 end
 
+_isinplace(name::Symbol) = endswith(string(name), "!")
+
+_writable(name::Symbol, x) =
+  _isinplace(name) ? :(@assert $x.writable "this NDArray isn't writable") : :()
+
 function _outexpr(name::Symbol, x #= the first arg of `sig` =#)
-  if endswith(string(name), "!")  # `func!`
+  if _isinplace(name)  # `func!`
     Ptr, 1, :([[MX_handle(x.handle)]]), :($x)
   else
     retexpr = :(NDArray(MX_NDArrayHandle(unsafe_load(hdls_ref[], 1))))
@@ -1073,14 +1155,30 @@ _broadcast_target(sig::Expr) = sig.args[2].args[].args[end]
 """
 Generate docstring from function signature
 """
-function _docsig(fname::Symbol, sig::Expr)
+function _docsig(fname::Symbol, sig::Expr, opname::String)
   if fname !== :broadcast_
-    "    $sig"
+    get(_nddoc, fname, "    $sig") * "\n" * _getdocdefine(opname)
   else
     name = _broadcast_target(sig)
-    sig_ = Expr(:call, Symbol(name, "."), sig.args[3:end]...)
-    str = "    $sig_"
-    @eval @doc $str $name
+    str = get(_nddoc, name, "")
+    _nddoc[name] = false  # change to false, denote docstring has been set up
+    if isempty(str)
+      sig_ = Expr(:call, Symbol(name, "."), sig.args[3:end]...)
+      str = "    $sig_"
+    end
+    if str ≠ false
+      # append "Defined in ..."
+      def = _getdocdefine(opname)
+      str = if str isa Markdown.MD
+        str = Markdown.MD(copy(str.content), copy(str.meta))
+        push!(str, Markdown.Paragraph(def))
+        str
+      else
+        str * def
+      end
+
+      @eval @doc $str $name
+    end
     ""
   end
 end
@@ -1106,7 +1204,10 @@ macro _remap(sig::Expr, imp::Expr)
   # handler for `func!` which has side effect on first argument.
   T, n_output, hdls_ref, retexpr = _outexpr(fname, _firstarg(sig))
 
+  assert_expr = _writable(fname, _firstarg(sig))
+
   func_body = quote
+    $assert_expr
     op_handle = _get_cached_libmx_op_handle($opname)
     n_output = Ref(Cint($n_output))
     hdls_ref = $hdls_ref
@@ -1130,7 +1231,7 @@ macro _remap(sig::Expr, imp::Expr)
     $retexpr
   end
 
-  docstr = _docsig(fname, sig)
+  docstr = _docsig(fname, sig, opname)
   func_def = Expr(:function, sig, func_body)
 
   esc(quote
@@ -1141,14 +1242,14 @@ macro _remap(sig::Expr, imp::Expr)
 end
 
 macro _remap(sig::Expr, imp::Symbol)
-  imp = _mxsig[imp]
+  imp = _ndsig[imp]
 
   esc(quote
     @_remap($sig, $imp)
   end)
 end
 
-_mxsig[:reshape] = :(reshape(arr; shape = dim, reverse = !reverse))
+_ndsig[:reshape] = :(reshape(arr; shape = dim, reverse = !reverse))
 @_remap reshape(arr::NDArray, dim...; reverse = false) reshape
 @_remap reshape(arr::NDArray, dim; reverse = false)    reshape
 
@@ -1165,7 +1266,7 @@ _mxsig[:reshape] = :(reshape(arr; shape = dim, reverse = !reverse))
 @_remap minimum(arr::NDArray, dims) min(arr; axis = 0 .- dims, keepdims = true)
 
 # See https://github.com/dmlc/MXNet.jl/issues/55
-@_remap dot(x::NDArray{T,N}, y::NDArray{S,N}) where {T,S,N} dot(y, x)
+@_remap dot(x::NDArray, y::NDArray) dot(y, x)
 
 # See https://github.com/dmlc/MXNet.jl/pull/123
 @_remap transpose(arr::NDArray{T,1}) where T reshape(arr; shape = (1, length(arr)), reverse = true)
@@ -1174,6 +1275,69 @@ _mxsig[:reshape] = :(reshape(arr; shape = dim, reverse = !reverse))
 
 @_remap prod(arr::NDArray)       prod(arr)
 @_remap prod(arr::NDArray, dims) prod(arr; axis = 0 .- dims, keepdims = true)
+
+_nddoc[:clip] = _nddoc[:clip!] =
+"""
+    clip(x::NDArray, min, max)
+    clip!(x::NDArray, min, max)
+
+Clips (limits) the values in `NDArray`.
+Given an interval, values outside the interval are clipped to the interval edges.
+Clipping `x` between `min` and `x` would be:
+
+```julia
+clip(x, min_, max_) = max(min(x, max_), min_))
+```
+
+```jldoctest
+julia> x = NDArray(1:9);
+
+julia> mx.clip(x, 2, 8)'
+1×9 mx.NDArray{Int64,2} @ CPU0:
+ 2  2  3  4  5  6  7  8  8
+```
+
+The storage type of clip output depends on storage types of inputs and the
+`min`, `max` parameter values:
+
+- clip(default) = default
+- clip(row_sparse, min <= 0, max >= 0) = row_sparse
+- clip(csr, min <= 0, max >= 0) = csr
+- clip(row_sparse, min < 0, max < 0) = default
+- clip(row_sparse, min > 0, max > 0) = default
+- clip(csr, min < 0, max < 0) = csr
+- clip(csr, min > 0, max > 0) = csr
+"""
+@_remap clip(x::NDArray, min::Real, max::Real) clip(x; a_min = min, a_max = max)
+@_remap clip!(x::NDArray, min::Real, max::Real) clip(x; a_min = min, a_max = max)
+
+_nddoc[:expand_dims] =
+"""
+    expand_dims(x::NDArray, dim)
+
+Insert a new axis into `dim`.
+
+```julia
+julia> x
+4 mx.NDArray{Float64,1} @ CPU0:
+ 1.0
+ 2.0
+ 3.0
+ 4.0
+
+julia> mx.expand_dims(x, 1)
+1×4 mx.NDArray{Float64,2} @ CPU0:
+ 1.0  2.0  3.0  4.0
+
+julia> mx.expand_dims(x, 2)
+4×1 mx.NDArray{Float64,2} @ CPU0:
+ 1.0
+ 2.0
+ 3.0
+ 4.0
+```
+"""
+@_remap expand_dims(x::NDArray, dim) expand_dims(x; axis = -dim)
 
 # trigonometric functions, remap to keep consistent with Base
 @_remap broadcast_(::typeof(sin),  x::NDArray) sin(x)
@@ -1191,6 +1355,67 @@ _mxsig[:reshape] = :(reshape(arr; shape = dim, reverse = !reverse))
 @_remap broadcast_(::typeof(acosh), x::NDArray) arccosh(x)
 @_remap broadcast_(::typeof(atanh), x::NDArray) arctanh(x)
 
+# activation functions
+_nddoc[:σ] = _nddoc[:sigmoid] = doc"""
+    σ.(x::NDArray)
+    sigmoid.(x::NDArray)
+
+Computes sigmoid of x element-wise.
+
+```math
+σ(x) = \frac{1}{(1 + exp(-x))}
+```
+
+The storage type of `sigmoid` output is always dense.
+"""
+@_remap broadcast_(::typeof(σ), x::NDArray)       sigmoid(x)
+@_remap broadcast_(::typeof(sigmoid), x::NDArray) sigmoid(x)
+
+_nddoc[:relu] = doc"""
+    relu.(x::NDArray)
+
+Computes rectified linear.
+
+```math
+\max(x, 0)
+```
+"""
+@_remap broadcast_(::typeof(relu), x::NDArray) relu(x)
+
+_nddoc[:softmax] = doc"""
+    softmax.(x::NDArray, [dim = ndims(x)])
+
+Applies the softmax function.
+
+The resulting array contains elements in the range `(0, 1)`
+and the elements along the given axis sum up to 1.
+
+```math
+softmax(\mathbf{z})_j = \frac{e^{z_j}}{\sum_{k=1}^K e^{z_k}}
+```
+"""
+@_remap broadcast_(::typeof(softmax), x::NDArray) softmax(x; axis = -ndims(x))
+@_remap broadcast_(::typeof(softmax), x::NDArray, dim::Int) softmax(x; axis = -dim)
+
+_nddoc[:log_softmax] = """
+    log_softmax.(x::NDArray, [dim = ndims(x)])
+
+Computes the log softmax of the input.
+This is equivalent to computing softmax followed by log.
+
+julia> x
+2×3 mx.NDArray{Float64,2} @ CPU0:
+ 1.0  2.0  0.1
+ 0.1  2.0  1.0
+
+julia> mx.log_softmax.(x)
+2×3 mx.NDArray{Float64,2} @ CPU0:
+ -1.41703  -0.41703  -2.31703
+ -2.31703  -0.41703  -1.41703
+"""
+@_remap broadcast_(::typeof(log_softmax), x::NDArray) log_softmax(x; axis = -ndims(x))
+@_remap broadcast_(::typeof(log_softmax), x::NDArray, dim::Int) log_softmax(x; axis = -dim)
+
 ################################################################################
 # remapping to solving type unstablility
 ################################################################################
@@ -1203,6 +1428,54 @@ _mxsig[:reshape] = :(reshape(arr; shape = dim, reverse = !reverse))
 
 @_remap _mod(x::NDArray, y::NDArray)  _mod(x, y)
 @_remap _mod!(x::NDArray, y::NDArray) _mod(x, y)
+
+@_remap _mod_scalar(x::NDArray, y::Real)  _mod_scalar(x; scalar = y)
+@_remap _mod_scalar!(x::NDArray, y::Real) _mod_scalar(x; scalar = y)
+
+@_remap _rmod_scalar(x::NDArray, y::Real)  _rmod_scalar(x; scalar = y)
+@_remap _rmod_scalar!(x::NDArray, y::Real) _rmod_scalar(x; scalar = y)
+
+@_remap _broadcast_add(x::NDArray, y::NDArray)  broadcast_add(x, y)
+@_remap _broadcast_add!(x::NDArray, y::NDArray) broadcast_add(x, y)
+
+@_remap _broadcast_minus(x::NDArray, y::NDArray)  broadcast_minus(x, y)
+@_remap _broadcast_minus!(x::NDArray, y::NDArray) broadcast_minus(x, y)
+
+@_remap _broadcast_mul(x::NDArray, y::NDArray)  broadcast_mul(x, y)
+@_remap _broadcast_mul!(x::NDArray, y::NDArray) broadcast_mul(x, y)
+
+@_remap _broadcast_div(x::NDArray, y::NDArray)  broadcast_div(x, y)
+@_remap _broadcast_div!(x::NDArray, y::NDArray) broadcast_div(x, y)
+
+@_remap _broadcast_mod(x::NDArray, y::NDArray)  broadcast_mod(x, y)
+@_remap _broadcast_mod!(x::NDArray, y::NDArray) broadcast_mod(x, y)
+
+@_remap _broadcast_power(x::NDArray, y::NDArray)  broadcast_power(x, y)
+@_remap _broadcast_power!(x::NDArray, y::NDArray) broadcast_power(x, y)
+
+@_remap _broadcast_equal(x::NDArray, y::NDArray)  broadcast_equal(x, y)
+@_remap _broadcast_equal!(x::NDArray, y::NDArray) broadcast_equal(x, y)
+
+@_remap _broadcast_not_equal(x::NDArray, y::NDArray)  broadcast_not_equal(x, y)
+@_remap _broadcast_not_equal!(x::NDArray, y::NDArray) broadcast_not_equal(x, y)
+
+@_remap _broadcast_greater(x::NDArray, y::NDArray)  broadcast_greater(x, y)
+@_remap _broadcast_greater!(x::NDArray, y::NDArray) broadcast_greater(x, y)
+
+@_remap _broadcast_greater_equal(x::NDArray, y::NDArray)  broadcast_greater_equal(x, y)
+@_remap _broadcast_greater_equal!(x::NDArray, y::NDArray) broadcast_greater_equal(x, y)
+
+@_remap _broadcast_lesser(x::NDArray, y::NDArray)  broadcast_lesser(x, y)
+@_remap _broadcast_lesser!(x::NDArray, y::NDArray) broadcast_lesser(x, y)
+
+@_remap _broadcast_lesser_equal(x::NDArray, y::NDArray)  broadcast_lesser_equal(x, y)
+@_remap _broadcast_lesser_equal!(x::NDArray, y::NDArray) broadcast_lesser_equal(x, y)
+
+@_remap _broadcast_maximum(x::NDArray, y::NDArray)  broadcast_maximum(x, y)
+@_remap _broadcast_maximum!(x::NDArray, y::NDArray) broadcast_maximum(x, y)
+
+@_remap _broadcast_minimum(x::NDArray, y::NDArray)  broadcast_minimum(x, y)
+@_remap _broadcast_minimum!(x::NDArray, y::NDArray) broadcast_minimum(x, y)
 
 ################################################################################
 # NDArray functions dynamically imported from libmxnet
@@ -1318,11 +1591,15 @@ const _op_import_bl = [  # import black list; do not import these funcs
     "_full",   # we already have `mx.fill`
     "_ones",   # we already have `mx.ones`
     "_zeros",  # we already have `mx.zeros`
+    "clip",
+    "expand_dims",
 
     # arithmetic
     "_plus",
     "_minus",
     "_mod",
+    "_mod_scalar",
+    "_rmod_scalar",
 
     "dot",
     "max",
@@ -1350,6 +1627,30 @@ const _op_import_bl = [  # import black list; do not import these funcs
     "arcsinh",
     "arccosh",
     "arctanh",
+
+    # activation
+    "sigmoid",
+    "relu",
+    "softmax",
+    "log_softmax",
+
+    # broadcast
+    "broadcast_add",
+    "broadcast_plus",
+    "broadcast_minus",
+    "broadcast_sub",
+    "broadcast_mul",
+    "broadcast_div",
+    "broadcast_mod",
+    "broadcast_power",
+    "broadcast_equal",
+    "broadcast_not_equal",
+    "broadcast_greater",
+    "broadcast_greater_equal",
+    "broadcast_lesser",
+    "broadcast_lesser_equal",
+    "broadcast_maximum",
+    "broadcast_minimum",
 ]
 
 macro _import_ndarray_functions()

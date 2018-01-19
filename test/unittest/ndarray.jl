@@ -8,8 +8,8 @@ using ..Main: rand_dims
 ################################################################################
 # Test Implementations
 ################################################################################
-rand_tensors(dims::NTuple{N, Int}) where {N} = rand_tensors(mx.MX_float, dims)
-function rand_tensors(::Type{T}, dims::NTuple{N, Int}) where {N, T}
+rand_tensors(dims::NTuple{N,Int}) where {N} = rand_tensors(mx.MX_float, dims)
+function rand_tensors(::Type{T}, dims::NTuple{N,Int}) where {N,T}
   tensor = rand(T, dims)
   array  = copy(tensor, mx.cpu())
   return (tensor, array)
@@ -26,7 +26,40 @@ function test_constructor()
 
   check_absarray(1:10)
   check_absarray(1.0:10)
+
+  info("NDArray::NDArray(Type, AbstractArray)")
+  let
+    x = mx.NDArray(Float32, [1, 2, 3])
+    @test eltype(x) == Float32
+    @test copy(x) == [1, 2, 3]
+  end
+  let
+    x = mx.NDArray(Float32, [1.1, 2, 3])
+    @test eltype(x) == Float32
+    @test copy(x) ≈ [1.1, 2, 3]
+  end
 end  # function test_constructor
+
+
+function test_ones_zeros_like()
+  info("NDArray::Base.zeros")
+  let x = mx.rand(1, 3, 2, 4, low = 1, high = 10)
+    y = zeros(x)
+    @test sum(copy(y)) == 0
+
+    y = mx.zeros(x)
+    @test sum(copy(y)) == 0
+  end
+
+  info("NDArray::Base.ones")
+  let x = mx.rand(1, 3, 2, 4, low = 1, high = 10)
+    y = ones(x)
+    @test sum(copy(y)) == 1 * 3 * 2 * 4
+
+    y = mx.ones(x)
+    @test sum(copy(y)) == 1 * 3 * 2 * 4
+  end
+end  # function test_ones_zeros_like
 
 
 function test_copy()
@@ -54,6 +87,15 @@ function test_copy()
   let x = copy(1.:4, mx.cpu())
     @test eltype(x) == Float64
     @test copy(x) ≈ [1., 2, 3, 4]
+  end
+
+  info("NDArray::copy!::AbstractArray")
+  let
+    x = mx.zeros(4)
+    copy!(x, 1:4)
+
+    @test eltype(x) == Float32
+    @test copy(x) == [1, 2, 3, 4]
   end
 end
 
@@ -156,6 +198,14 @@ function test_linear_idx()
 
     x[24] = 42
     @test copy(x[24]) == [42]
+  end
+
+  info("NDArray::setindex!::type convert")
+  let
+    x = NDArray([1, 2, 3])
+    @test eltype(x) == Int
+    x[:] = π
+    @test copy(x) == [3, 3, 3]
   end
 end  # function test_linear_idx
 
@@ -301,6 +351,23 @@ function test_plus()
     y = x .+ 2.9
     @test copy(y) == [3, 4, 5]
   end
+
+  info("NDArray::broadcast_add")
+  let
+    A = [1 2 3;
+         4 5 6]
+    B = [1,
+         2]
+    x = NDArray(A)
+    y = NDArray(B)
+
+    z = x .+ y
+    @test copy(z) == A .+ B
+
+    # TODO
+    # @inplace x .+= y
+    # @test copy(x) == A .+ B
+  end
 end
 
 function test_minus()
@@ -356,6 +423,23 @@ function test_minus()
   info("NDArray::minus::scalar::type convert")
   let x = mx.NDArray([1, 2, 3])
     @test copy(x .- π) ≈ [-2, -1, 0]
+  end
+
+  info("NDArray::broadcast_minus")
+  let
+    A = [1 2 3;
+         4 5 6]
+    B = [1,
+         2]
+    x = NDArray(A)
+    y = NDArray(B)
+
+    z = x .- y
+    @test copy(z) == A .- B
+
+    # TODO
+    # @inplace x .-= y
+    # @test copy(x) == A .- B
   end
 end
 
@@ -416,6 +500,23 @@ function test_mul()
     @test eltype(x) == Int
     @test copy(y) == [3, 6, 9]
   end
+
+  info("NDArray::broadcast_mul")
+  let
+    A = [1 2 3;
+         4 5 6]
+    B = [1,
+         2]
+    x = NDArray(A)
+    y = NDArray(B)
+
+    z = x .* y
+    @test copy(z) == A .* B
+
+    # TODO
+    # @inplace x .*= y
+    # @test copy(x) == A .* B
+  end
 end
 
 function test_div()
@@ -469,6 +570,23 @@ function test_div()
     @test copy(y) == [0, 1, 1]
 
     @test_throws AssertionError x ./ 0.5
+  end
+
+  info("NDArray::broadcast_div")
+  let
+    A = Float32[1 2 3;
+                4 5 6]
+    B = Float32[1,
+                2]
+    x = NDArray(A)
+    y = NDArray(B)
+
+    z = x ./ y
+    @test copy(z) == A ./ B
+
+    # TODO
+    # @inplace x ./= y
+    # @test copy(x) == A ./ B
   end
 end
 
@@ -527,6 +645,7 @@ function test_mod()
     @test copy(z) ≈ D
   end
 
+  info("NDArray::mod::scalar")
   let x = NDArray(A)
     C = A .% 2
     y = x .% 2
@@ -538,6 +657,78 @@ function test_mod()
     C = 11 .% A
     y = 11 .% x
     @test copy(y) ≈ C
+  end
+
+  info("NDArray::mod_from!")
+  let
+    x = NDArray(A)
+    y = NDArray(B)
+    C = A .% B
+    mx.mod_from!(x, y)
+    @test copy(x) ≈ C
+  end
+
+  let
+    x = NDArray(A)
+    y = NDArray(B)
+    C = B .% A
+    mx.mod_from!(y, x)
+
+    @test copy(y) ≈ C
+  end
+
+  info("NDArray::mod_from!::scalar")
+  let
+    x = NDArray(A)
+    C = A .% 2
+    mx.mod_from!(x, 2)
+    @test copy(x) ≈ C
+  end
+
+  info("NDArray::rmod_from!")
+  let
+    x = NDArray(A)
+    C = 11 .% A
+    mx.rmod_from!(11, x)
+    @test copy(x) ≈ C
+  end
+
+  info("NDArray::mod_from!::writable")
+  let
+    x = NDArray(A)
+    y = NDArray(B)
+    x.writable = false
+    y.writable = false
+    @test_throws AssertionError mx.mod_from!(x, y)
+    @test_throws AssertionError mx.mod_from!(y, x)
+    @test_throws AssertionError mx.mod_from!(x, 2)
+    @test_throws AssertionError mx.rmod_from!(2, x)
+  end
+
+  info("NDArray::mod::inplace")
+  let
+    x = NDArray(A)
+    y = NDArray(B)
+    C = A .% B
+    @inplace x .%= y
+    @test copy(x) ≈ C
+  end
+
+  info("NDArray::broadcast_mod")
+  let
+    A = [1 2 3;
+         4 5 6]
+    B = [1,
+         2]
+    x = NDArray(A)
+    y = NDArray(B)
+
+    z = x .% y
+    @test copy(z) == A .% B
+
+    # TODO
+    # @inplace x .%= y
+    # @test copy(x) == A .% B
   end
 end  # function test_mod
 
@@ -604,12 +795,19 @@ function test_clip()
   j_array, nd_array = rand_tensors(dims)
   clip_up   = maximum(abs.(j_array)) / 2
   clip_down = 0
-  clipped   = mx.clip(nd_array, a_min=clip_down, a_max=clip_up)
+  clipped   = clip(nd_array, clip_down, clip_up)
 
   # make sure the original array is not modified
   @test copy(nd_array) ≈ j_array
 
   @test all(clip_down .<= copy(clipped) .<= clip_up)
+
+  info("NDArray::clip!")
+  let
+    x = NDArray(1.0:20)
+    clip!(x, 5, 15)
+    @test all(5 .<= copy(x) .<= 15)
+  end
 end
 
 function test_power()
@@ -696,6 +894,23 @@ function test_power()
   end
 
   # TODO: Float64: wait for https://github.com/apache/incubator-mxnet/pull/8012
+
+  info("NDArray::broadcast_power")
+  let
+    A = [1 2 3;
+         4 5 6]
+    B = [1,
+         2]
+    x = NDArray(A)
+    y = NDArray(B)
+
+    z = x.^y
+    @test copy(z) == A.^B
+
+    # TODO
+    # @inplace x .^= y
+    # @test copy(x) == A.^B
+  end
 end # function test_power
 
 function test_sqrt()
@@ -740,7 +955,28 @@ function test_dot()
 
   x = mx.zeros(1, 2)
   y = mx.zeros(1, 2, 3)
-  @test_throws MethodError dot(x, y)
+  @test_throws mx.MXError dot(x, y)  # dimension mismatch
+
+  info("NDArray::matrix mul")
+  let
+    A = [1. 2 3; 4 5 6]
+    B = [-1., -2, -3]
+    x = NDArray(A)
+    y = NDArray(B)
+    z = x * y
+    @test copy(z) == A * B
+    @test size(z) == (2,)
+  end
+
+  let
+    A = [1. 2 3; 4 5 6]
+    B = [-1. -2; -3 -4; -5 -6]
+    x = NDArray(A)
+    y = NDArray(B)
+    z = x * y
+    @test copy(z) == A * B
+    @test size(z) == (2, 2)
+  end
 end
 
 function test_eltype()
@@ -758,26 +994,52 @@ function test_eltype()
 end
 
 function test_reshape()
-    info("NDArray::reshape")
-    A = rand(2, 3, 4)
+  info("NDArray::reshape")
+  A = rand(2, 3, 4)
 
-    B = reshape(mx.NDArray(A), 4, 3, 2)
-    @test size(B) == (4, 3, 2)
-    @test copy(B)[3, 1, 1] == A[1, 2, 1]
+  B = reshape(NDArray(A), 4, 3, 2)
+  @test size(B) == (4, 3, 2)
+  @test copy(B)[3, 1, 1] == A[1, 2, 1]
 
-    C = reshape(mx.NDArray(A), (4, 3, 2))
-    @test size(C) == (4, 3, 2)
-    @test copy(C)[3, 1, 1] == A[1, 2, 1]
+  C = reshape(NDArray(A), (4, 3, 2))
+  @test size(C) == (4, 3, 2)
+  @test copy(C)[3, 1, 1] == A[1, 2, 1]
 
-    info("NDArray::reshape::reverse")
-    A = mx.zeros(10, 5, 4)
+  info("NDArray::reshape::reverse")
+  A = mx.zeros(10, 5, 4)
 
-    B = reshape(A, -1, 0)
-    @test size(B) == (40, 5)
+  B = reshape(A, -1, 0)
+  @test size(B) == (40, 5)
 
-    C = reshape(A, -1, 0, reverse=true)
-    @test size(C) == (50, 4)
+  C = reshape(A, -1, 0, reverse=true)
+  @test size(C) == (50, 4)
 end
+
+function test_expand_dims()
+  info("NDArray::expand_dims")
+  let A = [1, 2, 3, 4], x = NDArray(A)
+    @test size(x) == (4,)
+
+    y = expand_dims(x, 1)
+    @test size(y) == (1, 4)
+
+    y = expand_dims(x, 2)
+    @test size(y) == (4, 1)
+  end
+
+  let A = [1 2; 3 4; 5 6], x = NDArray(A)
+    @test size(x) == (3, 2)
+
+    y = expand_dims(x, 1)
+    @test size(y) == (1, 3, 2)
+
+    y = expand_dims(x, 2)
+    @test size(y) == (3, 1, 2)
+
+    y = expand_dims(x, 3)
+    @test size(y) == (3, 2, 1)
+  end
+end  # test_expand_dims
 
 function test_sum()
   info("NDArray::sum")
@@ -816,6 +1078,19 @@ function test_maximum()
     @test copy(maximum(X, [1, 2])) == maximum(A, [1, 2])
     @test copy(maximum(X, (1, 2))) == maximum(A, (1, 2))
   end
+
+  info("NDArray::broadcast_maximum")
+  let
+    A = [1 2 3;
+         4 5 6]
+    B = [1,
+         2]
+    x = NDArray(A)
+    y = NDArray(B)
+
+    z = max.(x, y)
+    @test copy(z) == max.(A, B)
+  end
 end
 
 function test_minimum()
@@ -828,6 +1103,19 @@ function test_minimum()
     @test copy(minimum(X, 3))      == minimum(A, 3)
     @test copy(minimum(X, [1, 2])) == minimum(A, [1, 2])
     @test copy(minimum(X, (1, 2))) == minimum(A, (1, 2))
+  end
+
+  info("NDArray::broadcast_minimum")
+  let
+    A = [1 2 3;
+         4 5 6]
+    B = [1,
+         2]
+    x = NDArray(A)
+    y = NDArray(B)
+
+    z = min.(x, y)
+    @test copy(z) == min.(A, B)
   end
 end
 
@@ -977,11 +1265,118 @@ function test_hyperbolic()
   end
 end  # function test_hyperbolic
 
+function test_act_funcs()
+  info("NDArray::σ/sigmoid")
+  let
+    A = Float32[.1, .2, -.3, -.4]
+    B = @. 1 / (1 + e^(-A))
+    x = NDArray(A)
+    y = σ.(x)
+    @test copy(y) ≈ B
+
+    z = sigmoid.(x)
+    @test copy(z) ≈ B
+  end
+
+  info("NDArray::relu")
+  let
+    A = [1, 2, -3, -4]
+    B = max.(A, 0)
+    x = NDArray(A)
+    y = relu.(x)
+    @test copy(y) ≈ B
+  end
+
+  info("NDArray::softmax::1D")
+  let
+    A = Float32[1, 2, 3, 4]
+    B = exp.(A) ./ sum(exp.(A))
+    x = NDArray(A)
+    y = softmax.(x)
+    @test copy(y) ≈ B
+  end
+
+  info("NDArray::softmax::2D")
+  let
+    A = Float32[1 2; 3 4]
+    B = exp.(A) ./ sum(exp.(A), 1)
+    x = NDArray(A)
+    y = softmax.(x, 1)
+    @test copy(y) ≈ B
+
+    C = exp.(A) ./ sum(exp.(A), 2)
+    z = softmax.(x, 2)
+    @test copy(z) ≈ C
+  end
+
+  info("NDArray::log_softmax::1D")
+  let
+    A = Float32[1, 2, 3, 4]
+    B = log.(exp.(A) ./ sum(exp.(A)))
+    x = NDArray(A)
+    y = log_softmax.(x)
+    @test copy(y) ≈ B
+  end
+
+  info("NDArray::log_softmax::2D")
+  let
+    A = Float32[1 2; 3 4]
+    B = log.(exp.(A) ./ sum(exp.(A), 1))
+    x = NDArray(A)
+    y = log_softmax.(x, 1)
+    @test copy(y) ≈ B
+
+    C = log.(exp.(A) ./ sum(exp.(A), 2))
+    z = log_softmax.(x, 2)
+    @test copy(z) ≈ C
+  end
+end  # function test_act_funcs
+
+macro check_equal(op)
+  quote
+    A = [1 2 3
+         4 5 6]
+    B = [1,
+         6]
+    x = NDArray(A)
+    y = NDArray(B)
+    a = broadcast($op, x, y)
+    @test copy(a) == broadcast($op, A, B)
+
+    C = [3 2 1
+         6 5 4]
+    z = NDArray(C)
+    b = broadcast($op, x, z)
+    @test copy(b) == broadcast($op, A, C)
+  end
+end
+
+function test_equal()
+  info("NDArray::broadcast_equal")
+  @check_equal ==
+
+  info("NDArray::broadcast_not_equal")
+  @check_equal !=
+
+  info("NDArray::broadcast_greater")
+  @check_equal >
+
+  info("NDArray::broadcast_greater_equal")
+  @check_equal >=
+
+  info("NDArray::broadcast_lesser")
+  @check_equal <
+
+  info("NDArray::broadcast_lesser_equal")
+  @check_equal <=
+end  # function test_equal
+
 ################################################################################
 # Run tests
 ################################################################################
 @testset "NDArray Test" begin
   test_constructor()
+  test_ones_zeros_like()
   test_assign()
   test_copy()
   test_slice()
@@ -1004,6 +1399,7 @@ end  # function test_hyperbolic
   test_nd_as_jl()
   test_dot()
   test_reshape()
+  test_expand_dims()
   test_sum()
   test_mean()
   test_maximum()
@@ -1015,6 +1411,8 @@ end  # function test_hyperbolic
   test_size()
   test_trigonometric()
   test_hyperbolic()
+  test_act_funcs()
+  test_equal()
 end
 
 end
