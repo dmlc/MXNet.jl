@@ -28,7 +28,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-0.17.2, mkdocs-material-2.5.0">
+      <meta name="generator" content="mkdocs-0.17.2, mkdocs-material-2.5.1">
     
     
       
@@ -36,7 +36,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/application.2a88008a.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/application.aa3de92b.css">
       
     
     
@@ -69,6 +69,11 @@
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="drawer">
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="search">
     <label class="md-overlay" data-md-component="overlay" for="drawer"></label>
+    
+      <a href="#initializer" tabindex="1" class="md-skip">
+        Skip to content
+      </a>
+    
     
       <header class="md-header" data-md-component="header">
   <nav class="md-header-nav md-grid">
@@ -550,35 +555,35 @@ _init_beta(self :: AbstractInitializer, name :: Base.Symbol, array :: NDArray)
 <pre><code>init(self :: AbstractInitializer, name :: Base.Symbol, array :: NDArray)
 </code></pre>
 
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/1c990bc9dc387dee5f92e802d222b5af7a33f47e/src/initializer.jl#L1-L17' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/39beaaf14d6c7da64224ba0c0167aeccc0aa9d9e/src/initializer.jl#L1-L17' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.NormalInitializer' href='#MXNet.mx.NormalInitializer'>#</a>
 <strong><code>MXNet.mx.NormalInitializer</code></strong> &mdash; <em>Type</em>.</p>
 <pre><code>NormalInitializer
 </code></pre>
 
 <p>Initialize weights according to a univariate Gaussian distribution.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/1c990bc9dc387dee5f92e802d222b5af7a33f47e/src/initializer.jl#L110-L114' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/39beaaf14d6c7da64224ba0c0167aeccc0aa9d9e/src/initializer.jl#L110-L114' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.NormalInitializer-Tuple{}' href='#MXNet.mx.NormalInitializer-Tuple{}'>#</a>
 <strong><code>MXNet.mx.NormalInitializer</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>NormalInitializer(; mu=0, sigma=0.01)
 </code></pre>
 
 <p>Construct a <code>NormalInitializer</code> with mean <code>mu</code> and variance <code>sigma</code>.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/1c990bc9dc387dee5f92e802d222b5af7a33f47e/src/initializer.jl#L119-L123' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/39beaaf14d6c7da64224ba0c0167aeccc0aa9d9e/src/initializer.jl#L119-L123' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.UniformInitializer' href='#MXNet.mx.UniformInitializer'>#</a>
 <strong><code>MXNet.mx.UniformInitializer</code></strong> &mdash; <em>Type</em>.</p>
 <pre><code>UniformInitializer
 </code></pre>
 
 <p>Initialize weights according to a uniform distribution within the provided scale.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/1c990bc9dc387dee5f92e802d222b5af7a33f47e/src/initializer.jl#L92-L96' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/39beaaf14d6c7da64224ba0c0167aeccc0aa9d9e/src/initializer.jl#L92-L96' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.UniformInitializer-Tuple{}' href='#MXNet.mx.UniformInitializer-Tuple{}'>#</a>
 <strong><code>MXNet.mx.UniformInitializer</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>UniformInitializer(scale=0.07)
 </code></pre>
 
 <p>Construct a <code>UniformInitializer</code> with the specified scale.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/1c990bc9dc387dee5f92e802d222b5af7a33f47e/src/initializer.jl#L100-L104' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/39beaaf14d6c7da64224ba0c0167aeccc0aa9d9e/src/initializer.jl#L100-L104' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.XavierDistribution' href='#MXNet.mx.XavierDistribution'>#</a>
 <strong><code>MXNet.mx.XavierDistribution</code></strong> &mdash; <em>Type</em>.</p>
 <pre><code>XavierInitializer
@@ -592,7 +597,7 @@ _init_beta(self :: AbstractInitializer, name :: Base.Symbol, array :: NDArray)
 <li>[K. He, X. Zhang, S. Ren, and J. Sun 2015]: <code>mx.XavierInitializer(distribution = mx.xv_gaussian, regularization = mx.xv_in, magnitude = 2)</code></li>
 <li>caffe_avg: <code>mx.XavierInitializer(distribution = mx.xv_uniform, regularization = mx.xv_avg, magnitude = 3)</code></li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/1c990bc9dc387dee5f92e802d222b5af7a33f47e/src/initializer.jl#L129-L146' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/39beaaf14d6c7da64224ba0c0167aeccc0aa9d9e/src/initializer.jl#L129-L146' class='documenter-source'>source</a><br></p>
                 
                   
                 
@@ -662,7 +667,7 @@ _init_beta(self :: AbstractInitializer, name :: Base.Symbol, array :: NDArray)
       
     </div>
     
-      <script src="../../assets/javascripts/application.ce2ab4bf.js"></script>
+      <script src="../../assets/javascripts/application.ed2cc613.js"></script>
       
       <script>app.initialize({version:"0.17.2",url:{base:"../.."}})</script>
       

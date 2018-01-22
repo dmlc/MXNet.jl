@@ -28,7 +28,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-0.17.2, mkdocs-material-2.5.0">
+      <meta name="generator" content="mkdocs-0.17.2, mkdocs-material-2.5.1">
     
     
       
@@ -36,7 +36,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/application.2a88008a.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/application.aa3de92b.css">
       
     
     
@@ -69,6 +69,11 @@
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="drawer">
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="search">
     <label class="md-overlay" data-md-component="overlay" for="drawer"></label>
+    
+      <a href="#overview" tabindex="1" class="md-skip">
+        Skip to content
+      </a>
+    
     
       <header class="md-header" data-md-component="header">
   <nav class="md-header-nav md-grid">
@@ -788,31 +793,31 @@ julia&gt; mx.srand(42)
 
 julia&gt; a = mx.empty(2, 3)
 2×3 mx.NDArray{Float32,2} @ CPU0:
- 3.50587f-36  1.79751f19   7.84727f-44
- 0.0          0.000169945  0.0
+ 1.42475f-36  1.79751f19  7.28675f-44
+ 0.0          2.59315f-9  0.0
 
 julia&gt; a[:] = 0.5              # set all elements to a scalar
 0.5
 
 julia&gt; a[:] = rand(size(a))    # set contents with a Julia Array
 2×3 Array{Float64,2}:
- 0.878348   0.060404  0.633763
- 0.0887687  0.843772  0.424753
+ 0.475671  0.359411  0.255912
+ 0.380949  0.901928  0.63764
 
 julia&gt; copy!(a, rand(size(a))) # set value by copying a Julia Array
 2×3 mx.NDArray{Float32,2} @ CPU0:
- 0.784655   0.236829  0.0381597
- 0.0075171  0.355884  0.189475
+ 0.774678  0.2539   0.0218202
+ 0.152662  0.75816  0.234501
 
 julia&gt; b = mx.empty(size(a))
 2×3 mx.NDArray{Float32,2} @ CPU0:
- 2.86093f-36  7.9325f34   1.19403f-7
- 0.0          4.17261f-8  0.0
+ 9.23819f-37  7.9325f34   9.68593f24
+ 0.0          1.04315f-8  1.54143f-43
 
 julia&gt; b[:] = a                # copying and assignment between NDArrays
 2×3 mx.NDArray{Float32,2} @ CPU0:
- 0.784655   0.236829  0.0381597
- 0.0075171  0.355884  0.189475
+ 0.774678  0.2539   0.0218202
+ 0.152662  0.75816  0.234501
 </code></pre>
 
 <p>Note due to the intrinsic design of the Julia language, a normal assignment</p>
@@ -1246,7 +1251,7 @@ julia&gt; copy(c_exec.outputs[1])  # copy turns NDArray into Julia Array
       
     </div>
     
-      <script src="../../assets/javascripts/application.ce2ab4bf.js"></script>
+      <script src="../../assets/javascripts/application.ed2cc613.js"></script>
       
       <script>app.initialize({version:"0.17.2",url:{base:"../.."}})</script>
       
