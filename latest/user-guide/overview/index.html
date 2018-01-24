@@ -28,7 +28,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-0.17.2, mkdocs-material-2.5.1">
+      <meta name="generator" content="mkdocs-0.17.2, mkdocs-material-2.5.2">
     
     
       
@@ -793,7 +793,7 @@ julia&gt; mx.srand(42)
 
 julia&gt; a = mx.empty(2, 3)
 2×3 mx.NDArray{Float32,2} @ CPU0:
- 1.42475f-36  1.79751f19  7.28675f-44
+ 3.82918f-36  1.79751f19  7.28675f-44
  0.0          2.59315f-9  0.0
 
 julia&gt; a[:] = 0.5              # set all elements to a scalar
@@ -801,23 +801,23 @@ julia&gt; a[:] = 0.5              # set all elements to a scalar
 
 julia&gt; a[:] = rand(size(a))    # set contents with a Julia Array
 2×3 Array{Float64,2}:
- 0.475671  0.359411  0.255912
- 0.380949  0.901928  0.63764
+ 0.463478    0.974475  0.149546
+ 0.00756803  0.511703  0.831959
 
 julia&gt; copy!(a, rand(size(a))) # set value by copying a Julia Array
 2×3 mx.NDArray{Float32,2} @ CPU0:
- 0.774678  0.2539   0.0218202
- 0.152662  0.75816  0.234501
+ 0.417338  0.966912  0.618413
+ 0.103827  0.770305  0.0428009
 
 julia&gt; b = mx.empty(size(a))
 2×3 mx.NDArray{Float32,2} @ CPU0:
- 9.23819f-37  7.9325f34   9.68593f24
+ 5.65341f-36  7.9325f34   9.68593f24
  0.0          1.04315f-8  1.54143f-43
 
 julia&gt; b[:] = a                # copying and assignment between NDArrays
 2×3 mx.NDArray{Float32,2} @ CPU0:
- 0.774678  0.2539   0.0218202
- 0.152662  0.75816  0.234501
+ 0.417338  0.966912  0.618413
+ 0.103827  0.770305  0.0428009
 </code></pre>
 
 <p>Note due to the intrinsic design of the Julia language, a normal assignment</p>
@@ -1251,7 +1251,7 @@ julia&gt; copy(c_exec.outputs[1])  # copy turns NDArray into Julia Array
       
     </div>
     
-      <script src="../../assets/javascripts/application.ed2cc613.js"></script>
+      <script src="../../assets/javascripts/application.f041762f.js"></script>
       
       <script>app.initialize({version:"0.17.2",url:{base:"../.."}})</script>
       
