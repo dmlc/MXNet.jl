@@ -265,7 +265,7 @@ Base.show(io::IO, sym::SymbolicNode) =
 import Base: print
 
 function print(io::IO, sym::SymbolicNode)
-  out = Ref{mx.char_p}(C_NULL)
+  out = Ref{char_p}(C_NULL)
   @mx.mxcall(:MXSymbolPrint, (mx.MX_SymbolHandle, Ref{mx.char_p}), sym.handle, out)
   print(io, unsafe_string(out[]))
 end

@@ -129,12 +129,13 @@ macro mx_define_handle_t(name, destructor)
   end
 end
 
-@mx_define_handle_t(MX_NDArrayHandle, MXNDArrayFree)
-@mx_define_handle_t(MX_OpHandle, nop)
-@mx_define_handle_t(MX_SymbolHandle, MXSymbolFree)
+@mx_define_handle_t(MX_NDArrayHandle,  MXNDArrayFree)
+@mx_define_handle_t(MX_OpHandle,       nop)
+@mx_define_handle_t(MX_SymbolHandle,   MXSymbolFree)
 @mx_define_handle_t(MX_ExecutorHandle, MXExecutorFree)
 @mx_define_handle_t(MX_DataIterHandle, MXDataIterFree)
-@mx_define_handle_t(MX_KVStoreHandle, MXKVStoreFree)
+@mx_define_handle_t(MX_KVStoreHandle,  MXKVStoreFree)
+@mx_define_handle_t(NN_GraphHandle,    NNGraphFree)
 
 ################################################################################
 # MXNet Params

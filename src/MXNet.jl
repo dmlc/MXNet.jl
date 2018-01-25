@@ -107,6 +107,9 @@ export AbstractDataProvider,
 # visualize.jl
 export to_graphviz
 
+# NNVM
+export Graph
+
 ###############################################################################
 #  includes
 ###############################################################################
@@ -124,6 +127,8 @@ include("autograd.jl")
 include("name.jl")
 include("symbolic-node.jl")
 include("executor.jl")
+
+include("nnvm/graph.jl")
 
 include("metric.jl")
 include("optimizer.jl")
