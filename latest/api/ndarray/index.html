@@ -2608,10 +2608,10 @@ size(x::NDArray, dims...)
 
 <p>Computes and optimizes for squared loss during backward propagation. Just outputs $data$ during forward propagation.</p>
 <p>If :math:<code>\hat{y}_i</code> is the predicted value of the i-th sample, and :math:<code>y_i</code> is the corresponding target value, then the squared loss estimated over :math:<code>n</code> samples is defined as</p>
-<p>:math:<code>\text{SquaredLoss}(y, \hat{y} ) = \frac{1}{n} \sum_{i=0}^{n-1} \left( y_i - \hat{y}_i \right)^2</code></p>
+<p>:math:<code>\text{SquaredLoss}(\textbf{Y}, \hat{\textbf{Y}} ) = \frac{1}{n} \sum_{i=0}^{n-1} \lVert  \textbf{y}_i - \hat{\textbf{y}}_i  \rVert_2</code></p>
 <p>.. note::    Use the LinearRegressionOutput as the final output layer of a net.</p>
-<p>By default, gradients of this loss function are scaled by factor <code>1/n</code>, where n is the number of training examples. The parameter <code>grad_scale</code> can be used to change this scale to <code>grad_scale/n</code>.</p>
-<p>Defined in src/operator/regression_output.cc:L70</p>
+<p>By default, gradients of this loss function are scaled by factor <code>1/m</code>, where m is the number of regression outputs of a training example. The parameter <code>grad_scale</code> can be used to change this scale to <code>grad_scale/m</code>.</p>
+<p>Defined in src/operator/regression_output.cc:L80</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: Input data to the function.</li>
@@ -2625,11 +2625,11 @@ size(x::NDArray, dims...)
 </code></pre>
 
 <p>Applies a logistic function to the input.</p>
-<p>The logistic function, also known as the sigmoid function, is computed as :math:<code>\frac{1}{1+exp(-x)}</code>.</p>
+<p>The logistic function, also known as the sigmoid function, is computed as :math:<code>\frac{1}{1+exp(-\textbf{x})}</code>.</p>
 <p>Commonly, the sigmoid is used to squash the real-valued output of a linear model :math:wTx+b into the [0,1] range so that it can be interpreted as a probability. It is suitable for binary classification or probability prediction tasks.</p>
 <p>.. note::    Use the LogisticRegressionOutput as the final output layer of a net.</p>
-<p>By default, gradients of this loss function are scaled by factor <code>1/n</code>, where n is the number of training examples. The parameter <code>grad_scale</code> can be used to change this scale to <code>grad_scale/n</code>.</p>
-<p>Defined in src/operator/regression_output.cc:L112</p>
+<p>By default, gradients of this loss function are scaled by factor <code>1/m</code>, where m is the number of regression outputs of a training example. The parameter <code>grad_scale</code> can be used to change this scale to <code>grad_scale/m</code>.</p>
+<p>Defined in src/operator/regression_output.cc:L122</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: Input data to the function.</li>
@@ -2645,10 +2645,10 @@ size(x::NDArray, dims...)
 <p>Computes mean absolute error of the input.</p>
 <p>MAE is a risk metric corresponding to the expected value of the absolute error.</p>
 <p>If :math:<code>\hat{y}_i</code> is the predicted value of the i-th sample, and :math:<code>y_i</code> is the corresponding target value, then the mean absolute error (MAE) estimated over :math:<code>n</code> samples is defined as</p>
-<p>:math:<code>\text{MAE}(y, \hat{y} ) = \frac{1}{n} \sum_{i=0}^{n-1} \left| y_i - \hat{y}_i \right|</code></p>
+<p>:math:<code>\text{MAE}(\textbf{Y}, \hat{\textbf{Y}} ) = \frac{1}{n} \sum_{i=0}^{n-1} \lVert \textbf{y}_i - \hat{\textbf{y}}_i \rVert_1</code></p>
 <p>.. note::    Use the MAERegressionOutput as the final output layer of a net.</p>
-<p>By default, gradients of this loss function are scaled by factor <code>1/n</code>, where n is the number of training examples. The parameter <code>grad_scale</code> can be used to change this scale to <code>grad_scale/n</code>.</p>
-<p>Defined in src/operator/regression_output.cc:L91</p>
+<p>By default, gradients of this loss function are scaled by factor <code>1/m</code>, where m is the number of regression outputs of a training example. The parameter <code>grad_scale</code> can be used to change this scale to <code>grad_scale/m</code>.</p>
+<p>Defined in src/operator/regression_output.cc:L101</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: Input data to the function.</li>
@@ -3879,27 +3879,6 @@ size(x::NDArray, dims...)
 
 <p><strong>Arguments</strong></p>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/ec2b6995dc2283e52f40b8ab1f6485230d02c779/src/ndarray.jl#L1763-L1769' class='documenter-source'>source</a><br></p>
-<p><a id='MXNet.mx._backward_LinearRegressionOutput-Tuple{Vararg{MXNet.mx.NDArray,N} where N}' href='#MXNet.mx._backward_LinearRegressionOutput-Tuple{Vararg{MXNet.mx.NDArray,N} where N}'>#</a>
-<strong><code>MXNet.mx._backward_LinearRegressionOutput</code></strong> &mdash; <em>Method</em>.</p>
-<pre><code>_backward_LinearRegressionOutput()
-</code></pre>
-
-<p><strong>Arguments</strong></p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/ec2b6995dc2283e52f40b8ab1f6485230d02c779/src/ndarray.jl#L1763-L1769' class='documenter-source'>source</a><br></p>
-<p><a id='MXNet.mx._backward_LogisticRegressionOutput-Tuple{Vararg{MXNet.mx.NDArray,N} where N}' href='#MXNet.mx._backward_LogisticRegressionOutput-Tuple{Vararg{MXNet.mx.NDArray,N} where N}'>#</a>
-<strong><code>MXNet.mx._backward_LogisticRegressionOutput</code></strong> &mdash; <em>Method</em>.</p>
-<pre><code>_backward_LogisticRegressionOutput()
-</code></pre>
-
-<p><strong>Arguments</strong></p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/ec2b6995dc2283e52f40b8ab1f6485230d02c779/src/ndarray.jl#L1763-L1769' class='documenter-source'>source</a><br></p>
-<p><a id='MXNet.mx._backward_MAERegressionOutput-Tuple{Vararg{MXNet.mx.NDArray,N} where N}' href='#MXNet.mx._backward_MAERegressionOutput-Tuple{Vararg{MXNet.mx.NDArray,N} where N}'>#</a>
-<strong><code>MXNet.mx._backward_MAERegressionOutput</code></strong> &mdash; <em>Method</em>.</p>
-<pre><code>_backward_MAERegressionOutput()
-</code></pre>
-
-<p><strong>Arguments</strong></p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/ec2b6995dc2283e52f40b8ab1f6485230d02c779/src/ndarray.jl#L1763-L1769' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx._backward_MakeLoss-Tuple{Vararg{MXNet.mx.NDArray,N} where N}' href='#MXNet.mx._backward_MakeLoss-Tuple{Vararg{MXNet.mx.NDArray,N} where N}'>#</a>
 <strong><code>MXNet.mx._backward_MakeLoss</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>_backward_MakeLoss()
@@ -4567,6 +4546,13 @@ size(x::NDArray, dims...)
 
 <p><strong>Arguments</strong></p>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/ec2b6995dc2283e52f40b8ab1f6485230d02c779/src/ndarray.jl#L1763-L1769' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx._backward_linear_reg_out-Tuple{Vararg{MXNet.mx.NDArray,N} where N}' href='#MXNet.mx._backward_linear_reg_out-Tuple{Vararg{MXNet.mx.NDArray,N} where N}'>#</a>
+<strong><code>MXNet.mx._backward_linear_reg_out</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>_backward_linear_reg_out()
+</code></pre>
+
+<p><strong>Arguments</strong></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/ec2b6995dc2283e52f40b8ab1f6485230d02c779/src/ndarray.jl#L1763-L1769' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx._backward_log-Tuple{Vararg{MXNet.mx.NDArray,N} where N}' href='#MXNet.mx._backward_log-Tuple{Vararg{MXNet.mx.NDArray,N} where N}'>#</a>
 <strong><code>MXNet.mx._backward_log</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>_backward_log(lhs, rhs)
@@ -4622,6 +4608,20 @@ size(x::NDArray, dims...)
 <li><code>rhs::NDArray-or-SymbolicNode</code>: second input</li>
 </ul>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/ec2b6995dc2283e52f40b8ab1f6485230d02c779/src/ndarray.jl#L1763-L1772' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx._backward_logistic_reg_out-Tuple{Vararg{MXNet.mx.NDArray,N} where N}' href='#MXNet.mx._backward_logistic_reg_out-Tuple{Vararg{MXNet.mx.NDArray,N} where N}'>#</a>
+<strong><code>MXNet.mx._backward_logistic_reg_out</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>_backward_logistic_reg_out()
+</code></pre>
+
+<p><strong>Arguments</strong></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/ec2b6995dc2283e52f40b8ab1f6485230d02c779/src/ndarray.jl#L1763-L1769' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx._backward_mae_reg_out-Tuple{Vararg{MXNet.mx.NDArray,N} where N}' href='#MXNet.mx._backward_mae_reg_out-Tuple{Vararg{MXNet.mx.NDArray,N} where N}'>#</a>
+<strong><code>MXNet.mx._backward_mae_reg_out</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>_backward_mae_reg_out()
+</code></pre>
+
+<p><strong>Arguments</strong></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/ec2b6995dc2283e52f40b8ab1f6485230d02c779/src/ndarray.jl#L1763-L1769' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx._backward_max-Tuple{Vararg{MXNet.mx.NDArray,N} where N}' href='#MXNet.mx._backward_max-Tuple{Vararg{MXNet.mx.NDArray,N} where N}'>#</a>
 <strong><code>MXNet.mx._backward_max</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>_backward_max()
