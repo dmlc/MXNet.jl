@@ -28,7 +28,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-0.17.2, mkdocs-material-2.5.3">
+      <meta name="generator" content="mkdocs-0.17.2, mkdocs-material-2.5.4">
     
     
       
@@ -793,31 +793,31 @@ julia&gt; mx.srand(42)
 
 julia&gt; a = mx.empty(2, 3)
 2×3 mx.NDArray{Float32,2} @ CPU0:
- 2.5364f-36  1.79751f19  7.14662f-44
- 0.0         2.59315f-9  0.0
+ 1.33206f-36  1.79751f19  7.14662f-44
+ 0.0          2.59315f-9  0.0
 
 julia&gt; a[:] = 0.5              # set all elements to a scalar
 0.5
 
 julia&gt; a[:] = rand(size(a))    # set contents with a Julia Array
 2×3 Array{Float64,2}:
- 0.887215  0.744754  0.285497
- 0.412883  0.810065  0.195981
+ 0.287734  0.463803  0.503672
+ 0.735484  0.585824  0.301915
 
 julia&gt; copy!(a, rand(size(a))) # set value by copying a Julia Array
 2×3 mx.NDArray{Float32,2} @ CPU0:
- 0.318008  0.0143741  0.297778
- 0.131583  0.888811   0.937607
+ 0.177252  0.447724  0.52981
+ 0.616601  0.635889  0.0355298
 
 julia&gt; b = mx.empty(size(a))
 2×3 mx.NDArray{Float32,2} @ CPU0:
- 1.24058f-36  7.9325f34   9.68563f24
+ 1.18219f-36  7.9325f34   9.68563f24
  0.0          1.04315f-8  1.54143f-43
 
 julia&gt; b[:] = a                # copying and assignment between NDArrays
 2×3 mx.NDArray{Float32,2} @ CPU0:
- 0.318008  0.0143741  0.297778
- 0.131583  0.888811   0.937607
+ 0.177252  0.447724  0.52981
+ 0.616601  0.635889  0.0355298
 </code></pre>
 
 <p>Note due to the intrinsic design of the Julia language, a normal assignment</p>
