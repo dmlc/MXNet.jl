@@ -689,167 +689,201 @@
                 
                 <p><a id='Optimizers-1'></a></p>
 <h1 id="optimizers">Optimizers</h1>
+<p>Says, you have the parameter <code>W</code> inited for your model and got its gradient stored as <code>∇</code> (perhaps from AutoGrad APIs). Here is minimal snippet of getting your parameter <code>W</code> baked by <code>SGD</code>.</p>
+<pre><code class="julia-repl">julia&gt; using MXNet
+
+julia&gt; opt = SGD(η = 10)
+MXNet.mx.SGD(10, 0.0, 0, 0, 0.0001, MXNet.mx.LearningRate.Fixed(10.0), MXNet.mx.Momentum.Null())
+
+julia&gt; decend! = getupdater(opt)
+(::updater) (generic function with 1 method)
+
+julia&gt; W = NDArray(Float32[1, 2, 3, 4]);
+
+julia&gt; ∇ = NDArray(Float32[.1, .2, .3, .4]);
+
+julia&gt; decend!(1, ∇, W)
+4-element mx.NDArray{Float32,1} @ CPU0:
+ -0.00100005
+ -0.00200009
+ -0.00300002
+ -0.00400019
+</code></pre>
+
 <p><a id='MXNet.mx.AbstractOptimizer' href='#MXNet.mx.AbstractOptimizer'>#</a>
 <strong><code>MXNet.mx.AbstractOptimizer</code></strong> &mdash; <em>Type</em>.</p>
 <pre><code>AbstractOptimizer
 </code></pre>
 
 <p>Base type for all optimizers.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/157b0887438c6a1bcd635b51fa0b4eae3972972f/src/optimizer.jl#L1-L5' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/9f4f53338ab5f96c8ff71273e95005f038755b23/src/optimizer.jl#L5-L9' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.getupdater-Tuple{MXNet.mx.AbstractOptimizer}' href='#MXNet.mx.getupdater-Tuple{MXNet.mx.AbstractOptimizer}'>#</a>
+<strong><code>MXNet.mx.getupdater</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>getupdater(optimizer)
+</code></pre>
+
+<p>A utility function to create an updater function of <code>KVStore</code>, that uses its closure to store all the states needed for each weights.</p>
+<p>Ther returned function has following signature:</p>
+<pre><code class="julia">decend!(index::Int, ∇::NDArray, x::NDArray)
+</code></pre>
+
+<p>If the optimizer is stateful and need access/store states during updating, <code>index</code> will be the key to access/store states.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/9f4f53338ab5f96c8ff71273e95005f038755b23/src/optimizer.jl#L231-L245' class='documenter-source'>source</a><br></p>
+<p><a id='MXNet.mx.normgrad!-Tuple{MXNet.mx.AbstractOptimizer,MXNet.mx.NDArray,MXNet.mx.NDArray}' href='#MXNet.mx.normgrad!-Tuple{MXNet.mx.AbstractOptimizer,MXNet.mx.NDArray,MXNet.mx.NDArray}'>#</a>
+<strong><code>MXNet.mx.normgrad!</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>normgrad(optimizer, W, ∇)
+</code></pre>
+
+<p>Get the properly normalized gradient (re-scaled and clipped if necessary).</p>
+<ul>
+<li><code>optimizer</code>: the optimizer, should contain the field <code>scale</code>, <code>clip</code> and <code>λ</code>.</li>
+<li><code>W::NDArray</code>: the trainable weights.</li>
+<li><code>∇::NDArray</code>: the original gradient of the weights.</li>
+</ul>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/9f4f53338ab5f96c8ff71273e95005f038755b23/src/optimizer.jl#L257-L266' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.AbstractLearningRateScheduler' href='#MXNet.mx.AbstractLearningRateScheduler'>#</a>
 <strong><code>MXNet.mx.AbstractLearningRateScheduler</code></strong> &mdash; <em>Type</em>.</p>
 <pre><code>AbstractLearningRateScheduler
 </code></pre>
 
 <p>Base type for all learning rate scheduler.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/157b0887438c6a1bcd635b51fa0b4eae3972972f/src/optimizer.jl#L8-L12' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/9f4f53338ab5f96c8ff71273e95005f038755b23/src/optimizer.jl#L12-L16' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.AbstractMomentumScheduler' href='#MXNet.mx.AbstractMomentumScheduler'>#</a>
 <strong><code>MXNet.mx.AbstractMomentumScheduler</code></strong> &mdash; <em>Type</em>.</p>
 <pre><code>AbstractMomentumScheduler
 </code></pre>
 
 <p>Base type for all momentum scheduler.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/157b0887438c6a1bcd635b51fa0b4eae3972972f/src/optimizer.jl#L15-L19' class='documenter-source'>source</a><br></p>
-<p><a id='MXNet.mx.AbstractOptimizerOptions' href='#MXNet.mx.AbstractOptimizerOptions'>#</a>
-<strong><code>MXNet.mx.AbstractOptimizerOptions</code></strong> &mdash; <em>Type</em>.</p>
-<pre><code>AbstractOptimizerOptions
-</code></pre>
-
-<p>Base class for all optimizer options.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/157b0887438c6a1bcd635b51fa0b4eae3972972f/src/optimizer.jl#L238-L242' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/9f4f53338ab5f96c8ff71273e95005f038755b23/src/optimizer.jl#L19-L23' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.OptimizationState' href='#MXNet.mx.OptimizationState'>#</a>
 <strong><code>MXNet.mx.OptimizationState</code></strong> &mdash; <em>Type</em>.</p>
 <pre><code>OptimizationState
 </code></pre>
 
-<p><strong>Attributes:</strong></p>
+<p><strong>Attributes</strong></p>
 <ul>
 <li><code>batch_size</code>: The size of the mini-batch used in stochastic training.</li>
 <li><code>curr_epoch</code>: The current epoch count. Epoch 0 means no training yet, during the first pass through the data, the epoch will be 1; during the second pass, the epoch count will be 1, and so on.</li>
 <li><code>curr_batch</code>: The current mini-batch count. The batch count is reset during every epoch. The batch count 0 means the beginning of each epoch, with no mini-batch seen yet. During the first mini-batch, the mini-batch count will be 1.</li>
 <li><code>curr_iter</code>: The current iteration count. One iteration corresponds to one mini-batch, but unlike the mini-batch count, the iteration count does <strong>not</strong> reset in each epoch. So it track the <em>total</em> number of mini-batches seen so far.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/157b0887438c6a1bcd635b51fa0b4eae3972972f/src/optimizer.jl#L24-L41' class='documenter-source'>source</a><br></p>
-<p><a id='MXNet.mx.get_learning_rate' href='#MXNet.mx.get_learning_rate'>#</a>
-<strong><code>MXNet.mx.get_learning_rate</code></strong> &mdash; <em>Function</em>.</p>
-<pre><code>get_learning_rate(scheduler, state)
-</code></pre>
-
-<p><strong>Arguments</strong></p>
-<ul>
-<li><code>scheduler::AbstractLearningRateScheduler</code>: a learning rate scheduler.</li>
-<li><code>state::OptimizationState</code>: the current state about epoch, mini-batch and iteration count.</li>
-</ul>
-<p>Returns the current learning rate.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/157b0887438c6a1bcd635b51fa0b4eae3972972f/src/optimizer.jl#L51-L59' class='documenter-source'>source</a><br></p>
-<p><a id='MXNet.mx.get_momentum' href='#MXNet.mx.get_momentum'>#</a>
-<strong><code>MXNet.mx.get_momentum</code></strong> &mdash; <em>Function</em>.</p>
-<pre><code>get_momentum(scheduler, state)
-</code></pre>
-
-<ul>
-<li><code>scheduler::AbstractMomentumScheduler</code>: the momentum scheduler.</li>
-<li><code>state::OptimizationState</code>: the state about current epoch, mini-batch and iteration count.</li>
-</ul>
-<p>Returns the current momentum.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/157b0887438c6a1bcd635b51fa0b4eae3972972f/src/optimizer.jl#L125-L132' class='documenter-source'>source</a><br></p>
-<p><a id='MXNet.mx.get_updater-Tuple{MXNet.mx.AbstractOptimizer}' href='#MXNet.mx.get_updater-Tuple{MXNet.mx.AbstractOptimizer}'>#</a>
-<strong><code>MXNet.mx.get_updater</code></strong> &mdash; <em>Method</em>.</p>
-<pre><code>get_updater(optimizer)
-</code></pre>
-
-<p>A utility function to create an updater function, that uses its closure to store all the states needed for each weights.</p>
-<ul>
-<li><code>optimizer::AbstractOptimizer</code>: the underlying optimizer.</li>
-</ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/157b0887438c6a1bcd635b51fa0b4eae3972972f/src/optimizer.jl#L219-L226' class='documenter-source'>source</a><br></p>
-<p><a id='MXNet.mx.normalized_gradient-Tuple{MXNet.mx.AbstractOptimizerOptions,MXNet.mx.OptimizationState,MXNet.mx.NDArray,MXNet.mx.NDArray}' href='#MXNet.mx.normalized_gradient-Tuple{MXNet.mx.AbstractOptimizerOptions,MXNet.mx.OptimizationState,MXNet.mx.NDArray,MXNet.mx.NDArray}'>#</a>
-<strong><code>MXNet.mx.normalized_gradient</code></strong> &mdash; <em>Method</em>.</p>
-<pre><code>normalized_gradient(opts, state, W, ∇)
-</code></pre>
-
-<p>Get the properly normalized gradient (re-scaled and clipped if necessary).</p>
-<ul>
-<li><code>opts::AbstractOptimizerOptions</code>: options for the optimizer, should contain the field <code>grad_clip</code> and <code>weight_decay</code>.</li>
-<li><code>state::OptimizationState</code>: the current optimization state.</li>
-<li><code>W::NDArray</code>: the trainable weights.</li>
-<li><code>∇::NDArray</code>: the original gradient of the weights.</li>
-</ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/157b0887438c6a1bcd635b51fa0b4eae3972972f/src/optimizer.jl#L245-L255' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/9f4f53338ab5f96c8ff71273e95005f038755b23/src/optimizer.jl#L26-L43' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.LearningRate.Exp' href='#MXNet.mx.LearningRate.Exp'>#</a>
 <strong><code>MXNet.mx.LearningRate.Exp</code></strong> &mdash; <em>Type</em>.</p>
-<pre><code>LearningRate.Exp
+<pre><code>LearningRate.Exp(η₀; γ = 0.9)
 </code></pre>
 
-<p>$ta_t = ta_0gamma^t$. Here $t$ is the epoch count, or the iteration count if <code>decay_on_iteration</code> is set to true.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/157b0887438c6a1bcd635b51fa0b4eae3972972f/src/optimizer.jl#L77-L82' class='documenter-source'>source</a><br></p>
+<p>
+<script type="math/tex; mode=display">
+\eta_t = \eta_0\gamma^t
+</script>
+</p>
+<p>Where <code>t</code> is the epoch count, or the iteration count.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/9f4f53338ab5f96c8ff71273e95005f038755b23/src/optimizer.jl#L86' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.LearningRate.Fixed' href='#MXNet.mx.LearningRate.Fixed'>#</a>
 <strong><code>MXNet.mx.LearningRate.Fixed</code></strong> &mdash; <em>Type</em>.</p>
-<pre><code>LearningRate.Fixed
+<pre><code>LearningRate.Fixed(η)
 </code></pre>
 
 <p>Fixed learning rate scheduler always return the same learning rate.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/157b0887438c6a1bcd635b51fa0b4eae3972972f/src/optimizer.jl#L67-L71' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/9f4f53338ab5f96c8ff71273e95005f038755b23/src/optimizer.jl#L75-L79' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.LearningRate.Inv' href='#MXNet.mx.LearningRate.Inv'>#</a>
 <strong><code>MXNet.mx.LearningRate.Inv</code></strong> &mdash; <em>Type</em>.</p>
-<pre><code>LearningRate.Inv
+<pre><code>LearningRate.Inv(η₀; γ = 0.9, p = 0.5)
 </code></pre>
 
-<p>$ta_t = ta_0 * (1 + gamma * t)^(-power)$. Here $t$ is the epoch count, or the iteration count if <code>decay_on_iteration</code> is set to true.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/157b0887438c6a1bcd635b51fa0b4eae3972972f/src/optimizer.jl#L94-L100' class='documenter-source'>source</a><br></p>
+<p>
+<script type="math/tex; mode=display">
+\eta_t = \eta_0 (1 + \gamma t)^{-p}
+</script>
+</p>
+<p>Where <code>t</code> is the epoch count, or the iteration count.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/9f4f53338ab5f96c8ff71273e95005f038755b23/src/optimizer.jl#L108' class='documenter-source'>source</a><br></p>
+<p><a id='Base.get-Tuple{MXNet.mx.AbstractLearningRateScheduler}' href='#Base.get-Tuple{MXNet.mx.AbstractLearningRateScheduler}'>#</a>
+<strong><code>Base.get</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>get(sched::AbstractLearningRateScheduler)
+</code></pre>
+
+<p>Returns the current learning rate.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/9f4f53338ab5f96c8ff71273e95005f038755b23/src/optimizer.jl#L68-L72' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.Momentum.Fixed' href='#MXNet.mx.Momentum.Fixed'>#</a>
 <strong><code>MXNet.mx.Momentum.Fixed</code></strong> &mdash; <em>Type</em>.</p>
 <pre><code>Momentum.Fixed
 </code></pre>
 
 <p>Fixed momentum scheduler always returns the same value.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/157b0887438c6a1bcd635b51fa0b4eae3972972f/src/optimizer.jl#L152-L156' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/9f4f53338ab5f96c8ff71273e95005f038755b23/src/optimizer.jl#L169-L173' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.Momentum.NadamScheduler' href='#MXNet.mx.Momentum.NadamScheduler'>#</a>
 <strong><code>MXNet.mx.Momentum.NadamScheduler</code></strong> &mdash; <em>Type</em>.</p>
-<pre><code>Momentum.NadamScheduler
+<pre><code>NadamScheduler(; μ = 0.99, δ = 0.004, γ = 0.5, α = 0.96)
 </code></pre>
 
 <p>Nesterov-accelerated adaptive momentum scheduler.</p>
-<p>Description in "Incorporating Nesterov Momentum into Adam." <a href="http://cs229.stanford.edu/proj2015/054_report.pdf">http://cs229.stanford.edu/proj2015/054_report.pdf</a></p>
-<p>$mu_t = mu_0 * (1 - gamma * lpha^{t * delta})$. Here</p>
+<p>Description in <a href="http://cs229.stanford.edu/proj2015/054_report.pdf">Incorporating Nesterov Momentum into Adam</a>.</p>
+<p>
+<script type="math/tex; mode=display">
+\mu_t = \mu_0 * (1 - \gamma * \alpha^{t * \delta})
+</script>
+</p>
+<p>Where</p>
 <ul>
-<li>$t$ is the iteration count</li>
-<li>$delta$: default <code>0.004</code> is scheduler decay,</li>
-<li>$gamma$: default <code>0.5</code></li>
-<li>$lpha$: default <code>0.96</code></li>
-<li>$mu_0$: default <code>0.99</code></li>
+<li><code>t</code>: iteration count</li>
+<li><code>μ</code>: default <code>0.99</code>, μ₀</li>
+<li><code>δ</code>: default <code>0.004</code> is scheduler decay.</li>
+<li><code>γ</code>: default <code>0.5</code></li>
+<li><code>α</code>: default <code>0.96</code></li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/157b0887438c6a1bcd635b51fa0b4eae3972972f/src/optimizer.jl#L162-L178' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/9f4f53338ab5f96c8ff71273e95005f038755b23/src/optimizer.jl#L180' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.Momentum.Null' href='#MXNet.mx.Momentum.Null'>#</a>
 <strong><code>MXNet.mx.Momentum.Null</code></strong> &mdash; <em>Type</em>.</p>
 <pre><code>Momentum.Null
 </code></pre>
 
 <p>The null momentum scheduler always returns 0 for momentum. It is also used to explicitly indicate momentum should not be used.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/157b0887438c6a1bcd635b51fa0b4eae3972972f/src/optimizer.jl#L142-L147' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/9f4f53338ab5f96c8ff71273e95005f038755b23/src/optimizer.jl#L158-L163' class='documenter-source'>source</a><br></p>
+<p><a id='Base.get-Tuple{MXNet.mx.Momentum.NadamScheduler,Any}' href='#Base.get-Tuple{MXNet.mx.Momentum.NadamScheduler,Any}'>#</a>
+<strong><code>Base.get</code></strong> &mdash; <em>Method</em>.</p>
+<pre><code>get(n::NadamScheduler, t)
+</code></pre>
+
+<p>Where <code>t</code> is the iteration count.</p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/9f4f53338ab5f96c8ff71273e95005f038755b23/src/optimizer.jl#L214-L218' class='documenter-source'>source</a><br></p>
 <p><a id='Built-in-optimizers-1'></a></p>
 <h2 id="built-in-optimizers">Built-in optimizers</h2>
 <p><a id='Stochastic-Gradient-Descent-1'></a></p>
 <h3 id="stochastic-gradient-descent">Stochastic Gradient Descent</h3>
 <p><a id='MXNet.mx.SGD' href='#MXNet.mx.SGD'>#</a>
 <strong><code>MXNet.mx.SGD</code></strong> &mdash; <em>Type</em>.</p>
-<pre><code>SGD
-</code></pre>
-
-<p>Stochastic gradient descent optimizer.</p>
 <pre><code>SGD(; kwargs...)
 </code></pre>
 
-<p><strong>Arguments:</strong></p>
+<p>Stochastic gradient descent optimizer.</p>
+<p>Vanilla SGD:</p>
+<p>
+<script type="math/tex; mode=display">
+\theta \leftarrow \theta - \eta \nabla
+</script>
+</p>
+<p>SGD with momentum::</p>
+<p>
+<script type="math/tex; mode=display">
+\begin{align*}
+  \nu    & \leftarrow \mu \nu_{t-1} - \eta \nabla \\
+  \theta & \leftarrow \theta + \nu_t
+\end{align*}
+</script>
+</p>
+<p><strong>Arguments</strong></p>
 <ul>
-<li><code>lr::Real</code>: default <code>0.01</code>, learning rate.</li>
-<li><code>lr_scheduler::AbstractLearningRateScheduler</code>: default <code>nothing</code>, a      dynamic learning rate scheduler. If set, will overwrite the <code>lr</code>      parameter.</li>
-<li><code>momentum::Real</code>: default <code>0.0</code>, the momentum.</li>
-<li><code>momentum_scheduler::AbstractMomentumScheduler</code>: default <code>nothing</code>,      a dynamic momentum scheduler. If set, will overwrite the <code>momentum</code>      parameter.</li>
-<li><code>grad_clip::Real</code>: default <code>0</code>, if positive, will clip the gradient      into the bounded range <code>[-grad_clip, grad_clip]</code>.</li>
-<li><code>weight_decay::Real</code>: default <code>0.0001</code>, weight decay is equivalent to      adding a global l2 regularizer to the parameters.</li>
+<li><code>η</code>: default <code>0.01</code>, learning rate.</li>
+<li><code>μ</code>: default <code>0</code>, the momentum, usually set to <code>0.9</code> in this implementation.</li>
+<li><code>λ</code>: default <code>0.0001</code>, weight decay is equivalent to adding a global l2 regularizer to the parameters.</li>
+<li><code>clip</code>: default <code>0</code>, gradient clipping. If positive, will clip the gradient into the bounded range <code>[-clip, clip]</code>.</li>
+<li><code>scale</code>: default <code>0</code>, gradient rescaling. If != 0, multiply the gradient with <code>scale</code> before updating. Often choose to be <code>1.0 / batch_size</code>. If leave it default, high-level API like <code>fit!</code> will set it to <code>1.0 / batch_size</code>, since <code>fit!</code> knows the <code>batch_size</code>.</li>
+<li><code>μ_sched::AbstractMomentumScheduler</code>: default <code>Momentum.Null()</code>, a dynamic momentum scheduler. If set, will overwrite the <code>momentum</code> parameter.</li>
+<li><code>η_sched::AbstractLearningRateScheduler</code>: default <code>LearningRate.Fixed(η)</code>, a dynamic learning rate scheduler. If set, will overwrite the <code>η</code> parameter.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/157b0887438c6a1bcd635b51fa0b4eae3972972f/src/optimizers/sgd.jl#L10-L30' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/9f4f53338ab5f96c8ff71273e95005f038755b23/src/optimizers/sgd.jl#L1' class='documenter-source'>source</a><br></p>
 <p><a id='ADAM-1'></a></p>
 <h3 id="adam">ADAM</h3>
 <p><a id='MXNet.mx.ADAM' href='#MXNet.mx.ADAM'>#</a>
@@ -861,156 +895,175 @@
 <pre><code>ADAM(; kwargs...)
 </code></pre>
 
+<p><strong>Arguments</strong></p>
 <ul>
-<li><code>lr::Real</code>: default <code>0.001</code>, learning rate.</li>
-<li><code>lr_scheduler::AbstractLearningRateScheduler</code>: default <code>nothing</code>, a      dynamic learning rate scheduler. If set, will overwrite the <code>lr</code>      parameter.</li>
-<li><code>beta1::Real</code>: default <code>0.9</code>.</li>
-<li><code>beta2::Real</code>: default <code>0.999</code>.</li>
-<li><code>epsilon::Real</code>: default <code>1e-8</code>.</li>
-<li><code>grad_clip::Real</code>: default <code>0</code>, if positive, will clip the gradient      into the range <code>[-grad_clip, grad_clip]</code>.</li>
-<li><code>weight_decay::Real</code>: default <code>0.00001</code>, weight decay is equivalent      to adding a global l2 regularizer for all the parameters.</li>
+<li><code>η</code>: default <code>0.001</code>, learning rate.</li>
+<li><code>β1</code>: default <code>0.9</code>.</li>
+<li><code>β2</code>: default <code>0.999</code>.</li>
+<li><code>ϵ</code>: default <code>1e-8</code>.</li>
+<li><code>clip</code>: default <code>0</code>, gradient clipping. If positive, will clip the gradient into the range <code>[-clip, clip]</code>.</li>
+<li><code>scale</code>: default <code>0</code>, gradient rescaling. If != 0, multiply the gradient with <code>scale</code> before updating. Often choose to be <code>1.0 / batch_size</code>. If leave it default, high-level API like <code>fit!</code> will set it to <code>1.0 / batch_size</code>, since <code>fit!</code> knows the <code>batch_size</code>.</li>
+<li><code>λ</code>: default <code>0.00001</code>, weight decay is equivalent to adding a global l2 regularizer for all the parameters.</li>
+<li><code>η_sched::AbstractLearningRateScheduler</code>: default <code>LearningRate.Fixed(η)</code>, a dynamic learning rate scheduler. If set, will overwrite the <code>η</code> parameter.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/157b0887438c6a1bcd635b51fa0b4eae3972972f/src/optimizers/adam.jl#L11-L30' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/9f4f53338ab5f96c8ff71273e95005f038755b23/src/optimizers/adam.jl#L1-L25' class='documenter-source'>source</a><br></p>
 <p><a id='AdaGrad-1'></a></p>
 <h3 id="adagrad">AdaGrad</h3>
 <p><a id='MXNet.mx.AdaGrad' href='#MXNet.mx.AdaGrad'>#</a>
 <strong><code>MXNet.mx.AdaGrad</code></strong> &mdash; <em>Type</em>.</p>
-<pre><code>AdaGrad
-</code></pre>
-
-<p>Scale learning rates by dividing with the square root of accumulated squared gradients. See [1] for further description.</p>
 <pre><code>AdaGrad(; kwargs...)
 </code></pre>
 
-<p><strong>Attributes</strong></p>
+<p>Scale learning rates by dividing with the square root of accumulated squared gradients. See [1] for further description.</p>
+<p><strong>Arguments</strong></p>
 <ul>
-<li><code>lr::Real</code>: default <code>0.1</code>, the learning rate controlling the size of update steps</li>
-<li><code>epsilon::Real</code>: default <code>1e-6</code>, small value added for numerical stability</li>
-<li><code>grad_clip::Real</code>: default <code>0</code>, if positive, will clip the gradient into the range <code>[-grad_clip, grad_clip]</code>.</li>
-<li><code>weight_decay::Real</code>: default <code>0.00001</code>, weight decay is equivalent to adding a global l2 regularizer for all the parameters.</li>
+<li><code>η</code>: default <code>0.1</code>, learning rate.</li>
+<li><code>ϵ</code>: default <code>1e-6</code>, small value added for numerical stability.</li>
+<li><code>clip</code>: default <code>0</code>, gradient clipping. If positive, will clip the gradient into the range <code>[-clip, clip]</code>.</li>
+<li><code>scale</code>: default <code>0</code>, gradient rescaling. If != 0, multiply the gradient with <code>scale</code> before updating. Often choose to be <code>1.0 / batch_size</code>. If leave it default, high-level API like <code>fit!</code> will set it to <code>1.0 / batch_size</code>, since <code>fit!</code> knows the <code>batch_size</code>.</li>
+<li><code>λ</code>: default <code>0.00001</code>, weight decay is equivalent to adding a global l2 regularizer for all the parameters.</li>
 </ul>
 <p><strong>Notes</strong></p>
-<p>Using step size lr AdaGrad calculates the learning rate for feature i at time step t as: $η_{t,i} = rac{lr}{sqrt{sum^t_{t^prime} g^2_{t^prime,i} + ϵ}} g_{t,i}$ as such the learning rate is monotonically decreasing. Epsilon is not included in the typical formula, see [2].</p>
+<p>Using step size <code>η</code> AdaGrad calculates the learning rate for feature <code>i</code> at time step t as:</p>
+<p>
+<script type="math/tex; mode=display">
+η_{t,i} = \frac{lr}{\sqrt{\sum^t_{t^\prime} g^2_{t^\prime,i} + ϵ}} g_{t,i}
+</script>
+</p>
+<p>as such the learning rate is monotonically decreasing. Epsilon is not included in the typical formula, see [2].</p>
 <p><strong>References</strong></p>
-<ul>
-<li>[1]: Duchi, J., Hazan, E., &amp; Singer, Y. (2011): Adaptive subgradient methods for online learning and stochastic optimization. JMLR, 12:2121-2159.</li>
-<li>[2]: Chris Dyer: Notes on AdaGrad. <a href="http://www.ark.cs.cmu.edu/cdyer/adagrad.pdf">http://www.ark.cs.cmu.edu/cdyer/adagrad.pdf</a></li>
-</ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/157b0887438c6a1bcd635b51fa0b4eae3972972f/src/optimizers/adagrad.jl#L9-L41' class='documenter-source'>source</a><br></p>
+<ol>
+<li>Duchi, J., Hazan, E., &amp; Singer, Y. (2011): Adaptive subgradient methods for online learning and stochastic optimization. JMLR, 12:2121-2159.</li>
+<li>Chris Dyer: Notes on AdaGrad. <a href="http://www.ark.cs.cmu.edu/cdyer/adagrad.pdf">http://www.ark.cs.cmu.edu/cdyer/adagrad.pdf</a></li>
+</ol>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/9f4f53338ab5f96c8ff71273e95005f038755b23/src/optimizers/adagrad.jl#L1' class='documenter-source'>source</a><br></p>
 <p><a id='AdaDelta-1'></a></p>
 <h3 id="adadelta">AdaDelta</h3>
 <p><a id='MXNet.mx.AdaDelta' href='#MXNet.mx.AdaDelta'>#</a>
 <strong><code>MXNet.mx.AdaDelta</code></strong> &mdash; <em>Type</em>.</p>
-<pre><code>AdaDelta
-</code></pre>
-
-<p>Scale learning rates by the ratio of accumulated gradients to accumulated updates, see [1] and notes for further description.</p>
 <pre><code>AdaDelta(; kwargs...)
 </code></pre>
 
+<p>Scale learning rates by the ratio of accumulated gradients to accumulated updates, see [1] and notes for further description.</p>
 <p><strong>Attributes</strong></p>
 <ul>
-<li><code>lr::Real</code>: default <code>1.0</code>, the learning rate controlling the size of update steps</li>
-<li><code>rho::Real</code>: default <code>0.9</code>, squared gradient moving average decay factor</li>
-<li><code>epsilon::Real</code>: default <code>1e-6</code>, small value added for numerical stability</li>
-<li><code>grad_clip::Real</code>: default <code>0</code>, if positive, will clip the gradient into the range <code>[-grad_clip, grad_clip]</code>.</li>
-<li><code>weight_decay::Real</code>: default <code>0.00001</code>, weight decay is equivalent to adding a global l2 regularizer for all the parameters.</li>
+<li><code>η</code>: default <code>1.0</code>, learning rate.</li>
+<li><code>ρ</code>: default <code>0.95</code>, squared gradient moving average decay factor.</li>
+<li><code>ϵ</code>: default <code>1e-6</code>, small value added for numerical stability.</li>
+<li><code>clip</code>: default <code>0</code>, gradient clipping. If positive, will clip the gradient into the range <code>[-clip, clip]</code>.</li>
+<li><code>scale</code>: default <code>0</code>, gradient rescaling. If != 0, multiply the gradient with <code>scale</code> before updating. Often choose to be <code>1.0 / batch_size</code>. If leave it default, high-level API like <code>fit!</code> will set it to <code>1.0 / batch_size</code>, since <code>fit!</code> knows the <code>batch_size</code>.</li>
+<li><code>λ</code>: default <code>0.00001</code>, weight decay is equivalent to adding a global l2 regularizer for all the parameters.</li>
 </ul>
 <p><strong>Notes</strong></p>
-<p><code>rho</code> should be between 0 and 1. A value of <code>rho</code> close to 1 will decay the moving average slowly and a value close to 0 will decay the moving average fast.</p>
-<p><code>rho</code> = 0.95 and <code>epsilon</code> = 1e-6 are suggested in the paper and reported to work for multiple datasets (MNIST, speech). In the paper, no learning rate is considered (so <code>lr</code> = 1.0). Probably best to keep it at this value.</p>
-<p><code>epsilon</code> is important for the very first update (so the numerator does not become 0).</p>
-<p>Using the step size <code>lr</code> and a decay factor <code>rho</code> the learning rate is calculated as: <code>r_t &amp;=  ho r_{t-1} + (1- ho)*g^2
-ta_t &amp;= ta rac{sqrt{s_{t-1} + psilon}} {sqrt{r_t + psilon}}
-s_t &amp;=  ho s_{t-1} + (1- ho)*(ta_t*g)^2</code></p>
+<p><code>ρ</code> should be between 0 and 1. A value of <code>ρ</code> close to 1 will decay the moving average slowly and a value close to 0 will decay the moving average fast.</p>
+<p><code>ρ = 0.95</code> and <code>ϵ = 1e-6</code> are suggested in the paper and reported to work for multiple datasets (MNIST, speech). In the paper, no learning rate is considered (so <code>η = 1.0</code>). Probably best to keep it at this value.</p>
+<p><code>ϵ</code> is important for the very first update (so the numerator does not become 0).</p>
+<p>Using the step size <code>η</code> and a decay factor <code>ρ</code> the learning rate is calculated as:</p>
+<p>
+<script type="math/tex; mode=display">
+\begin{align*}
+  r_t &= ρ r_{t-1} + (1 - ρ) g^2 \\
+  η_t &= η \frac{\sqrt{s_{t-1} + ϵ}} {\sqrt{r_t + ϵ}} \\
+  s_t &= ρ s_{t-1} + (1 - ρ) (η_t \times g)^2
+\end{align*}
+</script>
+</p>
 <p><strong>References</strong></p>
-<ul>
-<li>[1]: Zeiler, M. D. (2012): ADADELTA: An Adaptive Learning Rate Method. arXiv Preprint arXiv:1212.5701.</li>
-</ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/157b0887438c6a1bcd635b51fa0b4eae3972972f/src/optimizers/adadelta.jl#L10-L50' class='documenter-source'>source</a><br></p>
+<ol>
+<li>Zeiler, M. D. (2012): ADADELTA: An Adaptive Learning Rate Method. arXiv Preprint arXiv:1212.5701.</li>
+</ol>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/9f4f53338ab5f96c8ff71273e95005f038755b23/src/optimizers/adadelta.jl#L1' class='documenter-source'>source</a><br></p>
 <p><a id='AdaMax-1'></a></p>
 <h3 id="adamax">AdaMax</h3>
 <p><a id='MXNet.mx.AdaMax' href='#MXNet.mx.AdaMax'>#</a>
 <strong><code>MXNet.mx.AdaMax</code></strong> &mdash; <em>Type</em>.</p>
-<pre><code>AdaMax
-</code></pre>
-
-<p>This is a variant of of the Adam algorithm based on the infinity norm. See [1] for further description.</p>
 <pre><code>AdaMax(; kwargs...)
 </code></pre>
 
-<p><strong>Attributes</strong></p>
+<p>This is a variant of of the Adam algorithm based on the infinity norm. See [1] for further description.</p>
+<p><strong>Arguments</strong></p>
 <ul>
-<li><code>lr::Real</code>: default <code>0.002</code>, the learning rate controlling the size of update steps</li>
-<li><code>beta1::Real</code>: default <code>0.9</code>, exponential decay rate for the first moment estimates</li>
-<li><code>beta2::Real</code>: default <code>0.999</code>, exponential decay rate for the weighted infinity norm estimates</li>
-<li><code>epsilon::Real</code>: default <code>1e-8</code>, small value added for numerical stability</li>
-<li><code>grad_clip::Real</code>: default <code>0</code>, if positive, will clip the gradient into the range <code>[-grad_clip, grad_clip]</code>.</li>
-<li><code>weight_decay::Real</code>: default <code>0.00001</code>, weight decay is equivalent to adding a global l2 regularizer for all the parameters.</li>
+<li><code>η</code>: default <code>0.002</code>, learning rate.</li>
+<li><code>β1</code>: default <code>0.9</code>, exponential decay rate for the first moment estimates.</li>
+<li><code>β2</code>: default <code>0.999</code>, exponential decay rate for the weighted infinity norm estimates.</li>
+<li><code>ϵ</code>: default <code>1e-8</code>, small value added for numerical stability.</li>
+<li><code>clip</code>: default <code>0</code>, gradient clipping. If positive, will clip the gradient into the range <code>[-clip, clip]</code>.</li>
+<li><code>scale</code>: default <code>0</code>, gradient rescaling. If != 0, multiply the gradient with <code>scale</code> before updating. Often choose to be <code>1.0 / batch_size</code>. If leave it default, high-level API like <code>fit!</code> will set it to <code>1.0 / batch_size</code>, since <code>fit!</code> knows the <code>batch_size</code>.</li>
+<li><code>λ</code>: default <code>0.00001</code>, weight decay is equivalent to adding a global l2 regularizer for all the parameters.</li>
 </ul>
 <p><strong>References</strong></p>
-<ul>
-<li>[1]: Kingma, Diederik, and Jimmy Ba (2014): Adam: A Method for Stochastic Optimization. <a href="http://arxiv.org/abs/1412.6980v8">http://arxiv.org/abs/1412.6980v8</a>.</li>
-</ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/157b0887438c6a1bcd635b51fa0b4eae3972972f/src/optimizers/adamax.jl#L11-L38' class='documenter-source'>source</a><br></p>
+<ol>
+<li>Kingma, Diederik, and Jimmy Ba (2014): Adam: A Method for Stochastic Optimization. Section 7. <a href="http://arxiv.org/abs/1412.6980">http://arxiv.org/abs/1412.6980</a>.</li>
+</ol>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/9f4f53338ab5f96c8ff71273e95005f038755b23/src/optimizers/adamax.jl#L1-L28' class='documenter-source'>source</a><br></p>
 <p><a id='RMSProp-1'></a></p>
 <h3 id="rmsprop">RMSProp</h3>
 <p><a id='MXNet.mx.RMSProp' href='#MXNet.mx.RMSProp'>#</a>
 <strong><code>MXNet.mx.RMSProp</code></strong> &mdash; <em>Type</em>.</p>
-<pre><code>RMSProp
-</code></pre>
-
-<p>Scale learning rates by dividing with the moving average of the root mean squared (RMS) gradients. See [1] for further description.</p>
 <pre><code>RMSProp(; kwargs...)
 </code></pre>
 
-<p><strong>Attributes</strong></p>
+<p>Scale learning rates by dividing with the moving average of the root mean squared (RMS) gradients. See [1] for further description.</p>
+<p><strong>Arguments</strong></p>
 <ul>
-<li><code>lr::Real</code>: default <code>0.1</code>, the learning rate controlling the size of update steps</li>
-<li><code>rho::Real</code>: default <code>0.9</code>, gradient moving average decay factor</li>
-<li><code>epsilon::Real</code>: default <code>1e-6</code>, small value added for numerical stability</li>
-<li><code>grad_clip::Real</code>: default <code>0</code>, if positive, will clip the gradient into the range <code>[-grad_clip, grad_clip]</code>.</li>
-<li><code>weight_decay::Real</code>: default <code>0.00001</code>, weight decay is equivalent to adding a global l2 regularizer for all the parameters.</li>
+<li><code>η</code>: default <code>0.1</code>, learning rate.</li>
+<li><code>ρ</code>: default <code>0.9</code>, gradient moving average decay factor.</li>
+<li><code>ϵ</code>: default <code>1e-8</code>, small value added for numerical stability.</li>
+<li><code>clip</code>: default <code>0</code>, gradient clipping. If positive, will clip the gradient into the range <code>[-clip, clip]</code>.</li>
+<li><code>scale</code>: default <code>0</code>, gradient rescaling. If != 0, multiply the gradient with <code>scale</code> before updating. Often choose to be <code>1.0 / batch_size</code>. If leave it default, high-level API like <code>fit!</code> will set it to <code>1.0 / batch_size</code>, since <code>fit!</code> knows the <code>batch_size</code>.</li>
+<li><code>λ</code>: default <code>0.00001</code>, weight decay is equivalent to adding a global l2 regularizer for all the parameters.</li>
 </ul>
 <p><strong>Notes</strong></p>
-<p><code>rho</code> should be between 0 and 1. A value of <code>rho</code> close to 1 will decay the moving average slowly and a value close to 0 will decay the moving average fast.</p>
-<p>Using the step size $lr$ and a decay factor $ho$ the learning rate $ta_t$ is calculated as: <code>r_t &amp;= ρ r_{t-1} + (1 - ρ)*g^2 
-  η_t &amp;= rac{lr}{sqrt{r_t + ϵ}}</code></p>
+<p><code>ρ</code> should be between 0 and 1. A value of <code>ρ</code> close to 1 will decay the moving average slowly and a value close to 0 will decay the moving average fast.</p>
+<p>Using the step size <code>η</code> and a decay factor <code>ρ the learning rate</code>ηₜ` is calculated as:</p>
+<p>
+<script type="math/tex; mode=display">
+\begin{align*}
+  r_t &= ρ r_{t-1} + (1 - ρ)g^2 \\
+  η_t &= \frac{η}{\sqrt{r_t + ϵ}}
+\end{align*}
+</script>
+</p>
 <p><strong>References</strong></p>
-<ul>
-<li>[1]: Tieleman, T. and Hinton, G. (2012): Neural Networks for Machine Learning, Lecture 6.5 - rmsprop. Coursera. <a href="http://www.youtube.com/watch?v=O3sxAc4hxZU">http://www.youtube.com/watch?v=O3sxAc4hxZU</a> (formula @5:20)</li>
-</ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/157b0887438c6a1bcd635b51fa0b4eae3972972f/src/optimizers/rmsprop.jl#L10-L44' class='documenter-source'>source</a><br></p>
+<ol>
+<li>Tieleman, T. and Hinton, G. (2012): Neural Networks for Machine Learning, Lecture 6.5 - rmsprop. Coursera. <a href="http://www.youtube.com/watch?v=O3sxAc4hxZU">http://www.youtube.com/watch?v=O3sxAc4hxZU</a> (formula @5:20)</li>
+</ol>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/9f4f53338ab5f96c8ff71273e95005f038755b23/src/optimizers/rmsprop.jl#L1' class='documenter-source'>source</a><br></p>
 <p><a id='Nadam-1'></a></p>
 <h3 id="nadam">Nadam</h3>
 <p><a id='MXNet.mx.Nadam' href='#MXNet.mx.Nadam'>#</a>
 <strong><code>MXNet.mx.Nadam</code></strong> &mdash; <em>Type</em>.</p>
-<pre><code>Nadam
-</code></pre>
-
-<p>Nesterov Adam optimizer: Adam RMSprop with Nesterov momentum, see [1] and notes for further description.</p>
 <pre><code>Nadam(; kwargs...)
 </code></pre>
 
-<p><strong>Attributes</strong></p>
+<p>Nesterov Adam optimizer: Adam RMSprop with Nesterov momentum, see [1] and notes for further description.</p>
+<p><strong>Arguments</strong></p>
 <ul>
-<li><code>lr::Real</code>: default <code>0.001</code>, learning rate.</li>
-<li><code>beta1::Real</code>: default <code>0.99</code>.</li>
-<li><code>beta2::Real</code>: default <code>0.999</code>.</li>
-<li><code>epsilon::Real</code>: default <code>1e-8</code>, small value added for numerical stability</li>
-<li><code>grad_clip::Real</code>: default <code>0</code>, if positive, will clip the gradient into the range <code>[-grad_clip, grad_clip]</code>.</li>
-<li><code>weight_decay::Real</code>: default <code>0.00001</code>, weight decay is equivalent to adding a global l2 regularizer for all the parameters.</li>
-<li><code>lr_scheduler::AbstractLearningRateScheduler</code>: default <code>nothing</code>, a dynamic learning rate scheduler. If set, will overwrite the <code>lr</code> parameter.</li>
-<li><code>momentum_scheduler::AbstractMomentumScheduler</code> default <code>NadamScheduler</code> of the form $mu_t = beta1 * (1 - 0.5 * 0.96^{t * 0.004})$</li>
+<li><code>η</code>: default <code>0.001</code>, learning rate.</li>
+<li><code>β1</code>: default <code>0.99</code>.</li>
+<li><code>β2</code>: default <code>0.999</code>.</li>
+<li><code>ϵ</code>: default <code>1e-8</code>, small value added for numerical stability.</li>
+<li><code>clip</code>: default <code>0</code>, gradient clipping. If positive, will clip the gradient into the range <code>[-clip, clip]</code>.</li>
+<li><code>scale</code>: default <code>0</code>, gradient rescaling. If != 0, multiply the gradient with <code>scale</code> before updating. Often choose to be <code>1.0 / batch_size</code>. If leave it default, high-level API like <code>fit!</code> will set it to <code>1.0 / batch_size</code>, since <code>fit!</code> knows the <code>batch_size</code>.</li>
+<li><code>λ</code>: default <code>0.00001</code>, weight decay is equivalent to adding a global l2 regularizer for all the parameters.</li>
+<li><code>η_sched::AbstractLearningRateScheduler</code>: default <code>nothing</code>, a dynamic learning rate scheduler. If set, will overwrite the <code>η</code> parameter.</li>
+<li>
+<p><code>μ_sched::NadamScheduler</code> default <code>NadamScheduler()</code> of the form.</p>
+<p>
+<script type="math/tex; mode=display">
+\mu_t = β_1 (1 - 0.5 \times 0.96^{t \times 0.004})
+</script>
+</p>
+</li>
 </ul>
 <p><strong>Notes</strong></p>
 <p>Default parameters follow those provided in the paper. It is recommended to leave the parameters of this optimizer at their default values.</p>
 <p><strong>References</strong></p>
-<ul>
-<li>[1]: Incorporating Nesterov Momentum into Adam. <a href="http://cs229.stanford.edu/proj2015/054_report.pdf">http://cs229.stanford.edu/proj2015/054_report.pdf</a></li>
-<li>[2]: On the importance of initialization and momentum in deep learning <a href="http://www.cs.toronto.edu/~fritz/absps/momentum.pdf">http://www.cs.toronto.edu/~fritz/absps/momentum.pdf</a></li>
-</ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/157b0887438c6a1bcd635b51fa0b4eae3972972f/src/optimizers/nadam.jl#L12-L49' class='documenter-source'>source</a><br></p>
+<ol>
+<li><a href="http://cs229.stanford.edu/proj2015/054_report.pdf">Incorporating Nesterov Momentum into Adam</a>.</li>
+<li><a href="http://www.cs.toronto.edu/~fritz/absps/momentum.pdf">On the importance of initialization and momentum in deep learning</a>.</li>
+</ol>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/9f4f53338ab5f96c8ff71273e95005f038755b23/src/optimizers/nadam.jl#L1' class='documenter-source'>source</a><br></p>
                 
                   
                 

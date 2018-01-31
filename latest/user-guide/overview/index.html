@@ -793,7 +793,7 @@ julia&gt; mx.srand(42)
 
 julia&gt; a = mx.empty(2, 3)
 2×3 mx.NDArray{Float32,2} @ CPU0:
- 1.33206f-36  1.79751f19  7.14662f-44
+ 2.94757f-36  1.79751f19  7.14662f-44
  0.0          2.59315f-9  0.0
 
 julia&gt; a[:] = 0.5              # set all elements to a scalar
@@ -801,23 +801,23 @@ julia&gt; a[:] = 0.5              # set all elements to a scalar
 
 julia&gt; a[:] = rand(size(a))    # set contents with a Julia Array
 2×3 Array{Float64,2}:
- 0.287734  0.463803  0.503672
- 0.735484  0.585824  0.301915
+ 0.634601  0.108417  0.885767
+ 0.631509  0.614823  0.649756
 
 julia&gt; copy!(a, rand(size(a))) # set value by copying a Julia Array
 2×3 mx.NDArray{Float32,2} @ CPU0:
- 0.177252  0.447724  0.52981
- 0.616601  0.635889  0.0355298
+ 0.973447  0.658902  0.605354
+ 0.699382  0.151358  0.251221
 
 julia&gt; b = mx.empty(size(a))
 2×3 mx.NDArray{Float32,2} @ CPU0:
- 1.18219f-36  7.9325f34   9.68563f24
+ 1.73233f-36  7.9325f34   9.68563f24
  0.0          1.04315f-8  1.54143f-43
 
 julia&gt; b[:] = a                # copying and assignment between NDArrays
 2×3 mx.NDArray{Float32,2} @ CPU0:
- 0.177252  0.447724  0.52981
- 0.616601  0.635889  0.0355298
+ 0.973447  0.658902  0.605354
+ 0.699382  0.151358  0.251221
 </code></pre>
 
 <p>Note due to the intrinsic design of the Julia language, a normal assignment</p>
@@ -871,8 +871,8 @@ julia&gt; macroexpand(:(@mx.inplace a += b))
  4.0
 </code></pre>
 
-<p>As we can see, it translate the <code>+=</code> operator to an explicit <code>add_to!</code> function call, which invokes into libmxnet to add the contents of <code>b</code> into <code>a</code> directly. For example, the following is the update rule in the <code>SGD Optimizer</code> (both <code>grad</code> and <code>weight</code> are <code>NDArray</code> objects):</p>
-<pre><code class="julia">@inplace weight += -lr * (grad_scale * grad + self.weight_decay * weight)
+<p>As we can see, it translate the <code>+=</code> operator to an explicit <code>add_to!</code> function call, which invokes into libmxnet to add the contents of <code>b</code> into <code>a</code> directly. For example, the following is the update rule in the <code>SGD Optimizer</code> (both gradient <code>∇</code> and weight <code>W</code> are <code>NDArray</code> objects):</p>
+<pre><code class="julia">@inplace W .+= -η .* (∇ + λ .* W)
 </code></pre>
 
 <p>Note there is no much magic in <code>mx.inplace</code>: it only does a shallow translation. In the SGD update rule example above, the computation like scaling the gradient by <code>grad_scale</code> and adding the weight decay all create temporary <code>NDArray</code> objects. To mitigate this issue, libmxnet has a customized memory allocator designed specifically to handle this kind of situations. The following snippet does a simple benchmark on allocating temp <code>NDArray</code> vs. pre-allocating:</p>
