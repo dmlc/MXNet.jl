@@ -28,7 +28,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-0.17.2, mkdocs-material-2.5.4">
+      <meta name="generator" content="mkdocs-0.17.2, mkdocs-material-2.5.5">
     
     
       
@@ -62,7 +62,7 @@
       <defs>
         
         
-          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448" viewBox="0 0 416 448" id="github"><path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19T128 352t-18.125-8.5-10.75-19T96 304t3.125-20.5 10.75-19T128 256t18.125 8.5 10.75 19T160 304zm160 0q0 10-3.125 20.5t-10.75 19T288 352t-18.125-8.5-10.75-19T256 304t3.125-20.5 10.75-19T288 256t18.125 8.5 10.75 19T320 304zm40 0q0-30-17.25-51T296 232q-10.25 0-48.75 5.25Q229.5 240 208 240t-39.25-2.75Q130.75 232 120 232q-29.5 0-46.75 21T56 304q0 22 8 38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0 37.25-1.75t35-7.375 30.5-15 20.25-25.75T360 304zm56-44q0 51.75-15.25 82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5T212 416q-19.5 0-35.5-.75t-36.875-3.125-38.125-7.5-34.25-12.875T37 371.5t-21.5-28.75Q0 312 0 260q0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25 30.875Q171.5 96 212 96q37 0 70 8 26.25-20.5 46.75-30.25T376 64q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34 99.5z"/></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448" id="github"><path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19T128 352t-18.125-8.5-10.75-19T96 304t3.125-20.5 10.75-19T128 256t18.125 8.5 10.75 19T160 304zm160 0q0 10-3.125 20.5t-10.75 19T288 352t-18.125-8.5-10.75-19T256 304t3.125-20.5 10.75-19T288 256t18.125 8.5 10.75 19T320 304zm40 0q0-30-17.25-51T296 232q-10.25 0-48.75 5.25Q229.5 240 208 240t-39.25-2.75Q130.75 232 120 232q-29.5 0-46.75 21T56 304q0 22 8 38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0 37.25-1.75t35-7.375 30.5-15 20.25-25.75T360 304zm56-44q0 51.75-15.25 82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5T212 416q-19.5 0-35.5-.75t-36.875-3.125-38.125-7.5-34.25-12.875T37 371.5t-21.5-28.75Q0 312 0 260q0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25 30.875Q171.5 96 212 96q37 0 70 8 26.25-20.5 46.75-30.25T376 64q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34 99.5z"/></svg>
         
       </defs>
     </svg>
@@ -1081,9 +1081,11 @@ end
 </code></pre>
 
 <p>Iterating on image RecordIO files</p>
+<p>.. note::</p>
+<p>$ImageRecordIter_v1$ is deprecated. Use $ImageRecordIter$ instead.</p>
 <p>Read images batches from RecordIO files with a rich of data augmentation options.</p>
 <p>One can use $tools/im2rec.py$ to pack individual image files into RecordIO files.</p>
-<p>Defined in src/io/iter_image_recordio.cc:L347</p>
+<p>Defined in src/io/iter_image_recordio.cc:L352</p>
 <p><strong>Arguments:</strong></p>
 <ul>
 <li><code>data_name::Symbol</code>: keyword argument, default <code>:data</code>. The name of the data.</li>
@@ -1140,7 +1142,7 @@ end
 <li><code>max_random_illumination::float, optional, default=0</code>: Change the illumination with a value randomly chosen from $[-max_random_illumination, max_random_illumination]$</li>
 </ul>
 <p>Returns the constructed <code>MXDataProvider</code>.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/9f4f53338ab5f96c8ff71273e95005f038755b23/src/io.jl#L626-L745' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/9f4f53338ab5f96c8ff71273e95005f038755b23/src/io.jl#L626-L750' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.ImageRecordUInt8Iter-Tuple{}' href='#MXNet.mx.ImageRecordUInt8Iter-Tuple{}'>#</a>
 <strong><code>MXNet.mx.ImageRecordUInt8Iter</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>ImageRecordUInt8Iter(path_imglist, path_imgrec, path_imgidx, aug_seq, label_width, data_shape, preprocess_threads, verbose, num_parts, part_index, shuffle_chunk_size, shuffle_chunk_seed, shuffle, seed, verbose, batch_size, round_batch, prefetch_buffer, dtype, resize, rand_crop, max_rotate_angle, max_aspect_ratio, max_shear_ratio, max_crop_size, min_crop_size, max_random_scale, min_random_scale, max_img_size, min_img_size, random_h, random_s, random_l, rotate, fill_value, data_shape, inter_method, pad)
@@ -1198,8 +1200,10 @@ end
 </code></pre>
 
 <p>Iterating on image RecordIO files</p>
+<p>.. note::</p>
+<p>$ImageRecordUInt8Iter_v1$ is deprecated. Use $ImageRecordUInt8Iter$ instead.</p>
 <p>This iterator is identical to $ImageRecordIter$ except for using $uint8$ as the data type instead of $float$.</p>
-<p>Defined in src/io/iter_image_recordio.cc:L368</p>
+<p>Defined in src/io/iter_image_recordio.cc:L377</p>
 <p><strong>Arguments:</strong></p>
 <ul>
 <li><code>data_name::Symbol</code>: keyword argument, default <code>:data</code>. The name of the data.</li>
@@ -1242,7 +1246,7 @@ end
 <li><code>pad::int, optional, default='0'</code>: Change size from $[width, height]$ into $[pad + width + pad, pad + height + pad]$ by padding pixes</li>
 </ul>
 <p>Returns the constructed <code>MXDataProvider</code>.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/9f4f53338ab5f96c8ff71273e95005f038755b23/src/io.jl#L626-L714' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/9f4f53338ab5f96c8ff71273e95005f038755b23/src/io.jl#L626-L718' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.LibSVMIter-Tuple{}' href='#MXNet.mx.LibSVMIter-Tuple{}'>#</a>
 <strong><code>MXNet.mx.LibSVMIter</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>LibSVMIter(data_libsvm, data_shape, label_libsvm, label_shape, num_parts, part_index, batch_size, round_batch, prefetch_buffer, dtype)
