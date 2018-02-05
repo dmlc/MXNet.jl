@@ -736,7 +736,7 @@ julia&gt; decend!(1, ∇, W)
 </code></pre>
 
 <p>Base type for all optimizers.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/2c09c26b1b781fc3d612eed26edc732e54f321c5/src/optimizer.jl#L5-L9' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/6ac37f9ae2f8755ed349a8f9e071f55ed42516b5/src/optimizer.jl#L5-L9' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.getupdater-Tuple{MXNet.mx.AbstractOptimizer}' href='#MXNet.mx.getupdater-Tuple{MXNet.mx.AbstractOptimizer}'>#</a>
 <strong><code>MXNet.mx.getupdater</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>getupdater(optimizer)
@@ -748,7 +748,7 @@ julia&gt; decend!(1, ∇, W)
 </code></pre>
 
 <p>If the optimizer is stateful and need access/store states during updating, <code>index</code> will be the key to access/store states.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/2c09c26b1b781fc3d612eed26edc732e54f321c5/src/optimizer.jl#L231-L245' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/6ac37f9ae2f8755ed349a8f9e071f55ed42516b5/src/optimizer.jl#L231-L245' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.normgrad!-Tuple{MXNet.mx.AbstractOptimizer,MXNet.mx.NDArray,MXNet.mx.NDArray}' href='#MXNet.mx.normgrad!-Tuple{MXNet.mx.AbstractOptimizer,MXNet.mx.NDArray,MXNet.mx.NDArray}'>#</a>
 <strong><code>MXNet.mx.normgrad!</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>normgrad(optimizer, W, ∇)
@@ -760,21 +760,21 @@ julia&gt; decend!(1, ∇, W)
 <li><code>W::NDArray</code>: the trainable weights.</li>
 <li><code>∇::NDArray</code>: the original gradient of the weights.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/2c09c26b1b781fc3d612eed26edc732e54f321c5/src/optimizer.jl#L257-L266' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/6ac37f9ae2f8755ed349a8f9e071f55ed42516b5/src/optimizer.jl#L257-L266' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.AbstractLearningRateScheduler' href='#MXNet.mx.AbstractLearningRateScheduler'>#</a>
 <strong><code>MXNet.mx.AbstractLearningRateScheduler</code></strong> &mdash; <em>Type</em>.</p>
 <pre><code>AbstractLearningRateScheduler
 </code></pre>
 
 <p>Base type for all learning rate scheduler.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/2c09c26b1b781fc3d612eed26edc732e54f321c5/src/optimizer.jl#L12-L16' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/6ac37f9ae2f8755ed349a8f9e071f55ed42516b5/src/optimizer.jl#L12-L16' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.AbstractMomentumScheduler' href='#MXNet.mx.AbstractMomentumScheduler'>#</a>
 <strong><code>MXNet.mx.AbstractMomentumScheduler</code></strong> &mdash; <em>Type</em>.</p>
 <pre><code>AbstractMomentumScheduler
 </code></pre>
 
 <p>Base type for all momentum scheduler.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/2c09c26b1b781fc3d612eed26edc732e54f321c5/src/optimizer.jl#L19-L23' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/6ac37f9ae2f8755ed349a8f9e071f55ed42516b5/src/optimizer.jl#L19-L23' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.OptimizationState' href='#MXNet.mx.OptimizationState'>#</a>
 <strong><code>MXNet.mx.OptimizationState</code></strong> &mdash; <em>Type</em>.</p>
 <pre><code>OptimizationState
@@ -787,7 +787,7 @@ julia&gt; decend!(1, ∇, W)
 <li><code>curr_batch</code>: The current mini-batch count. The batch count is reset during every epoch. The batch count 0 means the beginning of each epoch, with no mini-batch seen yet. During the first mini-batch, the mini-batch count will be 1.</li>
 <li><code>curr_iter</code>: The current iteration count. One iteration corresponds to one mini-batch, but unlike the mini-batch count, the iteration count does <strong>not</strong> reset in each epoch. So it track the <em>total</em> number of mini-batches seen so far.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/2c09c26b1b781fc3d612eed26edc732e54f321c5/src/optimizer.jl#L26-L43' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/6ac37f9ae2f8755ed349a8f9e071f55ed42516b5/src/optimizer.jl#L26-L43' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.LearningRate.Exp' href='#MXNet.mx.LearningRate.Exp'>#</a>
 <strong><code>MXNet.mx.LearningRate.Exp</code></strong> &mdash; <em>Type</em>.</p>
 <pre><code>LearningRate.Exp(η₀; γ = 0.9)
@@ -799,14 +799,14 @@ julia&gt; decend!(1, ∇, W)
 </script>
 </p>
 <p>Where <code>t</code> is the epoch count, or the iteration count.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/2c09c26b1b781fc3d612eed26edc732e54f321c5/src/optimizer.jl#L86' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/6ac37f9ae2f8755ed349a8f9e071f55ed42516b5/src/optimizer.jl#L86' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.LearningRate.Fixed' href='#MXNet.mx.LearningRate.Fixed'>#</a>
 <strong><code>MXNet.mx.LearningRate.Fixed</code></strong> &mdash; <em>Type</em>.</p>
 <pre><code>LearningRate.Fixed(η)
 </code></pre>
 
 <p>Fixed learning rate scheduler always return the same learning rate.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/2c09c26b1b781fc3d612eed26edc732e54f321c5/src/optimizer.jl#L75-L79' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/6ac37f9ae2f8755ed349a8f9e071f55ed42516b5/src/optimizer.jl#L75-L79' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.LearningRate.Inv' href='#MXNet.mx.LearningRate.Inv'>#</a>
 <strong><code>MXNet.mx.LearningRate.Inv</code></strong> &mdash; <em>Type</em>.</p>
 <pre><code>LearningRate.Inv(η₀; γ = 0.9, p = 0.5)
@@ -818,21 +818,21 @@ julia&gt; decend!(1, ∇, W)
 </script>
 </p>
 <p>Where <code>t</code> is the epoch count, or the iteration count.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/2c09c26b1b781fc3d612eed26edc732e54f321c5/src/optimizer.jl#L108' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/6ac37f9ae2f8755ed349a8f9e071f55ed42516b5/src/optimizer.jl#L108' class='documenter-source'>source</a><br></p>
 <p><a id='Base.get-Tuple{MXNet.mx.AbstractLearningRateScheduler}' href='#Base.get-Tuple{MXNet.mx.AbstractLearningRateScheduler}'>#</a>
 <strong><code>Base.get</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>get(sched::AbstractLearningRateScheduler)
 </code></pre>
 
 <p>Returns the current learning rate.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/2c09c26b1b781fc3d612eed26edc732e54f321c5/src/optimizer.jl#L68-L72' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/6ac37f9ae2f8755ed349a8f9e071f55ed42516b5/src/optimizer.jl#L68-L72' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.Momentum.Fixed' href='#MXNet.mx.Momentum.Fixed'>#</a>
 <strong><code>MXNet.mx.Momentum.Fixed</code></strong> &mdash; <em>Type</em>.</p>
 <pre><code>Momentum.Fixed
 </code></pre>
 
 <p>Fixed momentum scheduler always returns the same value.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/2c09c26b1b781fc3d612eed26edc732e54f321c5/src/optimizer.jl#L169-L173' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/6ac37f9ae2f8755ed349a8f9e071f55ed42516b5/src/optimizer.jl#L169-L173' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.Momentum.NadamScheduler' href='#MXNet.mx.Momentum.NadamScheduler'>#</a>
 <strong><code>MXNet.mx.Momentum.NadamScheduler</code></strong> &mdash; <em>Type</em>.</p>
 <pre><code>NadamScheduler(; μ = 0.99, δ = 0.004, γ = 0.5, α = 0.96)
@@ -853,21 +853,21 @@ julia&gt; decend!(1, ∇, W)
 <li><code>γ</code>: default <code>0.5</code></li>
 <li><code>α</code>: default <code>0.96</code></li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/2c09c26b1b781fc3d612eed26edc732e54f321c5/src/optimizer.jl#L180' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/6ac37f9ae2f8755ed349a8f9e071f55ed42516b5/src/optimizer.jl#L180' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.Momentum.Null' href='#MXNet.mx.Momentum.Null'>#</a>
 <strong><code>MXNet.mx.Momentum.Null</code></strong> &mdash; <em>Type</em>.</p>
 <pre><code>Momentum.Null
 </code></pre>
 
 <p>The null momentum scheduler always returns 0 for momentum. It is also used to explicitly indicate momentum should not be used.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/2c09c26b1b781fc3d612eed26edc732e54f321c5/src/optimizer.jl#L158-L163' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/6ac37f9ae2f8755ed349a8f9e071f55ed42516b5/src/optimizer.jl#L158-L163' class='documenter-source'>source</a><br></p>
 <p><a id='Base.get-Tuple{MXNet.mx.Momentum.NadamScheduler,Any}' href='#Base.get-Tuple{MXNet.mx.Momentum.NadamScheduler,Any}'>#</a>
 <strong><code>Base.get</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>get(n::NadamScheduler, t)
 </code></pre>
 
 <p>Where <code>t</code> is the iteration count.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/2c09c26b1b781fc3d612eed26edc732e54f321c5/src/optimizer.jl#L214-L218' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/6ac37f9ae2f8755ed349a8f9e071f55ed42516b5/src/optimizer.jl#L214-L218' class='documenter-source'>source</a><br></p>
 <p><a id='Built-in-optimizers-1'></a></p>
 <h2 id="built-in-optimizers">Built-in optimizers</h2>
 <p><a id='Stochastic-Gradient-Descent-1'></a></p>
@@ -903,7 +903,7 @@ julia&gt; decend!(1, ∇, W)
 <li><code>μ_sched::AbstractMomentumScheduler</code>: default <code>Momentum.Null()</code>, a dynamic momentum scheduler. If set, will overwrite the <code>momentum</code> parameter.</li>
 <li><code>η_sched::AbstractLearningRateScheduler</code>: default <code>LearningRate.Fixed(η)</code>, a dynamic learning rate scheduler. If set, will overwrite the <code>η</code> parameter.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/2c09c26b1b781fc3d612eed26edc732e54f321c5/src/optimizers/sgd.jl#L1' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/6ac37f9ae2f8755ed349a8f9e071f55ed42516b5/src/optimizers/sgd.jl#L1' class='documenter-source'>source</a><br></p>
 <p><a id='ADAM-1'></a></p>
 <h3 id="adam">ADAM</h3>
 <p><a id='MXNet.mx.ADAM' href='#MXNet.mx.ADAM'>#</a>
@@ -926,7 +926,7 @@ julia&gt; decend!(1, ∇, W)
 <li><code>λ</code>: default <code>0.00001</code>, weight decay is equivalent to adding a global l2 regularizer for all the parameters.</li>
 <li><code>η_sched::AbstractLearningRateScheduler</code>: default <code>LearningRate.Fixed(η)</code>, a dynamic learning rate scheduler. If set, will overwrite the <code>η</code> parameter.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/2c09c26b1b781fc3d612eed26edc732e54f321c5/src/optimizers/adam.jl#L1-L25' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/6ac37f9ae2f8755ed349a8f9e071f55ed42516b5/src/optimizers/adam.jl#L1-L25' class='documenter-source'>source</a><br></p>
 <p><a id='AdaGrad-1'></a></p>
 <h3 id="adagrad">AdaGrad</h3>
 <p><a id='MXNet.mx.AdaGrad' href='#MXNet.mx.AdaGrad'>#</a>
@@ -956,7 +956,7 @@ julia&gt; decend!(1, ∇, W)
 <li>Duchi, J., Hazan, E., &amp; Singer, Y. (2011): Adaptive subgradient methods for online learning and stochastic optimization. JMLR, 12:2121-2159.</li>
 <li>Chris Dyer: Notes on AdaGrad. <a href="http://www.ark.cs.cmu.edu/cdyer/adagrad.pdf">http://www.ark.cs.cmu.edu/cdyer/adagrad.pdf</a></li>
 </ol>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/2c09c26b1b781fc3d612eed26edc732e54f321c5/src/optimizers/adagrad.jl#L1' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/6ac37f9ae2f8755ed349a8f9e071f55ed42516b5/src/optimizers/adagrad.jl#L1' class='documenter-source'>source</a><br></p>
 <p><a id='AdaDelta-1'></a></p>
 <h3 id="adadelta">AdaDelta</h3>
 <p><a id='MXNet.mx.AdaDelta' href='#MXNet.mx.AdaDelta'>#</a>
@@ -992,7 +992,7 @@ julia&gt; decend!(1, ∇, W)
 <ol>
 <li>Zeiler, M. D. (2012): ADADELTA: An Adaptive Learning Rate Method. arXiv Preprint arXiv:1212.5701.</li>
 </ol>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/2c09c26b1b781fc3d612eed26edc732e54f321c5/src/optimizers/adadelta.jl#L1' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/6ac37f9ae2f8755ed349a8f9e071f55ed42516b5/src/optimizers/adadelta.jl#L1' class='documenter-source'>source</a><br></p>
 <p><a id='AdaMax-1'></a></p>
 <h3 id="adamax">AdaMax</h3>
 <p><a id='MXNet.mx.AdaMax' href='#MXNet.mx.AdaMax'>#</a>
@@ -1015,7 +1015,7 @@ julia&gt; decend!(1, ∇, W)
 <ol>
 <li>Kingma, Diederik, and Jimmy Ba (2014): Adam: A Method for Stochastic Optimization. Section 7. <a href="http://arxiv.org/abs/1412.6980">http://arxiv.org/abs/1412.6980</a>.</li>
 </ol>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/2c09c26b1b781fc3d612eed26edc732e54f321c5/src/optimizers/adamax.jl#L1-L28' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/6ac37f9ae2f8755ed349a8f9e071f55ed42516b5/src/optimizers/adamax.jl#L1-L28' class='documenter-source'>source</a><br></p>
 <p><a id='RMSProp-1'></a></p>
 <h3 id="rmsprop">RMSProp</h3>
 <p><a id='MXNet.mx.RMSProp' href='#MXNet.mx.RMSProp'>#</a>
@@ -1048,7 +1048,7 @@ julia&gt; decend!(1, ∇, W)
 <ol>
 <li>Tieleman, T. and Hinton, G. (2012): Neural Networks for Machine Learning, Lecture 6.5 - rmsprop. Coursera. <a href="http://www.youtube.com/watch?v=O3sxAc4hxZU">http://www.youtube.com/watch?v=O3sxAc4hxZU</a> (formula @5:20)</li>
 </ol>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/2c09c26b1b781fc3d612eed26edc732e54f321c5/src/optimizers/rmsprop.jl#L1' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/6ac37f9ae2f8755ed349a8f9e071f55ed42516b5/src/optimizers/rmsprop.jl#L1' class='documenter-source'>source</a><br></p>
 <p><a id='Nadam-1'></a></p>
 <h3 id="nadam">Nadam</h3>
 <p><a id='MXNet.mx.Nadam' href='#MXNet.mx.Nadam'>#</a>
@@ -1083,7 +1083,7 @@ julia&gt; decend!(1, ∇, W)
 <li><a href="http://cs229.stanford.edu/proj2015/054_report.pdf">Incorporating Nesterov Momentum into Adam</a>.</li>
 <li><a href="http://www.cs.toronto.edu/~fritz/absps/momentum.pdf">On the importance of initialization and momentum in deep learning</a>.</li>
 </ol>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/2c09c26b1b781fc3d612eed26edc732e54f321c5/src/optimizers/nadam.jl#L1' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/6ac37f9ae2f8755ed349a8f9e071f55ed42516b5/src/optimizers/nadam.jl#L1' class='documenter-source'>source</a><br></p>
                 
                   
                 

@@ -648,7 +648,7 @@
 <li><code>Base.done(provider, state) -&gt; Bool</code></li>
 <li><code>Base.next(provider, state) -&gt; (AbstractDataBatch, AbstractDataProvider)</code></li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/2c09c26b1b781fc3d612eed26edc732e54f321c5/src/io.jl#L1-L17' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/6ac37f9ae2f8755ed349a8f9e071f55ed42516b5/src/io.jl#L1-L17' class='documenter-source'>source</a><br></p>
 <p>The difference between <em>data</em> and <em>label</em> is that during training stage, both <em>data</em> and <em>label</em> will be feeded into the model, while during prediction stage, only <em>data</em> is loaded. Otherwise, they could be anything, with any names, and of any shapes. The provided data and label names here should match the input names in a target <code>SymbolicNode</code>.</p>
 <p>A data provider should also implement the Julia iteration interface, in order to allow iterating through the data set. The provider will be called in the following way:</p>
 <pre><code class="julia">for batch in eachbatch(provider)
@@ -727,7 +727,7 @@ end
 <li><code>provider::AbstractDataProvider</code>: the data provider.</li>
 </ul>
 <p>Returns the mini-batch size of the provided data. All the provided data should have the same mini-batch size (i.e. the last dimension).</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/2c09c26b1b781fc3d612eed26edc732e54f321c5/src/io.jl#L20-L27' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/6ac37f9ae2f8755ed349a8f9e071f55ed42516b5/src/io.jl#L20-L27' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.provide_data' href='#MXNet.mx.provide_data'>#</a>
 <strong><code>MXNet.mx.provide_data</code></strong> &mdash; <em>Function</em>.</p>
 <pre><code>provide_data(provider) -&gt; Vector{Tuple{Base.Symbol, Tuple}}
@@ -738,7 +738,7 @@ end
 <li><code>provider::AbstractDataProvider</code>: the data provider.</li>
 </ul>
 <p>Returns a vector of (name, shape) pairs describing the names of the data it provides, and the corresponding shapes.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/2c09c26b1b781fc3d612eed26edc732e54f321c5/src/io.jl#L30-L38' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/6ac37f9ae2f8755ed349a8f9e071f55ed42516b5/src/io.jl#L30-L38' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.provide_label' href='#MXNet.mx.provide_label'>#</a>
 <strong><code>MXNet.mx.provide_label</code></strong> &mdash; <em>Function</em>.</p>
 <pre><code>provide_label(provider) -&gt; Vector{Tuple{Base.Symbol, Tuple}}
@@ -749,7 +749,7 @@ end
 <li><code>provider::AbstractDataProvider</code>: the data provider.</li>
 </ul>
 <p>Returns a vector of (name, shape) pairs describing the names of the labels it provides, and the corresponding shapes.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/2c09c26b1b781fc3d612eed26edc732e54f321c5/src/io.jl#L41-L48' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/6ac37f9ae2f8755ed349a8f9e071f55ed42516b5/src/io.jl#L41-L48' class='documenter-source'>source</a><br></p>
 <p><a id='AbstractDataBatch-interface-1'></a></p>
 <h2 id="abstractdatabatch-interface">AbstractDataBatch interface</h2>
 <p><a id='MXNet.mx.AbstractDataProviderState' href='#MXNet.mx.AbstractDataProviderState'>#</a>
@@ -758,7 +758,7 @@ end
 </code></pre>
 
 <p>Base type for data provider states.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/2c09c26b1b781fc3d612eed26edc732e54f321c5/src/io.jl#L51-L55' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/6ac37f9ae2f8755ed349a8f9e071f55ed42516b5/src/io.jl#L51-L55' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.count_samples' href='#MXNet.mx.count_samples'>#</a>
 <strong><code>MXNet.mx.count_samples</code></strong> &mdash; <em>Function</em>.</p>
 <pre><code>count_samples(provider, batch) -&gt; Int
@@ -769,7 +769,7 @@ end
 <li><code>batch::AbstractDataBatch</code>: the data batch object.</li>
 </ul>
 <p>Returns the number of samples in this batch. This number should be greater than 0, but less than or equal to the batch size. This is used to indicate at the end of the data set, there might not be enough samples for a whole mini-batch.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/2c09c26b1b781fc3d612eed26edc732e54f321c5/src/io.jl#L75-L83' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/6ac37f9ae2f8755ed349a8f9e071f55ed42516b5/src/io.jl#L75-L83' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.get_data' href='#MXNet.mx.get_data'>#</a>
 <strong><code>MXNet.mx.get_data</code></strong> &mdash; <em>Function</em>.</p>
 <pre><code>get_data(provider, batch) -&gt; Vector{NDArray}
@@ -782,7 +782,7 @@ end
 </ul>
 <p>Returns a vector of data in this batch, should be in the same order as declared in <code>provide_data() &lt;AbstractDataProvider.provide_data&gt;</code>.</p>
 <p>The last dimension of each <code>NDArray</code> should always match the batch_size, even when <code>count_samples</code> returns a value less than the batch size. In this case,      the data provider is free to pad the remaining contents with any value.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/2c09c26b1b781fc3d612eed26edc732e54f321c5/src/io.jl#L86-L96' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/6ac37f9ae2f8755ed349a8f9e071f55ed42516b5/src/io.jl#L86-L96' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.get_label' href='#MXNet.mx.get_label'>#</a>
 <strong><code>MXNet.mx.get_label</code></strong> &mdash; <em>Function</em>.</p>
 <pre><code>get_label(provider, batch) -&gt; Vector{NDArray}
@@ -794,7 +794,7 @@ end
 <li><code>batch::AbstractDataBatch</code>: the data batch object.</li>
 </ul>
 <p>Returns a vector of labels in this batch. Similar to <a href="./#MXNet.mx.get_data"><code>get_data</code></a>.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/2c09c26b1b781fc3d612eed26edc732e54f321c5/src/io.jl#L99-L107' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/6ac37f9ae2f8755ed349a8f9e071f55ed42516b5/src/io.jl#L99-L107' class='documenter-source'>source</a><br></p>
 <p><a id='Base.get' href='#Base.get'>#</a>
 <strong><code>Base.get</code></strong> &mdash; <em>Function</em>.</p>
 <pre><code>get(sched)
@@ -804,7 +804,7 @@ end
 <li><code>sched::AbstractMomentumScheduler</code>: the momentum scheduler.</li>
 </ul>
 <p>Returns the current momentum.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/2c09c26b1b781fc3d612eed26edc732e54f321c5/src/optimizer.jl#L147-L153' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/6ac37f9ae2f8755ed349a8f9e071f55ed42516b5/src/optimizer.jl#L147-L153' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.load_data!' href='#MXNet.mx.load_data!'>#</a>
 <strong><code>MXNet.mx.load_data!</code></strong> &mdash; <em>Function</em>.</p>
 <pre><code>load_data!(provider, batch, targets)
@@ -818,7 +818,7 @@ end
 </ul>
 <p>The targets is a list of the same length as number of data provided by this provider. Each element in the list is a list of <code>SlicedNDArray</code>. This list described a spliting scheme of this data batch into different slices, each slice is specified by a slice-ndarray pair, where <em>slice</em> specify the range of samples in the mini-batch that should be loaded into the corresponding <em>ndarray</em>.</p>
 <p>This utility function is used in data parallelization, where a mini-batch is splited and computed on several different devices.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/2c09c26b1b781fc3d612eed26edc732e54f321c5/src/io.jl#L147-L163' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/6ac37f9ae2f8755ed349a8f9e071f55ed42516b5/src/io.jl#L147-L163' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.load_label!' href='#MXNet.mx.load_label!'>#</a>
 <strong><code>MXNet.mx.load_label!</code></strong> &mdash; <em>Function</em>.</p>
 <pre><code>load_label!(provider, batch, targets)
@@ -830,7 +830,7 @@ end
 <li><code>targets::Vector{Vector{SlicedNDArray}}</code>: the targets to load label into.</li>
 </ul>
 <p>The same as <a href="./#MXNet.mx.load_data!"><code>load_data!</code></a>, except that this is for loading labels.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/2c09c26b1b781fc3d612eed26edc732e54f321c5/src/io.jl#L169-L177' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/6ac37f9ae2f8755ed349a8f9e071f55ed42516b5/src/io.jl#L169-L177' class='documenter-source'>source</a><br></p>
 <p><a id='Implemented-providers-and-other-methods-1'></a></p>
 <h2 id="implemented-providers-and-other-methods">Implemented providers and other methods</h2>
 <p><a id='MXNet.mx.AbstractDataBatch' href='#MXNet.mx.AbstractDataBatch'>#</a>
@@ -850,7 +850,7 @@ end
 <li><a href="./#MXNet.mx.load_data!"><code>load_data!</code></a></li>
 <li><a href="./#MXNet.mx.load_label!"><code>load_label!</code></a></li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/2c09c26b1b781fc3d612eed26edc732e54f321c5/src/io.jl#L58-L72' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/6ac37f9ae2f8755ed349a8f9e071f55ed42516b5/src/io.jl#L58-L72' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.ArrayDataProvider' href='#MXNet.mx.ArrayDataProvider'>#</a>
 <strong><code>MXNet.mx.ArrayDataProvider</code></strong> &mdash; <em>Type</em>.</p>
 <pre><code>ArrayDataProvider
@@ -879,28 +879,28 @@ end
 </li>
 </ul>
 <p>TODO: remove <code>data_padding</code> and <code>label_padding</code>, and implement rollover that copies the last or first several training samples to feed the padding.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/2c09c26b1b781fc3d612eed26edc732e54f321c5/src/io.jl#L235-L261' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/6ac37f9ae2f8755ed349a8f9e071f55ed42516b5/src/io.jl#L235-L261' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.DataBatch' href='#MXNet.mx.DataBatch'>#</a>
 <strong><code>MXNet.mx.DataBatch</code></strong> &mdash; <em>Type</em>.</p>
 <pre><code>DataBatch
 </code></pre>
 
 <p>A basic subclass of <code>AbstractDataBatch</code>, that implement the interface by accessing member fields.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/2c09c26b1b781fc3d612eed26edc732e54f321c5/src/io.jl#L110-L115' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/6ac37f9ae2f8755ed349a8f9e071f55ed42516b5/src/io.jl#L110-L115' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.MXDataProvider' href='#MXNet.mx.MXDataProvider'>#</a>
 <strong><code>MXNet.mx.MXDataProvider</code></strong> &mdash; <em>Type</em>.</p>
 <pre><code>MXDataProvider
 </code></pre>
 
 <p>A data provider that wrap built-in data iterators from libmxnet. See below for a list of built-in data iterators.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/2c09c26b1b781fc3d612eed26edc732e54f321c5/src/io.jl#L427-L432' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/6ac37f9ae2f8755ed349a8f9e071f55ed42516b5/src/io.jl#L427-L432' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.SlicedNDArray' href='#MXNet.mx.SlicedNDArray'>#</a>
 <strong><code>MXNet.mx.SlicedNDArray</code></strong> &mdash; <em>Type</em>.</p>
 <pre><code>SlicedNDArray
 </code></pre>
 
 <p>A alias type of <code>Tuple{UnitRange{Int},NDArray}</code>.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/2c09c26b1b781fc3d612eed26edc732e54f321c5/src/io.jl#L130-L134' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/6ac37f9ae2f8755ed349a8f9e071f55ed42516b5/src/io.jl#L130-L134' class='documenter-source'>source</a><br></p>
 <p><a id='Base.get-Tuple{MXNet.mx.AbstractDataProvider,MXNet.mx.AbstractDataBatch,Symbol}' href='#Base.get-Tuple{MXNet.mx.AbstractDataProvider,MXNet.mx.AbstractDataBatch,Symbol}'>#</a>
 <strong><code>Base.get</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>get(provider, batch, name) -&gt; NDArray
@@ -912,7 +912,7 @@ end
 <li><code>name::Symbol</code>: the name of the data to get, should be one of the names provided in either <code>provide_data() &lt;AbstractDataProvider.provide_data&gt;</code> or <code>provide_label() &lt;AbstractDataProvider.provide_label&gt;</code>.</li>
 </ul>
 <p>Returns the corresponding data array corresponding to that name.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/2c09c26b1b781fc3d612eed26edc732e54f321c5/src/io.jl#L197-L207' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/6ac37f9ae2f8755ed349a8f9e071f55ed42516b5/src/io.jl#L197-L207' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.CSVIter-Tuple{}' href='#MXNet.mx.CSVIter-Tuple{}'>#</a>
 <strong><code>MXNet.mx.CSVIter</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>CSVIter(data_csv, data_shape, label_csv, label_shape, batch_size, round_batch, prefetch_buffer, dtype)
@@ -951,7 +951,7 @@ end
 <li><code>dtype::{None, 'float16', 'float32', 'float64', 'int32', 'uint8'},optional, default='None'</code>: Output data type. $None$ means no change.</li>
 </ul>
 <p>Returns the constructed <code>MXDataProvider</code>.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/2c09c26b1b781fc3d612eed26edc732e54f321c5/src/io.jl#L626-L725' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/6ac37f9ae2f8755ed349a8f9e071f55ed42516b5/src/io.jl#L626-L725' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.ImageDetRecordIter-Tuple{}' href='#MXNet.mx.ImageDetRecordIter-Tuple{}'>#</a>
 <strong><code>MXNet.mx.ImageDetRecordIter</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>ImageDetRecordIter(path_imglist, path_imgrec, aug_seq, label_width, data_shape, preprocess_threads, verbose, num_parts, part_index, shuffle_chunk_size, shuffle_chunk_seed, label_pad_width, label_pad_value, shuffle, seed, verbose, batch_size, round_batch, prefetch_buffer, dtype, resize, rand_crop_prob, min_crop_scales, max_crop_scales, min_crop_aspect_ratios, max_crop_aspect_ratios, min_crop_overlaps, max_crop_overlaps, min_crop_sample_coverages, max_crop_sample_coverages, min_crop_object_coverages, max_crop_object_coverages, num_crop_sampler, crop_emit_mode, emit_overlap_thresh, max_crop_trials, rand_pad_prob, max_pad_scale, max_random_hue, random_hue_prob, max_random_saturation, random_saturation_prob, max_random_illumination, random_illumination_prob, max_random_contrast, random_contrast_prob, rand_mirror_prob, fill_value, inter_method, data_shape, resize_mode, seed, mean_img, mean_r, mean_g, mean_b, mean_a, std_r, std_g, std_b, std_a, scale, verbose)
@@ -1023,7 +1023,7 @@ end
 <li><code>scale::float, optional, default=1</code>: Augmentation Param: Scale in color space.</li>
 </ul>
 <p>Returns the constructed <code>MXDataProvider</code>.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/2c09c26b1b781fc3d612eed26edc732e54f321c5/src/io.jl#L626-L754' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/6ac37f9ae2f8755ed349a8f9e071f55ed42516b5/src/io.jl#L626-L754' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.ImageRecordIter-Tuple{}' href='#MXNet.mx.ImageRecordIter-Tuple{}'>#</a>
 <strong><code>MXNet.mx.ImageRecordIter</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>ImageRecordIter(path_imglist, path_imgrec, path_imgidx, aug_seq, label_width, data_shape, preprocess_threads, verbose, num_parts, part_index, shuffle_chunk_size, shuffle_chunk_seed, shuffle, seed, verbose, batch_size, round_batch, prefetch_buffer, dtype, resize, rand_crop, max_rotate_angle, max_aspect_ratio, max_shear_ratio, max_crop_size, min_crop_size, max_random_scale, min_random_scale, max_img_size, min_img_size, random_h, random_s, random_l, rotate, fill_value, data_shape, inter_method, pad, seed, mirror, rand_mirror, mean_img, mean_r, mean_g, mean_b, mean_a, std_r, std_g, std_b, std_a, scale, max_random_contrast, max_random_illumination, verbose)
@@ -1094,7 +1094,7 @@ end
 <li><code>max_random_illumination::float, optional, default=0</code>: Change the illumination with a value randomly chosen from $[-max_random_illumination, max_random_illumination]$</li>
 </ul>
 <p>Returns the constructed <code>MXDataProvider</code>.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/2c09c26b1b781fc3d612eed26edc732e54f321c5/src/io.jl#L626-L761' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/6ac37f9ae2f8755ed349a8f9e071f55ed42516b5/src/io.jl#L626-L761' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.ImageRecordIter_v1-Tuple{}' href='#MXNet.mx.ImageRecordIter_v1-Tuple{}'>#</a>
 <strong><code>MXNet.mx.ImageRecordIter_v1</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>ImageRecordIter_v1(path_imglist, path_imgrec, path_imgidx, aug_seq, label_width, data_shape, preprocess_threads, verbose, num_parts, part_index, shuffle_chunk_size, shuffle_chunk_seed, shuffle, seed, verbose, batch_size, round_batch, prefetch_buffer, dtype, resize, rand_crop, max_rotate_angle, max_aspect_ratio, max_shear_ratio, max_crop_size, min_crop_size, max_random_scale, min_random_scale, max_img_size, min_img_size, random_h, random_s, random_l, rotate, fill_value, data_shape, inter_method, pad, seed, mirror, rand_mirror, mean_img, mean_r, mean_g, mean_b, mean_a, std_r, std_g, std_b, std_a, scale, max_random_contrast, max_random_illumination, verbose)
@@ -1162,7 +1162,7 @@ end
 <li><code>max_random_illumination::float, optional, default=0</code>: Change the illumination with a value randomly chosen from $[-max_random_illumination, max_random_illumination]$</li>
 </ul>
 <p>Returns the constructed <code>MXDataProvider</code>.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/2c09c26b1b781fc3d612eed26edc732e54f321c5/src/io.jl#L626-L750' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/6ac37f9ae2f8755ed349a8f9e071f55ed42516b5/src/io.jl#L626-L750' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.ImageRecordUInt8Iter-Tuple{}' href='#MXNet.mx.ImageRecordUInt8Iter-Tuple{}'>#</a>
 <strong><code>MXNet.mx.ImageRecordUInt8Iter</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>ImageRecordUInt8Iter(path_imglist, path_imgrec, path_imgidx, aug_seq, label_width, data_shape, preprocess_threads, verbose, num_parts, part_index, shuffle_chunk_size, shuffle_chunk_seed, shuffle, seed, verbose, batch_size, round_batch, prefetch_buffer, dtype, resize, rand_crop, max_rotate_angle, max_aspect_ratio, max_shear_ratio, max_crop_size, min_crop_size, max_random_scale, min_random_scale, max_img_size, min_img_size, random_h, random_s, random_l, rotate, fill_value, data_shape, inter_method, pad)
@@ -1213,7 +1213,7 @@ end
 <li><code>pad::int, optional, default='0'</code>: Change size from $[width, height]$ into $[pad + width + pad, pad + height + pad]$ by padding pixes</li>
 </ul>
 <p>Returns the constructed <code>MXDataProvider</code>.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/2c09c26b1b781fc3d612eed26edc732e54f321c5/src/io.jl#L626-L715' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/6ac37f9ae2f8755ed349a8f9e071f55ed42516b5/src/io.jl#L626-L715' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.ImageRecordUInt8Iter_v1-Tuple{}' href='#MXNet.mx.ImageRecordUInt8Iter_v1-Tuple{}'>#</a>
 <strong><code>MXNet.mx.ImageRecordUInt8Iter_v1</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>ImageRecordUInt8Iter_v1(path_imglist, path_imgrec, path_imgidx, aug_seq, label_width, data_shape, preprocess_threads, verbose, num_parts, part_index, shuffle_chunk_size, shuffle_chunk_seed, shuffle, seed, verbose, batch_size, round_batch, prefetch_buffer, dtype, resize, rand_crop, max_rotate_angle, max_aspect_ratio, max_shear_ratio, max_crop_size, min_crop_size, max_random_scale, min_random_scale, max_img_size, min_img_size, random_h, random_s, random_l, rotate, fill_value, data_shape, inter_method, pad)
@@ -1266,7 +1266,7 @@ end
 <li><code>pad::int, optional, default='0'</code>: Change size from $[width, height]$ into $[pad + width + pad, pad + height + pad]$ by padding pixes</li>
 </ul>
 <p>Returns the constructed <code>MXDataProvider</code>.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/2c09c26b1b781fc3d612eed26edc732e54f321c5/src/io.jl#L626-L718' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/6ac37f9ae2f8755ed349a8f9e071f55ed42516b5/src/io.jl#L626-L718' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.LibSVMIter-Tuple{}' href='#MXNet.mx.LibSVMIter-Tuple{}'>#</a>
 <strong><code>MXNet.mx.LibSVMIter</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>LibSVMIter(data_libsvm, data_shape, label_libsvm, label_shape, num_parts, part_index, batch_size, round_batch, prefetch_buffer, dtype)
@@ -1415,7 +1415,7 @@ end
 <li><code>dtype::{None, 'float16', 'float32', 'float64', 'int32', 'uint8'},optional, default='None'</code>: Output data type. $None$ means no change.</li>
 </ul>
 <p>Returns the constructed <code>MXDataProvider</code>.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/2c09c26b1b781fc3d612eed26edc732e54f321c5/src/io.jl#L626-L755' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/6ac37f9ae2f8755ed349a8f9e071f55ed42516b5/src/io.jl#L626-L755' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.MNISTIter-Tuple{}' href='#MXNet.mx.MNISTIter-Tuple{}'>#</a>
 <strong><code>MXNet.mx.MNISTIter</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>MNISTIter(image, label, batch_size, shuffle, flat, seed, silent, num_parts, part_index, prefetch_buffer, dtype)
@@ -1441,7 +1441,7 @@ end
 <li><code>dtype::{None, 'float16', 'float32', 'float64', 'int32', 'uint8'},optional, default='None'</code>: Output data type. $None$ means no change.</li>
 </ul>
 <p>Returns the constructed <code>MXDataProvider</code>.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/2c09c26b1b781fc3d612eed26edc732e54f321c5/src/io.jl#L626-L664' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/6ac37f9ae2f8755ed349a8f9e071f55ed42516b5/src/io.jl#L626-L664' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.eachbatch-Tuple{MXNet.mx.AbstractDataProvider}' href='#MXNet.mx.eachbatch-Tuple{MXNet.mx.AbstractDataProvider}'>#</a>
 <strong><code>MXNet.mx.eachbatch</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>eachbatch(provider::AbstractDataProvider)
@@ -1453,7 +1453,7 @@ end
 <li><code>provider</code>: an instance of the custom DataProvider type. You must return this</li>
 </ul>
 <p>instance after modifying its fields.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/2c09c26b1b781fc3d612eed26edc732e54f321c5/src/io.jl#L222-L232' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/6ac37f9ae2f8755ed349a8f9e071f55ed42516b5/src/io.jl#L222-L232' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.load_data!-Tuple{MXNet.mx.AbstractDataProvider,MXNet.mx.AbstractDataBatch,Array{#s14824,1} where #s14824<:(Array{#s14821,1} where #s14821<:(Tuple{UnitRange{Int64},#s14830} where #s14830<:MXNet.mx.NDArray))}' href='#MXNet.mx.load_data!-Tuple{MXNet.mx.AbstractDataProvider,MXNet.mx.AbstractDataBatch,Array{#s14824,1} where #s14824<:(Array{#s14821,1} where #s14821<:(Tuple{UnitRange{Int64},#s14830} where #s14830<:MXNet.mx.NDArray))}'>#</a>
 <strong><code>MXNet.mx.load_data!</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>load_data!(provider, batch, targets)
@@ -1467,7 +1467,7 @@ end
 </ul>
 <p>The targets is a list of the same length as number of data provided by this provider. Each element in the list is a list of <code>SlicedNDArray</code>. This list described a spliting scheme of this data batch into different slices, each slice is specified by a slice-ndarray pair, where <em>slice</em> specify the range of samples in the mini-batch that should be loaded into the corresponding <em>ndarray</em>.</p>
 <p>This utility function is used in data parallelization, where a mini-batch is splited and computed on several different devices.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/2c09c26b1b781fc3d612eed26edc732e54f321c5/src/io.jl#L147-L163' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/6ac37f9ae2f8755ed349a8f9e071f55ed42516b5/src/io.jl#L147-L163' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.load_label!-Tuple{MXNet.mx.AbstractDataProvider,MXNet.mx.AbstractDataBatch,Array{#s14824,1} where #s14824<:(Array{#s14821,1} where #s14821<:(Tuple{UnitRange{Int64},#s14830} where #s14830<:MXNet.mx.NDArray))}' href='#MXNet.mx.load_label!-Tuple{MXNet.mx.AbstractDataProvider,MXNet.mx.AbstractDataBatch,Array{#s14824,1} where #s14824<:(Array{#s14821,1} where #s14821<:(Tuple{UnitRange{Int64},#s14830} where #s14830<:MXNet.mx.NDArray))}'>#</a>
 <strong><code>MXNet.mx.load_label!</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>load_label!(provider, batch, targets)
@@ -1479,7 +1479,7 @@ end
 <li><code>targets::Vector{Vector{SlicedNDArray}}</code>: the targets to load label into.</li>
 </ul>
 <p>The same as <a href="./#MXNet.mx.load_data!"><code>load_data!</code></a>, except that this is for loading labels.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/2c09c26b1b781fc3d612eed26edc732e54f321c5/src/io.jl#L169-L177' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/6ac37f9ae2f8755ed349a8f9e071f55ed42516b5/src/io.jl#L169-L177' class='documenter-source'>source</a><br></p>
                 
                   
                 

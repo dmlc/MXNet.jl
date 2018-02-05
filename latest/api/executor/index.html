@@ -564,7 +564,7 @@
 </code></pre>
 
 <p>An executor is a realization of a symbolic architecture defined by a <code>SymbolicNode</code>. The actual forward and backward computation specified by the network architecture can be carried out with an executor.</p>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/2c09c26b1b781fc3d612eed26edc732e54f321c5/src/executor.jl#L3-L9' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/6ac37f9ae2f8755ed349a8f9e071f55ed42516b5/src/executor.jl#L3-L9' class='documenter-source'>source</a><br></p>
 <p><a id='Base.bind-Tuple{MXNet.mx.SymbolicNode,MXNet.mx.Context,Any}' href='#Base.bind-Tuple{MXNet.mx.SymbolicNode,MXNet.mx.Context,Any}'>#</a>
 <strong><code>Base.bind</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>bind(sym, ctx, args; args_grad=Dict(), aux_states=Dict(), grad_req=GRAD_WRITE)
@@ -580,7 +580,7 @@
 <li><code>aux_states</code>: a <code>Vector</code> of <code>NDArray</code> or a <code>Dict</code> contains <code>NDArray</code></li>
 <li><code>grad_req</code>: single value, a <code>Vector</code> of <code>GRAD_REQ</code> or a <code>Dict{Symbol,GRAD_REQ}</code></li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/2c09c26b1b781fc3d612eed26edc732e54f321c5/src/executor.jl#L73-L88' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/6ac37f9ae2f8755ed349a8f9e071f55ed42516b5/src/executor.jl#L73-L88' class='documenter-source'>source</a><br></p>
 <p><a id='Base.print-Tuple{IO,MXNet.mx.Executor}' href='#Base.print-Tuple{IO,MXNet.mx.Executor}'>#</a>
 <strong><code>Base.print</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>print([io::IO], x::Executor)
@@ -608,7 +608,7 @@ Total 0 MB allocated
 Total 11 TempSpace resource requested
 </code></pre>
 
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/2c09c26b1b781fc3d612eed26edc732e54f321c5/src/executor.jl#L202-L229' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/6ac37f9ae2f8755ed349a8f9e071f55ed42516b5/src/executor.jl#L202-L229' class='documenter-source'>source</a><br></p>
                 
                   
                 
