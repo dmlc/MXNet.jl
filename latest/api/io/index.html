@@ -1454,7 +1454,7 @@ end
 </ul>
 <p>instance after modifying its fields.</p>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/6ac37f9ae2f8755ed349a8f9e071f55ed42516b5/src/io.jl#L222-L232' class='documenter-source'>source</a><br></p>
-<p><a id='MXNet.mx.load_data!-Tuple{MXNet.mx.AbstractDataProvider,MXNet.mx.AbstractDataBatch,Array{#s14824,1} where #s14824<:(Array{#s14821,1} where #s14821<:(Tuple{UnitRange{Int64},#s14830} where #s14830<:MXNet.mx.NDArray))}' href='#MXNet.mx.load_data!-Tuple{MXNet.mx.AbstractDataProvider,MXNet.mx.AbstractDataBatch,Array{#s14824,1} where #s14824<:(Array{#s14821,1} where #s14821<:(Tuple{UnitRange{Int64},#s14830} where #s14830<:MXNet.mx.NDArray))}'>#</a>
+<p><a id='MXNet.mx.load_data!-Tuple{MXNet.mx.AbstractDataProvider,MXNet.mx.AbstractDataBatch,Array{#s14874,1} where #s14874<:(Array{#s14871,1} where #s14871<:(Tuple{UnitRange{Int64},#s14880} where #s14880<:MXNet.mx.NDArray))}' href='#MXNet.mx.load_data!-Tuple{MXNet.mx.AbstractDataProvider,MXNet.mx.AbstractDataBatch,Array{#s14874,1} where #s14874<:(Array{#s14871,1} where #s14871<:(Tuple{UnitRange{Int64},#s14880} where #s14880<:MXNet.mx.NDArray))}'>#</a>
 <strong><code>MXNet.mx.load_data!</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>load_data!(provider, batch, targets)
 </code></pre>
@@ -1468,7 +1468,7 @@ end
 <p>The targets is a list of the same length as number of data provided by this provider. Each element in the list is a list of <code>SlicedNDArray</code>. This list described a spliting scheme of this data batch into different slices, each slice is specified by a slice-ndarray pair, where <em>slice</em> specify the range of samples in the mini-batch that should be loaded into the corresponding <em>ndarray</em>.</p>
 <p>This utility function is used in data parallelization, where a mini-batch is splited and computed on several different devices.</p>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/6ac37f9ae2f8755ed349a8f9e071f55ed42516b5/src/io.jl#L147-L163' class='documenter-source'>source</a><br></p>
-<p><a id='MXNet.mx.load_label!-Tuple{MXNet.mx.AbstractDataProvider,MXNet.mx.AbstractDataBatch,Array{#s14824,1} where #s14824<:(Array{#s14821,1} where #s14821<:(Tuple{UnitRange{Int64},#s14830} where #s14830<:MXNet.mx.NDArray))}' href='#MXNet.mx.load_label!-Tuple{MXNet.mx.AbstractDataProvider,MXNet.mx.AbstractDataBatch,Array{#s14824,1} where #s14824<:(Array{#s14821,1} where #s14821<:(Tuple{UnitRange{Int64},#s14830} where #s14830<:MXNet.mx.NDArray))}'>#</a>
+<p><a id='MXNet.mx.load_label!-Tuple{MXNet.mx.AbstractDataProvider,MXNet.mx.AbstractDataBatch,Array{#s14874,1} where #s14874<:(Array{#s14871,1} where #s14871<:(Tuple{UnitRange{Int64},#s14880} where #s14880<:MXNet.mx.NDArray))}' href='#MXNet.mx.load_label!-Tuple{MXNet.mx.AbstractDataProvider,MXNet.mx.AbstractDataBatch,Array{#s14874,1} where #s14874<:(Array{#s14871,1} where #s14871<:(Tuple{UnitRange{Int64},#s14880} where #s14880<:MXNet.mx.NDArray))}'>#</a>
 <strong><code>MXNet.mx.load_label!</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>load_label!(provider, batch, targets)
 </code></pre>
