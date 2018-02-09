@@ -8702,7 +8702,7 @@ NOT in axis instead.</p>
 <p>Examples::</p>
 <p>x = [[ 1.,  2.],        [ 3.,  4.],        [ 5.,  6.]]</p>
 <p>// takes elements with specified indices   batch_take(x, [0,1,0]) = [ 1.  4.  5.]</p>
-<p>Defined in src/operator/tensor/indexing_op.cc:L422</p>
+<p>Defined in src/operator/tensor/indexing_op.cc:L426</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>a::NDArray-or-SymbolicNode</code>: The input array</li>
@@ -9559,7 +9559,7 @@ NOT in axis instead.</p>
                                   [ 1.  0.  0.]]]
 </code></pre>
 
-<p>Defined in src/operator/tensor/indexing_op.cc:L468</p>
+<p>Defined in src/operator/tensor/indexing_op.cc:L472</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>indices::NDArray-or-SymbolicNode</code>: array of locations where to set on_value</li>
@@ -10589,14 +10589,15 @@ NOT in axis instead.</p>
 <li><code>axis</code>- Only slicing along axis 0 is supported for now.</li>
 <li><code>mode</code>- Only <code>clip</code> mode is supported for now.</li>
 </ul>
-<p>Examples::</p>
+<p>Examples::   x = [4.  5.  6.]</p>
+<p>// Trivial case, take the second element along the first axis.   take(x, [1]) = [ 5. ]</p>
 <p>x = [[ 1.,  2.],        [ 3.,  4.],        [ 5.,  6.]]</p>
-<p>// takes elements with specified indices along axis 0   take(x, [[0,1],[1,2]]) = [[[ 1.,  2.],                              [ 3.,  4.]],</p>
+<p>// In this case we will get rows 0 and 1, then 1 and 2. Along axis 0   take(x, [[0,1],[1,2]]) = [[[ 1.,  2.],                              [ 3.,  4.]],</p>
 <pre><code>                        [[ 3.,  4.],
                          [ 5.,  6.]]]
 </code></pre>
 
-<p>Defined in src/operator/tensor/indexing_op.cc:L367</p>
+<p>Defined in src/operator/tensor/indexing_op.cc:L371</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>a::NDArray-or-SymbolicNode</code>: The input array.</li>
@@ -10604,7 +10605,7 @@ NOT in axis instead.</p>
 <li><code>axis::int, optional, default='0'</code>: The axis of input array to be taken.</li>
 <li><code>mode::{'clip', 'raise', 'wrap'},optional, default='clip'</code>: Specify how out-of-bound indices bahave. "clip" means clip to the range. So, if all indices mentioned are too large, they are replaced by the index that addresses the last element along an axis.  "wrap" means to wrap around.  "raise" means to raise an error.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/6ac37f9ae2f8755ed349a8f9e071f55ed42516b5/src/ndarray.jl#L1763-L1804' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/6ac37f9ae2f8755ed349a8f9e071f55ed42516b5/src/ndarray.jl#L1763-L1808' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.tile-Tuple{Vararg{MXNet.mx.NDArray,N} where N}' href='#MXNet.mx.tile-Tuple{Vararg{MXNet.mx.NDArray,N} where N}'>#</a>
 <strong><code>MXNet.mx.tile</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>tile(data, reps)
