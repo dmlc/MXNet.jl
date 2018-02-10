@@ -1019,7 +1019,7 @@ parameter values:</p>
 <li>clip(csr, a_min &lt; 0, a_max &lt; 0) = csr</li>
 <li>clip(csr, a_min &gt; 0, a_max &gt; 0) = csr</li>
 </ul>
-<p>Defined in src/operator/tensor/matrix_op.cc:L487</p>
+<p>Defined in src/operator/tensor/matrix_op.cc:L490</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: Input array.</li>
@@ -1036,7 +1036,7 @@ parameter values:</p>
 
 <p>Inserts a new axis of size 1 into the array shape</p>
 <p>For example, given $x$ with shape $(2,3,4)$, then $expand_dims(x, axis=1)$ will return a new array with shape $(2,1,3,4)$.</p>
-<p>Defined in src/operator/tensor/matrix_op.cc:L290</p>
+<p>Defined in src/operator/tensor/matrix_op.cc:L293</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: Source input</li>
@@ -1156,6 +1156,7 @@ julia&gt; x, y, z = @mx.var x y z
 <p>Flattens the input array into a 2-D array by collapsing the higher dimensions.</p>
 <p>.. note:: <code>Flatten</code> is deprecated. Use <code>flatten</code> instead.</p>
 <p>For an input array with shape $(d1, d2, ..., dk)$, <code>flatten</code> operation reshapes the input array into an output array of shape $(d1, d2<em>...</em>dk)$.</p>
+<p>Note that the bahavior of this function is different from numpy.ndarray.flatten, which behaves similar to mxnet.ndarray.reshape((-1,)).</p>
 <p>Example::</p>
 <pre><code>x = [[
     [1,2,3],
@@ -1171,14 +1172,14 @@ flatten(x) = [[ 1.,  2.,  3.,  4.,  5.,  6.,  7.,  8.,  9.],
    [ 1.,  2.,  3.,  4.,  5.,  6.,  7.,  8.,  9.]]
 </code></pre>
 
-<p>Defined in src/operator/tensor/matrix_op.cc:L209</p>
+<p>Defined in src/operator/tensor/matrix_op.cc:L212</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: Input array.</li>
 <li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
 <li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/6ac37f9ae2f8755ed349a8f9e071f55ed42516b5/src/symbolic-node.jl#L952-L986' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/6ac37f9ae2f8755ed349a8f9e071f55ed42516b5/src/symbolic-node.jl#L952-L989' class='documenter-source'>source</a><br></p>
 <p><a id='Base.:*-Tuple{MXNet.mx.SymbolicNode,Real}' href='#Base.:*-Tuple{MXNet.mx.SymbolicNode,Real}'>#</a>
 <strong><code>Base.:*</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>.*(x, y)
@@ -1720,7 +1721,7 @@ NOT in axis instead.</p>
 <p>repeat(x, repeats=2, axis=1) = [[ 1.,  1.,  2.,  2.],                                   [ 3.,  3.,  4.,  4.]]</p>
 <p>repeat(x, repeats=2, axis=0) = [[ 1.,  2.],                                   [ 1.,  2.],                                   [ 3.,  4.],                                   [ 3.,  4.]]</p>
 <p>repeat(x, repeats=2, axis=-1) = [[ 1.,  1.,  2.,  2.],                                    [ 3.,  3.,  4.,  4.]]</p>
-<p>Defined in src/operator/tensor/matrix_op.cc:L560</p>
+<p>Defined in src/operator/tensor/matrix_op.cc:L563</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: Input data array</li>
@@ -1741,7 +1742,7 @@ NOT in axis instead.</p>
 <p>x = [[ 0.,  1.,  2.,  3.,  4.],        [ 5.,  6.,  7.,  8.,  9.]]</p>
 <p>reverse(x, axis=0) = [[ 5.,  6.,  7.,  8.,  9.],                         [ 0.,  1.,  2.,  3.,  4.]]</p>
 <p>reverse(x, axis=1) = [[ 4.,  3.,  2.,  1.,  0.],                         [ 9.,  8.,  7.,  6.,  5.]]</p>
-<p>Defined in src/operator/tensor/matrix_op.cc:L662</p>
+<p>Defined in src/operator/tensor/matrix_op.cc:L665</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: Input data array</li>
@@ -1966,7 +1967,7 @@ NOT in axis instead.</p>
                              [ 7.,  8.]]]
 </code></pre>
 
-<p>Defined in src/operator/tensor/matrix_op.cc:L254</p>
+<p>Defined in src/operator/tensor/matrix_op.cc:L257</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: Source input</li>
@@ -6517,7 +6518,7 @@ box_iou(x, y, format='corner') = [[0.1428], [0.1428]]
 <li>output should be explicitly given and be the same as lhs.</li>
 <li>lhs and rhs are of the same data type, and on the same device.</li>
 </ul>
-<p>From:src/operator/tensor/matrix_op.cc:382</p>
+<p>From:src/operator/tensor/matrix_op.cc:385</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>lhs::NDArray-or-SymbolicNode</code>: Source input</li>
@@ -6541,7 +6542,7 @@ box_iou(x, y, format='corner') = [[0.1428], [0.1428]]
 <li>output should be explicitly given and be the same as input</li>
 </ul>
 <p>)</p>
-<p>From:src/operator/tensor/matrix_op.cc:407</p>
+<p>From:src/operator/tensor/matrix_op.cc:410</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: Source input</li>
@@ -8037,7 +8038,7 @@ box_iou(x, y, format='corner') = [[0.1428], [0.1428]]
 <li>output should be explicitly given and be the same as lhs.</li>
 <li>lhs and rhs are of the same data type, and on the same device.</li>
 </ul>
-<p>From:src/operator/tensor/matrix_op.cc:382</p>
+<p>From:src/operator/tensor/matrix_op.cc:385</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>lhs::NDArray-or-SymbolicNode</code>: Source input</li>
@@ -8060,7 +8061,7 @@ box_iou(x, y, format='corner') = [[0.1428], [0.1428]]
 <li>output should be explicitly given and be the same as input</li>
 </ul>
 <p>)</p>
-<p>From:src/operator/tensor/matrix_op.cc:407</p>
+<p>From:src/operator/tensor/matrix_op.cc:410</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: Source input</li>
@@ -8392,7 +8393,7 @@ parameter values:</p>
 <li>clip(csr, a_min &lt; 0, a_max &lt; 0) = csr</li>
 <li>clip(csr, a_min &gt; 0, a_max &gt; 0) = csr</li>
 </ul>
-<p>Defined in src/operator/tensor/matrix_op.cc:L487</p>
+<p>Defined in src/operator/tensor/matrix_op.cc:L490</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: Input array.</li>
@@ -9184,7 +9185,7 @@ NOT in axis instead.</p>
 <p>Example::</p>
 <p>x = [[  1.,   2.,   3.,   4.],        [  5.,   6.,   7.,   8.],        [  9.,  10.,  11.,  12.]]</p>
 <p>slice(x, begin=(0,1), end=(2,4)) = [[ 2.,  3.,  4.],                                      [ 6.,  7.,  8.]]   slice(x, begin=(None, 0), end=(None, 3), step=(-1, 2)) = [[9., 11.],                                                             [5.,  7.],                                                             [1.,  3.]]</p>
-<p>Defined in src/operator/tensor/matrix_op.cc:L356</p>
+<p>Defined in src/operator/tensor/matrix_op.cc:L359</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: Source input</li>
@@ -10107,7 +10108,7 @@ csr.indptr = [0, 1, 3, 3, 3]
 <p>Example::</p>
 <p>x = [[  1.,   2.,   3.,   4.],        [  5.,   6.,   7.,   8.],        [  9.,  10.,  11.,  12.]]</p>
 <p>slice(x, begin=(0,1), end=(2,4)) = [[ 2.,  3.,  4.],                                      [ 6.,  7.,  8.]]   slice(x, begin=(None, 0), end=(None, 3), step=(-1, 2)) = [[9., 11.],                                                             [5.,  7.],                                                             [1.,  3.]]</p>
-<p>Defined in src/operator/tensor/matrix_op.cc:L356</p>
+<p>Defined in src/operator/tensor/matrix_op.cc:L359</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: Source input</li>
@@ -10262,6 +10263,7 @@ integer towards zero of the input.</p>
 <p>Flattens the input array into a 2-D array by collapsing the higher dimensions.</p>
 <p>.. note:: <code>Flatten</code> is deprecated. Use <code>flatten</code> instead.</p>
 <p>For an input array with shape $(d1, d2, ..., dk)$, <code>flatten</code> operation reshapes the input array into an output array of shape $(d1, d2<em>...</em>dk)$.</p>
+<p>Note that the bahavior of this function is different from numpy.ndarray.flatten, which behaves similar to mxnet.ndarray.reshape((-1,)).</p>
 <p>Example::</p>
 <pre><code>x = [[
     [1,2,3],
@@ -10277,14 +10279,14 @@ flatten(x) = [[ 1.,  2.,  3.,  4.,  5.,  6.,  7.,  8.,  9.],
    [ 1.,  2.,  3.,  4.,  5.,  6.,  7.,  8.,  9.]]
 </code></pre>
 
-<p>Defined in src/operator/tensor/matrix_op.cc:L209</p>
+<p>Defined in src/operator/tensor/matrix_op.cc:L212</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: Input array.</li>
 <li><code>name::Symbol</code>: The name of the <code>SymbolicNode</code>. (e.g. <code>:my_symbol</code>), optional.</li>
 <li><code>attrs::Dict{Symbol, AbstractString}</code>: The attributes associated with this <code>SymbolicNode</code>.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/6ac37f9ae2f8755ed349a8f9e071f55ed42516b5/src/symbolic-node.jl#L952-L988' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/6ac37f9ae2f8755ed349a8f9e071f55ed42516b5/src/symbolic-node.jl#L952-L991' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.flip-Tuple{Vararg{MXNet.mx.SymbolicNode,N} where N}' href='#MXNet.mx.flip-Tuple{Vararg{MXNet.mx.SymbolicNode,N} where N}'>#</a>
 <strong><code>MXNet.mx.flip</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>flip(data, axis)
@@ -10297,7 +10299,7 @@ flatten(x) = [[ 1.,  2.,  3.,  4.,  5.,  6.,  7.,  8.,  9.],
 <p>x = [[ 0.,  1.,  2.,  3.,  4.],        [ 5.,  6.,  7.,  8.,  9.]]</p>
 <p>reverse(x, axis=0) = [[ 5.,  6.,  7.,  8.,  9.],                         [ 0.,  1.,  2.,  3.,  4.]]</p>
 <p>reverse(x, axis=1) = [[ 4.,  3.,  2.,  1.,  0.],                         [ 9.,  8.,  7.,  6.,  5.]]</p>
-<p>Defined in src/operator/tensor/matrix_op.cc:L662</p>
+<p>Defined in src/operator/tensor/matrix_op.cc:L665</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: Input data array</li>
@@ -11885,7 +11887,7 @@ the gradient of `scatter_nd` will not be correct!!
 <p>Example::</p>
 <p>x = [[  1.,   2.,   3.,   4.],        [  5.,   6.,   7.,   8.],        [  9.,  10.,  11.,  12.]]</p>
 <p>slice(x, begin=(0,1), end=(2,4)) = [[ 2.,  3.,  4.],                                      [ 6.,  7.,  8.]]   slice(x, begin=(None, 0), end=(None, 3), step=(-1, 2)) = [[9., 11.],                                                             [5.,  7.],                                                             [1.,  3.]]</p>
-<p>Defined in src/operator/tensor/matrix_op.cc:L356</p>
+<p>Defined in src/operator/tensor/matrix_op.cc:L359</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: Source input</li>
@@ -11908,7 +11910,7 @@ the gradient of `scatter_nd` will not be correct!!
 <p>slice_axis(x, axis=0, begin=1, end=3) = [[  5.,   6.,   7.,   8.],                                            [  9.,  10.,  11.,  12.]]</p>
 <p>slice_axis(x, axis=1, begin=0, end=2) = [[  1.,   2.],                                            [  5.,   6.],                                            [  9.,  10.]]</p>
 <p>slice_axis(x, axis=1, begin=-3, end=-1) = [[  2.,   3.],                                              [  6.,   7.],                                              [ 10.,  11.]]</p>
-<p>Defined in src/operator/tensor/matrix_op.cc:L443</p>
+<p>Defined in src/operator/tensor/matrix_op.cc:L446</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: Source input</li>
@@ -12171,7 +12173,7 @@ NOT in axis instead.</p>
                         [ 3.,  4.,  3.,  4.,  3.,  4.]]]</code></p>
 </li>
 </ul>
-<p>Defined in src/operator/tensor/matrix_op.cc:L621</p>
+<p>Defined in src/operator/tensor/matrix_op.cc:L624</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: Input data array</li>

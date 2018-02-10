@@ -1081,7 +1081,7 @@ julia&gt; mx.clip(x, 2, 8)'
 <li>clip(csr, min &lt; 0, max &lt; 0) = csr</li>
 <li>clip(csr, min &gt; 0, max &gt; 0) = csr</li>
 </ul>
-<p>Defined in src/operator/tensor/matrix_op.cc:L487</p>
+<p>Defined in src/operator/tensor/matrix_op.cc:L490</p>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/6ac37f9ae2f8755ed349a8f9e071f55ed42516b5/src/ndarray.jl#L1317-L1348' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.clip-Tuple{MXNet.mx.NDArray,Real,Real}' href='#MXNet.mx.clip-Tuple{MXNet.mx.NDArray,Real,Real}'>#</a>
 <strong><code>MXNet.mx.clip</code></strong> &mdash; <em>Method</em>.</p>
@@ -1110,7 +1110,7 @@ julia&gt; mx.clip(x, 2, 8)'
 <li>clip(csr, min &lt; 0, max &lt; 0) = csr</li>
 <li>clip(csr, min &gt; 0, max &gt; 0) = csr</li>
 </ul>
-<p>Defined in src/operator/tensor/matrix_op.cc:L487</p>
+<p>Defined in src/operator/tensor/matrix_op.cc:L490</p>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/6ac37f9ae2f8755ed349a8f9e071f55ed42516b5/src/ndarray.jl#L1316-L1347' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.context-Tuple{MXNet.mx.NDArray}' href='#MXNet.mx.context-Tuple{MXNet.mx.NDArray}'>#</a>
 <strong><code>MXNet.mx.context</code></strong> &mdash; <em>Method</em>.</p>
@@ -1161,7 +1161,7 @@ julia&gt; mx.expand_dims(x, 2)
  4.0
 </code></pre>
 
-<p>Defined in src/operator/tensor/matrix_op.cc:L290</p>
+<p>Defined in src/operator/tensor/matrix_op.cc:L293</p>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/6ac37f9ae2f8755ed349a8f9e071f55ed42516b5/src/ndarray.jl#L1345-L1370' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.log_softmax' href='#MXNet.mx.log_softmax'>#</a>
 <strong><code>MXNet.mx.log_softmax</code></strong> &mdash; <em>Function</em>.</p>
@@ -1253,6 +1253,7 @@ sigmoid.(x::NDArray)
 <p>Flattens the input array into a 2-D array by collapsing the higher dimensions.</p>
 <p>.. note:: <code>Flatten</code> is deprecated. Use <code>flatten</code> instead.</p>
 <p>For an input array with shape $(d1, d2, ..., dk)$, <code>flatten</code> operation reshapes the input array into an output array of shape $(d1, d2<em>...</em>dk)$.</p>
+<p>Note that the bahavior of this function is different from numpy.ndarray.flatten, which behaves similar to mxnet.ndarray.reshape((-1,)).</p>
 <p>Example::</p>
 <pre><code>x = [[
     [1,2,3],
@@ -1268,12 +1269,12 @@ flatten(x) = [[ 1.,  2.,  3.,  4.,  5.,  6.,  7.,  8.,  9.],
    [ 1.,  2.,  3.,  4.,  5.,  6.,  7.,  8.,  9.]]
 </code></pre>
 
-<p>Defined in src/operator/tensor/matrix_op.cc:L209</p>
+<p>Defined in src/operator/tensor/matrix_op.cc:L212</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: Input array.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/6ac37f9ae2f8755ed349a8f9e071f55ed42516b5/src/ndarray.jl#L1763-L1794' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/6ac37f9ae2f8755ed349a8f9e071f55ed42516b5/src/ndarray.jl#L1763-L1797' class='documenter-source'>source</a><br></p>
 <p><a id='Base.:%-Tuple{MXNet.mx.NDArray,Real}' href='#Base.:%-Tuple{MXNet.mx.NDArray,Real}'>#</a>
 <strong><code>Base.:%</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>.%(x::NDArray, y::NDArray)
@@ -1763,7 +1764,7 @@ copy(arr :: Array, ctx :: Context)
 <pre><code>permutedims(arr::NDArray, axes)
 </code></pre>
 
-<p>Defined in src/operator/tensor/matrix_op.cc:L254</p>
+<p>Defined in src/operator/tensor/matrix_op.cc:L257</p>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/6ac37f9ae2f8755ed349a8f9e071f55ed42516b5/src/ndarray.jl#L1279-L1281' class='documenter-source'>source</a><br></p>
 <p><a id='Base.prod-Tuple{MXNet.mx.NDArray,Any}' href='#Base.prod-Tuple{MXNet.mx.NDArray,Any}'>#</a>
 <strong><code>Base.prod</code></strong> &mdash; <em>Method</em>.</p>
@@ -1792,7 +1793,7 @@ copy(arr :: Array, ctx :: Context)
 <p>repeat(x, repeats=2, axis=1) = [[ 1.,  1.,  2.,  2.],                                   [ 3.,  3.,  4.,  4.]]</p>
 <p>repeat(x, repeats=2, axis=0) = [[ 1.,  2.],                                   [ 1.,  2.],                                   [ 3.,  4.],                                   [ 3.,  4.]]</p>
 <p>repeat(x, repeats=2, axis=-1) = [[ 1.,  1.,  2.,  2.],                                    [ 3.,  3.,  4.,  4.]]</p>
-<p>Defined in src/operator/tensor/matrix_op.cc:L560</p>
+<p>Defined in src/operator/tensor/matrix_op.cc:L563</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: Input data array</li>
@@ -1811,7 +1812,7 @@ copy(arr :: Array, ctx :: Context)
 <p>x = [[ 0.,  1.,  2.,  3.,  4.],        [ 5.,  6.,  7.,  8.,  9.]]</p>
 <p>reverse(x, axis=0) = [[ 5.,  6.,  7.,  8.,  9.],                         [ 0.,  1.,  2.,  3.,  4.]]</p>
 <p>reverse(x, axis=1) = [[ 4.,  3.,  2.,  1.,  0.],                         [ 9.,  8.,  7.,  6.,  5.]]</p>
-<p>Defined in src/operator/tensor/matrix_op.cc:L662</p>
+<p>Defined in src/operator/tensor/matrix_op.cc:L665</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: Input data array</li>
@@ -2012,7 +2013,7 @@ size(x::NDArray, dims...)
 <pre><code>transpose(arr::NDArray{T, 2}) where T
 </code></pre>
 
-<p>Defined in src/operator/tensor/matrix_op.cc:L254</p>
+<p>Defined in src/operator/tensor/matrix_op.cc:L257</p>
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/6ac37f9ae2f8755ed349a8f9e071f55ed42516b5/src/ndarray.jl#L1278-L1280' class='documenter-source'>source</a><br></p>
 <p><a id='Base.trunc-Tuple{Vararg{MXNet.mx.NDArray,N} where N}' href='#Base.trunc-Tuple{Vararg{MXNet.mx.NDArray,N} where N}'>#</a>
 <strong><code>Base.trunc</code></strong> &mdash; <em>Method</em>.</p>
@@ -5909,7 +5910,7 @@ box_iou(x, y, format='corner') = [[0.1428], [0.1428]]
 <li>output should be explicitly given and be the same as lhs.</li>
 <li>lhs and rhs are of the same data type, and on the same device.</li>
 </ul>
-<p>From:src/operator/tensor/matrix_op.cc:382</p>
+<p>From:src/operator/tensor/matrix_op.cc:385</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>lhs::NDArray-or-SymbolicNode</code>: Source input</li>
@@ -5931,7 +5932,7 @@ box_iou(x, y, format='corner') = [[0.1428], [0.1428]]
 <li>output should be explicitly given and be the same as input</li>
 </ul>
 <p>)</p>
-<p>From:src/operator/tensor/matrix_op.cc:407</p>
+<p>From:src/operator/tensor/matrix_op.cc:410</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: Source input</li>
@@ -7248,7 +7249,7 @@ box_iou(x, y, format='corner') = [[0.1428], [0.1428]]
 <li>output should be explicitly given and be the same as lhs.</li>
 <li>lhs and rhs are of the same data type, and on the same device.</li>
 </ul>
-<p>From:src/operator/tensor/matrix_op.cc:382</p>
+<p>From:src/operator/tensor/matrix_op.cc:385</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>lhs::NDArray-or-SymbolicNode</code>: Source input</li>
@@ -7269,7 +7270,7 @@ box_iou(x, y, format='corner') = [[0.1428], [0.1428]]
 <li>output should be explicitly given and be the same as input</li>
 </ul>
 <p>)</p>
-<p>From:src/operator/tensor/matrix_op.cc:407</p>
+<p>From:src/operator/tensor/matrix_op.cc:410</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: Source input</li>
@@ -7575,7 +7576,7 @@ parameter values:</p>
 <li>clip(csr, a_min &lt; 0, a_max &lt; 0) = csr</li>
 <li>clip(csr, a_min &gt; 0, a_max &gt; 0) = csr</li>
 </ul>
-<p>Defined in src/operator/tensor/matrix_op.cc:L487</p>
+<p>Defined in src/operator/tensor/matrix_op.cc:L490</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: Input array.</li>
@@ -8295,7 +8296,7 @@ NOT in axis instead.</p>
 <p>Example::</p>
 <p>x = [[  1.,   2.,   3.,   4.],        [  5.,   6.,   7.,   8.],        [  9.,  10.,  11.,  12.]]</p>
 <p>slice(x, begin=(0,1), end=(2,4)) = [[ 2.,  3.,  4.],                                      [ 6.,  7.,  8.]]   slice(x, begin=(None, 0), end=(None, 3), step=(-1, 2)) = [[9., 11.],                                                             [5.,  7.],                                                             [1.,  3.]]</p>
-<p>Defined in src/operator/tensor/matrix_op.cc:L356</p>
+<p>Defined in src/operator/tensor/matrix_op.cc:L359</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: Source input</li>
@@ -8826,7 +8827,7 @@ csr.indptr = [0, 1, 3, 3, 3]
 <p>Example::</p>
 <p>x = [[  1.,   2.,   3.,   4.],        [  5.,   6.,   7.,   8.],        [  9.,  10.,  11.,  12.]]</p>
 <p>slice(x, begin=(0,1), end=(2,4)) = [[ 2.,  3.,  4.],                                      [ 6.,  7.,  8.]]   slice(x, begin=(None, 0), end=(None, 3), step=(-1, 2)) = [[9., 11.],                                                             [5.,  7.],                                                             [1.,  3.]]</p>
-<p>Defined in src/operator/tensor/matrix_op.cc:L356</p>
+<p>Defined in src/operator/tensor/matrix_op.cc:L359</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: Source input</li>
@@ -8980,6 +8981,7 @@ integer towards zero of the input.</p>
 <p>Flattens the input array into a 2-D array by collapsing the higher dimensions.</p>
 <p>.. note:: <code>Flatten</code> is deprecated. Use <code>flatten</code> instead.</p>
 <p>For an input array with shape $(d1, d2, ..., dk)$, <code>flatten</code> operation reshapes the input array into an output array of shape $(d1, d2<em>...</em>dk)$.</p>
+<p>Note that the bahavior of this function is different from numpy.ndarray.flatten, which behaves similar to mxnet.ndarray.reshape((-1,)).</p>
 <p>Example::</p>
 <pre><code>x = [[
     [1,2,3],
@@ -8995,12 +8997,12 @@ flatten(x) = [[ 1.,  2.,  3.,  4.,  5.,  6.,  7.,  8.,  9.],
    [ 1.,  2.,  3.,  4.,  5.,  6.,  7.,  8.,  9.]]
 </code></pre>
 
-<p>Defined in src/operator/tensor/matrix_op.cc:L209</p>
+<p>Defined in src/operator/tensor/matrix_op.cc:L212</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: Input array.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/6ac37f9ae2f8755ed349a8f9e071f55ed42516b5/src/ndarray.jl#L1763-L1796' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/6ac37f9ae2f8755ed349a8f9e071f55ed42516b5/src/ndarray.jl#L1763-L1799' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.flip-Tuple{Vararg{MXNet.mx.NDArray,N} where N}' href='#MXNet.mx.flip-Tuple{Vararg{MXNet.mx.NDArray,N} where N}'>#</a>
 <strong><code>MXNet.mx.flip</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>flip(data, axis)
@@ -9013,7 +9015,7 @@ flatten(x) = [[ 1.,  2.,  3.,  4.,  5.,  6.,  7.,  8.,  9.],
 <p>x = [[ 0.,  1.,  2.,  3.,  4.],        [ 5.,  6.,  7.,  8.,  9.]]</p>
 <p>reverse(x, axis=0) = [[ 5.,  6.,  7.,  8.,  9.],                         [ 0.,  1.,  2.,  3.,  4.]]</p>
 <p>reverse(x, axis=1) = [[ 4.,  3.,  2.,  1.,  0.],                         [ 9.,  8.,  7.,  6.,  5.]]</p>
-<p>Defined in src/operator/tensor/matrix_op.cc:L662</p>
+<p>Defined in src/operator/tensor/matrix_op.cc:L665</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: Input data array</li>
@@ -10362,7 +10364,7 @@ the gradient of `scatter_nd` will not be correct!!
 <p>Example::</p>
 <p>x = [[  1.,   2.,   3.,   4.],        [  5.,   6.,   7.,   8.],        [  9.,  10.,  11.,  12.]]</p>
 <p>slice(x, begin=(0,1), end=(2,4)) = [[ 2.,  3.,  4.],                                      [ 6.,  7.,  8.]]   slice(x, begin=(None, 0), end=(None, 3), step=(-1, 2)) = [[9., 11.],                                                             [5.,  7.],                                                             [1.,  3.]]</p>
-<p>Defined in src/operator/tensor/matrix_op.cc:L356</p>
+<p>Defined in src/operator/tensor/matrix_op.cc:L359</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: Source input</li>
@@ -10383,7 +10385,7 @@ the gradient of `scatter_nd` will not be correct!!
 <p>slice_axis(x, axis=0, begin=1, end=3) = [[  5.,   6.,   7.,   8.],                                            [  9.,  10.,  11.,  12.]]</p>
 <p>slice_axis(x, axis=1, begin=0, end=2) = [[  1.,   2.],                                            [  5.,   6.],                                            [  9.,  10.]]</p>
 <p>slice_axis(x, axis=1, begin=-3, end=-1) = [[  2.,   3.],                                              [  6.,   7.],                                              [ 10.,  11.]]</p>
-<p>Defined in src/operator/tensor/matrix_op.cc:L443</p>
+<p>Defined in src/operator/tensor/matrix_op.cc:L446</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: Source input</li>
@@ -10635,7 +10637,7 @@ NOT in axis instead.</p>
                         [ 3.,  4.,  3.,  4.,  3.,  4.]]]</code></p>
 </li>
 </ul>
-<p>Defined in src/operator/tensor/matrix_op.cc:L621</p>
+<p>Defined in src/operator/tensor/matrix_op.cc:L624</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: Input data array</li>
