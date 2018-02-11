@@ -2616,7 +2616,7 @@ size(x::NDArray, dims...)
 <p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/6ac37f9ae2f8755ed349a8f9e071f55ed42516b5/src/ndarray.jl#L1763-L1795' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.LeakyReLU-Tuple{Vararg{MXNet.mx.NDArray,N} where N}' href='#MXNet.mx.LeakyReLU-Tuple{Vararg{MXNet.mx.NDArray,N} where N}'>#</a>
 <strong><code>MXNet.mx.LeakyReLU</code></strong> &mdash; <em>Method</em>.</p>
-<pre><code>LeakyReLU(data, act_type, slope, lower_bound, upper_bound)
+<pre><code>LeakyReLU(data, gamma, act_type, slope, lower_bound, upper_bound)
 </code></pre>
 
 <p>Applies Leaky rectified linear unit activation element-wise to the input.</p>
@@ -2632,12 +2632,13 @@ size(x::NDArray, dims...)
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>data::NDArray-or-SymbolicNode</code>: Input data to activation function.</li>
+<li><code>gamma::NDArray-or-SymbolicNode</code>: Slope parameter for PReLU. Only required when act_type is 'prelu'. It should be either a vector of size 1, or the same size as the second dimension of data.</li>
 <li><code>act_type::{'elu', 'leaky', 'prelu', 'rrelu'},optional, default='leaky'</code>: Activation function to be applied.</li>
 <li><code>slope::float, optional, default=0.25</code>: Init slope for the activation. (For leaky and elu only)</li>
 <li><code>lower_bound::float, optional, default=0.125</code>: Lower bound of random slope. (For rrelu only)</li>
 <li><code>upper_bound::float, optional, default=0.334</code>: Upper bound of random slope. (For rrelu only)</li>
 </ul>
-<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/6ac37f9ae2f8755ed349a8f9e071f55ed42516b5/src/ndarray.jl#L1763-L1794' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/dmlc/MXNet.jl/blob/6ac37f9ae2f8755ed349a8f9e071f55ed42516b5/src/ndarray.jl#L1763-L1796' class='documenter-source'>source</a><br></p>
 <p><a id='MXNet.mx.LinearRegressionOutput-Tuple{Vararg{MXNet.mx.NDArray,N} where N}' href='#MXNet.mx.LinearRegressionOutput-Tuple{Vararg{MXNet.mx.NDArray,N} where N}'>#</a>
 <strong><code>MXNet.mx.LinearRegressionOutput</code></strong> &mdash; <em>Method</em>.</p>
 <pre><code>LinearRegressionOutput(data, label, grad_scale)
