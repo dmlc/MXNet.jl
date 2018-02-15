@@ -628,7 +628,14 @@
 </code></pre>
 
 <p>MXNet.jl is built on top of <a href="https://github.com/dmlc/mxnet">libmxnet</a>. Upon installation, Julia will try to automatically download and build libmxnet.</p>
-<p>There are three environment variables that change this behaviour. If you already have a pre-installed version of mxnet you can use <code>MXNET_HOME</code> to point the build-process in the right direction. If the automatic cuda detection fails you can also set <code>CUDA_HOME</code> to override the process. To control which version of libmxnet will be compiled, you can use the <code>MXNET_COMMIT</code> variable to point to either a version tag (e.g. <code>v0.10.0</code>), a branch name (e.g. <code>master</code>) or a specific commit hash (e.g. <code>a0b1c2d3</code>).</p>
+<p>There are several environment variables that change this behaviour.</p>
+<ul>
+<li><code>MXNET_HOME</code>: If you already have a pre-installed version of mxnet you can use <code>MXNET_HOME</code> to point the build-process in the right direction.</li>
+<li><code>CUDA_HOME</code>: If the automatic cuda detection fails you can also set <code>CUDA_HOME</code> to override the process.</li>
+<li><code>MXNET_COMMIT</code>: To control which version of libmxnet will be compiled, you can use the<code>MXNET_COMMIT</code> variable to point to either a version tag (e.g. <code>v0.10.0</code>), a branch name (e.g. <code>master</code>) or a specific commit hash (e.g. <code>a0b1c2d3</code>).</li>
+<li><code>ADD_CFLAGS</code>: Additional C flags. For instance, if you need to point non-standard include directory, please set it as <code>ENV["ADD_CFLAGS"] = "-I'/path/to/include/dir'"</code>.</li>
+<li><code>ADD_LDFLAGS</code>: Additional linker flags.</li>
+</ul>
 <p>The libmxnet source is downloaded to <code>Pkg.dir("MXNet", "deps", "src", "mxnet")</code>. The automatic build is using default configurations, with OpenCV disabled. If the compilation failed due to unresolved dependency, or if you want to customize the build, you can compile and install libmxnet manually. Please see below for more details.</p>
 <p><a id='Manual-Compilation-1'></a></p>
 <h2 id="manual-compilation">Manual Compilation</h2>
