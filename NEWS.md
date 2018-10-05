@@ -1,578 +1,692 @@
-MXNet Change Log
-================
-## 1.3.0
+# v0.4.0 (#TBD)
 
-### New Features - Gluon RNN layers are now HybridBlocks
-- In this release, Gluon RNN layers such as `gluon.rnn.RNN`, `gluon.rnn.LSTM`, `gluon.rnn.GRU` becomes `HybridBlock`s as part of [gluon.rnn improvements project](https://github.com/apache/incubator-mxnet/projects/11) (#11482).
-- This is the result of newly available fused RNN operators added for CPU: LSTM([#10104](https://github.com/apache/incubator-mxnet/pull/10104)), vanilla RNN([#11399](https://github.com/apache/incubator-mxnet/pull/11399)), GRU([#10311](https://github.com/apache/incubator-mxnet/pull/10311))
-- Now many dynamic networks that are based on Gluon RNN layers can now be completely hybridized, exported, and used in the inference APIs in other language bindings such as R, Scala, etc.
+* Following material from `mx` module got exported (#TBD):
+    * `NDArray`
+        * `clip()`
+        * `clip!()`
+        * `context()`
+        * `empty()`
+        * `expand_dims()`
+        * `@inplace`
+        * `σ()`
+        * `sigmoid()`
+        * `relu()`
+        * `softmax()`
+        * `log_softmax()`
+        * `broadcast_to()`
+        * `broadcast_axis()`
+        * `broadcast_axes()`
 
-### MKL-DNN improvements
-- Introducing more functionality support for MKL-DNN as follows:
-  - Added support for more activation functions like, "sigmoid", "tanh", "softrelu". ([#10336](https://github.com/apache/incubator-mxnet/pull/10336))
-  - Added Debugging functionality: Result check ([#12069](https://github.com/apache/incubator-mxnet/pull/12069)) and Backend switch ([#12058](https://github.com/apache/incubator-mxnet/pull/12058)).
+    * `SymbolicNode`
+        * `Variable`
+        * `@var`
 
-### New Features - Gluon Model Zoo Pre-trained Models
-- Gluon Vision Model Zoo now provides MobileNetV2 pre-trained models (#10879) in addition to
-  AlexNet, DenseNet, Inception V3, MobileNetV1, ResNet V1 and V2, SqueezeNet 1.0 and 1.1, and VGG
-  pretrained models.
-- Updated pre-trained models provide state-of-the-art performance on all resnetv1, resnetv2, and vgg16, vgg19, vgg16_bn, vgg19_bn models (#11327 #11860 #11830).
+    * `Context`
+        * `cpu()`
+        * `gpu()`
 
-### New Features - Clojure package (experimental)
-- MXNet now supports the Clojure programming language. The MXNet Clojure package brings flexible and efficient GPU computing and state-of-art deep learning to Clojure. It enables you to write seamless tensor/matrix computation with multiple GPUs in Clojure. It also lets you construct and customize the state-of-art deep learning models in Clojure, and apply them to tasks, such as image classification and data science challenges.([#11205](https://github.com/apache/incubator-mxnet/pull/11205))
-- Checkout examples and API documentation [here](http://mxnet.incubator.apache.org/api/clojure/index.html).
+    * `AbstractModel`
+        * `FeedForward`
+        * `predict()`
 
-### New Features - Synchronized Cross-GPU Batch Norm (experimental)
-- Gluon now supports Synchronized Batch Normalization (#11502).
-- This enables stable training on large-scale networks with high memory consumption such as FCN for image segmentation.
+    * `MLP`
 
-### New Features - Sparse Tensor Support for Gluon (experimental)
-- Sparse gradient support is added to `gluon.nn.Embedding`. Set `sparse_grad=True` to enable when constructing the Embedding block. ([#10924](https://github.com/apache/incubator-mxnet/pull/10924))
-- Gluon Parameter now supports "row_sparse" storage type, which reduces communication cost and memory consumption for multi-GPU training for large models. `gluon.contrib.nn.SparseEmbedding` is an example empowered by this. ([#11001](https://github.com/apache/incubator-mxnet/pull/11001), [#11429](https://github.com/apache/incubator-mxnet/pull/11429))
-- Gluon HybridBlock now supports hybridization with sparse operators ([#11306](https://github.com/apache/incubator-mxnet/pull/11306)).
+    * `Executor`
+        * `bind()`
+        * `simple_bind()`
+        * `forward()`
+        * `backward()`
 
-### New Features - Control flow operators (experimental)
-- This is the first step towards optimizing dynamic neural networks with variable computation graphs, by adding symbolic and imperative control flow operators. [Proposal](https://cwiki.apache.org/confluence/display/MXNET/Optimize+dynamic+neural+network+models+with+control+flow+operators).
-- New operators introduced: foreach([#11531](https://github.com/apache/incubator-mxnet/pull/11531)), while_loop([#11566](https://github.com/apache/incubator-mxnet/pull/11566)), cond([#11760](https://github.com/apache/incubator-mxnet/pull/11760)).
+    * `AbstractEvalMetric`
+        * `ACE`
+        * `Accuracy`
+        * `MSE`
+        * `MultiACE`
+        * `MultiMetric`
+        * `NMSE`
+        * `SeqMetric`
 
-### New Features - Scala API Improvements (experimental)
-- Improvements to MXNet Scala API usability([#10660](https://github.com/apache/incubator-mxnet/pull/10660), [#10787](https://github.com/apache/incubator-mxnet/pull/10787), [#10991](https://github.com/apache/incubator-mxnet/pull/10991))
-- Symbol.api and NDArray.api would bring new set of functions that have complete definition for all arguments.
-- Please see this [Type safe API design document](https://cwiki.apache.org/confluence/display/MXNET/Scala+Type-safe+API+Design+Doc) for more details.
+    * `KVStore`
+        * `init!()`
+        * `push!()`
+        * `pull!()`
+        * `barrier()`
+        * `set_updater()`
+        * `set_optimizer()`
 
-### New Features - Rounding GPU Memory Pool for dynamic networks with variable-length inputs and outputs (experimental)
-- MXNet now supports a new memory pool type for GPU memory (#11041).
-- Unlike the default memory pool requires exact size match to reuse released memory chunks, this new memory pool uses exponential-linear rounding so that similar sized memory chunks can all be reused, which is more suitable for all the workloads with dynamic-shape inputs and outputs. Set environment variable `MXNET_GPU_MEM_POOL_TYPE=Round` to enable.
+    * `AbstractInitializer`
+        * `UniformInitializer`
+        * `NormalInitializer`
+        * `XavierInitializer`
 
-### New Features - Topology-aware AllReduce (experimental)
-- This features uses trees to perform the Reduce and Broadcast. It uses the idea of minimum spanning trees to do a binary tree Reduce communication pattern to improve it. This topology aware approach reduces the existing limitations for single machine communication shown by mehods like parameter server and NCCL ring reduction. It is an experimental feature ([#11591](https://github.com/apache/incubator-mxnet/pull/11591)).
-- Paper followed for implementation: [Optimal message scheduling for aggregation](https://www.sysml.cc/doc/178.pdf).
-- Set environment variable `MXNET_KVSTORE_USETREE=1` to enable.
+    * `AbstractOptimizer`
+        * `AdaDelta`
+        * `AdaGrad`
+        * `ADAM`
+        * `AdaMax`
+        * `Nadam`
+        * `RMSProp`
+        * `SGD`
+        * `getupdater()`
+        * `normgrad!()`
+        * `update!()`
 
-### New Features - Export MXNet models to ONNX format (experimental)
-- With this feature, now MXNet models can be exported to ONNX format([#11213](https://github.com/apache/incubator-mxnet/pull/11213)). Currently, MXNet supports ONNX v1.2.1. [API documentation](http://mxnet.incubator.apache.org/api/python/contrib/onnx.html).
-- Checkout this [tutorial](http://mxnet.incubator.apache.org/tutorials/onnx/export_mxnet_to_onnx.html) which shows how to use MXNet to ONNX exporter APIs. ONNX protobuf so that those models can be imported in other frameworks for inference.
+    * `AbstractDataProvider`
+        * `AbstractDataBatch`
+        * `ArrayDataProvider`
+        * `ArrayDataBatch`
 
-### New Features - TensorRT Runtime Integration (experimental)
-- [TensorRT](https://developer.nvidia.com/tensorrt) provides significant acceleration of model inference on NVIDIA GPUs compared to running the full graph in MxNet using unfused GPU operators. In addition to faster fp32 inference, TensorRT optimizes fp16 inference, and is capable of int8 inference (provided the quantization steps are performed). Besides increasing throughput, TensorRT significantly reduces inference latency, especially for small batches.
-- This feature in MXNet now introduces runtime integration of TensorRT into MXNet, in order to accelerate inference.([#11325](https://github.com/apache/incubator-mxnet/pull/11325))
-- Currently, its in contrib package.
+    * `to_graphviz()`
 
-### New Examples - Scala
-- Refurnished Scala Examples with improved API, documentation and CI test coverage. ([#11753](https://github.com/apache/incubator-mxnet/pull/11753), [#11621](https://github.com/apache/incubator-mxnet/pull/11621) )
-- Now all Scala examples have:
-  - No bugs block in the middle
-  - Good Readme to start with
-  - with Type-safe API usage inside
-  - monitored in CI in each PR runs
+## New APIs
 
-### Maintenance - Flaky Tests improvement effort
-- Fixed 130 flaky tests on CI. Tracked progress of the project [here](https://github.com/apache/incubator-mxnet/projects/9).
-- Add flakiness checker (#11572)
+### `SymbolicNode`
 
-### Maintenance - MXNet Model Backwards Compatibility Checker
-- This tool ([#11626](https://github.com/apache/incubator-mxnet/pull/11626)) helps in ensuring consistency and sanity while performing inference on the latest version of MXNet using models trained on older versions of MXNet.
-- This tool will help in detecting issues earlier in the development cycle which break backwards compatibility on MXNet and would contribute towards ensuring a healthy and stable release of MXNet.
+* `mx.get_children` for exploring the graph programmatically. (#TBD)
 
-### Maintenance - Integrated testing for "the Straight Dope"
-- ["Deep Learning - The Straight Dope"](http://gluon.mxnet.io) is a deep learning book based on Apache MXNet Gluon that are contributed by many Gluon users.
-- Now the testing of this book is integrated in the nightly tests.
+* A handy macro `@mx.var` for creating `mx.Variable`. (#TBD)
 
-### Bug-fixes
-- Fix gperftools/jemalloc and lapack warning bug. (#11110)
-- Fix mkldnn performance regression + improve test logging (#11262)
-- Fix row_sparse_param.save() (#11266)
-- Fix trainer init_kvstore (#11266)
-- Fix axis Bug in MKLDNN Softmax (#11335)
-- Fix 'AttributeError: '_thread._local' object has no attribute 'value'' on distributed processing applications (#11332)
-- Fix recordfile dataset with multi worker (#11370)
-- Manually check node existence in CachedOp (#11545)
-- Javadoc fix (#11239)
-- Fix bugs in MKLDNN operators to handle the kAddTo request (#11129)
-- Fix InferStorage for sparse fallback in FullyConnected (#11498)
-- Fix batchnorm problem with sparse matrices when fix_gamma=True (#11656)
-- Fix rnn layer save (#11776)
-- Fix BucketSentenceIter bug related to #11430 (#11580)
-- Fix for _backward_softsign activation (#11827)
-- Fix a bug in CachedOp. (#11675)
-- Fix quantization divide by zero errors (#11833)
-- Refactor R optimizers to fix memory leak (#11374)
-- Avoid use of troublesome cudnnFind() results when grad_req='add' (#11338)
-- Fix shared memory with gluon dataloader, add option pin_memory (#11908)
-- Fix quantized graph pass bug (#11937)
-- Fix MXPredReshape in the c_predict_api (#11493)
-- Fix the topk regression issue (#12197)
-- Fix image-classification example and add missing optimizers w/ momentum support (#11826)
+  ```julia
+  julia> x = @mx.var x
+  MXNet.mx.SymbolicNode x
 
-### Performance Improvements
-- Added static allocation and static shape for HybridBloc gluon (#11320)
-- Fix RecordIO augmentation speed (#11474)
-- Improve sparse pull performance for gluon trainer (#11429)
-- CTC operator performance improvement from HawkAaron/MXNet-CTC (#11834)
-- Improve performance of broadcast ops backward pass (#11252)
-- Improved numerical stability as a result of using stable L2 norm (#11573)
-- Accelerate the performance of topk for GPU and CPU side (#12085 #10997 ; This changes the behavior of topk when nan values occur in the input) 
-- Support for dot(dns, csr) = dns and dot(dns, csr.T) = dns on CPU ([#11113](https://github.com/apache/incubator-mxnet/pull/11113))
-- Performance improvement for Batch Dot on CPU from mshadow ([mshadow PR#342](https://github.com/dmlc/mshadow/pull/342))
+  julia> x, y, z = @mx.var x y z
+  (MXNet.mx.SymbolicNode x, MXNet.mx.SymbolicNode y, MXNet.mx.SymbolicNode z)
+  ```
 
-### API Changes
-- Allow Scala users to specify data/label names for NDArrayIter (#11256)
-- Allow user to define unknown token symbol to rnn encode_sentences() (#10461)
-- Added count_include_pad argument for Avg Pooling (#11021)
-- Add standard ResNet data augmentation for ImageRecordIter (#11027)
-- Add seed_aug parameter for ImageRecordIter to fix random seed for default augmentation (#11247)
-- Add support for accepting MXNet NDArrays in ColorNormalizeAug (#11606)
-- Enhancement of take operator (#11326)
-- Add temperature parameter in Softmax operator (#11466)
-- Add support for 1D inputs in leaky relu (#11850)
-- Add verify_ssl option to gluon.utils.download (#11546)
+### `NDArray`
 
-### Other features
-- Added ccache reporting to CI (#11322)
-- Restructure dockcross dockerfiles to fix caching (#11302)
-- Added tests for MKLDNN backward operators  (#11232)
-- Add elemwise_add/sub between rsp and rsp on GPU (#11179)
-- Add clip_global_norm(row_sparse_grad) (#11266)
-- Add subgraph storage type inference to CachedOp  (#11306)
-- Enable support for dense weight and sparse grad Adagrad updates (#11355)
-- Added Histogram Operator (#10931)
-- Added Matthew's Correlation Coefficient to metrics (#10524)
-- Added support for add_n(dense, csr, dense) = dense on CPU & GPU (#11330)
-- Added support for add_n(any combination longer than 4 with at least one dense storage) = dense on CPU & GPU (#11330)
-- L1 Normalization (#11229)
-- Add support for int64 data type in CSVIter (#11446)
-- Add test for new int64 type in CSVIter (#11499)
-- Add sample ratio for ROI Align (#11145)
-- Shape and Size Operator (#10889)
-- Add HybidSequentialRNNCell, which can be nested in HybridBlock (#11003)
-- Support for a bunch of unary functions for csr matrices (#11559)
-- Added NDArrayCollector to dispose intermediate allocated NDArrays automatically (#11751)
-- Added the diag() operator (#11643)
-- Added broadcast_like operator (#11820)
-- Allow Partial shape infer for Slice (#11406)
-- Added support to profile kvstore server during distributed training  (#11215)
-- Add function for GPU Memory Query to C API (#12083)
-- Generalized reshape_like operator to be more flexible (#11928)
-- Add support for selu activation function (#12059)
-- Add support for accepting NDArray as input to Module predict API (#12166)
-- Add DataDesc type for the Scala Package (#11844)
+* A handy constructor: `NDArray(Type, AbstractArray)` is added. (#TBD)
 
-### Usability Improvements
-- Added NDArray auto-collector for Scala (#11751, #12232)
-- Added docs for mx.initializer.Constant (#10637)
-- Added build from souce instructions on windows (#11276)
-- Added a tutorial explaining how to use the profiler (#11274)
-- Added two tutorials on Learning Rate Schedules (#11296)
-- Added a tutorial for mixed precision training with float16 (#10391)
-- Create CPP test for concat MKLDNN operator (#11371)
-- Update large word language model example (#11405)
-- MNIST Examples for Scala new API (#11250)
-- Updated installation info to have latest packages and more clarity (#11503)
-- GAN MNIST Examples for Scala new API (#11547)
-- Added Learning Rate Finder tutorial (#11304)
-- Fix Installation instructions for R bindings on Linux systems. (#11590)
-- Integration Test for Scala (#11596)
-- Documentation enhancement for optimizers (#11657)
-- Update rcnn example (#11373)
-- Gluon ModelZoo, Gluon examples for Perl APIs (#11642)
-- Fix R installation in CI (#11761,#11755, #11768, #11805, #11954, #11976)
-- CNN Examples for Scala new API (#11292)
-- Custom Operator Example for Scala (#11401)
-- Added detailed doc about global pool layers in Gluon (#11832)
-- Updated MultiTask example to use new infer api (#11605)
-- Added logistic regression tutorial (#11651)
-- Added Support for integer type in ImageIter (#11864)
-- Added depth_to_space and space_to_depth operators (#11587)
-- Increased operator support for ONNX to MXNet importer (#11856)
-- Add linux and macos MKLDNN Building Instruction (#11049)
-- Add download utility for Scala APIs (#11866)
-- Improving documentation and error messages for Async distributed training with Gluon (#11910)
-- Added NeuralStyle Example for Scala (#11621)
+  E.g.
+  ```julia
+  julia> NDArray([1, 2, 3])
+  3-element mx.NDArray{Int64,1} @ CPU0:
+   1
+   2
+   3
 
-For more information and examples, see [full release notes](https://cwiki.apache.org/confluence/display/MXNET/Apache+MXNet+%28incubating%29+1.3.0+Release+Notes)
+  julia> NDArray(Float32, [1, 2, 3])
+  3-element mx.NDArray{Float32,1} @ CPU0:
+   1.0
+   2.0
+   3.0
+  ```
 
-## 1.2.0
-### New Features - Added Scala Inference APIs
-- Implemented new [Scala Inference APIs](https://cwiki.apache.org/confluence/display/MXNET/MXNetScalaInferenceAPI) which offer an easy-to-use, Scala Idiomatic and thread-safe high level APIs for performing predictions with deep learning models trained with MXNet (#9678). Implemented a new ImageClassifier class which provides APIs for classification tasks on a Java BufferedImage using a pre-trained model you provide (#10054). Implemented a new ObjectDetector class which provides APIs for object and boundary detections on a Java BufferedImage using a pre-trained model you provide (#10229).
+* A port of Python's `autograd` for `NDArray` (#274)
 
-### New Features - Added a Module to Import ONNX models into MXNet
-- Implemented a new ONNX module in MXNet which offers an easy to use API to import ONNX models into MXNet's symbolic interface (#9963). Checkout the [example](https://github.com/apache/incubator-mxnet/blob/master/example/onnx/super_resolution.py) on how you could use this [API](https://cwiki.apache.org/confluence/display/MXNET/ONNX-MXNet+API+Design) to import ONNX models and perform inference on MXNet. Currently, the ONNX-MXNet Import module is still experimental. Please use it with caution.
+* `size(x, dims...)` is supported now. (#TBD)
 
-### New Features - Added Support for Model Quantization with Calibration
-- Implemented model quantization by adopting the [TensorFlow approach](https://www.tensorflow.org/performance/quantization) with calibration by borrowing the idea from Nvidia's [TensorRT](http://on-demand.gputechconf.com/gtc/2017/presentation/s7310-8-bit-inference-with-tensorrt.pdf). The focus of this work is on keeping quantized models (ConvNets for now) inference accuracy loss under control when compared to their corresponding FP32 models. Please see the [example](https://github.com/apache/incubator-mxnet/tree/master/example/quantization) on how to quantize a FP32 model with or without calibration (#9552). Currently, the Quantization support is still experimental. Please use it with caution.
+  ```julia
+  julia> x = mx.NDArray([1 2; 3 4; 5 6])
+  3×2 mx.NDArray{Int64,2} @ CPU0:
+   1  2
+   3  4
+   5  6
 
-### New Features - MKL-DNN Integration
-- MXNet now integrates with Intel MKL-DNN to accelerate neural network operators: Convolution, Deconvolution, FullyConnected, Pooling, Batch Normalization, Activation, LRN, Softmax, as well as some common operators: sum and concat (#9677). This integration allows NDArray to contain data with MKL-DNN layouts and reduces data layout conversion to get the maximal performance from MKL-DNN. Currently, the MKL-DNN integration is still experimental. Please use it with caution.
+  julia> size(x, 1, 2, 3, 4)
+  (3, 2, 1, 1)
 
-### New Features - Added Exception Handling Support for Operators
-- Implemented [Exception Handling Support for Operators](https://cwiki.apache.org/confluence/display/MXNET/Improved+exception+handling+in+MXNet) in MXNet. MXNet now transports backend C++ exceptions to the different language front-ends and prevents crashes when exceptions are thrown during operator execution (#9681).
+  ```
 
-### New Features - Enhanced FP16 support
-- Added support for distributed mixed precision training with FP16. It supports storing of master copy of weights in float32 with the multi_precision mode of optimizers (#10183). Improved speed of float16 operations on x86 CPU by 8 times through F16C instruction set. Added support for more operators to work with FP16 inputs (#10125, #10078, #10169). Added a tutorial on using mixed precision with FP16 (#10391).
+* `copy(AbstractArray, context)` is implemented now. (#TBD)
 
-### New Features - Added Profiling Enhancements
-- Enhanced built-in profiler to support native Intel:registered: VTune:tm: Amplifier objects such as Task, Frame, Event, Counter and Marker from both C++ and Python -- which is also visible in the Chrome tracing view(#8972). Added Runtime tracking of symbolic and imperative operators as well as memory and API calls. Added Tracking and dumping of aggregate profiling data. Profiler also no longer affects runtime performance when not in use. 
+  ```julia
+  julia> copy(1:4, mx.cpu())
+  4 mx.NDArray{Int64,1} @ CPU0:
+   1
+   2
+   3
+   4
 
-### Breaking Changes
-- Changed Namespace for MXNet scala from `ml.dmlc.mxnet` to `org.apache.mxnet` (#10284).
-- Changed API for the Pooling operator from `mxnet.symbol.Pooling(data=None, global_pool=_Null, cudnn_off=_Null, kernel=_Null, pool_type=_Null, pooling_convention=_Null, stride=_Null, pad=_Null, name=None, attr=None, out=None, **kwargs)` to  `mxnet.symbol.Pooling(data=None,  kernel=_Null, pool_type=_Null, global_pool=_Null, cudnn_off=_Null, pooling_convention=_Null, stride=_Null, pad=_Null, name=None, attr=None, out=None, **kwargs)`. This is a breaking change when kwargs are not provided since the new api expects the arguments starting from `global_pool` at the fourth position instead of the second position. (#10000).
+  julia> copy(1.:4, mx.cpu())
+  4 mx.NDArray{Float64,1} @ CPU0:
+   1.0
+   2.0
+   3.0
+   4.0
+  ```
 
-### Bug Fixes
-- Fixed tests - Flakiness/Bugs - (#9598, #9951, #10259, #10197, #10136, #10422). Please see: [Tests Improvement Project](https://github.com/apache/incubator-mxnet/projects/9)
-- Fixed `cudnn_conv` and `cudnn_deconv` deadlock (#10392).
-- Fixed a race condition in `io.LibSVMIter` when batch size is large (#10124).
-- Fixed a race condition in converting data layouts in MKL-DNN (#9862).
-- Fixed MKL-DNN sigmoid/softrelu issue (#10336).
-- Fixed incorrect indices generated by device row sparse pull (#9887).
-- Fixed cast storage support for same stypes (#10400).
-- Fixed uncaught exception for bucketing module when symbol name not specified (#10094).
-- Fixed regression output layers (#9848).
-- Fixed crash with `mx.nd.ones` (#10014).
-- Fixed `sample_multinomial` crash when `get_prob=True` (#10413).
-- Fixed buggy type inference in correlation (#10135).
-- Fixed race condition for `CPUSharedStorageManager->Free` and launched workers at iter init stage to avoid frequent relaunch (#10096).
-- Fixed DLTensor Conversion for int64 (#10083).
-- Fixed issues where hex symbols of the profiler were not being recognized by chrome tracing tool(#9932)
-- Fixed crash when profiler was not enabled (#10306)
-- Fixed ndarray assignment issues (#10022, #9981, #10468).
-- Fixed incorrect indices generated by device row sparse pull (#9887).
-- Fixed `print_summary` bug in visualization module (#9492).
-- Fixed shape mismatch in accuracy metrics (#10446).
-- Fixed random samplers from uniform and random distributions in R bindings (#10450).
-- Fixed a bug that was causing training metrics to be printed as NaN sometimes (#10437).
-- Fixed a crash with non positive reps for tile ops (#10417).
+* `copy!(NDArray, AbstractArray)` is implemented now. (#TBD)
 
-### Performance Improvements 
-- On average, after the MKL-DNN change, the inference speed of MXNet + MKLDNN outperforms MXNet + OpenBLAS by a factor of 32, outperforms MXNet + MKLML by 82% and outperforms MXNet + MKLML with the experimental flag by 8%. The experiments were run for the image classifcation example, for different networks and different batch sizes.
-- Improved sparse SGD, sparse AdaGrad and sparse Adam optimizer speed on GPU by 30x (#9561, #10312, #10293, #10062).
-- Improved `sparse.retain` performance on CPU by 2.5x (#9722)
-- Replaced `std::swap_ranges` with memcpy (#10351)
-- Implemented DepthwiseConv2dBackwardFilterKernel which is over 5x faster (#10098)
-- Implemented CPU LSTM Inference (#9977)
-- Added Layer Normalization in C++ (#10029)
-- Optimized Performance for rtc (#10018)
-- Improved CPU performance of  ROIpooling operator by using OpenMP (#9958)
-- Accelerated the calculation of F1 (#9833)
+  ```julia
+  julia> x = mx.zeros(3)
+  3-element mx.NDArray{Float32,1} @ CPU0:
+   0.0
+   0.0
+   0.0
 
-### API Changes
-- `Block.save_params` now match parameters according to model structure instead of names to avoid prefix mismatching problems during saving and loading (#10511).
-- Added an optional argument `ctx` to `mx.random.seed`. Seeding with `ctx` option produces random number sequence independent of device id. (#10367).
-- Added copy flag for astype (#10347).
-- Added context parameter to Scala Infer API - ImageClassifier and ObjectDetector (#10252).
-- Added axes support for dropout in gluon (#10032).
-- Added default `ctx` to cpu for `gluon.Block.load_params` (#10160).
-- Added support for variable sequence length in gluon.RecurrentCell (#9934).
-- Added convenience fluent method for squeeze op (#9734).
-- Made `array.reshape` compatible with numpy (#9790).
-- Added axis support and gradient for L2norm (#9740).
+  julia> copy!(x, 3:5)
+  3-element mx.NDArray{Float32,1} @ CPU0:
+   3.0
+   4.0
+   5.0
+  ```
 
-### Sparse Support
-- Added support for multi-GPU training with `row_sparse` weights using `device` KVStore (#9987).
-- Added `Module.prepare` API for multi-GPU and multi-machine training with row_sparse weight (#10285).
-- Added `deterministic` option for `contrib.SparseEmbedding` operator (#9846).
-- Added `sparse.broadcast_mul` and `sparse.broadcast_div` with CSRNDArray and 1-D dense NDArray on CPU (#10208).
-- Added sparse support for Custom Operator (#10374).
-- Added Sparse feature for Perl (#9988).
-- Added `force_deterministic` option for sparse embedding (#9882).
-- Added `sparse.where` with condition being csr ndarray (#9481).
+* `Base.ones(x::NDArray)` for creating an one-ed `NDArray`. (#TBD)
 
-### Deprecations
-- Deprecated `profiler_set_state` (#10156).
+* `Base.zeros(x::NDArray)` for creating a zero-ed `NDArray`. (#TBD)
 
-### Other Features
-- Added constant parameter for gluon (#9893).
-- Added `contrib.rand.zipfian` (#9747).
-- Added Gluon PreLU, ELU, SELU, Swish activation layers for Gluon (#9662)
-- Added Squeeze Op (#9700).
-- Added multi-proposal operator (CPU version) and fixed bug in multi-proposal operator (GPU version) (#9939).
-- Added in Large-Batch SGD with a warmup, and a LARS startegy (#8918).
-- Added Language Modelling datasets and Sampler (#9514).
-- Added instance norm and reflection padding to Gluon (#7938).
-- Added micro-averaging strategy for F1 metric (#9777).
-- Added Softsign Activation Function (#9851).
-- Added eye operator, for default storage type (#9770).
-- Added TVM bridge support to JIT NDArray Function by TVM (#9880).
-- Added float16 support for correlation operator and L2Normalization operator (#10125, #10078).
-- Added random shuffle implementation for NDArray (#10048).
-- Added load from buffer functions for CPP package (#10261).
+* Modulo operator. (#TBD)
 
-### Usability Improvements
-- Added embedding learning example for Gluon (#9165).
-- Added tutorial on how to use data augmenters (#10055).
-- Added tutorial for Data Augmentation with Masks (#10178).
-- Added LSTNet example (#9512).
-- Added MobileNetV2 example (#9614).
-- Added tutorial for Gluon Datasets and DataLoaders (#10251).
-- Added Language model with Google's billion words dataset (#10025).
-- Added example for custom operator using RTC (#9870).
-- Improved image classification examples (#9799, #9633).
-- Added reshape predictor function to c_predict_api (#9984).
-- Added guide for implementing sparse ops (#10081).
-- Added naming tutorial for gluon blocks and parameters (#10511).
+  ```julia
+  x = NDArray(...)
+  y = NDArray(...)
 
-### Known Issues
-- MXNet crash when built with `USE_GPERFTOOLS = 1` (#8968).
-- [DevGuide.md](https://github.com/google/googletest/blob/ec44c6c1675c25b9827aacd08c02433cccde7780/googlemock/docs/DevGuide.md) in the 3rdparty submodule googletest licensed under CC-BY-2.5.
-- Incompatibility in the behavior of MXNet Convolution operator for certain unsupported use cases: Raises an exception when MKLDNN is enabled, fails silently when it is not.
-- MXNet convolution generates wrong results for 1-element strides (#10689).
-- [Tutorial on fine-tuning an ONNX model](https://github.com/apache/incubator-mxnet/blob/v1.2.0/docs/tutorials/onnx/fine_tuning_gluon.md) fails when using cpu context.
-- CMake build ignores the `USE_MKLDNN` flag and doesn't build with MKLDNN support even with `-DUSE_MKLDNN=1`. To workaround the issue please see: #10801.
-- Linking the dmlc-core library fails with CMake build when building with `USE_OPENMP=OFF`. To workaround the issue, please use the updated CMakeLists in dmlc-core unit tests directory: https://github.com/dmlc/dmlc-core/pull/396. You can also workaround the issue by using make instead of cmake when building with `USE_OPENMP=OFF`.
+  x .% y
+  x .% 2
+  2 .% x
+  ```
 
-For more information and examples, see [full release notes](https://cwiki.apache.org/confluence/display/MXNET/%5BWIP%5D+Apache+MXNet+%28incubating%29+1.2.0+Release+Notes)
+* Inplace modulo operator, `mod_from!` and `rmod_from!`. (#TBD)
 
-## 1.1.0
-### Usability Improvements
-- Improved the usability of examples and tutorials
-### Bug-fixes
-- Fixed I/O multiprocessing for too many open file handles (#8904), race condition (#8995), deadlock (#9126).
-- Fixed image IO integration with OpenCV 3.3 (#8757).
-- Fixed Gluon block printing (#8956).
-- Fixed float16 argmax when there is negative input. (#9149)
-- Fixed random number generator to ensure sufficient randomness. (#9119, #9256, #9300)
-- Fixed custom op multi-GPU scaling (#9283)
-- Fixed gradient of gather_nd when duplicate entries exist in index. (#9200)
-- Fixed overriden contexts in Module `group2ctx` option when using multiple contexts (#8867)
-- Fixed `swap_axes` operator with "add_to" gradient req (#9541)
-### New Features
-- Added experimental API in `contrib.text` for building vocabulary, and loading pre-trained word embeddings, with built-in support for 307 GloVe and FastText pre-trained embeddings. (#8763)
-- Added experimental structural blocks in `gluon.contrib`: `Concurrent`, `HybridConcurrent`, `Identity`. (#9427)
-- Added `sparse.dot(dense, csr)` operator (#8938)
-- Added `Khatri-Rao` operator (#7781)
-- Added `FTML` and `Signum` optimizer (#9220, #9262)
-- Added `ENABLE_CUDA_RTC` build option (#9428)
-### API Changes
-- Added zero gradients to rounding operators including `rint`, `ceil`, `floor`, `trunc`, and `fix` (#9040)
-- Added `use_global_stats` in `nn.BatchNorm` (#9420)
-- Added `axis` argument to `SequenceLast`, `SequenceMask` and `SequenceReverse` operators (#9306)
-- Added `lazy_update` option for standard `SGD` & `Adam` optimizer with `row_sparse` gradients (#9468, #9189)
-- Added `select` option in `Block.collect_params` to support regex (#9348)
-- Added support for (one-to-one and sequence-to-one) inference on explicit unrolled RNN models in R (#9022) 
-### Deprecations
-- The Scala API name space is still called `ml.dmlc`. The name space is likely be changed in a future release to `org.apache` and might brake existing applications and scripts (#9579, #9324)
-### Performance Improvements
-- Improved GPU inference speed by 20% when batch size is 1 (#9055)
-- Improved `SequenceLast` operator speed (#9306)
-- Added multithreading for the class of broadcast_reduce operators on CPU (#9444)
-- Improved batching for GEMM/TRSM operators with large matrices on GPU (#8846)
-### Known Issues
-- "Predict with pre-trained models" tutorial is broken
-- "example/numpy-ops/ndarray_softmax.py" is broken
+  ```julia
+  mod_from!(x, y)
+  mod_from!(x, 2)
+  rmod_from!(2, x)
+  ```
 
-For more information and examples, see [full release notes](https://cwiki.apache.org/confluence/display/MXNET/Apache+MXNet+%28incubating%29+1.1.0+Release+Notes)
+* `cat`, `vcat`, `hcat` is implemented. (#TBD)
 
+  E.g. `hcat`
+  ```julia
+  julia> x
+  4 mx.NDArray{Float64,1} @ CPU0:
+   1.0
+   2.0
+   3.0
+   4.0
 
-## 1.0.0
-### Performance
-  - Enhanced the performance of `sparse.dot` operator.
-  - MXNet now automatically set OpenMP to use all available CPU cores to maximize CPU utilization when `NUM_OMP_THREADS` is not set.
-  - Unary and binary operators now avoid using OpenMP on small arrays if using OpenMP actually hurts performance due to multithreading overhead.
-  - Significantly improved performance of `broadcast_add`, `broadcast_mul`, etc on CPU.
-  - Added bulk execution to imperative mode. You can control segment size with `mxnet.engine.bulk`. As a result, the speed of Gluon in hybrid mode is improved, especially on small networks and multiple GPUs.
-  - Improved speed for `ctypes` invocation from Python frontend.
-### New Features - Gradient Compression [Experimental]
-  - Speed up multi-GPU and distributed training by compressing communication of gradients. This is especially effective when training networks with large fully-connected layers. In Gluon this can be activated with `compression_params` in Trainer.
-### New Features - Support of NVIDIA Collective Communication Library (NCCL) [Experimental]
-  - Use `kvstore=’nccl’` for (in some cases) faster training on multiple GPUs.
-  - Significantly faster than kvstore=’device’ when batch size is small.
-  - It is recommended to set environment variable `NCCL_LAUNCH_MODE` to `PARALLEL` when using NCCL version 2.1 or newer.
-### New Features - Advanced Indexing [General Availability]
-  - NDArray now supports advanced indexing (both slice and assign) as specified by the numpy standard: https://docs.scipy.org/doc/numpy-1.13.0/reference/arrays.indexing.html#combining-advanced-and-basic-indexing with the following restrictions:
-    - if key is a list type, only a list of integers is supported, e.g. `key=[1, 2]` is supported, while not for `key=[[1, 2]]`.
-    - Ellipsis (...) and np.newaxis are not supported.
-    - `Boolean` array indexing is not supported.
-### New Features - Gluon [General Availability]
-  - Performance optimizations discussed above.
-  - Added support for loading data in parallel with multiple processes to `gluon.data.DataLoader`. The number of workers can be set with `num_worker`. Does not support windows yet.
-  - Added Block.cast to support networks with different data types, e.g. `float16`.
-  - Added Lambda block for wrapping a user defined function as a block.
-  - Generalized `gluon.data.ArrayDataset` to support arbitrary number of arrays.
-### New Features - ARM / Raspberry Pi support [Experimental]
-  - MXNet now compiles and runs on ARMv6, ARMv7, ARMv64 including Raspberry Pi devices. See https://github.com/apache/incubator-mxnet/tree/master/docker_multiarch for more information.
-### New Features - NVIDIA Jetson support [Experimental]
-  - MXNet now compiles and runs on NVIDIA Jetson TX2 boards with GPU acceleration.
-  - You can install the python MXNet package on a Jetson board by running - `$ pip install mxnet-jetson-tx2`.
-### New Features - Sparse Tensor Support [General Availability]
-  - Added more sparse operators: `contrib.SparseEmbedding`, `sparse.sum` and `sparse.mean`. 
-  - Added `asscipy()` for easier conversion to scipy.
-  - Added `check_format()` for sparse ndarrays to check if the array format is valid.
-### Bug-fixes  
-  - Fixed a[-1] indexing doesn't work on `NDArray`.
-  - Fixed `expand_dims` if axis < 0.
-  - Fixed a bug that causes topk to produce incorrect result on large arrays.
-  - Improved numerical precision of unary and binary operators for `float64` data.
-  - Fixed derivatives of log2 and log10. They used to be the same with log.
-  - Fixed a bug that causes MXNet to hang after fork. Note that you still cannot use GPU in child processes after fork due to limitations of CUDA.
-  - Fixed a bug that causes `CustomOp` to fail when using auxiliary states.
-  - Fixed a security bug that is causing MXNet to listen on all available interfaces when running training in distributed mode.
-### Doc Updates
-  - Added a security best practices document under FAQ section.
-  - Fixed License Headers including restoring copyright attributions.
-  - Documentation updates. 
-  - Links for viewing source.
- 
- For more information and examples, see [full release notes](https://cwiki.apache.org/confluence/display/MXNET/Apache+MXNet+%28incubating%29+1.0+Release+Notes)
+  julia> y
+  4 mx.NDArray{Float64,1} @ CPU0:
+   2.0
+   4.0
+   6.0
+   8.0
 
+  julia> [x y]
+  4×2 mx.NDArray{Float64,2} @ CPU0:
+   1.0  2.0
+   2.0  4.0
+   3.0  6.0
+   4.0  8.0
+  ```
 
-## 0.12.1
-### Bug-fixes
-  - Added GPU support for the `syevd` operator which ensures that there is GPU support for all linalg-operators.
-  - Bugfix for `syevd` on CPU such that it works for `float32`.
-  - Fixed API call when `OMP_NUM_THREADS` environment variable is set. 
-  - Fixed `MakeNonlossGradNode` bug.
-  - Fixed bug related to passing `dtype` to `array()`. 
-  - Fixed some minor bugs for sparse distributed training.
-  - Fixed a bug on `Slice` accessing uninitialized memory in `param.begin` in the file `matrix_op-inl.h`. 
-  - Fixed `gluon.data.RecordFileDataset`.
-  - Fixed a bug that caused `autograd` to crash on some networks.
-  
-  
-## 0.12.0
-### Performance
-  - Added full support for NVIDIA Volta GPU Architecture and CUDA 9. Training CNNs is up to 3.5x faster than Pascal when using float16 precision.
-  - Enabled JIT compilation. Autograd and Gluon hybridize now use less memory and has faster speed. Performance is almost the same with old symbolic style code.
-  - Improved ImageRecordIO image loading performance and added indexed RecordIO support.
-  - Added better openmp thread management to improve CPU performance.
-### New Features - Gluon
-  - Added enhancements to the Gluon package, a high-level interface designed to be easy to use while keeping most of the flexibility of low level API. Gluon supports both imperative and symbolic programming, making it easy to train complex models imperatively with minimal impact on performance. Neural networks (and other machine learning models) can be defined and trained with `gluon.nn` and `gluon.rnn` packages. 
-  - Added new loss functions - `SigmoidBinaryCrossEntropyLoss`, `CTCLoss`, `HuberLoss`, `HingeLoss`, `SquaredHingeLoss`, `LogisticLoss`, `TripletLoss`.
-  - `gluon.Trainer` now allows reading and setting learning rate with `trainer.learning_rate` property.
-  - Added API `HybridBlock.export` for exporting gluon models to MXNet format.
-  - Added `gluon.contrib` package.
-    - Convolutional recurrent network cells for RNN, LSTM and GRU.
-    - `VariationalDropoutCell`
-### New Features - Autograd
-  - Added enhancements to `autograd` package, which enables automatic differentiation of NDArray operations.
-  - `autograd.Function` allows defining both forward and backward computation for custom operators.
-  - Added `mx.autograd.grad` and experimental second order gradient support (most operators don't support second order gradient yet).
-  - Autograd now supports cross-device graphs. Use `x.copyto(mx.gpu(i))` and `x.copyto(mx.cpu())` to do computation on multiple devices.
-### New Features - Sparse Tensor Support
-  - Added support for sparse matrices. 
-  - Added limited cpu support for two sparse formats in `Symbol` and `NDArray` - `CSRNDArray` and `RowSparseNDArray`.
-  - Added a sparse dot product operator and many element-wise sparse operators.
-  - Added a data iterator for sparse data input - `LibSVMIter`.
-  - Added three optimizers for sparse gradient updates: `Ftrl`, `SGD` and `Adam`.
-  - Added `push` and `row_sparse_pull` with `RowSparseNDArray` in distributed kvstore.
-### Other New Features
-  - Added limited support for fancy indexing, which allows you to very quickly access and modify complicated subsets of an array's values. `x[idx_arr0, idx_arr1, ..., idx_arrn]` is now supported. Features such as combining and slicing are planned for the next release. Checkout master to get a preview.
-  - Random number generators in `mx.nd.random.*` and `mx.sym.random.*` now support both CPU and GPU.
-  - `NDArray` and `Symbol` now supports "fluent" methods. You can now use `x.exp()` etc instead of `mx.nd.exp(x)` or `mx.sym.exp(x)`.
-  - Added `mx.rtc.CudaModule` for writing and running CUDA kernels from python. 
-  - Added `multi_precision` option to optimizer for easier float16 training.
-  - Better support for IDE auto-completion. IDEs like PyCharm can now correctly parse mxnet operators.
-### API Changes
-  - Operators like `mx.sym.linalg_*` and `mx.sym.random_*` are now moved to `mx.sym.linalg.*` and `mx.sym.random.*`. The old names are still available but deprecated.
-  - `sample_*` and `random_*` are now merged as `random.*`, which supports both scalar and  `NDArray` distribution parameters.
-### Bug-fixes
-  - Fixed a bug that causes `argsort` operator to fail on large tensors.
-  - Fixed numerical stability issues when summing large tensors.
-  - Fixed a bug that causes arange operator to output wrong results for large ranges.
-  - Improved numerical precision for unary and binary operators on `float64` inputs.
+* Transposing a column `NDArray` to a row `NDArray` is supported now. (#TBD)
 
-For more information and examples, see [full release notes](https://cwiki.apache.org/confluence/display/MXNET/MXNet+0.12.0+Release+Notes)
+  ```julia
+  julia> x = NDArray(Float32[1, 2, 3, 4])
+  4 mx.NDArray{Float32,1} @ CPU0:
+   1.0
+   2.0
+   3.0
+   4.0
 
+  julia> x'
+  1×4 mx.NDArray{Float32,2} @ CPU0:
+   1.0  2.0  3.0  4.0
+  ```
 
-## 0.11.0
-### Major Features
-  - Apple Core ML model converter
-  - Support for Keras v1.2.2
-  - For more information see [full release notes](https://cwiki.apache.org/confluence/display/MXNET/v0.11.0+Release+Notes)
-### API Changes
-  - Added `CachedOp`. You can now cache the operators that’s called frequently with the same set of arguments to reduce overhead.
-  - Added sample_multinomial for sampling from multinomial distributions.
-  - Added `trunc` operator for rounding towards zero.
-  - Added linalg_gemm, linalg_potrf, ... operators for lapack support.
-  - Added verbose option to Initializer for printing out initialization details.
-  - Added DeformableConvolution to contrib from the Deformable Convolutional Networks paper.
-  - Added float64 support for dot and batch_dot operator.
-  - `allow_extra` is added to Module.set_params to ignore extra parameters.
-  - Added `mod` operator for modulo.
-  - Added `multi_precision` option to SGD optimizer to improve training with float16. Resnet50 now achieves the same accuracy when trained with float16 and gives 50% speedup on Titan XP.
-### Performance Improvements
-  - ImageRecordIter now stores data in pinned memory to improve GPU memcopy speed.
-### Bugfixes
-  - Cython interface is fixed. `make cython` and `python setup.py install --with-cython` should install the cython interface and reduce overhead in applications that use imperative/bucketing.
-  - Fixed various bugs in Faster-RCNN example: https://github.com/dmlc/mxnet/pull/6486
-  - Fixed various bugs in SSD example.
-  - Fixed `out` argument not working for `zeros`, `ones`, `full`, etc.
-  - `expand_dims` now supports backward shape inference.
-  - Fixed a bug in rnn. BucketingSentenceIter that causes incorrect layout handling on multi-GPU.
-  - Fixed context mismatch when loading optimizer states.
-  - Fixed a bug in ReLU activation when using MKL.
-  - Fixed a few race conditions that causes crashes on shutdown.
-### Refactors
-  - Refactored TShape/TBlob to use int64 dimensions and DLTensor as internal storage. Getting ready for migration to DLPack. As a result TBlob::dev_mask_ and TBlob::stride_ are removed.
+* Matrix/tensor multiplication is supported now. (#TBD)
 
+  ```julia
+  julia> x
+  2×3 mx.NDArray{Float32,2} @ CPU0:
+   1.0  2.0  3.0
+   4.0  5.0  6.0
 
-## 0.10.0
-- Overhauled documentation for commonly used Python APIs, Installation instructions, Tutorials, HowTos and MXNet Architecture.  
-- Updated mxnet.io for improved readability.  
-- Pad operator now support reflection padding.  
-- Fixed a memory corruption error in threadedengine.  
-- Added CTC loss layer to contrib package. See mx.contrib.sym.ctc_loss.  
-- Added new sampling operators for several distributions (normal,uniform,gamma,exponential,negative binomial).  
-- Added documentation for experimental RNN APIs.
- 
-## 0.9.3
-- Move symbolic API to NNVM @tqchen
-  - Most front-end C API are backward  compatible
-  - Removed symbolic API in MXNet and relies on NNVM
-- New features:
-  - MXNet profiler for profiling operator-level executions
-  - mxnet.image package for fast image loading and processing
-- Change of JSON format
-  - param and attr field are merged to attr
-  - New code is backward-compatible can load old json format
-- OpProperty registration now is deprecated
-  - New operators are encouraged to register their property to NNVM op registry attribute
-- Known features removed limitations to be fixed
-  - Bulk segment execution not yet added.
+  julia> y
+  3 mx.NDArray{Float32,1} @ CPU0:
+   -1.0
+   -2.0
+   -3.0
 
-## v0.8
-This is the last release before the NNVM refactor.
-- CaffeOp and CaffeIter for interfacing with Caffe by @HrWangChengdu @cjolivier01
-- WrapCTC plugin for sequence learning by @xlvector
-- Improved Multi-GPU performance by @mli
-- CuDNN RNN support by @sbodenstein
-- OpenCV plugin for parallel image IO by @piiswrong
-- More operators as simple op
-    - Simple OP @tqchen
-    - element wise op with axis and broadcast @mli @sxjscience
-- Cudnn auto tuning for faster convolution by @piiswrong
-- More applications
-    - Faster RCNN by @precedenceguo
+  julia> x * y
+  2 mx.NDArray{Float32,1} @ CPU0:
+   -14.0
+   -32.0
+  ```
 
+## API Changes
 
-## v0.7
--  0.6 is skipped because there are a lot of improvements since initial release
-- More math operators
-  - elementwise ops and binary ops
-- Attribute support in computation graph
-  - Now user can use attributes to give various hints about specific learning rate, allocation plans etc
-- MXNet is more memory efficient
-  - Support user defined memory optimization with attributes
-- Support mobile applications by @antinucleon
-- Refreshed update of new documents
-- Model parallel training of LSTM by @tqchen
-- Simple operator refactor by @tqchen
-  - add operator_util.h to enable quick registration of both ndarray and symbolic ops
-- Distributed training by @mli
-- Support Torch Module by @piiswrong
-  - MXNet now can use any of the modules from Torch.
-- Support custom native operator by @piiswrong
-- Support data types including fp16, fp32, fp64, int32, and uint8 by @piiswrong
-- Support monitor for easy printing and debugging by @piiswrong
-- Support new module API by @pluskid
-  - Module API is a middle level API that can be used in imperative manner like Torch-Module
-- Support bucketing API for variable length input by @pluskid
-- Support CuDNN v5 by @antinucleon
-- More applications
-  - Speech recognition by @yzhang87
-  - [Neural art](https://github.com/dmlc/mxnet/tree/master/example/neural-style) by @antinucleon
-  - [Detection](https://github.com/dmlc/mxnet/tree/master/example/rcnn), RCNN bt @precedenceguo
-  - [Segmentation](https://github.com/dmlc/mxnet/tree/master/example/fcn-xs), FCN by @tornadomeet
-  - [Face identification](https://github.com/tornadomeet/mxnet-face) by @tornadomeet
-  - More on the example
+### `NDArray`
 
-## v0.5 (initial release)
-- All basic modules ready
+* Broadcasting along dimension supported on following operators,
+  and the original `mx.broadcast_*` APIs are deprecated
+  (#401) (#402) (#403):
+
+    * `+`
+    * `-`
+    * `*`
+    * `/`
+    * `%`
+    * `^`
+    * `==`
+    * `!=`
+    * `>`
+    * `>=`
+    * `<`
+    * `<=`
+    * `max`
+    * `min`
+
+    ```julia
+    julia> x = NDArray([1 2 3;
+                        4 5 6])
+    2×3 mx.NDArray{Int64,2} @ CPU0:
+     1  2  3
+     4  5  6
+
+    julia> y = NDArray([1;
+                        10])
+    2-element mx.NDArray{Int64,1} @ CPU0:
+      1
+     10
+
+    julia> x .+ y
+    2×3 mx.NDArray{Int64,2} @ CPU0:
+      2   3   4
+     14  15  16
+    ```
+
+* Please use dot-call on following trigonometric functions.
+  Also, the `arc*` has been renamed to keep consistent with `Base`.
+  (#TBD)
+
+    * `sin.(x)`
+    * `cos.(x)`
+    * `tan.(x)`
+    * `arcsin(x)` -> `asin.(x)`
+    * `arccos(x)` -> `acos.(x)`
+    * `arctan(x)` -> `atan.(x)`
+
+* Please use dot-call on following hyperbolic functions.
+  Also, the `arc*` has been renamed to keep consistent with `Base`.
+  (#TBD)
+
+    * `sinh.(x)`
+    * `cosh.(x)`
+    * `tanh.(x)`
+    * `arcsinh(x)` -> `asinh.(x)`
+    * `arccosh(x)` -> `acosh.(x)`
+    * `arctanh(x)` -> `atanh.(x)`
+
+* Please use dot-call on following activation functions.
+  And the `dim` of `softmax` and `log_softmax` has been fixed
+  as Julia column-based style.
+  (#TBD)
+
+    * `σ.(x)`
+    * `relu.(x)`
+    * `softmax.(x, [dim = ndims(x)])`
+    * `log_softmax.(x, [dim = ndims(x)])`
+
+* `rand`, `rand!`, `randn`, `randn!` is more Base-like now (#TBD).
+
+  ```julia
+  julia> mx.rand(2, 3)
+  2×3 mx.NDArray{Float32,2} @ CPU0:
+   0.631961  0.324175  0.0762663
+   0.285366  0.395292  0.074995
+
+  julia> mx.rand(2, 3; low = 1, high = 10)
+  2×3 mx.NDArray{Float32,2} @ CPU0:
+   7.83884  7.85793  7.64791
+   7.68646  8.56082  8.42189
+  ```
+
+  ```julia
+  julia> mx.randn(2, 3)
+  2×3 mx.NDArray{Float32,2} @ CPU0:
+   0.962853  0.424535  -0.320123
+   0.478113  1.72886    1.72287
+
+  julia> mx.randn(2, 3, μ = 100)
+  2×3 mx.NDArray{Float32,2} @ CPU0:
+   99.5635  100.483   99.888
+   99.9889  100.533  100.072
+  ```
+
+* Signature of `clip` changed, it doesn't require any keyword argument now.
+  (#TBD)
+
+  Before: `clip(x, a_min = -4, a_max = 4)`
+  After: `clip(x, -4, 4)`
+
+### Optimizer
+
+We overhauled the optimizer APIs, introducing breaking changes.
+There are tons of renaming, and we try to increase the flexibility.
+Making it decouples from some high-level, so user can use it without
+understand some detail implementations of `fit!`.
+
+See #396.
+
+* All the keyword argument of optimizers have been renamed.
+  Now we have more elegant keyword arguments than Python's,
+  thanks to well Unicode support on Julia's REPL and editor plugin.
+  *These are breaking changes, no deprecation warning.*
+
+    | old                       | new       | comment                        |
+    |---------------------------|-----------|--------------------------------|
+    | `opts.lr`                 | `η`       | type `\eta<tab>` in REPL       |
+    | `opts.momentum`           | `μ`       | type `\mu<tab>` in REPL        |
+    | `opts.grad_clip`          | `clip`    | type `\nabla<tab>c` in REPL    |
+    | `opts.weight_decay`       | `λ`       | type `\lambda<tab>` in REPL    |
+    | `opts.lr_schedular`       | `η_sched` | type `\eta<tab>_sched` in REPL |
+    | `opts.momentum_schedular` | `μ_sched` | type `\mu<tab>_sched` in REPL  |
+
+  For instance, one accessed the learning via `SGD().opts.lr`,
+  but now, it's `SGD().η`.
+
+* New keyword argument `scale` for gradient rescaling.
+
+  Docstring:
+  ```
+  If != 0, multiply the gradient with `∇r` before updating.
+  Often choose to be `1.0 / batch_size`.
+  If leave it default, high-level API like `fit!` will set it to
+  `1.0 / batch_size`, since `fit!` knows the `batch_size`.
+  ```
+
+* Keyword arguments of `NadamScheduler` has been renamed.
+  *This is a breaking change, no deprecation warning.*
+
+    * Before
+
+      ```julia
+      NadamScheduler(; mu0 = 0.99, delta = 0.004, gamma = 0.5, alpha = 0.96)
+      ```
+
+    * After
+
+      ```julia
+      NadamScheduler(; μ = 0.99, δ = 0.004, γ = 0.5, α = 0.96)
+      ```
+
+* The attribute `optimizer.state` is removed.
+  `OptimizationState` is only used by high-level abstraction, like `fit!`.
+
+* `LearningRate` scheduler API changes:
+
+    * `get_learning_rate` is removed.
+      Please use `Base.get` to get learning rate.
+
+      ```julia
+      julia> sched = mx.LearningRate.Exp(.1)
+      MXNet.mx.LearningRate.Exp(0.1, 0.9, 0)
+
+      julia> get(sched)
+      0.1
+
+      julia> update!(sched);
+
+      julia> get(sched)
+      0.09000000000000001
+      ```
+
+    * `update!` to bump counter of `Scheduler.t`
+      ```julia
+      julia> sched.t
+      1
+
+      julia> update!(sched);
+
+      julia> sched.t
+      2
+
+      julia> update!(sched);
+
+      julia> sched.t
+      3
+      ```
+
+* `Momentum` module API changes:
+
+    * `get_momentum_scheduler` is removed. Please use `Base.get` instead.
+
+      ```julia
+      julia> get(mx.Momentum.Fixed(.9))
+      0.9
+      ```
+
+----
+
+# v0.3.0 (2017.11.16)
+
+* Update `libmxnet` to
+    * On Windows: v0.12.0.
+    (See https://github.com/apache/incubator-mxnet/releases/tag/0.12.0)
+
+    * On Linux/macOS: v0.12.1.
+    (See https://github.com/apache/incubator-mxnet/releases/tag/0.12.1)
+
+* Drop 0.5 support. ([#300][300])
+
+## New API
+
+### `SymbolicNode`
+
+* Debugging print support. ([#276][276])
+
+### `NDArray`
+
+* `deepcopy` for `NDArray` ([#273][273])
+
+* `scalar ./ NDArray` is available now. ([#292][292])
+
+* `fill` and `fill!` for `NDArray`. ([#297][297], [#311][311])
+
+  An API correspond to Python's `mx.nd.full()`
+
+    * `fill(x, dims, ctx=cpu())`
+    * `fill(x, dims...)`
+    * `fill!(arr::NDArray, x)`
+
+* Matrix (2D `NDArray`) multiplication is available now. ([#300][300])
+
+    ```julia
+    julia> x
+    1x2 mx.NDArray{Float64} @ CPU0:
+     1.0  2.0
+
+    julia> x' * x
+    2x2 mx.NDArray{Float64} @ CPU0:
+     1.0  2.0
+     2.0  4.0
+    ```
+
+* `NDArray` `getindex`/`setindex!` linear indexing support and `first` for
+  extracting scalar value. ([#294][294])
+
+  ```julia
+  julia> x = mx.zeros(2, 5)
+
+  julia> x[5] = 42  # do synchronization and set the value
+  ```
+
+  ```julia
+  julia> y = x[5]  # actually, getindex won't do synchronization, but REPL's showing did it for you
+  1 mx.NDArray{Float32} @ CPU0:
+   42.0
+
+  julia> first(y)  # do sync and get the value
+  42.0f0
+
+  julia> y[]  # this is available, also
+  42.0f0
+  ```
+* Elementwise power of `NDArray`. ([#293][293])
+
+    * `x.^2`
+    * `2.^x`
+    * `x.^y`
+    * where `x` and `y` are `NDArray`s.
+
+* Elementwise power of irrational and `NDArray`. ([#310][310])
+
+    * `e.^x`
+    * `x.^e`
+    * `π.^x`
+
+## API Changes
+
+### `SymbolicNode`
+
+* `reshape` of `SymbolicNode` shares the same interface with Base
+  and additional keyword argument. ([#279][279])
+
+    * `reshape(SymbolicNode, dim; reverse=false, name)`
+    * `reshape(SymbolicNode, dim...; reverse=false, name)`
+    * `Reshape` is deprecated.
+
+* `mx.forward(x)` will return `x.outputs` now. ([#312][312])
+
+### `NDArray`
+
+* `reshape` of `NDArray` shares the same interface with Base. ([#272][272])
+
+    * `reshape(NDArray, dim; reverse=false)`
+    * `reshape(NDArray, dim...; reverse=false)`
+    * `Reshape` is deprecated.
+
+* `srand!` deprecated, please use `srand`. ([#282][282])
+
+* `mean` and `sum` of `NDArray` share the same interface with Base
+  and fix the `axis` indexing. ([#303][303])
+
+    * This is a breaking change; no deprecated warning.
+    * Before: `mean(arr, axis=0)`
+    * After: `mean(arr, 1)`
+
+* `max` and `min` of `NDArray` renamed to `maximum` and `minimum` and share the
+  same interface with Base. The `axis` indexing is fixed, also. ([#303][303])
+
+    * This is a breaking change; no deprecated warning.
+    * Before: `mx.max(arr, axis=0)` or `mx.max_axis(arr, axis=0)`
+    * After: `maximum(arr, 1)`
+
+* `mx.transpose` for high dimension `NDArray` has been renamed to `permutedims`
+  and shares the same interface with Base. ([#303][303])
+
+    * This is a breaking changes; no deprecated warning.
+    * Before: `mx.transpose(A, axis=[2, 1, 3])`
+    * After: `permutedims(A, [2, 1, 3])`
+
+* `prod` of `NDArray` shares the same interface with Base and fix the `axis`
+  indexing. ([#303][303])
+
+    * This is a breaking change; no deprecated warning.
+    * Before: `prod(arr, axis=-1)`
+    * After: `prod(arr, 1)`
+
+## Bugfix
+
+* Broadcasting operation on same variable is back. ([#300][300], [#314][314])
+  ```julia
+  x = mx.NDArray(...)
+  x .* x
+  ```
+
+  ```julia
+  y = mx.Variable(:y)
+  y .* y
+  ```
+
+[272]: https://github.com/dmlc/MXNet.jl/pull/272
+[273]: https://github.com/dmlc/MXNet.jl/pull/273
+[276]: https://github.com/dmlc/MXNet.jl/pull/276
+[279]: https://github.com/dmlc/MXNet.jl/pull/279
+[282]: https://github.com/dmlc/MXNet.jl/pull/282
+[292]: https://github.com/dmlc/MXNet.jl/pull/292
+[293]: https://github.com/dmlc/MXNet.jl/pull/293
+[294]: https://github.com/dmlc/MXNet.jl/pull/294
+[297]: https://github.com/dmlc/MXNet.jl/pull/297
+[300]: https://github.com/dmlc/MXNet.jl/pull/300
+[303]: https://github.com/dmlc/MXNet.jl/pull/303
+[310]: https://github.com/dmlc/MXNet.jl/pull/310
+[311]: https://github.com/dmlc/MXNet.jl/pull/311
+[312]: https://github.com/dmlc/MXNet.jl/pull/312
+[314]: https://github.com/dmlc/MXNet.jl/pull/314
+
+# v0.2.2 (2017.05.14)
+* Updated supported version of MXNet to 0.9.4.
+* Improved build-system with support for auto-detecting GPU support.
+* Several updates to Metrics.
+* CI for Windows.
+* Verbosity option for `predict` (@rdeits)
+
+# v0.2.1 (2017.01.29)
+* Bugfix release for Windows
+
+# v0.2.0 (2017.01.26)
+* Drop support for Julia v0.4.
+* Added support for NVVM.
+* Updated supported version of MXNet to 0.9.2
+* New optimizers (@Arkoniak).
+
+# v0.1.0 (2016.09.08)
+
+* Track specific libmxnet version for each release.
+* Migrated documentation system to `Documenter.jl` (@vchuravy)
+* Simplified building by using Julia's OpenBlas (@staticfloat)
+* Freezing parameters (@vchuravy)
+* Support `DType` for `NDArray` (@vchuravy)
+
+# v0.0.8 (2016.02.08)
+
+* Fix compatability with Julia v0.5.
+* Fix seg-faults introduced by upstream API changes.
+
+# v0.0.7 (2015.12.14)
+
+* Fix compatability with Julia v0.4.2 (@BigEpsilon)
+* Metrics in epoch callbacks (@kasiabozek)
+
+# v0.0.6 (2015.12.02)
+
+* Variants of Xaiver initializers (@vchuravy)
+* More arithmetic operators on symbolic nodes
+* Basic interface for symbolic node attributes (@vchuravy)
+
+# v0.0.5 (2015.11.14)
+
+* char-lstm example.
+* Network visualization via GraphViz.
+* NN-factory for common models.
+* Convenient `@nd_as_jl` macro to work with `NDArray` as Julia Arrays.
+* Refactoring: `Symbol` -> `SymbolicNode`.
+* More evaluation metrics (@vchuravy, @Andy-P)
+
+# v0.0.4 (2015.11.09)
+
+* ADAM optimizer (@cbecker)
+* Improved data provider API.
+* More documentation.
+* Fix a bug in array data iterator (@vchuravy)
+
+# v0.0.3 (2015.10.27)
+
+* Model prediction API.
+* Model checkpoint loading and saving.
+* IJulia Notebook example of using pre-trained imagenet model as classifier.
+* Symbol saving and loading.
+* NDArray saving and loading.
+* Optimizer gradient clipping.
+* Model training callback APIs, default checkpoint and speedometer callbacks.
+* Julia Array / NDArray data iterator.
+* Sphinx documentation system and documents for dynamically imported libmxnet APIs.
+
+# v0.0.2 (2015.10.23)
+
+* Fix a bug in build script that causes Julia REPL to exit.
+
+# v0.0.1 (2015.10.23)
+
+Initial release.
+
+* Basic libmxnet API.
+* Basic documentation, overview and MNIST tutorial.
+* Working MNIST and cifar-10 examples, with multi-GPU training.
+* Automatic building of libmxnet with BinDeps.jl.
+

@@ -15,66 +15,42 @@
 # specific language governing permissions and limitations
 # under the License.
 
-version: 1.0.{build}
-
 environment:
-    MXNET_VS: "Visual Studio 12 2013 Win64"
-    MXNET_OPENBLAS_FILE: openblas.7z
-    MXNET_OPENBLAS_DIR: openblas
-    MXNET_OPENBLAS_PKG: https://github.com/hjk41/MiscFiles/blob/master/openblas.7z?raw=true
-    MXNET_OPENCV_FILE: opencv.7z
-    MXNET_OPENCV_DIR: opencv
-    MXNET_OPENCV_PKG: https://github.com/hjk41/MiscFiles/blob/master/opencv.7z?raw=true
+  matrix:
+  - JULIA_URL: "https://julialang-s3.julialang.org/bin/winnt/x64/0.6/julia-0.6-latest-win64.exe"
+
+branches:
+  only:
+    - master
+    - stable
+
+notifications:
+  - provider: Email
+    on_build_success: false
+    on_build_failure: false
+    on_build_status_changed: false
 
 install:
-    - ps: >-
-        git submodule init
+  - ps: "[System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]::Tls12"
+# If there's a newer build queued for the same PR, cancel this one
+  - ps: if ($env:APPVEYOR_PULL_REQUEST_NUMBER -and $env:APPVEYOR_BUILD_NUMBER -ne ((Invoke-RestMethod `
+        https://ci.appveyor.com/api/projects/$env:APPVEYOR_ACCOUNT_NAME/$env:APPVEYOR_PROJECT_SLUG/history?recordsNumber=50).builds | `
+        Where-Object pullRequestId -eq $env:APPVEYOR_PULL_REQUEST_NUMBER)[0].buildNumber) { `
+        throw "There are newer queued builds for this pull request, failing early." }
 
-        git submodule update
-
-        if (!(Test-Path ${env:MXNET_OPENBLAS_FILE})) {
-
-            echo "Downloading openblas from ${env:MXNET_OPENBLAS_PKG} ..."
-
-            appveyor DownloadFile "${env:MXNET_OPENBLAS_PKG}" -FileName ${env:MXNET_OPENBLAS_FILE} -Timeout 1200000
-        }
-
-        if (!(Test-Path ${env:MXNET_OPENCV_FILE})) {
-
-            echo "Downloading opencv from ${env:MXNET_OPENCV_PKG} ..."
-
-            appveyor DownloadFile "${env:MXNET_OPENCV_PKG}" -FileName ${env:MXNET_OPENCV_FILE} -Timeout 1200000
-        }
-
-    - cmd: >-
-        echo "Extracting openblas to %APPVEYOR_BUILD_FOLDER% ..."
-
-        7z x %MXNET_OPENBLAS_FILE% -y -o"%APPVEYOR_BUILD_FOLDER%" >NUL
-
-        echo "Extracting opencv to %APPVEYOR_BUILD_FOLDER% ..."
-
-        7z x %MXNET_OPENCV_FILE% -y -o"%APPVEYOR_BUILD_FOLDER%" >NUL
-        
-cache:
-    - openblas.7z -> appveyor.yml
-    - opencv.7z -> appveyor.yml
-
-before_build:
-    - cmd: >-        
-        mkdir build
-
-        cd .\build
-
-        set OpenBLAS_HOME=%APPVEYOR_BUILD_FOLDER%/%MXNET_OPENBLAS_DIR%
-
-        set OpenCV_DIR=%APPVEYOR_BUILD_FOLDER%/%MXNET_OPENCV_DIR%/build
-
-        cmake .. -DOPENCV_DIR=%OpenCV_DIR% -DUSE_PROFILER=1 -DUSE_CUDA=0 -DUSE_CUDNN=0 -DUSE_NVRTC=0 -DUSE_OPENCV=1 -DUSE_OPENMP=1 -DUSE_BLAS=open -DUSE_LAPACK=1 -DUSE_DIST_KVSTORE=0 -G "Visual Studio 12 2013 Win64"
+# Download most recent Julia Windows binary
+  - ps: (new-object net.webclient).DownloadFile(
+        $env:JULIA_URL,
+        "C:\projects\julia-binary.exe")
+# Run installer silently, output to C:\projects\julia
+  - C:\projects\julia-binary.exe /S /D=C:\projects\julia
 
 build_script:
-    - cmd: >-
-        msbuild mxnet.sln /t:Rebuild /p:Configuration=Release;Platform=x64 /m
-        
+# Need to convert from shallow to complete for Pkg.clone to work
+  - IF EXIST .git\shallow (git fetch --unshallow)
+  - C:\projects\julia\bin\julia -e "versioninfo();
+      Pkg.clone(pwd(), \"MXNet\"); Pkg.build(\"MXNet\")"
+
 test_script:
-    - cmd: >-
-        echo "test not enabled yet"
+  - C:\projects\julia\bin\julia --check-bounds=yes -e "Pkg.test(\"MXNet\")"
+

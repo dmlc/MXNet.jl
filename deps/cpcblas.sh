@@ -1,3 +1,5 @@
+#!/bin/sh
+
 # Licensed to the Apache Software Foundation (ASF) under one
 # or more contributor license agreements.  See the NOTICE file
 # distributed with this work for additional information
@@ -15,6 +17,9 @@
 # specific language governing permissions and limitations
 # under the License.
 
-all:
-	julia --color=yes ./make.jl
-	mkdocs build
+
+# be invoked from build.jl
+
+set -e
+
+diff ../../cblas.h include/cblas.h || cp -v ../../cblas.h include/cblas.h

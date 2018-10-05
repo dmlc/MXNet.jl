@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Licensed to the Apache Software Foundation (ASF) under one
 # or more contributor license agreements.  See the NOTICE file
 # distributed with this work for additional information
@@ -15,6 +17,6 @@
 # specific language governing permissions and limitations
 # under the License.
 
-all:
-	julia --color=yes ./make.jl
-	mkdocs build
+
+wget -c http://data.dmlc.ml/mxnet/data/Inception.zip
+unzip Inception.zip

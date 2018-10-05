@@ -1,40 +1,59 @@
-sudo: true
+# Documentation: http://docs.travis-ci.com/user/languages/julia/
+sudo: false
 
-language: cpp
+language: julia
+
+os:
+  - linux
+  - osx
+osx_image: xcode8
+
+julia:
+  - 0.6
+#  - nightly 0.6 supports depends on #170
+
+branches:
+  only:
+    - master
+    - stable
+    - /^v\d+\.\d+(\.\d+)?(-\S*)?$/  # for tagging
 
 cache:
   directories:
-    - $HOME/.ccache
-    - $HOME/.cache/pip
-    - $HOME/.mxnet
-    - $HOME/Library/Caches/Homebrew
+    - $TRAVIS_BUILD_DIR/deps/src
 
-os:
-  - osx
-
-osx_image: xcode9.4
-
-matrix:
-  include:
-    - os: osx
+# dependent apt packages
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - doxygen
+      - wget
+      - git
+      - libcurl4-openssl-dev
+      - unzip
+      - libatlas-base-dev
+      - libatlas-dev
+      - libopencv-dev
+      - gcc-4.8
+      - g++-4.8
 
 before_install:
-  - export PYTHONPATH=${PYTHONPATH}:${PWD}/python
+  - export TRAVIS_DIR=test/travis
+  - source ${TRAVIS_DIR}/setup_env.sh
 
-install:
-  - HOMEBREW_NO_AUTO_UPDATE=1 brew install ccache
-  - export PATH="/usr/local/opt/ccache/libexec:$PATH"
-  - source ci/travis/install.sh
+notifications:
+  email: false
 
-# We build with 2 concurrent jobs to match the number of cores present on MacOS virutal machines.
-# nproc does not report the correct number of cores reliably in Travis, so using nproc is not
-# recommended.
-# https://docs.travis-ci.com/user/reference/overview/
 script:
-  - export MXNET_STORAGE_FALLBACK_LOG_VERBOSE=0
-  - mv make/osx.mk config.mk
-  - make -j 2
-  # We ignore several tests to avoid possible timeouts on large PRs.
-  # This lowers our test coverage, but is required for consistent Travis runs.
-  # These tests will be tested in a variety of environments in Jenkins based tests.
-  - python -m nose --with-timer --exclude-test=test_sparse_operator.test_elemwise_binary_ops --exclude-test=test_gluon_model_zoo.test_models --exclude-test=test_random.test_shuffle --exclude-test=test_operator.test_broadcast_binary_op --exclude-test=test_operator.test_pick --exclude-test=test_profiler.test_continuous_profile_and_instant_marker --exclude-test=test_metric_perf.test_metric_performance --exclude-test=test_operator.test_order --verbose tests/python/unittest/
+  - ${TRAVIS_DIR}/run_test.sh
+
+after_success:
+  # See https://github.com/dmlc/MXNet.jl/pull/303#issuecomment-341171774
+  - julia -e 'using MXNet; mx._sig_checker()'
+
+  - source ${TRAVIS_DIR}/run_coverage.sh
+  - echo $TRAVIS_JULIA_VERSION
+  - julia -e 'Pkg.add("Documenter")'
+  - julia -e 'cd(Pkg.dir("MXNet")); include(joinpath("docs", "make.jl"))'

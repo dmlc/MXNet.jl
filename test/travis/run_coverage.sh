@@ -15,6 +15,4 @@
 # specific language governing permissions and limitations
 # under the License.
 
-all:
-	julia --color=yes ./make.jl
-	mkdocs build
+julia -e 'cd(Pkg.dir("MXNet")); Pkg.add("Coverage"); using Coverage; Codecov.submit(process_folder())'

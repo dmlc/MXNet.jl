@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Licensed to the Apache Software Foundation (ASF) under one
 # or more contributor license agreements.  See the NOTICE file
 # distributed with this work for additional information
@@ -15,6 +17,12 @@
 # specific language governing permissions and limitations
 # under the License.
 
-all:
-	julia --color=yes ./make.jl
-	mkdocs build
+set -e
+
+if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
+julia -e 'Pkg.clone(pwd())'
+(
+    cd `julia -e 'println(Pkg.dir("MXNet", "deps"))'` &&
+    ln -fs $TRAVIS_BUILD_DIR/deps/src
+)
+julia -e 'Pkg.build("MXNet"); Pkg.test("MXNet"; coverage=true)'
