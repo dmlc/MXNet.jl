@@ -6,7 +6,7 @@ MXNet.jl brings flexible and efficient GPU computing and state-of-art deep learn
 ## MXNet.jl is a part of Apache MXNet project now
 
 This package has been merged into main MXNet repo.
-Please check package README [here](https://github.com/apache/incubator-mxnet/tree/master/julia#mxnet).
+Please check out package README [here](https://github.com/apache/incubator-mxnet/tree/master/julia#mxnet).
 
 If you run into issues or want to send PRs,
 please file them on main MXNet repo:
