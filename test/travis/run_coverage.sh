@@ -1,1 +1,0 @@
-julia -e 'cd(Pkg.dir("MXNet")); Pkg.add("Coverage"); using Coverage; Codecov.submit(process_folder())'
